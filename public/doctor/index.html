@@ -108,6 +108,7 @@
             <td>
               <a href="#fastify_qlist">Fastify</a> &nbsp;
               <a href="#koa_qlist">Koa</a> &nbsp;
+              <a href="#LoopBack_qlist">LoopBack</a> &nbsp;
               NestJS
             </td>
             <td>Coding</td>
@@ -17614,6 +17615,1280 @@ Zod
 
     </ol>
   </div>
+</li>
+
+<li data-id="q32" id="LoopBack_qlist">
+<span class="faq-question green">Express.js 🆚 LoopBack?</span>
+<div class="answer">
+  <ul>
+    <li><strong>Feature Comparison</strong>
+      <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Express.js</th>
+            <th>LoopBack</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Type</td>
+            <td>Web framework</td>
+            <td>API framework built on top of Express</td>
+          </tr>
+          <tr>
+            <td>Level</td>
+            <td>Minimal, unopinionated</td>
+            <td>Full-featured, opinionated</td>
+          </tr>
+          <tr>
+            <td>Use Case</td>
+            <td>General-purpose web apps and APIs</td>
+            <td>Rapid API creation, especially REST and OpenAPI</td>
+          </tr>
+          <tr>
+            <td>Ease of Use</td>
+            <td>Lightweight and flexible, but more manual</td>
+            <td>Easier for building complex APIs out of the box</td>
+          </tr>
+          <tr>
+            <td>Boilerplate</td>
+            <td>Minimal, you write routes, logic, etc. manually</td>
+            <td>Provides scaffolding, CLI tools, and auto-generated APIs</td>
+          </tr>
+          <tr>
+            <td>ORM Support</td>
+            <td>Needs third-party libraries like Sequelize, TypeORM</td>
+            <td>Built-in powerful ORM (supports SQL, MongoDB, etc.)</td>
+          </tr>
+          <tr>
+            <td>Data Sources</td>
+            <td>No built-in support</td>
+            <td>Rich support: MySQL, PostgreSQL, MongoDB, REST, SOAP, etc.</td>
+          </tr>
+          <tr>
+            <td>Auto REST APIs</td>
+            <td>No, routes must be manually written</td>
+            <td>Yes, auto-generated from models</td>
+          </tr>
+          <tr>
+            <td>Swagger / OpenAPI</td>
+            <td>Requires third-party tools</td>
+            <td>Built-in OpenAPI spec generation</td>
+          </tr>
+          <tr>
+            <td>GraphQL Support</td>
+            <td>Needs separate setup</td>
+            <td>Available with extensions/plugins</td>
+          </tr>
+          <tr>
+            <td>Learning Curve</td>
+            <td>Easy to start, grows with complexity</td>
+            <td>Steeper learning curve due to built-in features</td>
+          </tr>
+          <tr>
+            <td>Community & Ecosystem</td>
+            <td>Massive, widely used</td>
+            <td>Smaller but focused on enterprise APIs</td>
+          </tr>
+          <tr>
+            <td>Maintained By</td>
+            <td>Open source (Node.js community)</td>
+            <td>Initially IBM, now maintained by StrongLoop and the community</td>
+          </tr>
+          <tr>
+            <td>Version</td>
+            <td>Active (v4+)</td>
+            <td>Active (LoopBack 4 is latest major version)</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  
+    <li><strong>When to Use Express.js</strong>
+      <ul>
+        <li>You want full control over app structure.</li>
+        <li>Building custom web apps or microservices.</li>
+        <li>Prefer simplicity and modular architecture.</li>
+        <li>Integrating backend with React, Angular, etc.</li>
+      </ul>
+    </li>
+  
+    <li><strong>When to Use LoopBack</strong>
+      <ul>
+        <li>Building enterprise-grade REST APIs.</li>
+        <li>Need fast API development from data models.</li>
+        <li>Require Swagger/OpenAPI UI support.</li>
+        <li>Support for multiple data sources and connectors.</li>
+        <li>Want auto-generated model-based APIs.</li>
+      </ul>
+    </li>
+  
+    <li><strong>Summary</strong>
+      <p><strong>Express.js</strong> is great for flexibility and custom workflows. <strong>LoopBack</strong> is ideal for API-first, enterprise-level backend development.</p>
+      <p><strong>Pro Tip:</strong> Use Express for custom logic or small services. Choose LoopBack for large-scale API platforms with database and third-party integrations.</p>
+    </li>
+  </ul>
+  
+</div>
+</li>
+
+<li data-id="q32" id="fastify_qlist">
+<span class="faq-question green">LoopBack</span>
+<div class="answer">
+  <ul>
+    <li><strong>What is OpenAPI?</strong>
+      <p><strong>OpenAPI</strong> is a <em>standard specification</em> for describing <strong>RESTful APIs</strong>. It offers a <strong>language-agnostic</strong> way to define, document, and consume APIs. Tools like Swagger UI are commonly used with it.</p>
+    </li>
+  
+    <li><strong>Official Definition</strong>
+      <blockquote>The <strong>OpenAPI Specification (OAS)</strong> defines a standard, programming language-agnostic interface description for REST APIs. It allows humans and computers to understand the service without accessing the source code.</blockquote>
+    </li>
+  
+    <li><strong>Key Features</strong>
+      <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>API Documentation</td>
+            <td>Automatically generates docs for API endpoints</td>
+          </tr>
+          <tr>
+            <td>Language-Agnostic</td>
+            <td>Works with any language (Node.js, Java, etc.)</td>
+          </tr>
+          <tr>
+            <td>Tool Support</td>
+            <td>Swagger UI, Postman, Redoc, Codegen</td>
+          </tr>
+          <tr>
+            <td>Schema Definition</td>
+            <td>Define models and request/response schemas</td>
+          </tr>
+          <tr>
+            <td>Interactive Docs</td>
+            <td>Try APIs live from a browser</td>
+          </tr>
+          <tr>
+            <td>Contract-First Dev</td>
+            <td>Design APIs before writing code</td>
+          </tr>
+          <tr>
+            <td>Code Generation</td>
+            <td>Generate SDKs and servers in many languages</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  
+    <li><strong>Example (OpenAPI 3.0 YAML)</strong>
+      <pre><code>
+  openapi: 3.0.0
+  info:
+    title: Book Store API
+    version: 1.0.0
+  paths:
+    /books:
+      get:
+        summary: List all books
+        responses:
+          '200':
+            description: A JSON array of books
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Book'
+  components:
+    schemas:
+      Book:
+        type: object
+        properties:
+          id:
+            type: integer
+          title:
+            type: string
+          author:
+            type: string
+      </code></pre>
+    </li>
+  
+    <li><strong>Benefits</strong>
+      <ul>
+        <li>Developer-friendly interactive documentation</li>
+        <li>Promotes standardization and consistency</li>
+        <li>Supports mock servers, testing, validation</li>
+        <li>Works well with Postman, CI/CD pipelines</li>
+      </ul>
+    </li>
+  
+    <li><strong>Popular Tools that Use OpenAPI</strong>
+      <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Swagger UI</td>
+            <td>Interactive API documentation</td>
+          </tr>
+          <tr>
+            <td>Swagger Editor</td>
+            <td>Design and preview OpenAPI specs</td>
+          </tr>
+          <tr>
+            <td>OpenAPI Generator</td>
+            <td>Generate SDKs and server stubs</td>
+          </tr>
+          <tr>
+            <td>Postman</td>
+            <td>Import OpenAPI specs to test APIs</td>
+          </tr>
+          <tr>
+            <td>Redoc</td>
+            <td>Generate clean, modern API docs</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  
+    <li><strong>Use Cases</strong>
+      <ul>
+        <li>API-first development</li>
+        <li>Automated API documentation</li>
+        <li>Generating client SDKs</li>
+        <li>Mocking and testing APIs</li>
+        <li>API governance and validation</li>
+      </ul>
+    </li>
+  
+    <li><strong>Need Code Example?</strong>
+      <p>Let me know if you want a working OpenAPI integration example in Express, NestJS, or LoopBack.</p>
+    </li>
+  </ul>
+  
+</div>
+</li>
+
+<li data-id="q32" class="zyellow">
+  <span class="faq-question">Step-by-step: Store (title, address, status) CRUD with LoopBack 4 and MongoDB</span>
+  <div class="answer">
+<pre>
+  LoopBack CLI:      npm install -g @loopback/cli
+  New LoopBack app:  lb4 app loopbackapp
+  MongoDB connector: npm install --save @loopback/connector-mongodb
+
+  Create MongoDB datasource: lb4 datasource mongodb
+  Use connection string: mongodb://localhost:27017/storedb
+
+  Store model: lb4 model
+  Model name: Store
+  Add properties:
+  1. title - type: string
+  2. address - type: string
+  3. status - type: boolean
+
+  Store repository: lb4 repository
+  Select model: Store
+  Select datasource: mongodb
+
+
+  Store CRUD: lb4 controller
+  Choose: REST Controller with CRUD functions
+  Select model: Store
+  Select repository: StoreRepository
+
+  Run the application</strong>
+  Command: npm start
+  Visit: http://localhost:3000/explorer
+  You will see endpoints for Store:
+  1. GET /stores
+  2. POST /stores
+  3. GET /stores/{id}
+  4. PUT /stores/{id}
+  5. DELETE /stores/{id}
+  
+</pre>
+  </div>
+</li>
+<li data-id="q32" class="zyellow">
+  <span class="faq-question">Fastify vs LoopBack</span>
+  <div class="answer">
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Fastify</th>
+          <th>LoopBack</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Type</td>
+          <td>Web framework focused on speed</td>
+          <td>API framework built on top of Express</td>
+        </tr>
+        <tr>
+          <td>Performance</td>
+          <td>Extremely fast, optimized for low overhead</td>
+          <td>Good performance but more abstraction</td>
+        </tr>
+        <tr>
+          <td>Flexibility</td>
+          <td>Minimal and unopinionated</td>
+          <td>Highly opinionated and structured</td>
+        </tr>
+        <tr>
+          <td>Use Case</td>
+          <td>Microservices, performance-critical apps</td>
+          <td>Enterprise-grade REST API development</td>
+        </tr>
+        <tr>
+          <td>Built-in Features</td>
+          <td>Lightweight plugins, needs manual setup</td>
+          <td>Auto REST APIs, OpenAPI, validations, models</td>
+        </tr>
+        <tr>
+          <td>Schema Validation</td>
+          <td>Built-in with JSON Schema</td>
+          <td>Built-in with decorators and types</td>
+        </tr>
+        <tr>
+          <td>ORM/DB Support</td>
+          <td>Needs manual integration (e.g. Prisma, TypeORM)</td>
+          <td>Built-in repository pattern and datasource connectors</td>
+        </tr>
+        <tr>
+          <td>Swagger / OpenAPI</td>
+          <td>Available via plugins</td>
+          <td>Built-in OpenAPI support</td>
+        </tr>
+        <tr>
+          <td>Learning Curve</td>
+          <td>Easy to learn, less magic</td>
+          <td>Steeper due to structure and features</td>
+        </tr>
+        <tr>
+          <td>Community & Ecosystem</td>
+          <td>Growing rapidly, plugin-based</td>
+          <td>Stable, used in enterprise API platforms</td>
+        </tr>
+        <tr>
+          <td>Maintenance</td>
+          <td>Actively maintained by community</td>
+          <td>Maintained by community and OpenJS Foundation</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>When to use Fastify:</strong></p>
+    <ul>
+      <li>You need high-performance HTTP APIs</li>
+      <li>You want full control over plugins and architecture</li>
+      <li>You are building lightweight microservices</li>
+    </ul>
+
+    <p><strong>When to use LoopBack:</strong></p>
+    <ul>
+      <li>You need a structured enterprise-grade API solution</li>
+      <li>You want auto-generated REST endpoints</li>
+      <li>You are dealing with multiple datasources and business models</li>
+    </ul>
+
+    <p><strong>Conclusion:</strong> Fastify is great for minimal, fast, and custom services. LoopBack shines in full-featured, model-driven API platforms for enterprise-grade applications.</p>
+  </div>
+</li>
+<li data-id="q32" class="zyellow">
+  <span class="faq-question">LoopBack vs NestJS</span>
+  <div class="answer">
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>LoopBack</th>
+          <th>NestJS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Framework Type</td>
+          <td>Full-featured API framework built on Express</td>
+          <td>Modular, progressive Node.js framework inspired by Angular</td>
+        </tr>
+        <tr>
+          <td>Architecture</td>
+          <td>Model-driven, declarative</td>
+          <td>Modular, layered (controllers, services, providers)</td>
+        </tr>
+        <tr>
+          <td>Learning Curve</td>
+          <td>Steeper due to auto-generated components and decorators</td>
+          <td>Moderate, easier for Angular/TypeScript developers</td>
+        </tr>
+        <tr>
+          <td>Use Case</td>
+          <td>Enterprise APIs, especially data-heavy REST services</td>
+          <td>General-purpose backend development (REST, GraphQL, WebSockets)</td>
+        </tr>
+        <tr>
+          <td>ORM Support</td>
+          <td>Built-in repository and connector system</td>
+          <td>Supports TypeORM, Sequelize, Prisma, MikroORM, Mongoose, etc.</td>
+        </tr>
+        <tr>
+          <td>Database Support</td>
+          <td>Strong integration with SQL and NoSQL via connectors</td>
+          <td>Flexible, depends on chosen ORM</td>
+        </tr>
+        <tr>
+          <td>OpenAPI/Swagger</td>
+          <td>Built-in OpenAPI support</td>
+          <td>Built-in Swagger via decorators</td>
+        </tr>
+        <tr>
+          <td>Microservices</td>
+          <td>Limited, but can be extended</td>
+          <td>First-class microservice support with transport layers (Redis, NATS, Kafka)</td>
+        </tr>
+        <tr>
+          <td>GraphQL</td>
+          <td>Partial support via community plugins</td>
+          <td>First-class support with @nestjs/graphql</td>
+        </tr>
+        <tr>
+          <td>Testing</td>
+          <td>Supported with Mocha, Chai</td>
+          <td>Excellent support with Jest and built-in test utilities</td>
+        </tr>
+        <tr>
+          <td>Community & Ecosystem</td>
+          <td>Smaller, mostly focused on enterprises</td>
+          <td>Very active and growing rapidly</td>
+        </tr>
+        <tr>
+          <td>CLI Support</td>
+          <td>Yes, LoopBack CLI with generators</td>
+          <td>Yes, Nest CLI for scaffolding and generation</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>When to Use LoopBack:</strong></p>
+    <ul>
+      <li>You need rapid REST API creation from models</li>
+      <li>You work with multiple databases or legacy SOAP/REST services</li>
+      <li>You need built-in OpenAPI and model validation</li>
+    </ul>
+
+    <p><strong>When to Use NestJS:</strong></p>
+    <ul>
+      <li>You prefer modern TypeScript development</li>
+      <li>You are building scalable microservices or GraphQL APIs</li>
+      <li>You want full control over architecture and testing</li>
+    </ul>
+
+    <p><strong>Conclusion:</strong> LoopBack is ideal for model-driven enterprise APIs with auto-generated endpoints. NestJS is better suited for modular, testable, and scalable applications with diverse use cases (REST, GraphQL, microservices).</p>
+  </div>
+</li>
+<li data-id="q32" class="zyellow">
+  <span class="faq-question">Fastify vs NestJS</span>
+  <div class="answer">
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Fastify</th>
+          <th>NestJS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Framework Type</td>
+          <td>Minimal and high-performance web framework</td>
+          <td>Modular and scalable Node.js framework built with TypeScript</td>
+        </tr>
+        <tr>
+          <td>Performance</td>
+          <td>Very fast and optimized for speed</td>
+          <td>Good performance, uses Fastify or Express as HTTP adapter</td>
+        </tr>
+        <tr>
+          <td>Architecture</td>
+          <td>Unopinionated, plugin-based</td>
+          <td>Opinionated, inspired by Angular (controllers, services, modules)</td>
+        </tr>
+        <tr>
+          <td>Use Case</td>
+          <td>Microservices, serverless functions, fast APIs</td>
+          <td>Enterprise apps, REST APIs, GraphQL, WebSockets</td>
+        </tr>
+        <tr>
+          <td>TypeScript Support</td>
+          <td>Good, but not enforced</td>
+          <td>First-class TypeScript support by default</td>
+        </tr>
+        <tr>
+          <td>Built-in Features</td>
+          <td>Minimal, most features require plugins</td>
+          <td>Includes DI, testing, pipes, interceptors, filters</td>
+        </tr>
+        <tr>
+          <td>Swagger/OpenAPI</td>
+          <td>Via fastify-swagger plugin</td>
+          <td>Built-in decorators and Swagger module</td>
+        </tr>
+        <tr>
+          <td>Microservices</td>
+          <td>Custom setup needed</td>
+          <td>First-class microservice support with transports like Redis, NATS, Kafka</td>
+        </tr>
+        <tr>
+          <td>GraphQL Support</td>
+          <td>Manual integration needed</td>
+          <td>Integrated via @nestjs/graphql module</td>
+        </tr>
+        <tr>
+          <td>Learning Curve</td>
+          <td>Low, simple and direct</td>
+          <td>Moderate, especially if new to Angular-style architecture</td>
+        </tr>
+        <tr>
+          <td>Testing</td>
+          <td>Manual setup with tools like tap or jest</td>
+          <td>Built-in support with Jest and testing utilities</td>
+        </tr>
+        <tr>
+          <td>Community & Ecosystem</td>
+          <td>Smaller but growing</td>
+          <td>Large, active, and rapidly growing</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>When to Use Fastify:</strong></p>
+    <ul>
+      <li>You need high-speed APIs with low overhead</li>
+      <li>You prefer flexibility and a plugin-driven architecture</li>
+      <li>You are building microservices or serverless endpoints</li>
+    </ul>
+
+    <p><strong>When to Use NestJS:</strong></p>
+    <ul>
+      <li>You want a full-fledged framework with structure and features</li>
+      <li>You are building large-scale enterprise apps</li>
+      <li>You need built-in support for REST, GraphQL, and microservices</li>
+    </ul>
+
+    <p><strong>Conclusion:</strong> Fastify is ideal for lightweight, blazing-fast applications with custom setups. NestJS is better for structured, feature-rich, and scalable applications with enterprise-level needs.</p>
+  </div>
+</li>
+
+
+
+  <li data-id="q1" class="zyellow">
+    <span class="faq-question">How do you implement custom authentication in LoopBack 4?</span>
+    <div class="answer">You use LoopBack's authentication component, create a custom strategy, and bind it using @authenticate decorator.</div>
+  </li>
+  
+  <li data-id="q2" class="zyellow">
+    <span class="faq-question">What are interceptors used for in LoopBack?</span>
+    <div class="answer">Interceptors are used to add logic before or after method invocations, for tasks like logging, validation, or error handling.</div>
+  </li>
+  
+  <li data-id="q3" class="zyellow">
+    <span class="faq-question">How do you define a many-to-many relationship?</span>
+    <div class="answer">Use @hasMany through with an intermediate model that has two belongsTo relations pointing to the main entities.</div>
+  </li>
+  
+  <li data-id="q4" class="zyellow">
+    <span class="faq-question">What is the purpose of the inclusion resolver?</span>
+    <div class="answer">It enables you to fetch related models in a single query using the filter include syntax.</div>
+  </li>
+  
+  <li data-id="q5" class="zyellow">
+    <span class="faq-question">How can you override a repository method?</span>
+    <div class="answer">Extend the base method in your repository class and implement custom logic as needed.</div>
+  </li>
+  
+  <li data-id="q6" class="zyellow">
+    <span class="faq-question">What is the use of a service proxy?</span>
+    <div class="answer">Service proxies allow LoopBack to consume external REST or SOAP APIs as if they were local services.</div>
+  </li>
+  
+  <li data-id="q7" class="zyellow">
+    <span class="faq-question">How do you validate input data in a controller method?</span>
+    <div class="answer">Use @requestBody with a schema definition, or define validation rules in the model using jsonSchema.</div>
+  </li>
+  
+  <li data-id="q8" class="zyellow">
+    <span class="faq-question">What are mixins in LoopBack 4?</span>
+    <div class="answer">Mixins are reusable classes that can add behavior to models, repositories, or controllers through inheritance.</div>
+  </li>
+  
+  <li data-id="q9" class="zyellow">
+    <span class="faq-question">What is the difference between repository pattern and service pattern?</span>
+    <div class="answer">Repository is for data access logic, while service pattern is used for business logic, possibly across multiple models.</div>
+  </li>
+  
+  <li data-id="q10" class="zyellow">
+    <span class="faq-question">How do you write unit tests for a controller?</span>
+    <div class="answer">Use the @loopback/testlab package to create a test client and send requests to controller methods.</div>
+  </li>
+  
+  <li data-id="q11" class="zyellow">
+    <span class="faq-question">How do you use environment variables in LoopBack 4?</span>
+    <div class="answer">Use dotenv to load .env files and access variables using process.env inside config files or datasources.</div>
+  </li>
+  
+  <li data-id="q12" class="zyellow">
+    <span class="faq-question">How to handle lifecycle events in LoopBack 4?</span>
+    <div class="answer">Use observers that implement the LifeCycleObserver interface and register them in application.ts.</div>
+  </li>
+  
+  <li data-id="q13" class="zyellow">
+    <span class="faq-question">How can you apply global middleware?</span>
+    <div class="answer">Register a middleware function using app.middleware and pass a binding key or handler function.</div>
+  </li>
+  
+  <li data-id="q14" class="zyellow">
+    <span class="faq-question">How do you secure specific endpoints?</span>
+    <div class="answer">Use the @authenticate decorator on controller methods to restrict access based on user roles or strategies.</div>
+  </li>
+  
+  <li data-id="q15" class="zyellow">
+    <span class="faq-question">How to log all incoming HTTP requests?</span>
+    <div class="answer">Create a custom logging middleware and bind it to run before the request reaches the controller.</div>
+  </li>
+  
+  <li data-id="q16" class="zyellow">
+    <span class="faq-question">What are components in LoopBack?</span>
+    <div class="answer">Components are extension packages that can register models, repositories, controllers, bindings, and lifecycle observers.</div>
+  </li>
+  
+  <li data-id="q17" class="zyellow">
+    <span class="faq-question">How do you inject a repository into another repository?</span>
+    <div class="answer">Use @repository.getter to lazily inject a dependent repository to avoid circular dependencies.</div>
+  </li>
+  
+  <li data-id="q18" class="zyellow">
+    <span class="faq-question">How do you handle transactions in LoopBack with MongoDB?</span>
+    <div class="answer">MongoDB transaction support requires using sessions manually and is supported when using replica sets.</div>
+  </li>
+  
+  <li data-id="q19" class="zyellow">
+    <span class="faq-question">How do you define dynamic endpoints?</span>
+    <div class="answer">Use path parameters like /items/{id} and define them with @param.path.string or @param.path.number.</div>
+  </li>
+  
+  <li data-id="q20" class="zyellow">
+    <span class="faq-question">How do you expose a GraphQL endpoint in LoopBack?</span>
+    <div class="answer">LoopBack does not support GraphQL out of the box, but you can integrate it manually using Apollo Server with Express.</div>
+  </li>
+  
+  <li data-id="q21" class="zyellow">
+    <span class="faq-question">How do you extend the OpenAPI specification of an endpoint?</span>
+    <div class="answer">Use the @operation decorator or add custom metadata in @get, @post, etc., to add tags, descriptions, or responses.</div>
+  </li>
+  
+  <li data-id="q22" class="zyellow">
+    <span class="faq-question">How can you customize the default error response?</span>
+    <div class="answer">Override the Sequence handler and catch exceptions to format custom error messages.</div>
+  </li>
+  
+  <li data-id="q23" class="zyellow">
+    <span class="faq-question">What is a binding in LoopBack?</span>
+    <div class="answer">A binding is a way to register values or providers into the IoC container so they can be injected elsewhere.</div>
+  </li>
+  
+  <li data-id="q24" class="zyellow">
+    <span class="faq-question">How do you bind a custom configuration value?</span>
+    <div class="answer">Use app.bind('config.key').to(value) and inject it where needed using @inject('config.key').</div>
+  </li>
+  
+  <li data-id="q25" class="zyellow">
+    <span class="faq-question">How do you access the current authenticated user?</span>
+    <div class="answer">Inject the securityBindings.USER key using @inject and access the user's profile object.</div>
+  </li>
+  
+  <li data-id="q26" class="zyellow">
+    <span class="faq-question">How do you add custom headers to a response?</span>
+    <div class="answer">Inject the Response object using @inject(RestBindings.Http.RESPONSE) and modify headers directly.</div>
+  </li>
+  
+  <li data-id="q27" class="zyellow">
+    <span class="faq-question">What is the use of @lifeCycleObserver?</span>
+    <div class="answer">It marks a class to be run at application start or stop, useful for resources like connections or cron jobs.</div>
+  </li>
+  
+  <li data-id="q28" class="zyellow">
+    <span class="faq-question">How do you write integration tests for APIs?</span>
+    <div class="answer">Use supertest and the app instance from your application to perform requests and assert responses.</div>
+  </li>
+  
+  <li data-id="q29" class="zyellow">
+    <span class="faq-question">How do you pass query parameters to a controller method?</span>
+    <div class="answer">Use @param.query.string or @param.query.number decorators for optional filter parameters.</div>
+  </li>
+  
+  <li data-id="q30" class="zyellow">
+    <span class="faq-question">How do you return custom response formats?</span>
+    <div class="answer">Use the controller method to structure the JSON response manually before returning it.</div>
+  </li>
+  
+  
+
+  <li data-id="q1" class="zyellow">
+    <span class="faq-question">What is LoopBack?</span>
+    <div class="answer">LoopBack is a Node.js framework for building APIs and connecting them with backend data sources.</div>
+  </li>
+  
+  <li data-id="q2" class="zyellow">
+    <span class="faq-question">What is the latest version of LoopBack?</span>
+    <div class="answer">The latest version is LoopBack 4, a complete rewrite with TypeScript and modular architecture.</div>
+  </li>
+  
+  <li data-id="q3" class="zyellow">
+    <span class="faq-question">How do you create a new LoopBack application?</span>
+    <div class="answer">You use the command lb4 app to scaffold a new LoopBack 4 application.</div>
+  </li>
+  
+  <li data-id="q4" class="zyellow">
+    <span class="faq-question">What is a model in LoopBack?</span>
+    <div class="answer">A model represents the shape of application data, usually mapping to a database table or collection.</div>
+  </li>
+  
+  <li data-id="q5" class="zyellow">
+    <span class="faq-question">What is a repository in LoopBack?</span>
+    <div class="answer">A repository handles the logic of data access and persistence using models and datasources.</div>
+  </li>
+  
+  <li data-id="q6" class="zyellow">
+    <span class="faq-question">What is a controller in LoopBack?</span>
+    <div class="answer">A controller handles incoming HTTP requests and maps them to business logic or repository calls.</div>
+  </li>
+  
+  <li data-id="q7" class="zyellow">
+    <span class="faq-question">How do you connect LoopBack to MongoDB?</span>
+    <div class="answer">Use lb4 datasource and select the MongoDB connector, then provide the connection URL.</div>
+  </li>
+  
+  <li data-id="q8" class="zyellow">
+    <span class="faq-question">What is a datasource in LoopBack?</span>
+    <div class="answer">A datasource configures how LoopBack connects to external systems like databases or APIs.</div>
+  </li>
+  
+  <li data-id="q9" class="zyellow">
+    <span class="faq-question">What is the @model decorator used for?</span>
+    <div class="answer">It defines a class as a LoopBack model with metadata for validation and schema generation.</div>
+  </li>
+  
+  <li data-id="q10" class="zyellow">
+    <span class="faq-question">What is the purpose of the @property decorator?</span>
+    <div class="answer">It defines a property of a model and its metadata like type, required status, and id generation.</div>
+  </li>
+  
+  <li data-id="q11" class="zyellow">
+    <span class="faq-question">What command is used to create a model?</span>
+    <div class="answer">Use lb4 model to create a new model and define its properties.</div>
+  </li>
+  
+  <li data-id="q12" class="zyellow">
+    <span class="faq-question">What command creates a repository?</span>
+    <div class="answer">Use lb4 repository and select the model and datasource.</div>
+  </li>
+  
+  <li data-id="q13" class="zyellow">
+    <span class="faq-question">What is dependency injection in LoopBack?</span>
+    <div class="answer">Dependency injection is used to inject services or repositories into classes using decorators like @inject.</div>
+  </li>
+  
+  <li data-id="q14" class="zyellow">
+    <span class="faq-question">How do you generate a controller in LoopBack?</span>
+    <div class="answer">Use lb4 controller and choose REST Controller with CRUD operations.</div>
+  </li>
+  
+  <li data-id="q15" class="zyellow">
+    <span class="faq-question">How do you define a one-to-many relation?</span>
+    <div class="answer">Use @hasMany in the source model and @belongsTo in the target model.</div>
+  </li>
+  
+  <li data-id="q16" class="zyellow">
+    <span class="faq-question">What is the @hasMany decorator?</span>
+    <div class="answer">It defines a one-to-many relationship between two models.</div>
+  </li>
+  
+  <li data-id="q17" class="zyellow">
+    <span class="faq-question">What is the @belongsTo decorator?</span>
+    <div class="answer">It defines a reverse relationship where one model belongs to another.</div>
+  </li>
+  
+  <li data-id="q18" class="zyellow">
+    <span class="faq-question">How do you test LoopBack APIs?</span>
+    <div class="answer">You can use tools like Postman or built-in Swagger UI at /explorer endpoint.</div>
+  </li>
+  
+  <li data-id="q19" class="zyellow">
+    <span class="faq-question">What is the /explorer route used for?</span>
+    <div class="answer">It serves the Swagger UI where you can test and explore your LoopBack API endpoints.</div>
+  </li>
+  
+  <li data-id="q20" class="zyellow">
+    <span class="faq-question">What is the LoopBack CLI used for?</span>
+    <div class="answer">The CLI helps scaffold models, datasources, repositories, controllers, and more.</div>
+  </li>
+  
+  <li data-id="q21" class="zyellow">
+    <span class="faq-question">Can you customize REST endpoints in LoopBack?</span>
+    <div class="answer">Yes, you can define custom routes and logic inside controller methods.</div>
+  </li>
+  
+  <li data-id="q22" class="zyellow">
+    <span class="faq-question">How to define validation rules on model properties?</span>
+    <div class="answer">Use the @property decorator with options like required: true, jsonSchema, or enum.</div>
+  </li>
+  
+  <li data-id="q23" class="zyellow">
+    <span class="faq-question">What is the difference between Entity and Model base classes?</span>
+    <div class="answer">Entity includes an id property and is used for persisted models; Model is for non-persisted data structures.</div>
+  </li>
+  
+  <li data-id="q24" class="zyellow">
+    <span class="faq-question">What is an inclusion resolver?</span>
+    <div class="answer">It allows including related models in query results using the include filter.</div>
+  </li>
+  
+  <li data-id="q25" class="zyellow">
+    <span class="faq-question">How do you enable relations in controller endpoints?</span>
+    <div class="answer">Use repository factory methods like createHasManyRepositoryFor and registerInclusionResolver.</div>
+  </li>
+  
+  <li data-id="q26" class="zyellow">
+    <span class="faq-question">What is an observer in LoopBack?</span>
+    <div class="answer">An observer is a class that listens to application lifecycle events like start and stop.</div>
+  </li>
+  
+  <li data-id="q27" class="zyellow">
+    <span class="faq-question">How to define environment-specific configurations?</span>
+    <div class="answer">Use .env files and process.env in your configuration or datasource files.</div>
+  </li>
+  
+  <li data-id="q28" class="zyellow">
+    <span class="faq-question">Can LoopBack expose GraphQL APIs?</span>
+    <div class="answer">Not out of the box, but community extensions and custom implementation can expose GraphQL endpoints.</div>
+  </li>
+  
+  <li data-id="q29" class="zyellow">
+    <span class="faq-question">What are interceptors in LoopBack?</span>
+    <div class="answer">Interceptors are functions that run before or after method invocations for cross-cutting concerns like logging.</div>
+  </li>
+  
+  <li data-id="q30" class="zyellow">
+    <span class="faq-question">How to run a LoopBack project?</span>
+    <div class="answer">Run npm start or node . to start the LoopBack REST server.</div>
+  </li>
+  
+
+    <li data-id="q1" class="zyellow">
+      <span class="faq-question">How do you implement multi-tenancy in LoopBack 4?</span>
+      <div class="answer">Multi-tenancy can be implemented by customizing repositories to scope data by tenant ID and using interceptors or custom providers to inject tenant context.</div>
+    </li>
+    
+    <li data-id="q2" class="zyellow">
+      <span class="faq-question">How do you extend the default REST sequence in LoopBack 4?</span>
+      <div class="answer">You create a custom sequence class by implementing SequenceHandler and bind it in the application using app.sequence.</div>
+    </li>
+    
+    <li data-id="q3" class="zyellow">
+      <span class="faq-question">What is the use of BindingScopes in LoopBack?</span>
+      <div class="answer">BindingScopes define how often a binding is resolved: singleton for app-wide, transient for new instances every time, and context for per-request instantiation.</div>
+    </li>
+    
+    <li data-id="q4" class="zyellow">
+      <span class="faq-question">How to write a custom authentication strategy?</span>
+      <div class="answer">Create a class implementing AuthenticationStrategy, define a name, and implement the authenticate method to validate tokens or credentials.</div>
+    </li>
+    
+    <li data-id="q5" class="zyellow">
+      <span class="faq-question">How do you use context bindings to inject dynamic values?</span>
+      <div class="answer">Use context.bind to register values dynamically and context.get or @inject to retrieve them in classes or methods.</div>
+    </li>
+    
+    <li data-id="q6" class="zyellow">
+      <span class="faq-question">How can you implement CQRS in LoopBack?</span>
+      <div class="answer">CQRS can be implemented by separating read and write operations into different repositories or services, and using events or messaging for synchronization.</div>
+    </li>
+    
+    <li data-id="q7" class="zyellow">
+      <span class="faq-question">How do you implement event-driven architecture in LoopBack?</span>
+      <div class="answer">Use observers or service bindings that publish events using libraries like EventEmitter, RabbitMQ, or Kafka, and consume them in listeners.</div>
+    </li>
+    
+    <li data-id="q8" class="zyellow">
+      <span class="faq-question">What are life cycle observers used for in LoopBack 4?</span>
+      <div class="answer">Lifecycle observers are used to run initialization or cleanup logic during application start and stop events.</div>
+    </li>
+    
+    <li data-id="q9" class="zyellow">
+      <span class="faq-question">How do you register dynamic routes at runtime?</span>
+      <div class="answer">You can use app.route or app.handler to programmatically register routes with custom handlers during boot.</div>
+    </li>
+    
+    <li data-id="q10" class="zyellow">
+      <span class="faq-question">How do you define polymorphic relations in LoopBack 4?</span>
+      <div class="answer">Polymorphic relations are not natively supported but can be modeled using custom logic with discriminator fields and multiple repository lookups.</div>
+    </li>
+    
+    <li data-id="q11" class="zyellow">
+      <span class="faq-question">How to override default CRUD endpoints in a controller?</span>
+      <div class="answer">Skip lb4 controller CRUD generation and manually implement the endpoints using custom logic and decorated methods like @get, @post.</div>
+    </li>
+    
+    <li data-id="q12" class="zyellow">
+      <span class="faq-question">How can you configure logging and monitoring?</span>
+      <div class="answer">Integrate logging libraries like Winston or Pino using middleware or interceptors, and forward logs to monitoring services like ELK or CloudWatch.</div>
+    </li>
+    
+    <li data-id="q13" class="zyellow">
+      <span class="faq-question">How do you structure a monorepo with multiple LoopBack services?</span>
+      <div class="answer">Use Nx or Lerna to manage multiple LoopBack apps and libraries within a shared monorepo workspace for microservices or modular architecture.</div>
+    </li>
+    
+    <li data-id="q14" class="zyellow">
+      <span class="faq-question">How do you implement complex filters like OR, AND with relations?</span>
+      <div class="answer">Use the filter syntax with where conditions and logical operators, and include nested filters in scope of relations using include.</div>
+    </li>
+    
+    <li data-id="q15" class="zyellow">
+      <span class="faq-question">How to enforce schema validation for nested JSON objects?</span>
+      <div class="answer">Use @model and @property with type object and define jsonSchema with required fields and constraints.</div>
+    </li>
+    
+    <li data-id="q16" class="zyellow">
+      <span class="faq-question">How can you use LoopBack 4 with GraphQL?</span>
+      <div class="answer">You can use third-party packages like apollo-server-express and manually bind models and resolvers to create GraphQL endpoints.</div>
+    </li>
+    
+    <li data-id="q17" class="zyellow">
+      <span class="faq-question">What is a context view in LoopBack 4?</span>
+      <div class="answer">A ContextView is a dynamic binding observer that tracks multiple bindings in the application context for features like watching for service changes.</div>
+    </li>
+    
+    <li data-id="q18" class="zyellow">
+      <span class="faq-question">How to handle database migrations programmatically?</span>
+      <div class="answer">Use schemaMigration with auto-migrate or auto-update in application.ts or booters to sync models to DB at runtime.</div>
+    </li>
+    
+    <li data-id="q19" class="zyellow">
+      <span class="faq-question">How do you restrict access by role or permission?</span>
+      <div class="answer">Implement an authorization component with custom voter functions and use @authorize decorators in controller methods.</div>
+    </li>
+    
+    <li data-id="q20" class="zyellow">
+      <span class="faq-question">How to implement soft deletes in LoopBack 4?</span>
+      <div class="answer">Add an isDeleted field and override the delete methods in the repository to update the flag instead of removing the record.</div>
+    </li>
+    
+    <li data-id="q21" class="zyellow">
+      <span class="faq-question">How do you add API versioning in LoopBack?</span>
+      <div class="answer">Prefix controllers with versioned routes like /v1/users and separate logic or models per version if needed.</div>
+    </li>
+    
+    <li data-id="q22" class="zyellow">
+      <span class="faq-question">How to manage multiple datasources in a single app?</span>
+      <div class="answer">Create separate datasource files and bind them using different names. Assign each model its own datasource via repository.</div>
+    </li>
+    
+    <li data-id="q23" class="zyellow">
+      <span class="faq-question">How to write a custom parameter decorator?</span>
+      <div class="answer">Create a function using createParamDecorator and access the request or context to resolve the value.</div>
+    </li>
+    
+    <li data-id="q24" class="zyellow">
+      <span class="faq-question">How do you perform file uploads in LoopBack 4?</span>
+      <div class="answer">Use the formidable package or multer middleware in a custom controller method, and parse the multipart request manually.</div>
+    </li>
+    
+    <li data-id="q25" class="zyellow">
+      <span class="faq-question">How to apply global rate limiting in LoopBack?</span>
+      <div class="answer">Use middleware like express-rate-limit and register it with app.middleware in the application configuration.</div>
+    </li>
+    
+    <li data-id="q26" class="zyellow">
+      <span class="faq-question">How to secure REST APIs with OAuth2 in LoopBack?</span>
+      <div class="answer">Integrate Passport strategies for OAuth2 and use @authenticate with a custom strategy that handles token validation.</div>
+    </li>
+    
+    <li data-id="q27" class="zyellow">
+      <span class="faq-question">How to stream large files through a LoopBack endpoint?</span>
+      <div class="answer">Use the response object and Node.js streams to pipe large files in a controller without loading them entirely into memory.</div>
+    </li>
+    
+    <li data-id="q28" class="zyellow">
+      <span class="faq-question">How to override OpenAPI metadata globally?</span>
+      <div class="answer">Customize the spec enhancement in application.ts by modifying app.api or providing a custom OpenApiSpecEnhancer.</div>
+    </li>
+    
+    <li data-id="q29" class="zyellow">
+      <span class="faq-question">How do you build a multi-module plugin-based system?</span>
+      <div class="answer">Use custom components to modularize features and register them dynamically in the application during boot.</div>
+    </li>
+    
+    <li data-id="q30" class="zyellow">
+      <span class="faq-question">How to expose health check or metrics endpoints?</span>
+      <div class="answer">Implement a custom controller for /health and integrate with Prometheus by exposing a /metrics route using prom-client.</div>
+    </li>    
+<li data-id="q30" class="zyellow">
+<span class="faq-question green">Example : 01 : LoopBack</span>
+<div class="answer">
+<pre>
+
+  import {juggler} from '@loopback/repository';
+  import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
+  
+  @lifeCycleObserver('datasource')
+  export class MongodbDataSource extends juggler.DataSource
+    implements LifeCycleObserver {
+    static dataSourceName = 'MongoDB';
+  
+    constructor(
+      @inject('datasources.config.MongoDB', {optional: true})
+      dsConfig: object = {
+        name: 'MongoDB',
+        connector: 'mongodb',
+        url: 'mongodb://localhost:27017/testdb',
+      },
+    ) {
+      super(dsConfig);
+    }
+  }
+<hr />  
+
+
+  // src/models/country.model.ts
+  import {Entity, model, property, hasMany} from '@loopback/repository';
+  import {State} from './state.model';
+  
+  @model()
+  export class Country extends Entity {
+    @property({type: 'string', id: true, generated: true })
+    id?: string;
+  
+    @property({type: 'string', required: true})
+    name: string;
+  
+    @hasMany(() => State)
+    states: State[];
+  
+    constructor(data?: Partial<Country>) {
+      super(data);
+    }
+  }
+  
+  export interface CountryRelations {
+    // describe navigational properties here
+  }
+  
+  export type CountryWithRelations = Country & CountryRelations;
+
+  <hr />
+
+  import {inject, Getter} from '@loopback/core';
+  import {
+    DefaultCrudRepository,
+    repository,
+    HasManyRepositoryFactory,
+  } from '@loopback/repository';
+  import {Country, State} from '../models';
+  import {MymongodbDataSource} from '../datasources';
+  import {StateRepository} from './state.repository';
+
+  export class CountryRepository extends DefaultCrudRepository<
+    Country,
+    typeof Country.prototype.id
+  > {
+    public readonly states: HasManyRepositoryFactory<State, typeof Country.prototype.id>;
+
+    constructor(
+      @inject('datasources.mymongodb') dataSource: MymongodbDataSource,
+      @repository.getter('StateRepository')
+      protected stateRepositoryGetter: Getter<StateRepository>,
+    ) {
+      super(Country, dataSource);
+
+      this.states = this.createHasManyRepositoryFactoryFor(
+        'states',
+        stateRepositoryGetter,
+      );
+
+      this.registerInclusionResolver('states', this.states.inclusionResolver);
+    }
+  }
+  <hr />
+  import {
+    Count,
+    CountSchema,
+    Filter,
+    FilterExcludingWhere,
+    repository,
+    Where,
+  } from '@loopback/repository';
+  import {
+    post,
+    param,
+    get,
+    getModelSchemaRef,
+    patch,
+    put,
+    del,
+    requestBody,
+    response,
+  } from '@loopback/rest';
+  import {Country} from '../models';
+  import {CountryRepository} from '../repositories';
+  
+  export class CountryController {
+    constructor(
+      @repository(CountryRepository)
+      public countryRepository : CountryRepository,
+    ) {}
+  
+    @post('/countries')
+    @response(200, {
+      description: 'Country model instance',
+      content: {'application/json': {schema: getModelSchemaRef(Country)}},
+    })
+    async create(
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Country, {
+              title: 'NewCountry',
+              exclude: ['id'],
+            }),
+          },
+        },
+      })
+      country: Omit<Country, 'id'>,
+    ): Promise<Country> {
+      return this.countryRepository.create(country);
+    }
+  
+    @get('/countries/count')
+    @response(200, {
+      description: 'Country model count',
+      content: {'application/json': {schema: CountSchema}},
+    })
+    async count(
+      @param.where(Country) where?: Where<Country>,
+    ): Promise<Count> {
+      return this.countryRepository.count(where);
+    }
+  
+    @get('/countries')
+    @response(200, {
+      description: 'Array of Country model instances',
+      content: {
+        'application/json': {
+          schema: {
+            type: 'array',
+            items: getModelSchemaRef(Country, {includeRelations: true}),
+          },
+        },
+      },
+    })
+    async find(
+      @param.filter(Country) filter?: Filter<Country>,
+    ): Promise<Country[]> {
+      return this.countryRepository.find(filter);
+    }
+  
+    @patch('/countries')
+    @response(200, {
+      description: 'Country PATCH success count',
+      content: {'application/json': {schema: CountSchema}},
+    })
+    async updateAll(
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Country, {partial: true}),
+          },
+        },
+      })
+      country: Country,
+      @param.where(Country) where?: Where<Country>,
+    ): Promise<Count> {
+      return this.countryRepository.updateAll(country, where);
+    }
+  
+    @get('/countries/{id}')
+    @response(200, {
+      description: 'Country model instance',
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Country, {includeRelations: true}),
+        },
+      },
+    })
+    async findById(
+      @param.path.string('id') id: string,
+      @param.filter(Country, {exclude: 'where'}) filter?: FilterExcludingWhere<Country>
+    ): Promise<Country> {
+      return this.countryRepository.findById(id, filter);
+    }
+  
+    @patch('/countries/{id}')
+    @response(204, {
+      description: 'Country PATCH success',
+    })
+    async updateById(
+      @param.path.string('id') id: string,
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Country, {partial: true}),
+          },
+        },
+      })
+      country: Country,
+    ): Promise<void> {
+      await this.countryRepository.updateById(id, country);
+    }
+  
+    @put('/countries/{id}')
+    @response(204, {
+      description: 'Country PUT success',
+    })
+    async replaceById(
+      @param.path.string('id') id: string,
+      @requestBody() country: Country,
+    ): Promise<void> {
+      await this.countryRepository.replaceById(id, country);
+    }
+  
+    @del('/countries/{id}')
+    @response(204, {
+      description: 'Country DELETE success',
+    })
+    async deleteById(@param.path.string('id') id: string): Promise<void> {
+      await this.countryRepository.deleteById(id);
+    }
+  }
+  
+
+
+
+</pre>
+</div>
 </li>
 
 <li data-id="q32" id="fastify_qlist">
