@@ -18646,6 +18646,297 @@ Zod
       <span class="faq-question">How to expose health check or metrics endpoints?</span>
       <div class="answer">Implement a custom controller for /health and integrate with Prometheus by exposing a /metrics route using prom-client.</div>
     </li>    
+
+
+
+
+
+    <li data-id="q30" class="zyellow">
+      <span class="faq-question green">Example : 01 : Loopback : Country ⟶ State (One-to-Many Relation)</span>
+      <div class="answer">
+<pre>
+    <b class="green">Folder Structure</b>
+
+    project-root/
+    ├── src/
+    │   ├── __tests__/
+    │   │   └── acceptance/
+    │   │       ├── country-state.acceptance.ts     # ✅ Full test suite
+    │   │       └── test-helper.ts                  # 🔧 App boot for tests
+    │   │
+    │   ├── controllers/
+    │   │   ├── country.controller.ts               # 🌍 Country CRUD API
+    │   │   └── state.controller.ts                 # 🏙️  State CRUD API
+    │   │
+    │   ├── datasources/
+    │   │   └── mongodb.datasource.ts               # 📦 MongoDB config
+    │   │
+    │   ├── models/
+    │   │   ├── country.model.ts                    # 🌍 Country Model
+    │   │   └── state.model.ts                      # 🏙️  State Model
+    │   │
+    │   ├── repositories/
+    │   │   ├── country.repository.ts               # 🌍 Country Repository
+    │   │   └── state.repository.ts                 # 🏙️  State Repository
+    │   │
+    │   ├── application.ts                          # 🚀 App entry
+    │   └── index.ts                                # 📦 Start point
+    │
+    ├── .env                                         # (optional) MongoDB URI
+    ├── package.json                                 # 📦 Project metadata
+    ├── tsconfig.json                                # 🔧 TypeScript config
+    └── README.md                                    # 📘 Project info
+    
+    <hr />
+    <b class="green">DB Connection </b>
+
+    import {juggler} from '@loopback/repository';
+    import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
+
+    @lifeCycleObserver('datasource')
+    export class MongodbDataSource extends juggler.DataSource
+    implements LifeCycleObserver {
+        static dataSourceName = 'MongoDB';
+
+        constructor(
+            @inject('datasources.config.MongoDB', {optional: true})
+            dsConfig: object = {
+            name: 'MongoDB',
+            connector: 'mongodb',
+            url: 'mongodb://localhost:27017/testdb',
+            },
+        ) {
+            super(dsConfig);
+        }
+    }
+    <hr />
+    <b class="green">Models</b>
+
+    import {Entity, model, property, hasMany} from '@loopback/repository';
+    import {State} from './state.model';
+    
+    @model()
+    export class Country extends Entity {
+      @property({type: 'string', id: true, generated: true})
+      id?: string;
+    
+      @property({type: 'string', required: true})
+      name: string;
+    
+      @hasMany(() => State)
+      states: State[];
+    }
+    <hr />
+    
+    import {Entity, model, property, belongsTo} from '@loopback/repository';
+    import {Country} from './country.model';
+    
+    @model()
+    export class State extends Entity {
+      @property({type: 'string', id: true, generated: true})
+      id?: string;
+    
+      @property({type: 'string', required: true})
+      name: string;
+    
+      @belongsTo(() => Country)
+      countryId: string;
+    }
+    <hr />
+    <b class="green">Repository</b>
+
+    import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
+    import {Country, State} from '../models';
+    import {MongodbDataSource} from '../datasources';
+    import {inject, Getter} from '@loopback/core';
+    import {StateRepository} from './state.repository';
+    
+    export class CountryRepository extends DefaultCrudRepository<
+      Country,
+      typeof Country.prototype.id
+    > {
+      public readonly states: HasManyRepositoryFactory<State, typeof Country.prototype.id>;
+    
+      constructor(
+        @inject('datasources.MongoDB') dataSource: MongodbDataSource,
+        @repository.getter('StateRepository')
+        protected stateRepositoryGetter: Getter<StateRepository>,
+      ) {
+        super(Country, dataSource);
+        this.states = this.createHasManyRepositoryFactoryFor(
+          'states',
+          stateRepositoryGetter,
+        );
+        this.registerInclusionResolver('states', this.states.inclusionResolver);
+      }
+    }
+    <hr />
+
+    import {DefaultCrudRepository, BelongsToAccessor, repository} from '@loopback/repository';
+    import {State, Country} from '../models';
+    import {MongodbDataSource} from '../datasources';
+    import {inject, Getter} from '@loopback/core';
+    import {CountryRepository} from './country.repository';
+    
+    export class StateRepository extends DefaultCrudRepository<
+      State,
+      typeof State.prototype.id
+    > {
+      public readonly country: BelongsToAccessor<Country, typeof State.prototype.id>;
+    
+      constructor(
+        @inject('datasources.MongoDB') dataSource: MongodbDataSource,
+        @repository.getter('CountryRepository')
+        protected countryRepositoryGetter: Getter<CountryRepository>,
+      ) {
+        super(State, dataSource);
+        this.country = this.createBelongsToAccessorFor(
+          'country',
+          countryRepositoryGetter,
+        );
+        this.registerInclusionResolver('country', this.country.inclusionResolver);
+      }
+    }
+
+    <hr />
+    <b class="green">Controller</b>
+
+    import {get, post, param, requestBody, getModelSchemaRef} from '@loopback/rest';
+    import {Country} from '../models';
+    import {CountryRepository} from '../repositories';
+    import {repository} from '@loopback/repository';
+
+    export class CountryController {
+        constructor(
+          @repository(CountryRepository)
+          public countryRepo: CountryRepository,
+        ) {}
+      
+        @post('/countries')
+        async create(@requestBody({content: {'application/json': {schema: getModelSchemaRef(Country)}}}) country: Country) {
+          return this.countryRepo.create(country);
+        }
+      
+        @get('/countries', {
+          responses: {
+            '200': {
+              description: 'List of countries with states',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: getModelSchemaRef(Country, {includeRelations: true}),
+                  },
+                },
+              },
+            },
+          },
+        })
+        async find() {
+          return this.countryRepo.find({include: ['states']});
+        }
+      }
+    <hr />  
+
+    import { get, post, param, requestBody, getModelSchemaRef } from '@loopback/rest';
+    import {State} from '../models';
+    import {StateRepository} from '../repositories';
+    import {repository} from '@loopback/repository';
+
+    export class StateController {
+        constructor(
+          @repository(StateRepository)
+          public stateRepo: StateRepository,
+        ) {}
+      
+        @post('/states')
+        async create(@requestBody({content: {'application/json': {schema: getModelSchemaRef(State)}}}) state: State) {
+          return this.stateRepo.create(state);
+        }
+      
+        @get('/states')
+        async find() {
+          return this.stateRepo.find({include: ['country']});
+        }
+    }
+    <hr />
+    <b class="green">Unit Testing</b>    
+
+    import {Client, expect} from '@loopback/testlab';
+    import {CountryStateApiApplication} from '../../application';
+    import {setupApplication} from './test-helper';
+
+    let app: CountryStateApiApplication;
+    let client: Client;
+
+    describe('Country-State API', () => {
+        before('setupApplication', async () => {
+            ({app, client} = await setupApplication());
+        });
+
+        after(async () => {
+            await app.stop();
+        });
+
+        it('creates a country', async () => {
+            const country = {name: 'India'};
+            const res = await client.post('/countries').send(country).expect(200);
+            expect(res.body).to.containDeep(country);
+            expect(res.body).to.have.property('id');
+        });
+
+        it('creates a state and links to country', async () => {
+            const countryRes = await client.post('/countries').send({name: 'USA'});
+            const countryId = countryRes.body.id;
+
+            const state = {name: 'California', countryId};
+            const stateRes = await client.post('/states').send(state).expect(200);
+
+            expect(stateRes.body).to.containDeep(state);
+        });
+
+        it('lists countries with related states', async () => {
+            const india = await client.post('/countries').send({name: 'India'});
+            const countryId = india.body.id;
+            await client.post('/states').send({name: 'West Bengal', countryId});
+            await client.post('/states').send({name: 'Gujarat', countryId});
+
+            const res = await client.get('/countries?filter[include][]=states');
+            const foundCountry = res.body.find((c: any) => c.id === countryId);
+            expect(foundCountry.states).to.be.an.Array();
+            expect(foundCountry.states).length(2);
+        });
+
+        it('lists states with related country', async () => {
+            const res = await client.get('/states?filter[include][]=country');
+            for (const state of res.body) {
+            expect(state.country).to.be.an.Object();
+            expect(state.country.name).to.be.String();
+            }
+        });
+    });
+    <hr />
+
+    import {CountryStateApiApplication} from '../../application';
+    import {createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
+
+    export async function setupApplication() {
+        const restConfig = givenHttpServerConfig({});
+        const app        = new CountryStateApiApplication({rest: restConfig});
+
+        await app.boot();
+        await app.start();
+
+        const client = createRestAppClient(app);
+
+        return {app, client};
+    }
+</pre>
+      
+</div>
+</li>
+
+ 
 <li data-id="q30" class="zyellow">
 <span class="faq-question green">Example : 01 : LoopBack</span>
 <div class="answer">
