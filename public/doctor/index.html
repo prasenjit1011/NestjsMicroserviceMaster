@@ -19257,6 +19257,21 @@ Zod
   <span class="faq-question green">Example : 01 : Fastify?</span>
   <div class="answer">
 <pre>
+  fastify-bank-crud/
+  ├── src/
+  │   ├── app.js
+  │   ├── plugins/
+  │   │   └── mongo.js
+  │   ├── routes/
+  │   │   └── bank.routes.js
+  │   └── models/
+  │       └── bank.model.js
+  ├── test/
+  │   └── bank.test.js
+  ├── package.json
+  
+
+
   const fastify = require('fastify')({ logger: true });
   const mongoose = require('mongoose');
   
@@ -20584,6 +20599,460 @@ This approach ensures each user or tenant has isolated rate limits using shared 
     MikroORM is a TypeScript ORM for Node.js applications. It supports PostgreSQL, MySQL, MariaDB, SQLite, and MongoDB, and is based on the Data Mapper pattern for clean separation of database logic.
   </div>
 </li>
+
+
+
+
+<li data-id="mikroorm-1" id="mikroorm_qlist">
+<span class="faq-question">MikroORM, TypeORM, Sequlizer</span>
+<div class="answer">
+  <table border="1" cellspacing="0" cellpadding="8">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>TypeORM</th>
+        <th>MikroORM</th>
+        <th>Sequelize</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Object Relational Mapping (ORM)</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Supports SQL Databases</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Supports Associations (OneToOne, OneToMany, ManyToMany)</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Query Builder Support</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Migration Support</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>CLI Tools Available</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Supports Transactions</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Lazy/Eager Loading</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes (via `include`)</td>
+      </tr>
+      <tr>
+        <td>Hooks/Lifecycle Events</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Works with Node.js</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Supports Custom Repositories</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes (via models and static methods)</td>
+      </tr>
+      <tr>
+        <td>ORM-Level Caching Support</td>
+        <td>Basic</td>
+        <td>Yes</td>
+        <td>Basic (manual)</td>
+      </tr>
+      <tr>
+        <td>Can be used with TypeScript</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes (less native)</td>
+      </tr>
+    </tbody>
+  </table>
+<hr />
+<table border="1" cellspacing="0" cellpadding="8">
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>TypeORM</th>
+      <th>MikroORM</th>
+      <th>Sequelize</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>Entity Definition: User</td>
+      <td>
+        import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';<br><br>
+        @Entity()<br>
+        export class User {<br>
+        &nbsp;&nbsp;@PrimaryGeneratedColumn()<br>
+        &nbsp;&nbsp;id: number;<br><br>
+        &nbsp;&nbsp;@Column()<br>
+        &nbsp;&nbsp;name: string;<br>
+        }
+      </td>
+      <td>
+        import { Entity, PrimaryKey, Property } from '@mikro-orm/core';<br><br>
+        @Entity()<br>
+        export class User {<br>
+        &nbsp;&nbsp;@PrimaryKey()<br>
+        &nbsp;&nbsp;id!: number;<br><br>
+        &nbsp;&nbsp;@Property()<br>
+        &nbsp;&nbsp;name!: string;<br>
+        }
+      </td>
+      <td>
+        import { DataTypes } from 'sequelize';<br><br>
+        const User = sequelize.define('User', {<br>
+        &nbsp;&nbsp;id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },<br>
+        &nbsp;&nbsp;name: { type: DataTypes.STRING },<br>
+        });<br><br>
+        export default User;
+      </td>
+    </tr>
+
+    <tr>
+      <td>Fetch All Users</td>
+      <td>
+        const users = await dataSource.getRepository(User).find();
+      </td>
+      <td>
+        const users = await orm.em.find(User, {});
+      </td>
+      <td>
+        const users = await User.findAll();
+      </td>
+    </tr>
+
+    <tr>
+      <td>Insert One User</td>
+      <td>
+        const user = new User();<br>
+        user.name = 'John';<br>
+        await dataSource.manager.save(user);
+      </td>
+      <td>
+        const user = orm.em.create(User, { name: 'John' });<br>
+        await orm.em.persistAndFlush(user);
+      </td>
+      <td>
+        const user = await User.create({ name: 'John' });
+      </td>
+    </tr>
+
+    <tr>
+      <td>Update User</td>
+      <td>
+        const user = await repo.findOneBy({ id: 1 });<br>
+        user.name = 'Jane';<br>
+        await repo.save(user);
+      </td>
+      <td>
+        const user = await orm.em.findOne(User, 1);<br>
+        user.name = 'Jane';<br>
+        await orm.em.flush();
+      </td>
+      <td>
+        const user = await User.findByPk(1);<br>
+        user.name = 'Jane';<br>
+        await user.save();
+      </td>
+    </tr>
+
+    <tr>
+      <td>Delete User</td>
+      <td>
+        const user = await repo.findOneBy({ id: 1 });<br>
+        await repo.remove(user);
+      </td>
+      <td>
+        const user = await orm.em.findOne(User, 1);<br>
+        await orm.em.removeAndFlush(user);
+      </td>
+      <td>
+        const user = await User.findByPk(1);<br>
+        await user.destroy();
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+<hr />
+<ol>
+
+  <li data-id="q101" class="zyellow">
+    <span class="faq-question">TypeORM - Country & State Entity</span>
+    <div class="answer">
+      import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';<br><br>
+
+      @Entity()<br>
+      export class Country {<br>
+      &nbsp;&nbsp;@PrimaryGeneratedColumn()<br>
+      &nbsp;&nbsp;id: number;<br>
+      &nbsp;&nbsp;@Column()<br>
+      &nbsp;&nbsp;name: string;<br>
+      &nbsp;&nbsp;@OneToMany(() => State, state => state.country)<br>
+      &nbsp;&nbsp;states: State[];<br>
+      }<br><br>
+
+      @Entity()<br>
+      export class State {<br>
+      &nbsp;&nbsp;@PrimaryGeneratedColumn()<br>
+      &nbsp;&nbsp;id: number;<br>
+      &nbsp;&nbsp;@Column()<br>
+      &nbsp;&nbsp;name: string;<br>
+      &nbsp;&nbsp;@ManyToOne(() => Country, country => country.states)<br>
+      &nbsp;&nbsp;country: Country;<br>
+      }
+    </div>
+  </li>
+
+  <li data-id="q102" class="zyellow">
+    <span class="faq-question">MikroORM - Country & State Entity</span>
+    <div class="answer">
+      import { Entity, PrimaryKey, Property, OneToMany, ManyToOne, Collection } from '@mikro-orm/core';<br><br>
+
+      @Entity()<br>
+      export class Country {<br>
+      &nbsp;&nbsp;@PrimaryKey()<br>
+      &nbsp;&nbsp;id!: number;<br>
+      &nbsp;&nbsp;@Property()<br>
+      &nbsp;&nbsp;name!: string;<br>
+      &nbsp;&nbsp;@OneToMany(() => State, state => state.country)<br>
+      &nbsp;&nbsp;states = new Collection<State>(this);<br>
+      }<br><br>
+
+      @Entity()<br>
+      export class State {<br>
+      &nbsp;&nbsp;@PrimaryKey()<br>
+      &nbsp;&nbsp;id!: number;<br>
+      &nbsp;&nbsp;@Property()<br>
+      &nbsp;&nbsp;name!: string;<br>
+      &nbsp;&nbsp;@ManyToOne()<br>
+      &nbsp;&nbsp;country!: Country;<br>
+      }
+    </div>
+  </li>
+
+  <li data-id="q103" class="zyellow">
+    <span class="faq-question">Sequelize - Country & State Model</span>
+    <div class="answer">
+      // Country.js<br>
+      const Country = sequelize.define('Country', {<br>
+      &nbsp;&nbsp;id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },<br>
+      &nbsp;&nbsp;name: DataTypes.STRING<br>
+      });<br><br>
+
+      // State.js<br>
+      const State = sequelize.define('State', {<br>
+      &nbsp;&nbsp;id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },<br>
+      &nbsp;&nbsp;name: DataTypes.STRING,<br>
+      &nbsp;&nbsp;countryId: DataTypes.INTEGER<br>
+      });<br><br>
+
+      // Associations<br>
+      Country.hasMany(State, { foreignKey: 'countryId' });<br>
+      State.belongsTo(Country, { foreignKey: 'countryId' });
+    </div>
+  </li>
+
+</ol>
+
+
+<hr />
+<table border="1" cellspacing="0" cellpadding="8">
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>TypeORM</th>
+      <th>MikroORM</th>
+      <th>Sequelize</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Language Support</td>
+      <td>TypeScript, JavaScript</td>
+      <td>TypeScript-first</td>
+      <td>JavaScript, TypeScript (less native)</td>
+    </tr>
+    <tr>
+      <td>ORM Pattern</td>
+      <td>Active Record & Data Mapper</td>
+      <td>Data Mapper</td>
+      <td>Active Record</td>
+    </tr>
+    <tr>
+      <td>Type Safety</td>
+      <td>Partial</td>
+      <td>Excellent</td>
+      <td>Poor (with TypeScript)</td>
+    </tr>
+    <tr>
+      <td>Migration Support</td>
+      <td>Basic, manual</td>
+      <td>Advanced, automatic diff</td>
+      <td>Manual and CLI based</td>
+    </tr>
+    <tr>
+      <td>Query Builder</td>
+      <td>Fluent API</td>
+      <td>Fluent API with type safety</td>
+      <td>Chained API, not strongly typed</td>
+    </tr>
+    <tr>
+      <td>Performance</td>
+      <td>Moderate</td>
+      <td>High, optimized</td>
+      <td>Moderate</td>
+    </tr>
+    <tr>
+      <td>Database Support</td>
+      <td>PostgreSQL, MySQL, SQLite, MSSQL, Oracle, MongoDB</td>
+      <td>PostgreSQL, MySQL, MariaDB, SQLite, MongoDB (experimental)</td>
+      <td>PostgreSQL, MySQL, SQLite, MSSQL</td>
+    </tr>
+    <tr>
+      <td>NestJS Integration</td>
+      <td>Good</td>
+      <td>Excellent</td>
+      <td>Requires custom integration</td>
+    </tr>
+    <tr>
+      <td>Community & Ecosystem</td>
+      <td>Large, but some stale issues</td>
+      <td>Smaller, very active maintainer</td>
+      <td>Large and stable</td>
+    </tr>
+    <tr>
+      <td>CLI Tools</td>
+      <td>Good</td>
+      <td>Advanced</td>
+      <td>Basic</td>
+    </tr>
+    <tr>
+      <td>Learning Curve</td>
+      <td>Moderate</td>
+      <td>Moderate to High</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td>Best Use Case</td>
+      <td>Moderate-sized apps with mixed team</td>
+      <td>Large-scale apps with TypeScript experts</td>
+      <td>Quick prototypes and legacy JS apps</td>
+    </tr>
+  </tbody>
+</table>
+
+
+</div></li>
+
+
+<li data-id="mikroorm-1" id="mikroorm_qlist">
+  <span class="faq-question">MikroORM Vs TypeORM?</span>
+  <div class="answer">
+    <ol>
+  <li data-id="q32" class="zyellow">
+    <span class="faq-question">Which is more modern: MikroORM or TypeORM?</span>
+    <div class="answer">
+      MikroORM is newer and designed with modern TypeScript in mind, while TypeORM is older and was initially written in JavaScript with TypeScript support added later.
+    </div>
+  </li>
+
+  <li data-id="q33" class="zyellow">
+    <span class="faq-question">Which has better TypeScript support?</span>
+    <div class="answer">
+      MikroORM has superior TypeScript support with full type-safety for entities, queries, and relationships. TypeORM has basic TypeScript support but lacks strong typing for query builders.
+    </div>
+  </li>
+
+  <li data-id="q34" class="zyellow">
+    <span class="faq-question">Which ORM supports more databases?</span>
+    <div class="answer">
+      TypeORM supports more databases including MySQL, PostgreSQL, MariaDB, SQLite, Microsoft SQL Server, Oracle, and more. MikroORM supports PostgreSQL, MySQL, MariaDB, SQLite, and MongoDB (experimental).
+    </div>
+  </li>
+
+  <li data-id="q35" class="zyellow">
+    <span class="faq-question">Which is better for performance?</span>
+    <div class="answer">
+      MikroORM is generally more optimized and faster due to better caching and modern architecture. TypeORM can be slower, especially for complex queries or large datasets.
+    </div>
+  </li>
+
+  <li data-id="q36" class="zyellow">
+    <span class="faq-question">Which has better migration system?</span>
+    <div class="answer">
+      MikroORM has a powerful migration system with automatic diffing and generation. TypeORM's migration system is more manual and less reliable in larger projects.
+    </div>
+  </li>
+
+  <li data-id="q37" class="zyellow">
+    <span class="faq-question">Which supports Active Record and Data Mapper patterns?</span>
+    <div class="answer">
+      TypeORM supports both Active Record and Data Mapper patterns. MikroORM focuses on the Data Mapper pattern only, which is preferred for large-scale enterprise applications.
+    </div>
+  </li>
+
+  <li data-id="q38" class="zyellow">
+    <span class="faq-question">Which one is better for working with NestJS?</span>
+    <div class="answer">
+      Both integrate well with NestJS, but MikroORM provides better modular support and native DI (dependency injection) compatibility with NestJS modules.
+    </div>
+  </li>
+
+  <li data-id="q39" class="zyellow">
+    <span class="faq-question">Which has better documentation and community support?</span>
+    <div class="answer">
+      TypeORM has a larger community and more tutorials due to its age. MikroORM's documentation is more precise and better maintained but has a smaller community.
+    </div>
+  </li>
+
+  <li data-id="q40" class="zyellow">
+    <span class="faq-question">Which ORM has better CLI tools?</span>
+    <div class="answer">
+      MikroORM provides powerful CLI tools for generating entities, running migrations, and seeding data. TypeORM’s CLI is functional but lacks some modern features.
+    </div>
+  </li>
+
+  <li data-id="q41" class="zyellow">
+    <span class="faq-question">Which ORM is recommended for new projects in 2025?</span>
+    <div class="answer">
+      MikroORM is recommended for new projects that require modern TypeScript support, strong typing, and scalability. TypeORM is still valid for smaller projects or where Active Record pattern is preferred.
+    </div>
+  </li>
+</ol>
+</div></li>
 
 
 <li data-id="mikroorm-1" id="mikroorm_qlist">
