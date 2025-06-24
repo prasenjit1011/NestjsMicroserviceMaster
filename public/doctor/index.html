@@ -31728,6 +31728,156 @@ CI/CD Question List?
 </div>
 </li>
       
+<li data-id="mbqqq20">
+<span class="faq-question">PostgreSQL Vs MySQL</span>
+<div class="answer">
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr style="background-color:#f2f2f2">
+      <th>Feature</th>
+      <th>MySQL</th>
+      <th>PostgreSQL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Type</strong></td>
+      <td>Relational Database Management System (RDBMS)</td>
+      <td>Object-Relational Database Management System (ORDBMS)</td>
+    </tr>
+    <tr>
+      <td><strong>License</strong></td>
+      <td>Open-source (GPL), owned by Oracle</td>
+      <td>Open-source (PostgreSQL License – similar to MIT)</td>
+    </tr>
+    <tr>
+      <td><strong>ACID Compliance</strong></td>
+      <td>Only with InnoDB storage engine</td>
+      <td>Fully ACID compliant by default</td>
+    </tr>
+    <tr>
+      <td><strong>SQL Compliance</strong></td>
+      <td>Partially compliant</td>
+      <td>Highly compliant with SQL standards</td>
+    </tr>
+    <tr>
+      <td><strong>Extensibility</strong></td>
+      <td>Limited</td>
+      <td>Highly extensible (custom functions, data types, operators)</td>
+    </tr>
+    <tr>
+      <td><strong>JSON Support</strong></td>
+      <td>Good support (JSON, JSON functions)</td>
+      <td>Excellent support with indexing (JSON, JSONB)</td>
+    </tr>
+    <tr>
+      <td><strong>Performance (Read-heavy)</strong></td>
+      <td>Generally faster for simple read operations</td>
+      <td>Slightly slower but tunable</td>
+    </tr>
+    <tr>
+      <td><strong>Performance (Write-heavy)</strong></td>
+      <td>Can be less performant in complex write scenarios</td>
+      <td>Optimized for complex queries and write-heavy loads</td>
+    </tr>
+    <tr>
+      <td><strong>Replication</strong></td>
+      <td>Master-slave and Group Replication</td>
+      <td>Streaming Replication, Logical Replication</td>
+    </tr>
+    <tr>
+      <td><strong>Partitioning</strong></td>
+      <td>Basic support</td>
+      <td>Advanced declarative partitioning</td>
+    </tr>
+    <tr>
+      <td><strong>Community & Support</strong></td>
+      <td>Large community; extensive tools and tutorials</td>
+      <td>Strong community; active development and documentation</td>
+    </tr>
+    <tr>
+      <td><strong>Best Use Cases</strong></td>
+      <td>Web applications, CMS, eCommerce platforms</td>
+      <td>Data warehousing, analytics, complex data models</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</li>
+
+<li data-id="mbqqq20">
+<span class="faq-question">PostgreSQL Performance</span>
+<div class="answer">
+
+
+  <table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr style="background-color:#f2f2f2">
+        <th>Feature / Tool</th>
+        <th>Description</th>
+        <th>Why It Helps Performance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Indexes</strong></td>
+        <td>B-tree (default), Hash, GIN, GiST, BRIN</td>
+        <td>Speeds up SELECT queries and WHERE conditions</td>
+      </tr>
+      <tr>
+        <td><strong>Query Planner & EXPLAIN ANALYZE</strong></td>
+        <td>Shows the execution plan of a query</td>
+        <td>Helps identify slow or inefficient queries</td>
+      </tr>
+      <tr>
+        <td><strong>Connection Pooling</strong></td>
+        <td>Use PgBouncer or Pgpool-II</td>
+        <td>Reduces overhead of frequent new connections</td>
+      </tr>
+      <tr>
+        <td><strong>Partitioning</strong></td>
+        <td>Range, List, Hash Partitioning</td>
+        <td>Improves performance on large tables by scanning fewer rows</td>
+      </tr>
+      <tr>
+        <td><strong>Materialized Views</strong></td>
+        <td>Stored query results that can be refreshed</td>
+        <td>Avoids recomputing complex queries repeatedly</td>
+      </tr>
+      <tr>
+        <td><strong>Vacuum & Autovacuum</strong></td>
+        <td>Clears dead tuples from tables</td>
+        <td>Prevents table bloat and keeps queries fast</td>
+      </tr>
+      <tr>
+        <td><strong>Parallel Queries</strong></td>
+        <td>PostgreSQL can parallelize certain query plans</td>
+        <td>Faster execution for large table scans and aggregations</td>
+      </tr>
+      <tr>
+        <td><strong>Workload-Optimized Configuration</strong></td>
+        <td>Settings like <code>work_mem</code>, <code>shared_buffers</code>, <code>effective_cache_size</code></td>
+        <td>Helps PostgreSQL optimize memory usage and planning</td>
+      </tr>
+      <tr>
+        <td><strong>JSONB Indexing</strong></td>
+        <td>Use GIN indexes for JSONB fields</td>
+        <td>Speeds up JSON queries significantly</td>
+      </tr>
+      <tr>
+        <td><strong>Logical Replication</strong></td>
+        <td>Table-level streaming replication</td>
+        <td>Can offload read operations to replicas</td>
+      </tr>
+    </tbody>
+  </table>
+  
+
+</div>
+</li>
+
+
 
 
       <li data-id="mbqqq20">
