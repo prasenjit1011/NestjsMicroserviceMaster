@@ -155,7 +155,7 @@
             <td><a href="#zod">Zod</a></td>
             <td><a href="#graphql_qlist">GraphQL</a></td>
             <td><a href="#jest_qlist">Jest</a></td>
-            <td></td>
+            <td><a href="#java_qlist">Java Springboot</a></td>
           </tr>
           <tr>
             <td colspan="4">
@@ -5666,7 +5666,75 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
   --------------   ReactJS  -------------------</span></li>
 <li data-id="q3" class="yellow"><span class="faq-question">
   ---------------------------------------------</span></li>
-
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is basic testing in ReactJS?</span>
+    <div class="answer">
+      Basic testing in ReactJS refers to writing simple unit tests and component tests to ensure that the UI behaves as expected. React testing commonly uses libraries like Jest and React Testing Library.
+      <ul>
+        <li><strong>Jest:</strong> A JavaScript testing framework used for assertions, mocking, and running test cases.</li>
+        <li><strong>React Testing Library:</strong> Provides utilities to test React components in a way that resembles user interaction.</li>
+        <li><strong>Unit Testing:</strong> Testing individual functions or small components in isolation.</li>
+        <li><strong>Component Rendering Test:</strong> Verifying that the component renders the correct output based on props or state.</li>
+        <li><strong>Event Handling:</strong> Simulating user actions like clicks, typing, or form submissions to test the component's response.</li>
+      </ul>
+      Basic testing in React ensures that components render correctly, respond to events, and maintain expected behavior, which helps prevent regressions and bugs in your application.
+    </div>
+  </li>
+  <li data-id="react_testing_1" class="zyellow">
+    <span class="faq-question">What is ReactJS testing?</span>
+    <div class="answer">
+      ReactJS testing involves verifying that your components render correctly and behave as expected. It ensures that user interfaces and logic are working properly before deployment.
+      <ul>
+        <li>Tests help catch bugs early and improve code quality.</li>
+        <li>They allow safe refactoring by providing confidence in existing features.</li>
+        <li>React testing is often done with tools like Jest and React Testing Library.</li>
+      </ul>
+    </div>
+  </li>
+  
+  <li data-id="react_testing_2" class="zyellow">
+    <span class="faq-question">What tools are commonly used for React testing?</span>
+    <div class="answer">
+      The most common tools used in React testing include:
+      <ul>
+        <li><strong>Jest:</strong> A test runner developed by Facebook, commonly used to run unit tests.</li>
+        <li><strong>React Testing Library:</strong> A library that helps test React components in a user-centric way.</li>
+        <li><strong>Enzyme (deprecated):</strong> Used for shallow rendering and testing component internals (no longer recommended).</li>
+      </ul>
+    </div>
+  </li>
+  
+  <li data-id="react_testing_3" class="zyellow">
+    <span class="faq-question">What are the basic types of tests in React?</span>
+    <div class="answer">
+      There are three main types of tests:
+      <ul>
+        <li><strong>Unit Tests:</strong> Test small pieces of logic like functions or individual components.</li>
+        <li><strong>Integration Tests:</strong> Test multiple components or modules working together.</li>
+        <li><strong>End-to-End (E2E) Tests:</strong> Simulate real user actions in a browser using tools like Cypress or Playwright.</li>
+      </ul>
+    </div>
+  </li>
+  
+  <li data-id="react_testing_4" class="zyellow">
+    <span class="faq-question">Basic test example in ReactJS?</span>
+    <div class="answer">
+      A simple test using React Testing Library and Jest to verify that a button renders and works:
+      <pre>
+  import { render, screen, fireEvent } from '@testing-library/react';
+  import MyButton from './MyButton';
+  
+  test('renders and clicks button', () =&gt; {
+    render(&lt;MyButton /&gt;);
+    const button = screen.getByText('Click me');
+    fireEvent.click(button);
+    expect(screen.getByText('Clicked')).toBeInTheDocument();
+  });
+      </pre>
+      This test checks if the button renders and updates the UI after being clicked.
+    </div>
+  </li>
+  
 
 
   <li data-id="react_1" class="zyellow">
@@ -39175,6 +39243,389 @@ app.listen(PORT, () => {
       </div>
     </li>
      
+
+<li data-id="q32" id="java_qlist" class="yellow"><span class="faq-question">
+--------------------------------------------------------------
+</span></li>
+
+<li data-id="q32" id="java_qlist" class="yellow"><span class="faq-question">
+------------------------- Java Spring Boot -------------------------------------
+</span></li>
+
+<li data-id="springboot_1" class="zyellow">
+  <span class="faq-question">What is Spring Boot?</span>
+  <div class="answer">
+    Spring Boot is a framework built on top of Spring that simplifies the development of stand-alone, production-ready Spring-based applications with minimal configuration.
+  </div>
+</li>
+
+<li data-id="springboot_2" class="zyellow">
+  <span class="faq-question">What are the main features of Spring Boot?</span>
+  <div class="answer">
+    Auto-configuration, starter dependencies, embedded servers, production-ready metrics, and minimal XML configuration.
+  </div>
+</li>
+
+<li data-id="springboot_3" class="zyellow">
+  <span class="faq-question">What is the difference between Spring and Spring Boot?</span>
+  <div class="answer">
+    Spring provides a comprehensive framework for Java development, while Spring Boot simplifies the setup and development process with auto-configuration and embedded servers.
+  </div>
+</li>
+
+<li data-id="springboot_4" class="zyellow">
+  <span class="faq-question">What is a Spring Boot Starter?</span>
+  <div class="answer">
+    Starters are a set of convenient dependency descriptors you can include in your application to get common functionality, like spring-boot-starter-web for web apps.
+  </div>
+</li>
+
+<li data-id="springboot_5" class="zyellow">
+  <span class="faq-question">How does Spring Boot reduce boilerplate code?</span>
+  <div class="answer">
+    Through auto-configuration, embedded servers, and opinionated defaults for project structure and dependencies.
+  </div>
+</li>
+
+<li data-id="springboot_6" class="zyellow">
+  <span class="faq-question">What is @SpringBootApplication?</span>
+  <div class="answer">
+    A convenience annotation that combines @Configuration, @EnableAutoConfiguration, and @ComponentScan.
+  </div>
+</li>
+
+<li data-id="springboot_7" class="zyellow">
+  <span class="faq-question">How do you create a Spring Boot project?</span>
+  <div class="answer">
+    Use Spring Initializr (https://start.spring.io) or IDEs like IntelliJ or Eclipse with Spring support.
+  </div>
+</li>
+
+<li data-id="springboot_8" class="zyellow">
+  <span class="faq-question">What is auto-configuration in Spring Boot?</span>
+  <div class="answer">
+    Spring Boot automatically configures your application based on the dependencies present in the classpath.
+  </div>
+</li>
+
+<li data-id="springboot_9" class="zyellow">
+  <span class="faq-question">What is the purpose of application.properties?</span>
+  <div class="answer">
+    It is used to define configuration values such as server port, datasource URL, and logging level.
+  </div>
+</li>
+
+<li data-id="springboot_10" class="zyellow">
+  <span class="faq-question">What is an embedded server?</span>
+  <div class="answer">
+    Spring Boot includes servers like Tomcat, Jetty, or Undertow within the application, so you don’t need to deploy a WAR file externally.
+  </div>
+</li>
+
+<li data-id="springboot_11" class="zyellow">
+  <span class="faq-question">What is dependency injection?</span>
+  <div class="answer">
+    A design pattern where dependencies are provided to a class by the framework instead of being created manually.
+  </div>
+</li>
+
+<li data-id="springboot_12" class="zyellow">
+  <span class="faq-question">What is @RestController?</span>
+  <div class="answer">
+    A combination of @Controller and @ResponseBody, used to build RESTful web services in Spring Boot.
+  </div>
+</li>
+
+<li data-id="springboot_13" class="zyellow">
+  <span class="faq-question">What is the difference between @Component, @Service, and @Repository?</span>
+  <div class="answer">
+    All are specializations of @Component used for different layers: general bean, business logic, and data access respectively.
+  </div>
+</li>
+
+<li data-id="springboot_14" class="zyellow">
+  <span class="faq-question">How do you handle exceptions in Spring Boot?</span>
+  <div class="answer">
+    Use @ControllerAdvice with @ExceptionHandler methods to define global exception handling logic.
+  </div>
+</li>
+
+<li data-id="springboot_15" class="zyellow">
+  <span class="faq-question">What is Spring Boot DevTools?</span>
+  <div class="answer">
+    A module that provides automatic restarts, live reload, and configurations for faster development.
+  </div>
+</li>
+
+<li data-id="springboot_16" class="zyellow">
+  <span class="faq-question">What is @Autowired?</span>
+  <div class="answer">
+    It tells Spring to automatically inject the required bean into a component.
+  </div>
+</li>
+
+<li data-id="springboot_17" class="zyellow">
+  <span class="faq-question">How can you change the default port in Spring Boot?</span>
+  <div class="answer">
+    Add server.port=8081 in application.properties or application.yml.
+  </div>
+</li>
+
+<li data-id="springboot_18" class="zyellow">
+  <span class="faq-question">What is Spring Boot Actuator?</span>
+  <div class="answer">
+    A tool that provides production-ready features like monitoring, health checks, metrics, and environment info.
+  </div>
+</li>
+
+<li data-id="springboot_19" class="zyellow">
+  <span class="faq-question">How do you connect to a database in Spring Boot?</span>
+  <div class="answer">
+    Add spring-boot-starter-data-jpa and database driver dependencies, and configure the datasource in application.properties.
+  </div>
+</li>
+
+<li data-id="springboot_20" class="zyellow">
+  <span class="faq-question">What is JPA in Spring Boot?</span>
+  <div class="answer">
+    Java Persistence API (JPA) is used for ORM-based database operations, often with Hibernate as the implementation.
+  </div>
+</li>
+
+<li data-id="springboot_21" class="zyellow">
+  <span class="faq-question">What is @Entity?</span>
+  <div class="answer">
+    Marks a class as a JPA entity that maps to a table in the database.
+  </div>
+</li>
+
+<li data-id="springboot_22" class="zyellow">
+  <span class="faq-question">What is a repository in Spring Boot?</span>
+  <div class="answer">
+    An interface extending JpaRepository or CrudRepository that provides CRUD operations without writing SQL.
+  </div>
+</li>
+
+<li data-id="springboot_23" class="zyellow">
+  <span class="faq-question">What is H2 Database?</span>
+  <div class="answer">
+    An in-memory database useful for development and testing in Spring Boot projects.
+  </div>
+</li>
+
+<li data-id="springboot_24" class="zyellow">
+  <span class="faq-question">What is the purpose of @RequestMapping?</span>
+  <div class="answer">
+    It maps HTTP requests to handler methods in controllers. You can also use shortcuts like @GetMapping, @PostMapping, etc.
+  </div>
+</li>
+
+<li data-id="springboot_25" class="zyellow">
+  <span class="faq-question">What is a DTO?</span>
+  <div class="answer">
+    Data Transfer Object is used to carry data between layers, typically between controller and service.
+  </div>
+</li>
+
+<li data-id="springboot_26" class="zyellow">
+  <span class="faq-question">What is @PathVariable?</span>
+  <div class="answer">
+    Used to extract values from the URI in controller methods.
+  </div>
+</li>
+
+<li data-id="springboot_27" class="zyellow">
+  <span class="faq-question">What is @RequestParam?</span>
+  <div class="answer">
+    Used to extract query parameters from the URL in controller methods.
+  </div>
+</li>
+
+<li data-id="springboot_28" class="zyellow">
+  <span class="faq-question">How do you secure a Spring Boot app?</span>
+  <div class="answer">
+    Use Spring Security with configurations for authentication, authorization, and password encoding.
+  </div>
+</li>
+
+<li data-id="springboot_29" class="zyellow">
+  <span class="faq-question">How can you schedule tasks in Spring Boot?</span>
+  <div class="answer">
+    Use @EnableScheduling and annotate methods with @Scheduled for cron jobs or fixed intervals.
+  </div>
+</li>
+
+<li data-id="springboot_30" class="zyellow">
+  <span class="faq-question">What are common Spring Boot dependencies?</span>
+  <div class="answer">
+    spring-boot-starter-web, spring-boot-starter-data-jpa, spring-boot-starter-security, spring-boot-devtools, spring-boot-starter-actuator.
+  </div>
+</li>
+
+<li data-id="springboot_30" class="yellow">
+  <span class="faq-question">Spring Boot : Example : CRUD</span>
+  <div class="answer">
+<pre>
+  src/
+  └── main/
+      ├── java/
+      │    └── com.example.employee/
+      │         ├── controller/
+      │         ├── model/
+      │         ├── repository/
+      │         └── service/
+      └── resources/
+           └── application.properties
+ 
+<hr />
+    package com.example.employee.model;
+
+    import jakarta.persistence.*;
+    
+    @Entity
+    public class Employee {
+    
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+    
+        private String name;
+        private String role;
+        private String email;
+    
+        // Getters and setters
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+    
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+    
+        public String getRole() { return role; }
+        public void setRole(String role) { this.role = role; }
+    
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+    }
+    
+<hr />
+    package com.example.employee.repository;
+
+    import com.example.employee.model.Employee;
+    import org.springframework.data.jpa.repository.JpaRepository;
+    
+    public interface EmployeeRepository extends JpaRepository<Employee, Long> {}
+    
+<hr />
+
+    package com.example.employee.service;
+
+    import com.example.employee.model.Employee;
+    import com.example.employee.repository.EmployeeRepository;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.stereotype.Service;
+    
+    import java.util.List;
+    
+    @Service
+    public class EmployeeService {
+    
+        @Autowired
+        private EmployeeRepository employeeRepository;
+    
+        public List<Employee> getAllEmployees() {
+            return employeeRepository.findAll();
+        }
+    
+        public Employee getEmployeeById(Long id) {
+            return employeeRepository.findById(id).orElse(null);
+        }
+    
+        public Employee createEmployee(Employee employee) {
+            return employeeRepository.save(employee);
+        }
+    
+        public Employee updateEmployee(Long id, Employee employeeData) {
+            Employee employee = employeeRepository.findById(id).orElse(null);
+            if (employee != null) {
+                employee.setName(employeeData.getName());
+                employee.setRole(employeeData.getRole());
+                employee.setEmail(employeeData.getEmail());
+                return employeeRepository.save(employee);
+            }
+            return null;
+        }
+    
+        public void deleteEmployee(Long id) {
+            employeeRepository.deleteById(id);
+        }
+    }
+    
+<hr />
+    package com.example.employee.controller;
+
+    import com.example.employee.model.Employee;
+    import com.example.employee.service.EmployeeService;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.web.bind.annotation.*;
+    
+    import java.util.List;
+    
+    @RestController
+    @RequestMapping("/api/employees")
+    public class EmployeeController {
+    
+        @Autowired
+        private EmployeeService employeeService;
+    
+        @GetMapping
+        public List<Employee> getAllEmployees() {
+            return employeeService.getAllEmployees();
+        }
+    
+        @GetMapping("/{id}")
+        public Employee getEmployeeById(@PathVariable Long id) {
+            return employeeService.getEmployeeById(id);
+        }
+    
+        @PostMapping
+        public Employee createEmployee(@RequestBody Employee employee) {
+            return employeeService.createEmployee(employee);
+        }
+    
+        @PutMapping("/{id}")
+        public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employeeData) {
+            return employeeService.updateEmployee(id, employeeData);
+        }
+    
+        @DeleteMapping("/{id}")
+        public void deleteEmployee(@PathVariable Long id) {
+            employeeService.deleteEmployee(id);
+        }
+    }
+    
+<hr />
+
+    spring.datasource.url=jdbc:mysql://localhost:3306/employeedb
+    spring.datasource.username=root
+    spring.datasource.password=yourpassword
+    spring.jpa.hibernate.ddl-auto=update
+    spring.jpa.show-sql=true
+    
+<hr />
+    {
+    "name": "Prasenjit Aluni",
+    "role": "Software Developer",
+    "email": "prasenjit@example.com"
+  }
+  
+<hr />
+
+</pre>
+
+
+  </div>
+</li>
+
 
 
 <li data-id="q32" class="yellow"><span class="faq-question">
