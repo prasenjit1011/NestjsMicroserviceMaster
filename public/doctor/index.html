@@ -407,7 +407,7 @@ function App() {
       <li>Only loads code when needed (e.g., on route change)</li>
     </ul>
 
-    <h4>🧠 Notes</h4>
+    <h4>📌 Notes</h4>
     <ul>
       <li>Supported in modern React (16.6+)</li>
       <li>Can be used with routing libraries like React Router</li>
@@ -577,7 +577,7 @@ function App() {
       <li><code>setTimeout</code> is a macro-task, so it runs <strong>after all micro-tasks are done</strong>.</li>
     </ul>
   
-    <h2>🧠 Summary</h2>
+    <h2>📌 Summary</h2>
     <ul>
       <li><strong>Promises have higher priority</strong> than callbacks like <code>setTimeout</code>.</li>
       <li>Promises are <strong>scheduled earlier</strong> in the event loop via the <strong>micro-task queue</strong>.</li>
@@ -5667,6 +5667,539 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
 <li data-id="q3" class="yellow"><span class="faq-question">
   ---------------------------------------------</span></li>
 
+
+
+  <li data-id="react_1" class="zyellow">
+    <span class="faq-question">How does the web work?</span>
+    <div class="answer">
+      The web operates on a client-server model where the client (browser) sends requests to a server, and the server responds with the required data or HTML. In the context of ReactJS, here's how it works:
+      <ul>
+        <li>The user opens a web page in a browser, which sends an HTTP request to the server.</li>
+        <li>The server responds by sending a static HTML file with a small root div and linked JavaScript files containing the React app.</li>
+        <li>The browser downloads and parses the HTML and then fetches and executes the React JavaScript bundle.</li>
+        <li>React takes control of the root div and renders the user interface dynamically using the Virtual DOM.</li>
+        <li>React handles client-side routing using libraries like React Router, so navigating between pages doesn't require full-page reloads.</li>
+        <li>When needed, React fetches data from the server using asynchronous APIs (e.g., fetch or axios) and updates the UI accordingly.</li>
+        <li>The entire app runs in the browser (client-side rendering), although React also supports server-side rendering and static site generation with tools like Next.js.</li>
+      </ul>
+      This approach allows React to deliver fast, dynamic, and interactive user experiences on the web.
+    </div>
+  </li>
+  
+
+
+
+
+
+
+  <li data-id="q30" class="zyellow">
+    <span class="faq-question green">
+        ReactJS: Why This useEffect Code Causes an Error
+    </span>
+    <div class="answer">
+      <pre>
+        useEffect(async () => {
+          console.log('hello world');
+          return true;
+        }, []);
+        </pre>
+        
+        <h3>❌ Why This is Incorrect</h3>
+        <ul>
+          <li>React does not allow the function passed to useEffect to be async directly.</li>
+          <li>An async function always returns a Promise.</li>
+          <li>React expects useEffect to return either:
+            <ul>
+              <li>Nothing (undefined), or</li>
+              <li>A cleanup function (a regular function, not a Promise)</li>
+            </ul>
+          </li>
+          <li>Returning a Promise causes this warning or error:<br>
+            "Effect callbacks are synchronous to prevent race conditions. Put the async logic inside."
+          </li>
+        </ul>
+        
+        <h3>✅ Correct Usage (with inner async function)</h3>
+        <pre>
+        useEffect(() => {
+          const fetchData = async () => {
+            console.log('hello world');
+          };
+        
+          fetchData();
+        }, []);
+        </pre>
+        
+        <h3>✅ Or Use an Immediately-Invoked Async Function</h3>
+        <pre>
+        useEffect(() => {
+          (async () => {
+            console.log('hello world');
+          })();
+        }, []);
+        </pre>
+        
+        <h3>⚠️ About "return true"</h3>
+        <ul>
+          <li>Returning true from useEffect is also incorrect.</li>
+          <li>React expects a cleanup function, not a boolean.</li>
+          <li>You may see a warning like:<br>
+            "Effect function must not return anything besides a function, which is used for cleanup."</li>
+        </ul>
+        
+        <h3>✅ Proper Cleanup Example</h3>
+        <pre>
+        useEffect(() => {
+          console.log('Component mounted');
+        
+          return () => {
+            console.log('Component unmounted');
+          };
+        }, []);
+        </pre>
+        
+        <h3>✅ Final Correct Version of Your Code</h3>
+        <pre>
+        useEffect(() => {
+          (async () => {
+            console.log('hello world');
+          })();
+        }, []);
+        </pre>
+    </div>
+    </li>
+    
+    <li data-id="q3fsdfsdf0" class="zyellow">
+      <span class="faq-question green">
+          ReactJS: Lazy Loading in Detail
+      </span>
+      <div class="answer">
+    <p>Lazy loading in React refers to the technique of loading components only when they are needed, rather than at the initial page load. This improves performance by reducing the bundle size.</p>
+    <p>
+      🔧 How Lazy Loading Works<br />
+      React provides a built-in function <strong>React.lazy</strong> which allows you to dynamically import components.<br />
+      When a lazily loaded component is rendered, React will wait for the import to resolve before showing the component.
+    </p>
+  <p>
+    📦 Required Features <br />
+    1. React.lazy for dynamic imports<br />
+    2. Suspense for fallback loading indicators
+  </p>
+
+    
+  <p>
+    Explanation<br />
+    1. React.lazy: Used to define the lazy-loaded component.<br>
+    2. Suspense: Wraps the lazy-loaded component and shows fallback UI while it's loading.<br><br>
+    
+    
+    🚀 Real-World Use Case<br>
+    Suppose you have a dashboard with many widgets. Instead of loading all widgets upfront, you can load them lazily:
+  </p>
+          
+  <p>🧩 Chunk Splitting : Each lazy-loaded component is split into a separate JavaScript chunk. These are downloaded only when needed, reducing the initial payload.</p>
+          
+  <p>
+  🛑 Limitations : <br>
+  1. Only supports default exports.<br>
+  2. Needs Suspense as a wrapper.<br>
+  3. Not usable in server-side rendering (SSR) without additional setup like <strong>React 18 streaming</strong>.<br>
+  <br>
+  
+  🆚 Lazy vs Dynamic Imports<br>
+  1. React.lazy: For components (UI)<br>
+  2. Dynamic import: For utility modules, data, or any JS logic<br>
+  <br>
+  
+  ✅ Best Practices<br>
+  1. Group related components in one chunk if used together<br>
+  2. Show meaningful fallback UI (skeletons, spinners)<br>
+  3. Use error boundaries to handle lazy load failures<br>
+  </p>   
+
+  <pre>
+    import React, { Suspense } from 'react';
+    
+    const LazyComponent = React.lazy(() => import('./MyComponent'));
+    
+    function App() {
+      return (
+        &lt;div>
+          &lt;h1>Main App</h1>
+            &lt;Suspense fallback={&lt;div>Loading...&lt;/div>}>
+            &lt;LazyComponent />
+            &lt;/Suspense>
+          &lt;/div>
+      );
+    }
+  <hr/>
+    const ChartWidget = React.lazy(() => import('./ChartWidget'));
+    const TableWidget = React.lazy(() => import('./TableWidget'));
+    
+    function Dashboard() {
+      return (
+        &lt;Suspense fallback={&lt;p>Loading widgets...&lt;/p>}>
+          &lt;ChartWidget />
+          &lt;TableWidget />
+        &lt;/Suspense>
+      );
+    }
+  <hr />
+    🌐 Dynamic Import Example (non-UI)          
+    async function loadUtil() {
+      const math = await import('./math-utils');
+      console.log(math.add(2, 3));
+    }
+  </pre>
+  </div>
+  </li>
+    
+    
+  <li data-id="q30" class="zyellow">
+    <span class="faq-question green">
+        ReactJS: Suspense in Detail
+    </span>
+    <div class="answer">
+    
+        <p><strong>Suspense</strong> is a React component used to handle the loading state of components that are being lazily loaded using React.lazy or when using concurrent features like data fetching in React 18.</p>
+        
+        <h3>🎯 Purpose of Suspense</h3>
+        <ul>
+          <li>To show fallback UI while a component is loading</li>
+          <li>To manage async behavior in UI (especially with React.lazy or concurrent features)</li>
+        </ul>
+        
+        <h3>🛠 When to Use Suspense</h3>
+        <ul>
+          <li>With React.lazy for code-splitting</li>
+          <li>With data-fetching libraries like Relay, SWR, or React Query (React 18+)</li>
+          <li>In routing for lazy loading page components</li>
+        </ul>
+        
+        <h3>🧪 Basic Example with React.lazy</h3>
+        
+        <pre>
+        import React, { Suspense } from 'react';
+        
+        const LazyComponent = React.lazy(() => import('./LazyComponent'));
+        
+        function App() {
+          return (
+            &lt;div>
+              &lt;h1>Main Page&lt;/h1>
+              &lt;Suspense fallback={&lt;div>Loading...&lt;/div>}>
+                &lt;LazyComponent />
+              &lt;/Suspense>
+            &lt;/div>
+          );
+        }
+        </pre>
+        
+        <h4>Explanation</h4>
+        <ul>
+          <li>The component LazyComponent is loaded asynchronously.</li>
+          <li>Until it's fully loaded, the text "Loading..." is shown as a fallback.</li>
+          <li>Once loaded, the actual component is rendered.</li>
+        </ul>
+        
+        <h3>📦 Nested Suspense</h3>
+        <p>React allows nesting multiple Suspense components for fine-grained control of loading UI.</p>
+        
+        <pre>
+          &lt;Suspense fallback={&lt;div>Loading outer...&lt;/div>}>
+            &lt;ComponentA />
+            &lt;<Suspense fallback={&lt;div>Loading inner...&lt;/div>}>
+              &lt;ComponentB />
+            &lt;/Suspense>
+          &lt;/Suspense>
+        </pre>
+        
+        <h3>🚀 React 18+ Suspense for Data Fetching (Experimental)</h3>
+        <p>In React 18, Suspense is extended to support data fetching with frameworks like Relay or loaders in React Router v6.4+</p>
+        
+        <pre>
+          &lt;Suspense fallback={&lt;p>Loading profile...&lt;/p>}>
+            &lt;UserProfile />
+          &lt;/Suspense>
+        </pre>
+        
+        <h3>🧯 Error Boundaries 123</h3>
+        <p>If lazy loading or data fetching fails, Suspense will not catch the error. Use an Error Boundary to handle errors gracefully.</p>
+        
+        <pre>
+          &lt;ErrorBoundary fallback={&lt;div>Something went wrong.&lt;/div>}>
+            &lt;Suspense fallback={&lt;div>Loading...&lt;/div>}>
+              &lt;LazyComponent />
+            &lt;/Suspense>
+          &lt;/ErrorBoundary>
+        </pre>
+        
+        <h3>✅ Best Practices</h3>
+        <ul>
+          <li>Always provide meaningful fallback content</li>
+          <li>Use nested Suspense to isolate long-loading sections</li>
+          <li>Combine with Error Boundaries for robust async UI</li>
+        </ul>
+        
+        <h3>📌 Summary</h3>
+        <ul>
+          <li>Suspense helps build better user experience by allowing components to load asynchronously.</li>
+          <li>It is often used with lazy-loaded components and data fetching patterns.</li>
+          <li>It improves performance and responsiveness when used correctly.</li>
+        </ul>
+    </div>
+    </li>
+
+
+
+
+
+
+    <li data-id="q30" class="zyellow">
+      <span class="faq-question green">
+          ReactJS: Custom Error Boundary</span>
+      <div class="answer">
+      
+          <h2>ReactJS: Custom Error Boundary</h2>
+      
+          <p>An <strong>Error Boundary</strong> is a special React component that catches JavaScript errors anywhere in its child component tree, logs them, and displays a fallback UI instead of crashing the app.</p>
+          
+          <h3 class="m0">📌 Why Use Error Boundaries?</h3>
+          <ol class="subul">
+            <li>To gracefully handle unexpected runtime errors</li>
+            <li>To avoid a complete app crash due to an error in a child component</li>
+            <li>To show a user-friendly error message or recovery UI</li>
+          </ol>
+          
+          <h3 class="m0">📌 Key Rules</h3>
+          <ol class="subul">
+            <li>Only class components can be error boundaries (function components cannot use componentDidCatch)</li>
+            <li>They catch errors during rendering, lifecycle methods, and constructors of their children</li>
+            <li>They do NOT catch errors in:
+              <ol class="subul">
+                <li>Event handlers</li>
+                <li>Asynchronous code (setTimeout, fetch, etc.)</li>
+                <li>Server-side rendering</li>
+              </ol>
+            </li>
+          </ol>
+          
+          <h3></h3>
+          
+<pre>
+  ✅ Custom Error Boundary Example
+  import React from 'react';
+  
+  class ErrorBoundary extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { hasError: false };
+    }
+  
+    static getDerivedStateFromError(error) {
+      return { hasError: true };
+    }
+  
+    componentDidCatch(error, errorInfo) {
+      console.error("Caught by Error Boundary:", error, errorInfo);
+      // You can also log error to a service
+    }
+  
+    render() {
+      if (this.state.hasError) {
+        return &lt;h2>Something went wrong.&lt;/h2>;
+      }  
+      return this.props.children;
+    }
+  }
+
+  <hr />
+  🧪 Usage Example
+
+  function BuggyComponent() {
+    throw new Error("I crashed!");
+  }
+  
+  function App() {
+    return (
+      &lt;div>
+        &lt;h1>My App&lt;/h1>
+        &lt;ErrorBoundary>
+          &lt;BuggyComponent />
+        &lt;/ErrorBoundary>
+      &lt;/div>
+    );
+  }
+
+  <hr />  
+  🔄 Resetting the Error Boundary
+  If you want the error boundary to reset when props or state changes, you can add a key to force remount:
+
+  &lt;ErrorBoundary key={someValue}>
+    &lt;Component />
+  &lt;/ErrorBoundary>
+
+</pre>
+          
+<h3 class="m0">🎯 Best Practices</h3>
+<ol class="subul">
+  <li>Wrap only parts of your UI that may fail, not the entire app</li>
+  <li>Log error details for debugging</li>
+  <li>Provide useful fallback UI and guidance to the user</li>
+</ol>
+
+<h3>🧩 Combine with Suspense</h3>
+<p>Wrap <strong>Suspense</strong> inside an <strong>ErrorBoundary</strong> to catch lazy loading or data loading failures:</p>
+          
+<pre>
+  &lt;ErrorBoundary>
+    &lt;Suspense fallback={&lt;p>Loading...&lt;/p>}>
+      &lt;LazyComponent />
+    &lt;/Suspense>
+  &lt;/ErrorBoundary>
+</pre>
+          
+      </div>
+      </li>
+  
+  
+  
+  
+    
+    <li data-id="q30" class="zyellow">
+    <span class="faq-question green">
+    ReactJS:  Micro Frontend?</span>
+    <div class="answer">
+        <h2>🔍 What is Micro Frontend?</h2>
+        <p>
+        Micro Frontend is an architectural style where a frontend application is divided into smaller, independent pieces (micro apps) that are developed, deployed, and maintained by different teams.
+        Each micro app is responsible for a distinct feature or domain, similar to microservices on the backend.
+        </p>
+        
+        <h3>🎯 Key Features</h3>
+        <ul>
+          <li>Independent deployment</li>
+          <li>Technology-agnostic (can use different frameworks)</li>
+          <li>Team autonomy</li>
+          <li>Better scalability</li>
+        </ul>
+        
+        <h3>🏗️ Common Micro Frontend Approaches</h3>
+        <ul>
+          <li>Module Federation (Webpack 5)</li>
+          <li>iframes (legacy, less preferred)</li>
+          <li>Single SPA framework</li>
+          <li>Import maps (with SystemJS)</li>
+        </ul>
+        
+        <h3>📦 Example Architecture</h3>
+        <ul>
+          <li><strong>Container App (Host)</strong> – Loads and manages micro apps</li>
+          <li><strong>Micro App 1 (e.g., Dashboard)</strong> – Independent React app</li>
+          <li><strong>Micro App 2 (e.g., Profile)</strong> – Another independent React or Vue app</li>
+        </ul>
+        
+        <hr/>
+        
+        <h2>🛠️ Simple Micro Frontend Example Using Webpack Module Federation</h2>
+        
+        <h3>1. Container App (host)</h3>
+        
+        <pre>
+        // webpack.config.js
+        module.exports = {
+          name: 'container',
+          remotes: {
+            dashboard: 'dashboard@http://localhost:3001/remoteEntry.js',
+          },
+        };
+        
+        <hr />
+        // App.jsx
+        import React from 'react';
+        const DashboardApp = React.lazy(() => import('dashboard/DashboardApp'));
+        
+        function App() {
+          return (
+            &lt;div>
+              &lt;h1>Host Container&lt;/h1>
+              &lt;React.Suspense fallback="Loading...">
+                &lt;DashboardApp />
+              &lt;/React.Suspense>
+            &lt;/div>
+          );
+        }
+        
+        export default App;
+        
+        <hr />
+        2. Remote App (dashboard)
+
+        // webpack.config.js
+        module.exports = {
+          name: 'dashboard',
+          filename: 'remoteEntry.js',
+          exposes: {
+            './DashboardApp': './src/App',
+          },
+        };
+        
+        <hr />
+        // App.jsx
+        import React from 'react';
+        
+        const DashboardApp = () => {
+          return &lt;h2>Dashboard Micro App&lt;/h2>;
+        };
+        
+        export default DashboardApp;
+        
+        <hr />
+        
+        3. Module Federation Setup
+        Both apps use Webpack 5's ModuleFederationPlugin. Ensure they share React via singleton configuration.
+        
+        shared: {
+          react: { singleton: true, eager: true, requiredVersion: '^18.0.0' },
+          'react-dom': { singleton: true, eager: true },
+        }
+        </pre>
+        
+        <h3 class="m0">🧪 Run the Apps</h3>
+        <ol class="subul">
+          <li>Container runs on port 3000</li>
+          <li>Dashboard runs on port 3001</li>
+          <li>Dashboard is imported and rendered dynamically in Container</li>
+        </ol>
+        
+        <hr/>
+        
+        <h2 class="m0">✅ Benefits</h2>
+        <ol class="subul">
+          <li>Faster development with smaller teams</li>
+          <li>Independent deployment pipelines</li>
+          <li>Isolation of bugs and releases</li>
+          <li>Technology freedom across teams</li>
+        </ol>
+        
+        <h2 class="m0">⚠️ Challenges</h2>
+        <ol class="subul">
+          <li>Complex build and deployment setup</li>
+          <li>Shared dependencies must be managed carefully</li>
+          <li>Inter-app communication (event bus or shared state)</li>
+        </ol>
+        
+        <h2 class="m0">🔗 Tools & Libraries</h2>
+        <ol class="subul">
+          <li>Webpack 5 Module Federation</li>
+          <li>Single-SPA</li>
+          <li>SystemJS</li>
+          <li>qiankun (popular in China)</li>
+        </ol>
+        
+    
+    </div>
+    </li>
   
 <li data-id="q10"><span class="faq-question">RxJS Required</span>
 <div class="answer">
@@ -5832,7 +6365,7 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
   <li>If team is not familiar with reactive programming concepts</li>
 </ul>
 
-<h3>🧠 Learning Curve</h3>
+<h3>📌 Learning Curve</h3>
 <p>RxJS is powerful but has a steep learning curve. It requires understanding observables, operators, subscriptions, and error handling properly. Once mastered, it’s a strong tool for managing complex side effects and data flows.</p>
 
 <h3>🎯 Summary</h3>
@@ -7579,7 +8112,7 @@ setImmediate callback
 </pre>    
       
 <pre>
-  🧠 Explanation
+  📌 Explanation
   1. useReducer(reducer, initialState): Initializes state and gives you a dispatch method.
   2. reducer: A pure function to calculate new state based on the action type.
   3. dispatch({ type: 'increment' }): Triggers a state update through the reducer.
@@ -7706,7 +8239,7 @@ setImmediate callback
     </span><div class="answer">
   
 
-  <h2>🧠 React Core Concepts (Advanced)</h2>
+  <h2>📌 React Core Concepts (Advanced)</h2>
   <ol>
     <li>Explain the concept of <strong>React Fiber architecture</strong>. How does it differ from the previous reconciliation algorithm?</li>
     <li>phases of the <strong>React rendering lifecycle</strong> in class and functional components?</li>
@@ -8848,7 +9381,7 @@ export default User;
         <li>Makes it easier to manage UI elements that need to be rendered outside of parent containers.</li>
         </ul>
         
-        <h4>🧠 Important Notes:</h4>
+        <h4>📌 Important Notes:</h4>
         <ul>
         <li>Although rendered outside the DOM tree, portals still behave as though they are inside the React tree (context and event bubbling still work).</li>
         </ul>
@@ -8984,7 +9517,7 @@ export default User;
         <strong>Hydration</strong> in React is the process where the React application takes over a server-rendered HTML page and attaches event listeners to make it interactive. It's a crucial step in <strong>Server-Side Rendering (SSR)</strong> where the HTML is first rendered on the server and sent to the client.
         </p>
         
-        <h4>🧠 How It Works:</h4>
+        <h4>📌 How It Works:</h4>
         <ol>
         <li>The server renders the HTML markup using React components.</li>
         <li>This static HTML is sent to the browser and displayed immediately.</li>
@@ -9285,7 +9818,7 @@ export default User;
         The <strong>React Profiler API</strong> is a tool that helps measure how often a component renders and the "cost" of rendering it. It’s useful for identifying performance bottlenecks in your React app.
         </p>
         
-        <h4>🧠 Purpose:</h4>
+        <h4>📌 Purpose:</h4>
         <ul>
         <li>Track component render frequency and duration.</li>
         <li>Understand which components are re-rendering unnecessarily.</li>
@@ -9636,7 +10169,7 @@ export default User;
     3. Concurrency (via features like <b>Suspense</b> and <b>startTransition</b>)
     
     
-    <b>🧠 Explanation:</b>
+    <b>📌 Explanation:</b>
     1. <b>startTransition</b> tells React that updating the large list is low-priority.
     2. User input (high-priority) is handled immediately.
     3. Thanks to React Fiber, rendering the long list can be paused and resumed, preventing UI blocking.
@@ -9723,7 +10256,7 @@ export default User;
             <strong>Rehydration</strong> is the process where <strong>React attaches event listeners</strong> and <strong>restores component state</strong> on the <strong>client side</strong>, using the <strong>static HTML</strong> sent from the server during <strong>Server-Side Rendering (SSR)</strong>.
           </p>
         
-          <h2>🧠 Why is Rehydration Important?</h2>
+          <h2>📌 Why is Rehydration Important?</h2>
           <ul>
             <li><strong>SSR</strong> sends pre-rendered HTML for faster initial load and SEO benefits.</li>
             <li>After the browser loads the HTML, <strong>React hydrates</strong> it to make it interactive.</li>
@@ -10493,7 +11026,7 @@ export default User;
       
         <h2>🔍 Why Use Zustand?</h2>
         <ul>
-          <li>🧠 <strong>Minimal boilerplate</strong> – no reducers or actions required</li>
+          <li>📌 <strong>Minimal boilerplate</strong> – no reducers or actions required</li>
           <li>⚡ <strong>High performance</strong> – isolated re-renders</li>
           <li>🧩 <strong>Middleware support</strong> – like devtools, persist, etc.</li>
           <li>🧪 Great for isolated state (e.g., modals, themes, auth, UI toggles)</li>
@@ -10597,7 +11130,7 @@ export default User;
         
           <p>This example demonstrates Zustand with multiple middleware: <strong>devtools</strong>, <strong>persist</strong>, and <strong>immer</strong>.</p>
         
-          <h2>🧠 Store File (TypeScript)</h2>
+          <h2>📌 Store File (TypeScript)</h2>
           <pre><code>import { create } from 'zustand';
         import { devtools, persist } from 'zustand/middleware';
         import { immer } from 'zustand/middleware/immer';
@@ -11143,7 +11676,7 @@ export default User;
     
     <hr>
     
-    <h3>🧠 EXPERT LEVEL (51–100)</h3>
+    <h3>📌 EXPERT LEVEL (51–100)</h3>
     
     <h4>🧱 Internals & Architecture</h4>
     <ol start="51">
@@ -11226,7 +11759,7 @@ export default User;
       <li>build geographic personalization with middleware?</li>
     </ol>
     
-    <h4>🧠 Expert Use Cases</h4>
+    <h4>📌 Expert Use Cases</h4>
     <ol start="96">
       <li>build a multi-tenant SaaS app with Next.js?</li>
       <li>integrate micro-frontends in Next.js?</li>
@@ -22376,7 +22909,7 @@ main()
   };
 </pre>
   
-      <h4>🧠 Other Utility Types</h4>
+      <h4>📌 Other Utility Types</h4>
       <ul>
         <li><b>Readonly&lt;T&gt;</b> – Makes all properties readonly.</li>
         <li><b>Record&lt;K, T&gt;</b> – Constructs an object type with keys of type <b>K</b> and values of type <b>T</b>.</li>
@@ -23076,7 +23609,7 @@ main()
           <h4>▶️ Run the app:</h4>
           <pre><code>npx ts-node src/index.ts</code></pre>
       
-          <h4>🧠 Notes</h4>
+          <h4>📌 Notes</h4>
           <ul>
             <li>Use <code>@types/express</code> for full type definitions.</li>
             <li>Use interfaces to type request bodies, params, and query strings for stronger typing.</li>
@@ -23158,7 +23691,7 @@ main()
           <h4>🔧 Webpack</h4>
           <p><strong>Webpack</strong> is a bundler. It doesn't process TypeScript by itself. Instead, it uses <code>loaders</code> (like <code>ts-loader</code> or <code>babel-loader</code>) to handle TypeScript files.</p>
       
-          <h4>🧠 Babel</h4>
+          <h4>📌 Babel</h4>
           <p><strong>Babel</strong> is a JavaScript compiler. With the right preset, Babel can strip TypeScript types but <strong>does not perform type-checking</strong>.</p>
       
           <h4>⚙️ Typical Setup Options</h4>
@@ -23567,7 +24100,7 @@ posts: Post[];</code></pre>
     </tbody>
   </table>
 
-  <h2>🧠 When to Use What?</h2>
+  <h2>📌 When to Use What?</h2>
   <ul>
     <li><strong>Lazy Loading</strong>: When the related data is large, rarely used, or optional.</li>
     <li><strong>Eager Loading</strong>: When you always need the related data and want to avoid N+1 queries.</li>
@@ -23779,7 +24312,7 @@ DB Indexing
 
     <p><strong>Database indexing</strong> is a data structure technique used to quickly locate and access data in a database. It improves <strong>read</strong> performance (especially <b>SELECT</b> queries) by reducing the number of rows scanned.</p>
   
-    <h2>🧠 Analogy</h2>
+    <h2>📌 Analogy</h2>
     <p>Think of an index in a book. Instead of reading every page to find a topic, you look it up in the index → it tells you the page number → you go directly there.</p>
   
     <h2>⚙️ How It Works</h2>
@@ -23848,7 +24381,7 @@ DB Indexing
   DROP INDEX idx_users_email;
   </code></pre>
   
-    <h2>🧠 Query Plan (Advanced)</h2>
+    <h2>📌 Query Plan (Advanced)</h2>
     <p>Use <code>EXPLAIN</code> (MySQL) or <code>EXPLAIN ANALYZE</code> (PostgreSQL) to see if your query uses an index:</p>
     <pre><code>EXPLAIN SELECT * FROM users WHERE email = 'user@example.com';</code></pre>
 
@@ -31806,6 +32339,319 @@ CI/CD Question List?
 </div>
 </li>
 
+
+<li data-id="mbqqq20">
+<span class="faq-question">PostgreSQL Performance</span>
+<div class="answer">
+
+  <h2>PostgreSQL Row Lock</h2>
+
+  <p><strong>Row locking</strong> in PostgreSQL is used to prevent concurrent updates to the same row, ensuring data consistency and avoiding conflicts between transactions.</p>
+  
+  <h3>1. What is Row Lock?</h3>
+  <p>Row locks are applied to individual rows in a table when performing <code>SELECT ... FOR UPDATE</code>, <code>UPDATE</code>, or <code>DELETE</code> operations. They prevent other transactions from modifying the same rows until the lock is released (usually at transaction commit).</p>
+  
+  <h3>2. Common Row Lock Types</h3>
+  <ul>
+    <li><strong>FOR UPDATE</strong>: Locks the selected rows for update.</li>
+    <li><strong>FOR NO KEY UPDATE</strong>: Like <code>FOR UPDATE</code>, but allows updates that do not affect primary/unique keys.</li>
+    <li><strong>FOR SHARE</strong>: Acquires a shared lock; allows other <code>FOR SHARE</code> but blocks <code>FOR UPDATE</code>.</li>
+    <li><strong>FOR KEY SHARE</strong>: Similar to <code>FOR SHARE</code> but weaker; allows updates unless they modify key columns.</li>
+  </ul>
+  
+  <h3>3. Syntax Examples</h3>
+  <pre><code>-- Lock rows for update
+  BEGIN;
+  SELECT * FROM employees WHERE department_id = 5 FOR UPDATE;
+  -- Do some processing
+  UPDATE employees SET salary = salary + 1000 WHERE department_id = 5;
+  COMMIT;</code></pre>
+  
+  <pre><code>-- Lock with NOWAIT (fail immediately if lock cannot be acquired)
+  SELECT * FROM products WHERE id = 10 FOR UPDATE NOWAIT;</code></pre>
+  
+  <h3>4. When is Row Lock Acquired?</h3>
+  <p>The row lock is acquired when the row is selected for update, not when the update statement is executed. It remains until the transaction ends.</p>
+  
+  <h3>5. Checking Row Locks</h3>
+  <pre><code>SELECT 
+    t.relname AS table_name,
+    l.locktype,
+    l.mode,
+    l.granted,
+    a.query AS locking_query
+  FROM 
+    pg_locks l
+  JOIN 
+    pg_stat_activity a ON l.pid = a.pid
+  JOIN 
+    pg_class t ON l.relation = t.oid
+  WHERE 
+    l.mode LIKE '%RowExclusiveLock%';</code></pre>
+  
+  <h3>6. Notes</h3>
+  <ul>
+    <li>Row locks do not conflict with <code>SELECT</code> statements without locking clauses.</li>
+    <li>Deadlocks can happen if multiple transactions wait for each other's row locks. Always access rows in a consistent order.</li>
+  </ul>
+<hr />
+<hr />
+<h2>PostgreSQL: Function vs Stored Procedure</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr style="background-color:#f2f2f2;">
+      <th>Feature</th>
+      <th>Function</th>
+      <th>Stored Procedure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Introduced In</strong></td>
+      <td>Available since early versions</td>
+      <td>Introduced in PostgreSQL 11</td>
+    </tr>
+    <tr>
+      <td><strong>Call Syntax</strong></td>
+      <td><code>SELECT function_name(...)</code></td>
+      <td><code>CALL procedure_name(...)</code></td>
+    </tr>
+    <tr>
+      <td><strong>Returns Value</strong></td>
+      <td>Yes, always returns a value (scalar or composite)</td>
+      <td>No return value directly</td>
+    </tr>
+    <tr>
+      <td><strong>Transaction Control</strong></td>
+      <td>Cannot start/commit/rollback transactions</td>
+      <td>Can include transaction control (e.g., <code>COMMIT</code>, <code>ROLLBACK</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>Use Cases</strong></td>
+      <td>Data transformation, returning computed results</td>
+      <td>Complex logic with transaction control</td>
+    </tr>
+    <tr>
+      <td><strong>OUT Parameters</strong></td>
+      <td>Can return OUT parameters</td>
+      <td>Can use OUT/INOUT parameters, but doesn’t return via <code>SELECT</code></td>
+    </tr>
+    <tr>
+      <td><strong>Invocation in SQL</strong></td>
+      <td>Can be used in <code>SELECT</code>, <code>WHERE</code>, etc.</td>
+      <td>Cannot be used in queries; only with <code>CALL</code></td>
+    </tr>
+    <tr>
+      <td><strong>Supports DO Block?</strong></td>
+      <td>Yes (indirectly through PL/pgSQL)</td>
+      <td>Yes, typically written in PL/pgSQL</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Example: Function</h3>
+<pre><code>CREATE FUNCTION add_numbers(a INT, b INT)
+RETURNS INT AS $$
+BEGIN
+  RETURN a + b;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Call
+SELECT add_numbers(5, 7);</code></pre>
+
+<h3>Example: Stored Procedure</h3>
+<pre><code>CREATE PROCEDURE log_action(action TEXT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  INSERT INTO action_log(description, created_at)
+  VALUES (action, NOW());
+END;
+$$;
+
+-- Call
+CALL log_action('User login');</code></pre>
+<hr />
+<hr />
+<h2>PostgreSQL: Temporary Table vs View</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr style="background-color:#f2f2f2;">
+      <th>Feature</th>
+      <th>Temporary Table</th>
+      <th>View</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Definition</strong></td>
+      <td>A real table created for the duration of a session or transaction.</td>
+      <td>A virtual table based on a SQL query; no data is physically stored.</td>
+    </tr>
+    <tr>
+      <td><strong>Data Storage</strong></td>
+      <td>Stores actual data in memory or temporary disk space.</td>
+      <td>Does not store data; fetches data from base tables on access.</td>
+    </tr>
+    <tr>
+      <td><strong>Creation Syntax</strong></td>
+      <td><code>CREATE TEMP TABLE temp_name (...)</code></td>
+      <td><code>CREATE VIEW view_name AS SELECT ...</code></td>
+    </tr>
+    <tr>
+      <td><strong>Persistence</strong></td>
+      <td>Exists only for the session or transaction.</td>
+      <td>Persistent until explicitly dropped.</td>
+    </tr>
+    <tr>
+      <td><strong>Usage</strong></td>
+      <td>Used for intermediate result caching, staging, and batch processing.</td>
+      <td>Used for abstraction, security, or simplifying complex queries.</td>
+    </tr>
+    <tr>
+      <td><strong>Performance</strong></td>
+      <td>Can be faster for repeated access within the same session.</td>
+      <td>May be slower since query is re-executed each time.</td>
+    </tr>
+    <tr>
+      <td><strong>Updatable?</strong></td>
+      <td>Yes, like any regular table.</td>
+      <td>Yes, if based on a single table and meets update conditions.</td>
+    </tr>
+    <tr>
+      <td><strong>Indexes</strong></td>
+      <td>Can define indexes on temporary tables.</td>
+      <td>Cannot define indexes on views.</td>
+    </tr>
+    <tr>
+      <td><strong>Data Isolation</strong></td>
+      <td>Private to the current session.</td>
+      <td>Shared across all sessions (unless it's a materialized view with refresh).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Example: Temporary Table</h3>
+<pre><code>CREATE TEMP TABLE temp_orders AS
+SELECT * FROM orders WHERE status = 'pending';
+
+SELECT * FROM temp_orders;
+</code></pre>
+
+<h3>Example: View</h3>
+<pre><code>CREATE VIEW pending_orders AS
+SELECT * FROM orders WHERE status = 'pending';
+
+SELECT * FROM pending_orders;
+</code></pre>
+<hr />
+<hr />
+<h2>Laravel (PHP): Abstract Class vs Interface</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr style="background-color:#f9f9f9;">
+      <th>Feature</th>
+      <th>Abstract Class</th>
+      <th>Interface</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Purpose</strong></td>
+      <td>Provides a base class with common functionality and contract.</td>
+      <td>Defines a contract that implementing classes must follow.</td>
+    </tr>
+    <tr>
+      <td><strong>Contains Implementation</strong></td>
+      <td>Can have both abstract and concrete (implemented) methods.</td>
+      <td>Cannot contain any implementation (PHP 7). PHP 8 allows default methods.</td>
+    </tr>
+    <tr>
+      <td><strong>Properties</strong></td>
+      <td>Can define properties with visibility (public/protected/private).</td>
+      <td>Cannot define properties (only method signatures).</td>
+    </tr>
+    <tr>
+      <td><strong>Inheritance</strong></td>
+      <td>Supports single inheritance only.</td>
+      <td>Supports multiple interface inheritance (a class can implement many interfaces).</td>
+    </tr>
+    <tr>
+      <td><strong>Use in Laravel</strong></td>
+      <td>Used for base service classes, controller hierarchies, etc.</td>
+      <td>Used for defining contracts (e.g., <code>RepositoryInterface</code>).</td>
+    </tr>
+    <tr>
+      <td><strong>Keyword</strong></td>
+      <td><code>abstract class</code></td>
+      <td><code>interface</code></td>
+    </tr>
+    <tr>
+      <td><strong>Constructor Support</strong></td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Real-World Laravel Use</strong></td>
+      <td><code>Illuminate\Routing\Controller</code> is an abstract class.</td>
+      <td><code>Illuminate\Contracts\Queue\Queue</code> is an interface.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Example: Abstract Class</h3>
+<pre><code>abstract class PaymentService {
+    protected $amount;
+
+    public function setAmount($amount) {
+        $this->amount = $amount;
+    }
+
+    abstract public function process();
+}
+
+class PaypalService extends PaymentService {
+    public function process() {
+        // process PayPal payment
+    }
+}
+</code></pre>
+
+<h3>Example: Interface</h3>
+<pre><code>interface PaymentInterface {
+    public function setAmount($amount);
+    public function process();
+}
+
+class StripeService implements PaymentInterface {
+    protected $amount;
+
+    public function setAmount($amount) {
+        $this->amount = $amount;
+    }
+
+    public function process() {
+        // process Stripe payment
+    }
+}
+</code></pre>
+<hr />
+<hr />
+
+
+
+
+
+
+</div>
+</li>  
+
+
+
 <li data-id="mbqqq20">
 <span class="faq-question">PostgreSQL Performance</span>
 <div class="answer">
@@ -32574,7 +33420,7 @@ Airbyte: ETL Tool for Moving & Syncing Data</span><div class="answer">
             <li><code>SHOW statement_timeout;</code></li>
           </ul>
       
-          <h4>🧠 Use Cases</h4>
+          <h4>📌 Use Cases</h4>
           <ul>
             <li>Temporarily change timezone, memory, or timeout settings</li>
             <li>Set schema visibility with <code>search_path</code></li>
@@ -32698,7 +33544,7 @@ Airbyte: ETL Tool for Moving & Syncing Data</span><div class="answer">
           <h4>📦 Integration with React</h4>
           <p>Jest works seamlessly with React apps, especially those created with Create React App (CRA), where Jest is pre-configured.</p>
       
-          <h4>🧠 Tip</h4>
+          <h4>📌 Tip</h4>
           <ul>
             <li>Use <code>describe</code> and <code>beforeEach</code> for test grouping and setup.</li>
             <li>Combine with <code>react-testing-library</code> for component testing.</li>
@@ -32768,7 +33614,7 @@ Airbyte: ETL Tool for Moving & Syncing Data</span><div class="answer">
       });
           </code></pre>
       
-          <h4>🧠 Summary</h4>
+          <h4>📌 Summary</h4>
           <ul>
             <li><strong>Unit Test</strong> → Test logic in isolation with mocks</li>
             <li><strong>Integration Test</strong> → Test combined logic of several parts</li>
@@ -33112,7 +33958,7 @@ Airbyte: ETL Tool for Moving & Syncing Data</span><div class="answer">
       <li>CDK supports TypeScript and integrates well with app logic.</li>
     </ul>
 
-    <h4>🧠 Bonus: Cognito (Authentication)</h4>
+    <h4>📌 Bonus: Cognito (Authentication)</h4>
     <ul>
       <li>Handle sign-up, sign-in, and user pool management.</li>
       <li>Integrates with JWT-based auth flows in Node.js APIs.</li>
