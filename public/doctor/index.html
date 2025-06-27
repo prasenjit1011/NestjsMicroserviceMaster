@@ -32,7 +32,42 @@
 <ul class="faq">
 
 
+<li data-id="q_node_event"><span class="faq-question green">
+Reactjs : Custom Hook
+</span>
+<div class="answer">
+  SELECT deptname, count(employee.id) as cnt FROM `dept` left join `employee` on `dept`.`id` = `employee`.`deptid` group by deptname having cnt = 0;
 
+  Outha, dispatch, put, 
+
+
+
+  import './App.css'
+  import React, { useState, useEffect } from 'react';
+  
+  function useDeviceWidth() {
+    const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
+  
+    useEffect(() => {
+      const handleResize = () => {
+              setDeviceWidth(window.innerWidth)
+            };
+  
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
+  
+    return deviceWidth;
+  }
+  
+  export default function App() {
+    const deviceWidth = useDeviceWidth();
+    return <div>Current Device Width :- {deviceWidth}</div>;
+  }
+  
+
+</div>
+</li>
 
 
 
@@ -5735,6 +5770,144 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
     </div>
   </li>
   
+
+<li data-id="react_1" class="yellow">
+<span class="faq-question">React Testing with Jest</span>
+<div class="answer">
+<pre>
+
+  import { render, screen, fireEvent } from '@testing-library/react';
+  import App from './App'; // your main component
+  import '@testing-library/jest-dom';
+  
+  test('E2E - Login, Create FAQ, List, Delete, Logout', () => {
+    render(&lt;App />);
+  
+    // Login
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'admin@example.com' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: { value: 'password123' },
+    });
+    fireEvent.click(screen.getByText('Login'));
+    expect(screen.getByText('Welcome, Admin')).toBeInTheDocument();
+  
+    // Create FAQ
+    fireEvent.change(screen.getByPlaceholderText('Enter question'), {
+      target: { value: 'What is React?' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Enter answer'), {
+      target: { value: 'React is a JS library for building UI.' },
+    });
+    fireEvent.click(screen.getByText('Add FAQ'));
+    expect(screen.getByText('What is React?')).toBeInTheDocument();
+  
+    // List FAQ
+    expect(screen.getByText('FAQ List')).toBeInTheDocument();
+    expect(screen.getByText('React is a JS library for building UI.')).toBeInTheDocument();
+  
+    // Delete FAQ
+    fireEvent.click(screen.getByText('Delete'));
+    expect(screen.queryByText('What is React?')).not.toBeInTheDocument();
+  
+    // Logout
+    fireEvent.click(screen.getByText('Logout'));
+    expect(screen.getByText('Login')).toBeInTheDocument();
+  });
+  
+  <hr />
+  import React, { useState } from 'react';
+
+  export default function App() {
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [faq, setFaq] = useState([]);
+    const [question, setQuestion] = useState('');
+    const [answer, setAnswer] = useState('');
+  
+    if (!loggedIn) {
+      return (
+        &lt;div>
+          &lt;input placeholder="Email" />
+          &lt;input placeholder="Password" type="password" />
+          &lt;button onClick={() => setLoggedIn(true)}>Login&lt;/button>
+        &lt;/div>
+      );
+    }
+  
+    return (
+      &lt;div>
+        &lt;h2>Welcome, Admin&lt;/h2>
+        &lt;button onClick={() => setLoggedIn(false)}>Logout&lt;/button>
+  
+        &lt;h3>Create FAQ&lt;/h3>
+        &lt;input placeholder="Enter question" value={question} onChange={e => setQuestion(e.target.value)} />
+        &lt;input placeholder="Enter answer" value={answer} onChange={e => setAnswer(e.target.value)} />
+        &lt;button onClick={() => {
+          setFaq([...faq, { question, answer }]);
+          setQuestion('');
+          setAnswer('');
+        }}>Add FAQ&lt;/button>
+  
+        &lt;h3>FAQ List&lt;/h3>
+        &lt;ul>
+          {faq.map((item, index) => (
+            &lt;li key={index}>
+              &lt;strong>{item.question}&lt;/strong>: {item.answer}
+              &lt;button onClick={() => setFaq(faq.filter((_, i) => i !== index))}>Delete&lt;/button>
+            &lt;/li>
+          ))}
+        &lt;/ul>
+      &lt;/div>
+    );
+  }
+  
+</pre>
+</div>
+</li>
+
+<li data-id="q32" class="zyellow">
+  <span class="faq-question">What does the "scripts" section mean in package.json?</span>
+  <div class="answer">
+    The "scripts" section in package.json defines custom commands that can be run using npm or yarn. Each command in the script section is a shortcut to run a specific terminal command related to the project. Here's what each script does in the given example:
+    <ul>
+      <li><strong>dev:</strong> Runs the Vite development server, allowing you to work on the app locally with fast hot-module reloading. Run using "npm run dev".</li>
+      <li><strong>build:</strong> Builds the app for production by generating optimized static files using Vite's build command. Run using "npm run build".</li>
+      <li><strong>lint:</strong> Runs ESLint on all JavaScript and JSX files to check for code quality issues. It also ensures there are no unused eslint-disable comments and fails the build if any warnings are found. Run using "npm run lint".</li>
+      <li><strong>preview:</strong> Starts a local preview server to test the production build output. This simulates how the app will behave in production. Run using "npm run preview".</li>
+    </ul>
+    These scripts help automate common development tasks and enforce consistency across the team.
+  </div>
+</li>
+
+<li data-id="q32" class="zyellow">
+  <span class="faq-question">Explain in detail the "scripts" section with dev, build, lint, and preview</span>
+  <div class="answer">
+    The "scripts" section in package.json is used to define command-line shortcuts for common tasks during development and deployment. Here's a detailed explanation of each script:
+    <ul>
+      <li><strong>dev: "vite"</strong><br>
+        This command runs the Vite development server. It starts your project in development mode with features like hot module replacement (HMR), fast file serving, and live reloading. It is typically used during active development. You can run it using "npm run dev".
+      </li>
+      <li><strong>build: "vite build"</strong><br>
+        This command creates an optimized, production-ready version of your application. Vite bundles and minifies all JavaScript, CSS, and assets, and outputs them to a "dist" folder. You can deploy the contents of this folder to a web server. It is run using "npm run build".
+      </li>
+      <li><strong>lint: "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"</strong><br>
+        This command runs ESLint on all JavaScript and JSX files in the current directory and subdirectories. It checks for code quality, stylistic issues, and potential bugs. The additional options mean:
+        <ul>
+          <li><strong>--ext js,jsx</strong>: Lint files with .js and .jsx extensions.</li>
+          <li><strong>--report-unused-disable-directives</strong>: Report any unused ESLint disable comments in the code.</li>
+          <li><strong>--max-warnings 0</strong>: Treat warnings as errors and fail the command if any warnings are found.</li>
+        </ul>
+        It helps enforce clean and maintainable code.
+      </li>
+      <li><strong>preview: "vite preview"</strong><br>
+        This command runs a local server to preview the production build output. It's used to test the app after building but before deploying it. It simulates how the app will behave in a real production environment. You can run it using "npm run preview".
+      </li>
+    </ul>
+    These scripts simplify workflows for development, testing, and production deployment, and ensure consistency across environments and teams.
+  </div>
+</li>
+
 
 
   <li data-id="react_1" class="zyellow">
