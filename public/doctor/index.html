@@ -6201,6 +6201,600 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
     </div>
     </li>
   
+
+
+
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">What is "differ" in ReactJS?</span>
+      <div class="answer">
+        In ReactJS, "differ" generally refers to the **difference calculation** process between the current UI and the updated UI. This process is known as **"diffing"** and is a core part of how React updates the DOM efficiently.
+        <ul>
+          <li>React uses a virtual DOM, which is a lightweight copy of the actual DOM.</li>
+          <li>When a component's state or props change, React creates a new virtual DOM tree.</li>
+          <li>It then compares (diffs) the new virtual DOM with the previous one to find what has changed.</li>
+          <li>This diffing process helps React to determine the minimal set of changes needed in the real DOM.</li>
+          <li>Only the changed elements are updated in the browser, improving performance.</li>
+        </ul>
+        So, "differ" in ReactJS refers to the internal process of calculating and applying differences between UI states in an optimized way.
+      </div>
+    </li>
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">What is First Paint in ReactJS?</span>
+      <div class="answer">
+        First Paint refers to the moment when the browser renders the first pixel of content to the screen after navigating to a ReactJS application.
+        <ul>
+          <li>It is a key performance metric that indicates how quickly something is visually displayed.</li>
+          <li>In a ReactJS app, the browser initially loads a static HTML file with a root div and JavaScript bundles.</li>
+          <li>The First Paint typically happens when the browser displays basic HTML or loading indicators before React takes control.</li>
+          <li>Once the JavaScript bundle is loaded and React is initialized, the actual UI is rendered inside the root element.</li>
+          <li>Optimizing First Paint improves perceived performance and user experience.</li>
+          <li>Techniques to improve First Paint include minimizing bundle size, using code splitting, lazy loading, and server-side rendering (SSR).</li>
+        </ul>
+        First Paint is important because it gives users a visual cue that something is happening, reducing the feeling of slowness.
+      </div>
+    </li>
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">What is the difference between HTTP/1.1 and HTTP/2 in ReactJS?</span>
+      <div class="answer">
+        HTTP/1.1 and HTTP/2 are versions of the HTTP protocol used by browsers to communicate with servers. ReactJS apps benefit from the improvements in HTTP/2. Here’s how they differ:
+        <ul>
+          <li><strong>HTTP/1.1:</strong>
+            <ul>
+              <li>Requests are sent sequentially over a single connection.</li>
+              <li>Only one request can be processed at a time per connection (known as head-of-line blocking).</li>
+              <li>Developers often use bundling (like Webpack) to reduce requests.</li>
+            </ul>
+          </li>
+          <li><strong>HTTP/2:</strong>
+            <ul>
+              <li>Supports multiplexing, allowing multiple requests in parallel over a single connection.</li>
+              <li>Faster page load and improved performance for ReactJS apps.</li>
+              <li>Enables techniques like code splitting and lazy loading without performance penalties.</li>
+              <li>Supports server push, where the server can preemptively send resources the client will need.</li>
+            </ul>
+          </li>
+          <li><strong>Impact on ReactJS:</strong>
+            <ul>
+              <li>React apps served over HTTP/2 load faster due to parallel asset delivery.</li>
+              <li>Better performance for modular JavaScript loading, especially in large applications.</li>
+            </ul>
+          </li>
+        </ul>
+        Overall, HTTP/2 provides a more efficient way to load ReactJS applications, improving speed and scalability.
+      </div>
+    </li>
+        
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">What is ARIA in ReactJS?</span>
+      <div class="answer">
+        ARIA stands for Accessible Rich Internet Applications. It is a set of attributes that improve accessibility for users who rely on assistive technologies, such as screen readers. In ReactJS, ARIA is used to make dynamic content and custom components more accessible.
+        <ul>
+          <li>ARIA attributes provide semantic information about UI elements that may not be conveyed through native HTML alone.</li>
+          <li>React allows you to use ARIA attributes directly in JSX by using their standard names, such as aria-label, aria-hidden, or role.</li>
+          <li>ARIA helps screen readers understand the purpose and state of components like modals, tabs, buttons, or custom dropdowns.</li>
+          <li>Common ARIA attributes include aria-label, aria-labelledby, aria-hidden, aria-expanded, and role.</li>
+          <li>React does not modify or restrict the use of ARIA, so you can apply them just like regular HTML attributes.</li>
+        </ul>
+        Using ARIA in ReactJS is important to build inclusive applications that work well for all users, including those with disabilities.
+      </div>
+    </li>
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">What is a Polyfill in ReactJS?</span>
+      <div class="answer">
+        A polyfill is a piece of JavaScript code that adds support for modern browser features in older browsers that do not natively support them. In ReactJS development, polyfills help ensure that your application works across a wide range of browser versions.
+        <ul>
+          <li>Polyfills simulate missing APIs or functionality in older browsers.</li>
+          <li>They are especially useful when using modern JavaScript features like Promises, Fetch API, or ES6 syntax.</li>
+          <li>React apps often use polyfills via tools like Babel or core-js to ensure compatibility.</li>
+          <li>Example: If an older browser doesn’t support the fetch function, a polyfill can provide an alternative implementation using XMLHttpRequest.</li>
+          <li>Polyfills are included during the build process and increase the browser support of your React app.</li>
+        </ul>
+        In short, a polyfill ensures your ReactJS app can run smoothly even in environments that lack support for modern web standards.
+      </div>
+    </li>
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">What is TDZ in ReactJS?</span>
+      <div class="answer">
+        TDZ stands for Temporal Dead Zone. It is a behavior in JavaScript that occurs when using let or const. Although this concept is from JavaScript, it directly affects how ReactJS code behaves when using modern ES6 features.
+        <ul>
+          <li>TDZ is the time between when a variable is declared with let or const and when it is actually initialized.</li>
+          <li>Accessing the variable before initialization results in a ReferenceError.</li>
+          <li>TDZ prevents the use of variables before they are properly defined, improving code safety and clarity.</li>
+          <li>This is different from var, which gets hoisted and initialized as undefined.</li>
+          <li>React developers often encounter TDZ issues when using let or const inside functions, hooks, or modules and try to access them too early.</li>
+        </ul>
+        Understanding TDZ helps ReactJS developers avoid unexpected runtime errors and encourages cleaner and more predictable code structure.
+      </div>
+    </li>
+      
+  
+    <li data-id="react_99" class="yellow">
+      <span class="faq-question">What is the lifecycle of a functional component in ReactJS?</span>
+      <div class="answer">
+        Functional components in React use Hooks to manage lifecycle events, replacing the class-based lifecycle methods. The key stages of a functional component’s lifecycle are:
+        <ul>
+          <li><strong>Mounting:</strong> This happens when the component is first rendered to the DOM.
+            <ul>
+              <li>useEffect with an empty dependency array runs once after the initial render (similar to componentDidMount).</li>
+            </ul>
+          </li>
+    
+          <li><strong>Updating:</strong> This occurs when the component re-renders due to state or prop changes.
+            <ul>
+              <li>useEffect with specific dependencies runs after those dependencies change (similar to componentDidUpdate).</li>
+            </ul>
+          </li>
+    
+          <li><strong>Unmounting:</strong> This happens when the component is removed from the DOM.
+            <ul>
+              <li>useEffect can return a cleanup function that runs before unmounting (similar to componentWillUnmount).</li>
+            </ul>
+          </li>
+        </ul>
+        React functional components rely on useEffect and other hooks like useLayoutEffect, useMemo, and useCallback to handle lifecycle-related logic. This approach provides a more modular and declarative way to control side effects and updates.
+      </div>
+    </li>
+    
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">React Functional Component: Unmount Example with Source Code</span>
+      <div class="answer">
+        Below is an example showing how to handle unmounting in a React functional component using useEffect cleanup:
+        <ul>
+          <li><strong>Clock Component:</strong> Displays current time and updates every second.</li>
+          <li><strong>Unmount Behavior:</strong> When the component is removed from the DOM, the interval is cleared to prevent memory leaks.</li>
+        </ul>
+        <div>
+          <pre>
+    function Clock() {
+      const [time, setTime] = React.useState(new Date().toLocaleTimeString());
+    
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          setTime(new Date().toLocaleTimeString());
+        }, 1000);
+    
+        // Cleanup function runs when component unmounts
+        return () => {
+          clearInterval(timer);
+          console.log("Clock component unmounted and interval cleared");
+        };
+      }, []);
+    
+      return &lt;h2&gt;Current Time: {time}&lt;/h2&gt;;
+    }
+    
+    // Example usage with conditional rendering
+    function App() {
+      const [showClock, setShowClock] = React.useState(true);
+    
+      return (
+        &lt;div&gt;
+          &lt;button onClick={() =&gt; setShowClock(!showClock)}&gt;
+            Toggle Clock
+          &lt;/button&gt;
+          {showClock && &lt;Clock /&gt;}
+        &lt;/div&gt;
+      );
+    }
+          </pre>
+        </div>
+        This example shows how unmounting is handled via the cleanup function inside useEffect in functional components.
+      </div>
+    </li>
+    
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">React Functional Component: Unmount Example with API Call</span>
+      <div class="answer">
+        This example shows how to cancel an API call when a React functional component unmounts to prevent updating state on an unmounted component:
+        <ul>
+          <li><strong>useEffect:</strong> Initiates the API call when the component mounts.</li>
+          <li><strong>AbortController:</strong> Used to cancel the fetch request if the component unmounts before the response is received.</li>
+        </ul>
+        <div>
+          <pre>
+  
+    // Example usage with toggle
+    function App() {
+      const [show, setShow] = React.useState(true);
+      return (
+        &lt;div&gt;
+          &lt;button onClick={() =&gt; setShow(!show)}&gt;Toggle User&lt;/button&gt;
+          {show && &lt;UserData /&gt;}
+        &lt;/div&gt;
+      );
+    }
+  
+  
+    function UserData() {
+      const [user, setUser] = React.useState(null);
+      const [error, setError] = React.useState(null);
+    
+      React.useEffect(() => {
+        const controller = new AbortController();
+    
+        fetch('https://jsonplaceholder.typicode.com/users/1', {
+          signal: controller.signal
+        })
+          .then(response => response.json())
+          .then(data => setUser(data))
+          .catch(err => {
+            if (err.name === 'AbortError') {
+              console.log('Fetch aborted');
+            } else {
+              setError(err.message);
+            }
+          });
+    
+        return () => {
+          controller.abort(); // cancels the fetch if component unmounts
+          console.log('Component unmounted, API call aborted');
+        };
+      }, []);
+    
+      if (error) return &lt;p&gt;Error: {error}&lt;/p&gt;;
+      if (!user) return &lt;p&gt;Loading...&lt;/p&gt;;
+    
+      return (
+        &lt;div&gt;
+          &lt;h3&gt;Name: {user.name}&lt;/h3&gt;
+          &lt;p&gt;Email: {user.email}&lt;/p&gt;
+        &lt;/div&gt;
+      );
+    }
+    
+          </pre>
+        </div>
+        This pattern prevents memory leaks and warnings like "Can't perform a React state update on an unmounted component."
+      </div>
+    </li>
+    <li data-id="react_99" class="zyellow">
+      <span class="faq-question">What happens if unmount is not handled in a React functional component?</span>
+      <div class="answer">
+        If you don’t handle unmounting properly in a React functional component, it can lead to performance issues and unexpected behavior. Here’s what can happen:
+        <ul>
+          <li><strong>Memory Leaks:</strong> Resources like timers, intervals, event listeners, or network requests may continue running even after the component is removed from the UI.</li>
+          <li><strong>Console Warnings:</strong> React may warn you with messages like “Can’t perform a React state update on an unmounted component.”</li>
+          <li><strong>Unexpected State Updates:</strong> If an asynchronous operation (e.g., API call) finishes after the component is unmounted, it may try to update state that no longer exists, causing errors or ignored updates.</li>
+          <li><strong>Increased CPU Usage:</strong> Unnecessary background tasks can continue to consume system resources.</li>
+          <li><strong>Broken UX:</strong> Users may see stale or incorrect UI if cleanup is not done properly.</li>
+        </ul>
+        To prevent these issues, always return a cleanup function from useEffect to stop background tasks and cancel subscriptions or requests when the component unmounts.
+      </div>
+    </li>
+    <li data-id="react_" class="zyellow">
+      <span class="faq-question">What is AbortController in ReactJS?</span>
+      <div class="answer">
+        AbortController is a browser API used to cancel asynchronous tasks such as fetch requests. It is especially useful in React functional components to prevent memory leaks and avoid setting state on unmounted components.
+        <ul>
+          <li>AbortController creates a controller object used to signal cancellation.</li>
+          <li>The controller's signal is passed to the fetch request via the signal property.</li>
+          <li>If the component unmounts before the fetch is completed, the controller's abort method can cancel the request.</li>
+          <li>This helps avoid React warnings like "Can't perform a React state update on an unmounted component."</li>
+          <li>In React, this is typically used inside the useEffect hook with a cleanup function.</li>
+        </ul>
+        Example behavior:
+        <ul>
+          <li>Create an AbortController inside useEffect.</li>
+          <li>Pass controller.signal to the fetch request.</li>
+          <li>On component unmount, return a function that calls controller.abort to cancel the fetch.</li>
+        </ul><br>
+        Using AbortController is a best practice when dealing with API calls in React to ensure safe and optimized component behavior.
+      
+  <pre>
+    const controller = new AbortController();
+  
+    fetch('https://api.example.com/data', {
+      signal: controller.signal // link the controller to this fetch
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => {
+        if (error.name === 'AbortError') {
+          console.log('Request was aborted');
+        } else {
+          console.error(error);
+        }
+      });
+  
+    // Later in cleanup or unmount
+    controller.abort(); // cancels the fetch
+  
+  </pre>
+  </div>
+    </li>
+  
+    
+
+
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is a side effect in ReactJS?</span>
+    <div class="answer">
+      A side effect in ReactJS refers to any operation that interacts with the outside world or affects something outside the scope of the current function. Functional components should remain pure, meaning they return the same output for the same input. Side effects break this rule and include operations such as:
+      <ul>
+        <li>Fetching data from an API</li>
+        <li>Directly manipulating the DOM</li>
+        <li>Setting up subscriptions or timers</li>
+        <li>Logging to the console</li>
+        <li>Changing global state or browser storage</li>
+      </ul>
+      In React, side effects are handled using the useEffect hook. This allows you to run side-effect code after rendering, and also clean it up when the component unmounts or updates.
+      <br />
+      Managing side effects properly helps keep components predictable, maintainable, and avoids unintended behavior.
+    </div>
+  </li>
+  
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">Example: What is a side effect in ReactJS?</span>
+    <div class="answer">
+      A common example of a side effect in ReactJS is making an API call after a component is mounted. This action interacts with the outside world and does not produce the same result every time, so it is considered a side effect.
+      <ul>
+        <li><strong>Scenario:</strong> A component fetches user data from an external API when it mounts.</li>
+        <li><strong>Why it's a side effect:</strong> It affects things outside the component and depends on external data.</li>
+      </ul>
+      <div>
+        Example behavior:
+        <ul>
+          <li>When the component renders, the useEffect hook triggers an API call.</li>
+          <li>The data is fetched and stored in the component’s state.</li>
+          <li>The UI updates based on the fetched data.</li>
+        </ul>
+      </div>
+      Side effects like this should always be managed inside useEffect to ensure they run at the right time and do not cause issues during component lifecycle events such as unmounting or re-rendering.
+    </div>
+  </li>
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is debouncing in ReactJS?</span>
+    <div class="answer">
+      Debouncing in ReactJS is a technique used to limit how often a function is executed, especially in response to rapid user actions like typing or resizing. Instead of calling the function immediately with every change, debouncing waits for a specified time after the last event before executing the function.
+      <ul>
+        <li>Commonly used in input fields, search bars, or auto-complete components.</li>
+        <li>Improves performance by reducing the number of API calls or expensive computations.</li>
+        <li>Only triggers the desired function after the user stops interacting for a set delay.</li>
+        <li>Debouncing can be implemented using setTimeout and clearTimeout or with utility libraries like lodash.</li>
+      </ul>
+      For example, in a search input field, debouncing ensures the API call is made only after the user stops typing, avoiding calls on every keystroke.
+    </div>
+  </li>
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">Example: How to implement debouncing in ReactJS?</span>
+    <div class="answer">
+      This example shows how to implement debouncing in a ReactJS functional component using setTimeout and clearTimeout. Debouncing is useful to delay a function call until the user stops typing, which reduces API requests or computations.
+      <ul>
+        <li>The user types in an input field.</li>
+        <li>The component waits 500 milliseconds after the last keystroke before triggering the search logic.</li>
+        <li>If the user types again before the timeout finishes, the previous timeout is cleared.</li>
+      </ul>
+      <div>
+        <pre>
+  function SearchComponent() {
+    const [query, setQuery] = React.useState('');
+    const [debouncedQuery, setDebouncedQuery] = React.useState('');
+  
+    React.useEffect(() => {
+      const timer = setTimeout(() => {
+        setDebouncedQuery(query);
+      }, 500); // 500ms debounce delay
+  
+      return () => clearTimeout(timer); // Cleanup on each keystroke
+    }, [query]);
+  
+    return (
+      &lt;div&gt;
+        &lt;input
+          type="text"
+          placeholder="Search..."
+          value={query}
+          onChange={(e) =&gt; setQuery(e.target.value)}
+        /&gt;
+        &lt;p&gt;Debounced Output: {debouncedQuery}&lt;/p&gt;
+      &lt;/div&gt;
+    );
+  }
+        </pre>
+      </div>
+      This implementation ensures the output updates only when the user pauses typing, helping to optimize performance in search or filter components.
+    </div>
+  </li>
+  
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is React Developer Tools?</span>
+    <div class="answer">
+      React Developer Tools is a browser extension provided by the React team that helps developers inspect, debug, and analyze React applications more effectively.
+      <ul>
+        <li>It allows you to explore the component tree of your React app in real-time.</li>
+        <li>You can view props, state, hooks, and context for each component.</li>
+        <li>It helps identify unnecessary re-renders and performance issues using the Profiler tab.</li>
+        <li>It supports both React class components and functional components with hooks.</li>
+        <li>Available for Chrome, Firefox, and as a standalone app for React Native debugging.</li>
+      </ul>
+      React Developer Tools is an essential tool for any React developer, making it easier to understand how the app behaves and how data flows between components.
+    </div>
+  </li>
+  
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is Lighthouse in ReactJS?</span>
+    <div class="answer">
+      Lighthouse is an open-source tool developed by Google that audits web applications for performance, accessibility, SEO, best practices, and Progressive Web App standards. Although it is not specific to ReactJS, it is commonly used to test and optimize React applications.
+      <ul>
+        <li>It provides detailed reports with scores for Performance, Accessibility, SEO, and more.</li>
+        <li>Helps identify performance bottlenecks in React apps like long loading times or large bundle sizes.</li>
+        <li>Suggests improvements such as code splitting, lazy loading, or image optimization.</li>
+        <li>Can be run in Chrome DevTools, via the command line, or as a CI tool in deployment pipelines.</li>
+        <li>Useful for ensuring that your React application delivers a fast, accessible, and user-friendly experience.</li>
+      </ul>
+      Lighthouse is essential for React developers who want to measure and improve the quality and user experience of their web applications.
+    </div>
+  </li>
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is throttling in ReactJS?</span>
+    <div class="answer">
+      Throttling in ReactJS is a technique used to control how frequently a function is executed over time. Unlike debouncing, which delays execution until the activity stops, throttling ensures the function is called at regular intervals, no matter how often the event occurs.
+      <ul>
+        <li>Throttling is useful for events that fire continuously, such as scroll, resize, or mouse movement.</li>
+        <li>It improves performance by limiting the number of times a function runs over a specific time frame.</li>
+        <li>Commonly implemented using setTimeout or utility libraries like lodash.</li>
+        <li>Helps prevent performance issues or UI lag in React applications.</li>
+        <li>Ensures that the function executes at most once every specified delay, even if the event keeps firing.</li>
+      </ul>
+      Throttling is especially beneficial in React when tracking window resizing, scroll position, or input changes in real-time without overloading the app with too many updates.
+    </div>
+  </li>
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What are error states in ReactJS?</span>
+    <div class="answer">
+      Error states in ReactJS refer to the condition of a component when something goes wrong during rendering, data fetching, or user interaction. Managing error states is crucial for providing a smooth and user-friendly experience.
+      <ul>
+        <li><strong>Rendering Errors:</strong> Occur when a component fails to render due to runtime issues. These are usually handled with error boundaries in class components or libraries for functional components.</li>
+        <li><strong>Network/API Errors:</strong> Happen when fetching data fails (e.g., server down, invalid response). These are handled using try-catch blocks or conditional rendering.</li>
+        <li><strong>Form Validation Errors:</strong> Triggered when user input does not meet expected criteria. React stores and displays validation errors as part of component state.</li>
+        <li><strong>Unexpected State Errors:</strong> When application logic fails, causing incorrect or undefined behavior.</li>
+        <li><strong>UI Feedback:</strong> Error states are usually reflected in the UI with messages, alerts, or fallback components.</li>
+      </ul>
+      React provides mechanisms like useState for storing error info, useEffect for catching side-effect errors, and error boundaries for catching errors in component trees.
+    </div>
+  </li>
+      
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is Edge in ReactJS?</span>
+    <div class="answer">
+      In the context of ReactJS, "Edge" typically refers to Edge Computing or Edge Deployment. It means deploying React applications closer to the user's physical location using edge servers or Content Delivery Networks (CDNs) to improve performance and reduce latency.
+      <ul>
+        <li><strong>Edge Deployment:</strong> Hosting parts of a React app (such as static assets or SSR content) on edge servers across the globe.</li>
+        <li><strong>Faster Load Times:</strong> By serving content from servers close to users, page loads are faster and smoother.</li>
+        <li><strong>React with Edge Functions:</strong> Frameworks like Next.js support running server-side logic (like API routes or SSR) at the edge using providers like Vercel or Cloudflare Workers.</li>
+        <li><strong>Improved SEO and UX:</strong> Dynamic pages rendered closer to users improve perceived performance and search engine rankings.</li>
+        <li><strong>Modern Architecture:</strong> Combines React's client-side rendering with edge-based server-side features for hybrid apps.</li>
+      </ul>
+      Edge in ReactJS is a modern approach to optimizing app performance and user experience by leveraging distributed computing closer to end-users.
+    </div>
+  </li>
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is transpiling in ReactJS?</span>
+    <div class="answer">
+      Transpiling in ReactJS refers to the process of converting modern JavaScript or JSX code into an older version of JavaScript that browsers can understand. This process is handled by tools like Babel during the build step.
+      <ul>
+        <li>React uses JSX, which is not natively understood by browsers. Transpiling converts JSX into regular JavaScript function calls (like React.createElement).</li>
+        <li>Modern JavaScript features such as arrow functions, classes, optional chaining, and async/await are transpiled into compatible versions for older browsers.</li>
+        <li>Transpiling helps ensure cross-browser compatibility and allows developers to write cleaner, more modern code.</li>
+        <li>It is part of the build process in tools like Create React App, Webpack, and Vite.</li>
+        <li>Without transpiling, JSX and ES6+ code would cause errors in browsers that do not support them.</li>
+      </ul>
+      Transpiling is essential in React development to bridge the gap between cutting-edge syntax and current browser capabilities.
+    </div>
+  </li>
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is ESM in ReactJS?</span>
+    <div class="answer">
+      ESM stands for ECMAScript Modules, which is the official standard for modular JavaScript code. In the context of ReactJS, ESM is commonly used to import and export components, functions, or variables across different files.
+      <ul>
+        <li><strong>Syntax:</strong> Uses import and export keywords to manage dependencies and modules.</li>
+        <li><strong>Browser Support:</strong> Modern browsers support ESM natively, allowing faster and more optimized delivery of JavaScript files.</li>
+        <li><strong>Tree Shaking:</strong> ESM enables bundlers like Webpack or Vite to remove unused code during build, reducing bundle size.</li>
+        <li><strong>React Usage:</strong> React components, hooks, and utilities are typically organized using ESM syntax for better modularity and maintainability.</li>
+        <li><strong>Example:</strong> import React from 'react'; export default MyComponent;</li>
+      </ul>
+      ESM is the preferred module system in modern JavaScript and React development due to its simplicity, efficiency, and support for static analysis by tools.
+    </div>
+  </li>
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is ES6 in ReactJS?</span>
+    <div class="answer">
+      ES6, or ECMAScript 2015, is the sixth major version of the JavaScript language standard. It introduced several new features that made JavaScript more powerful, readable, and maintainable. In ReactJS development, ES6 features are commonly used to write modern and cleaner code.
+      <ul>
+        <li><strong>Let and Const:</strong> Block-scoped variable declarations that replace var.</li>
+        <li><strong>Arrow Functions:</strong> Shorter function syntax and lexical this binding.</li>
+        <li><strong>Classes:</strong> Class-based syntax to define React components and structure code.</li>
+        <li><strong>Template Literals:</strong> Embedded expressions in strings using backticks.</li>
+        <li><strong>Destructuring:</strong> Extract values from arrays or objects into variables.</li>
+        <li><strong>Modules:</strong> Use of import and export to organize and reuse code across files.</li>
+        <li><strong>Spread and Rest Operators:</strong> For copying and combining arrays or objects.</li>
+        <li><strong>Promises:</strong> Improved handling of asynchronous operations.</li>
+      </ul>
+      ES6 is the foundation of modern JavaScript, and ReactJS fully embraces it to build scalable, readable, and maintainable applications.
+    </div>
+  </li>
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">What is ES6 in ReactJS?</span>
+    <div class="answer">
+      ES6, or ECMAScript 2015, is the sixth major version of the JavaScript language standard. It introduced several new features that made JavaScript more powerful, readable, and maintainable. In ReactJS development, ES6 features are commonly used to write modern and cleaner code.
+      <ul>
+        <li><strong>Let and Const:</strong> Block-scoped variable declarations that replace var.</li>
+        <li><strong>Arrow Functions:</strong> Shorter function syntax and lexical this binding.</li>
+        <li><strong>Classes:</strong> Class-based syntax to define React components and structure code.</li>
+        <li><strong>Template Literals:</strong> Embedded expressions in strings using backticks.</li>
+        <li><strong>Destructuring:</strong> Extract values from arrays or objects into variables.</li>
+        <li><strong>Modules:</strong> Use of import and export to organize and reuse code across files.</li>
+        <li><strong>Spread and Rest Operators:</strong> For copying and combining arrays or objects.</li>
+        <li><strong>Promises:</strong> Improved handling of asynchronous operations.</li>
+      </ul>
+      ES6 is the foundation of modern JavaScript, and ReactJS fully embraces it to build scalable, readable, and maintainable applications.
+    </div>
+  </li>
+      
+  <li data-id="react_" class="zyellow">
+    <span class="faq-question">Explain in detail: What is SSR, SSG, ISR, and CSR in Next.js?</span>
+    <div class="answer">
+      Next.js is a powerful React framework that supports multiple rendering strategies to optimize performance, SEO, and user experience. Each rendering method serves a different purpose and is suitable for different types of applications:
+      
+      <ul>
+        <li>
+          <strong>SSR (Server-Side Rendering):</strong>
+          <br />
+          The HTML of the page is generated on the server at each request. This means every time a user visits the page, Next.js executes the server-side logic (like fetching data) and returns a fully rendered HTML page.
+          <ul>
+            <li>Best for dynamic content like personalized dashboards or frequently changing data.</li>
+            <li>Improves SEO as the server sends complete HTML.</li>
+            <li>Slower than static generation because rendering happens on each request.</li>
+            <li>Implemented using getServerSideProps.</li>
+          </ul>
+        </li>
+  
+        <li>
+          <strong>SSG (Static Site Generation):</strong>
+          <br />
+          The HTML is generated at build time and reused for every request. Pages are pre-rendered into static HTML and deployed to a CDN.
+          <ul>
+            <li>Best for content that doesn’t change often, like blogs or documentation.</li>
+            <li>Super fast performance as pages are served from a CDN.</li>
+            <li>No server required to generate pages at runtime.</li>
+            <li>Implemented using getStaticProps (and optionally getStaticPaths).</li>
+          </ul>
+        </li>
+  
+        <li>
+          <strong>ISR (Incremental Static Regeneration):</strong>
+          <br />
+          ISR allows you to update static pages after deployment without rebuilding the entire site. You specify a revalidation time, and the page is regenerated in the background when needed.
+          <ul>
+            <li>Combines the speed of SSG with the flexibility of SSR.</li>
+            <li>Pages can be updated at runtime while still served statically.</li>
+            <li>Improves performance with controlled freshness.</li>
+            <li>Implemented using getStaticProps with the revalidate key.</li>
+          </ul>
+        </li>
+  
+        <li>
+          <strong>CSR (Client-Side Rendering):</strong>
+          <br />
+          In CSR, the page is rendered in the browser using JavaScript after the initial load. The server sends only a minimal HTML shell, and the React app fetches and displays the data on the client side.
+          <ul>
+            <li>Best for dynamic, interactive UIs like admin dashboards or user profiles.</li>
+            <li>Fast client-side transitions, but slower initial page load.</li>
+            <li>Poor SEO support since content is not rendered on the server.</li>
+            <li>Implemented by simply using React hooks like useEffect to fetch data on the client.</li>
+          </ul>
+        </li>
+      </ul>
+  
+      <strong>Summary:</strong>
+      <br />
+      Choosing between SSR, SSG, ISR, and CSR depends on your project’s requirements. SSR is great for dynamic, personalized content; SSG for static, fast-loading pages; ISR for balancing freshness with performance; and CSR for highly interactive apps with less SEO concern.
+    </div>
+  </li>
+
+
+
+
 <li data-id="q10"><span class="faq-question">RxJS Required</span>
 <div class="answer">
   <h2>Is RxJS Required for ReactJS?</h2>
