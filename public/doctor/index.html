@@ -286,6 +286,26 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
 <li data-id="jhgh" class="zyellow">
 <span class="faq-question">AWS Amplify + Nextjs</span>
 <div class="answer">
+<pre>
+  | Use Case                        | AWS Service                               | Purpose                                          |
+  | ------------------------------- | ----------------------------------------- | ------------------------------------------------ |
+  | **Static Site Hosting**         | **Amazon S3 + CloudFront**                | Serve static pages (SSG/SPAs)                    |
+  | **Fullstack App Hosting**       | **AWS Amplify Hosting**                   | CI/CD, hosting, custom domains, automatic builds |
+  | **Server-side rendering (SSR)** | **AWS Lambda (via Amplify/Next.js)**      | Runs SSR functions at edge/lambda                |
+  | **Authentication**              | **Amazon Cognito**                        | User signup/login, social logins                 |
+  | **API (GraphQL)**               | **AWS AppSync**                           | GraphQL API service (auto-connects with Amplify) |
+  | **API (REST)**                  | **Amazon API Gateway + Lambda**           | RESTful API backend                              |
+  | **Database**                    | **Amazon DynamoDB** or **RDS**            | NoSQL or SQL database                            |
+  | **File/Image Storage**          | **Amazon S3**                             | Upload and serve media files                     |
+  | **Serverless Backend Logic**    | **AWS Lambda**                            | Handle server-side logic, cron jobs, processing  |
+  | **Monitoring & Logs**           | **Amazon CloudWatch**                     | Log errors, track performance                    |
+  | **Environment Variables**       | **AWS Systems Manager (Parameter Store)** | Store secrets and env vars securely              |
+  
+
+</pre>
+
+
+
   <ol>
     <li>
       <strong>Install Prerequisites</strong>
