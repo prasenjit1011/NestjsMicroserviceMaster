@@ -207,7 +207,9 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
             <td><a href="#awsdynamodb">AWS DynamoDB</a></td>
             <td>
               <a href="#awsec2">Ec2</a> &nbsp; 
-              API Gateway
+              
+              <a href="#awsamplify">AWS Amplify</a> &nbsp;
+              API Gateway 
             </td>
           </tr>
           <tr>
@@ -281,6 +283,163 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
     </div></li>
     
     
+<li data-id="jhgh" class="zyellow">
+<span class="faq-question">AWS Amplify + Nextjs</span>
+<div class="answer">
+  <ol>
+    <li>
+      <strong>Install Prerequisites</strong>
+      <ul>
+        <li>Node.js ≥ 16: <a href="https://nodejs.org/">Download Node.js</a></li>
+        <li>AWS Account: <a href="https://aws.amazon.com/">Sign up here</a></li>
+        <li>Install AWS Amplify CLI:
+          <pre><code>npm install -g @aws-amplify/cli</code></pre>
+        </li>
+        <li>Install Git (if not installed)</li>
+      </ul>
+    </li>
+  
+    <li>
+      <strong>Configure AWS Amplify</strong>
+      <pre><code>amplify configure</code></pre>
+      <ul>
+        <li>It will open the browser to log in to AWS.</li>
+        <li>It will ask you to create a new IAM user.</li>
+        <li>Copy the <code>Access Key</code> and <code>Secret Key</code> and paste in CLI.</li>
+      </ul>
+    </li>
+  
+    <li>
+      <strong>Create Next.js App</strong>
+      <pre><code>npx create-next-app myapp
+  cd myapp</code></pre>
+    </li>
+  
+    <li>
+      <strong>Initialize Amplify</strong>
+      <pre><code>amplify init</code></pre>
+      <ul>
+        <li>Choose:
+          <ul>
+            <li>Editor: <code>Visual Studio Code</code></li>
+            <li>Framework: <code>Next.js</code></li>
+            <li>Source directory path: <code>pages</code></li>
+            <li>Build command: <code>npm run build</code></li>
+            <li>Start command: <code>npm run start</code></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  
+    <li>
+      <strong>Add Authentication (Cognito)</strong>
+      <pre><code>amplify add auth</code></pre>
+      <ul>
+        <li>Choose: <code>Default Configuration</code></li>
+        <li>Username-based login (or email-based)</li>
+      </ul>
+      <pre><code>amplify push</code></pre>
+    </li>
+  
+    <li>
+      <strong>Install Amplify in Next.js</strong>
+      <pre><code>npm install aws-amplify @aws-amplify/ui-react</code></pre>
+    </li>
+  
+    <li>
+      <strong>Configure Amplify in App</strong>
+      <ul>
+        <li>Edit <code>pages/_app.js</code>:</li>
+      </ul>
+      <pre><code>import '../styles/globals.css';
+  import { Amplify } from 'aws-amplify';
+  import awsExports from '../src/aws-exports'; // adjust path if needed
+  
+  Amplify.configure(awsExports);
+  
+  export default function App({ Component, pageProps }) {
+    return &lt;Component {...pageProps} /&gt;;
+  }</code></pre>
+    </li>
+  
+    <li>
+      <strong>Protect a Page with Auth</strong>
+      <ul>
+        <li>Edit <code>pages/index.js</code>:</li>
+      </ul>
+      <pre><code>import { withAuthenticator } from '@aws-amplify/ui-react';
+  
+  function Home({ signOut, user }) {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Hello {user.username}&lt;/h1&gt;
+        &lt;button onClick={signOut}&gt;Sign out&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+  
+  export default withAuthenticator(Home);</code></pre>
+    </li>
+  
+    <li>
+      <strong>Add GraphQL API (Optional)</strong>
+      <pre><code>amplify add api</code></pre>
+      <ul>
+        <li>Choose: <code>GraphQL</code></li>
+        <li>Sample schema:
+          <pre><code>type Note @model {
+    id: ID!
+    name: String!
+  }</code></pre>
+        </li>
+        <li>Then push:
+          <pre><code>amplify push</code></pre>
+        </li>
+      </ul>
+    </li>
+  
+    <li>
+      <strong>Add File Storage (Optional)</strong>
+      <pre><code>amplify add storage</code></pre>
+      <ul>
+        <li>Choose:
+          <ul>
+            <li>Content (Images, videos, etc.)</li>
+            <li>Authenticated users only</li>
+          </ul>
+        </li>
+        <pre><code>amplify push</code></pre>
+      </ul>
+    </li>
+  
+    <li>
+      <strong>Upload File Using Storage</strong>
+      <pre><code>import { Storage } from 'aws-amplify';
+  
+  const upload = async (e) =&gt; {
+    const file = e.target.files[0];
+    await Storage.put(file.name, file);
+  };</code></pre>
+    </li>
+  
+    <li>
+      <strong>Publish the App (Hosting)</strong>
+      <pre><code>amplify add hosting
+  amplify publish</code></pre>
+      <ul>
+        <li>Choose either:
+          <ul>
+            <li>Manual deploy (S3 static hosting)</li>
+            <li>CI/CD with GitHub (Amplify Console)</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ol>
+  
+</div>
+</li>
+
 
 
 
