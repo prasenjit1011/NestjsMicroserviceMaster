@@ -75,7 +75,9 @@ Reactjs : Custom Hook
   Event? Event-Driven Programming? EventEmitter
   </span>
   <div class="answer">
-    Event-driven programming is a design paradigm where the flow of the program is determined by events like user actions, messages, or I/O operations. In Node.js, this model allows the application to respond asynchronously to events using the <b>EventEmitter</b> class. It enables non-blocking I/O by listening for events and executing callbacks when events occur, improving scalability and performance.
+    Event-driven programming is a design paradigm ( pattern ) where the flow of the program is determined by events like user actions, messages, or I/O operations. <br /><br />
+    Event-driven model allows the application to respond asynchronously to events using the <b>EventEmitter</b> class. <br />
+    Event-driven enables non-blocking I/O by listening for events and executing callbacks when events occur, improving scalability and performance.<br /><br />
     
     This approach helps Node.js efficiently handle multiple operations concurrently without waiting, making it ideal for real-time apps and servers.
     </div>
@@ -109,11 +111,13 @@ Reactjs : Custom Hook
   
   
   <div class="answer">
-  The event loop is a mechanism that handles asynchronous callbacks. <br />
-  It allows Node.js to perform non-blocking I/O operations by offloading tasks to the system kernel and executing their callbacks when ready, enabling efficient single-threaded concurrency.
+  Event loop is a mechanism that handles asynchronous callbacks. <br />
+  Event loop allows to perform non-blocking I/O operations by offloading tasks to the system kernel <br />
+  Event loop executing their callbacks when ready and enabling efficient single-threaded concurrency.
   <br />
   <br />
-  Node.js uses the event loop and asynchronous I/O via the libuv library. Heavy tasks are delegated to worker threads or the OS, enabling multiple tasks to be processed concurrently.
+  Node.js uses the event loop and asynchronous I/O via the libuv library. <br />
+  Heavy tasks are delegated to worker threads or the OS, enabling multiple tasks to be processed concurrently.
   </div>
   <div class="answer">
     
@@ -127,6 +131,55 @@ Reactjs : Custom Hook
     6. close callbacks  <br />
     Each handles specific queued callbacks.
   </b>
+
+<pre>
+  | Phase                 | Description                                  |
+  | --------------------- | -------------------------------------------- |
+  | **Timers**            | Executes `setTimeout()` and `setInterval()`  |
+  | **Pending Callbacks** | Executes I/O callbacks deferred to next loop |
+  | **Idle/Prepare**      | Internal use by Node.js                      |
+  | **Poll**              | Retrieves new I/O events, executes callbacks |
+  | **Check**             | Executes `setImmediate()` callbacks          |
+  | **Close Callbacks**   | Executes `close` event callbacks             |
+
+  <hr />
+
+
+// Timers Phase : 
+setTimeout(() => {  console.log('2. setTimeout (Timers Phase)');  }, 0);
+
+// Pending Callbacks Phase : Simulated via fs operations, some callbacks can go here depending on the OS.
+fs.readFile(__filename, () => { console.log('3. fs.readFile (may enter Pending Callbacks if needed)'); });
+
+// Idle/Prepare : Internal phase used by Node.js, no direct user hooks.
+
+// Poll Phase ---
+// fs.readFile() callback would usually be queued here
+
+// Check Phase : 
+setImmediate(() => {  console.log('4. setImmediate (Check Phase)');});
+
+// Close Callbacks : Triggered when streams or sockets close
+const readable = fs.createReadStream(__filename);
+readable.close(); // Immediately closes the stream
+readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Phase)');});
+</pre>
+<b class="green">Promise & Async/Await</b>
+<pre>
+  async function fetchAllData() {
+    try {
+      const [user, posts] = await Promise.all([
+        fetch('/user').then(res => res.json()),
+        fetch('/posts').then(res => res.json())
+      ]);
+      console.log(user, posts);
+    } catch (err) {
+      console.error('API error:', err);
+    }
+  }  
+</pre>
+
+  
     </div>
   </li>
   
@@ -234,11 +287,9 @@ Reactjs : Custom Hook
   <li data-id="jhgh" class="zyellow">
     <span class="faq-question">Promise vs async/await: Execution Priority in JavaScript</span>
     <div class="answer">
-      <p><strong>Core Concept:</strong> Both <code>Promise.then()</code> and <code>async/await</code> use the <strong>microtask queue</strong> in the JavaScript event loop.</p>
-  
-      <p><strong>Execution Priority:</strong> They have <u>the same priority</u> because <code>async/await</code> is syntactic sugar over Promises.</p>
-  
-      <p>That means both are placed in the <strong>microtask queue</strong> and executed after all synchronous code is run, but before any macrotasks like <code>setTimeout</code>.</p>
+      <code>Core Concept: Both Promise.then() and async/await use the microtask queue in the JavaScript event loop.</code>  
+      <code>Execution Priority: They have <u>the same priority</u> because async/await is syntactic sugar over Promises.</code>
+      <code>That means both are placed in the <strong>microtask queue</strong> and executed after all synchronous code is run, but before any macrotasks like setTimeout</code></p>
   
       <p><strong>Example:</strong></p>
       <pre><code>
@@ -266,18 +317,18 @@ Reactjs : Custom Hook
   
       <p><strong>Explanation:</strong></p>
       <ul>
-        <li><code>Promise.then()</code> and the <code>await</code> continuation (<code>async end</code>) both go to the microtask queue.</li>
+        <li>Promise.then() and the await continuation (async end) both go to the microtask queue.</li>
         <li>The order of execution among microtasks is based on when they are queued.</li>
-        <li>Here, the promise <code>then</code> is queued before the <code>await</code> continuation.</li>
+        <li>Here, the promise then is queued before the await continuation.</li>
       </ul>
   
-      <p><strong>Conclusion:</strong> In terms of priority, <code>Promise.then()</code> and <code>async/await</code> are equal — both are scheduled in the microtask queue. The only difference is in when they are added to that queue.</p>
+      <p><strong>Conclusion:</strong> In terms of priority, Promise.then() and async/await are equal — both are scheduled in the microtask queue. The only difference is in when they are added to that queue.</p>
     </div>
   </li>
   <li data-id="q32" class="zyellow">
     <span class="faq-question">What does it mean: "The only difference is in when they are added to the queue"?</span>
     <div class="answer">
-      <p>In JavaScript, both <code>Promise.then()</code> and <code>async/await</code> use the <strong>microtask queue</strong>, which means they both run after the current synchronous code completes.</p>
+      <p>In JavaScript, both <xcode>Promise.then()</code> and <xcode>async/await</code> use the <strong>microtask queue</strong>, which means they both run after the current synchronous code completes.</p>
   
       <p><strong>But the key difference is:</strong> The exact <u>moment</u> when each task is added to the microtask queue can affect the order they are executed.</p>
   
@@ -307,18 +358,18 @@ Reactjs : Custom Hook
   
       <p><strong>Why this happens:</strong></p>
       <ul>
-        <li><code>Promise.then(() =&gt; ...)</code> is scheduled <em>immediately</em> when encountered.</li>
-        <li><code>await</code> pauses the function. Only after reaching <code>await</code> does the continuation (the code after it) get scheduled in the microtask queue.</li>
+        <li><code>Promise.then(() =&gt; ...) is scheduled <em>immediately</em> when encountered.</code></li>
+        <li><code>await pauses the function. Only after reaching await does the continuation (the code after it) get scheduled in the microtask queue.</code></li>
       </ul>
   
       <p><strong>Timeline:</strong></p>
       <ol>
-        <li><code>Promise.then()</code> → queued right away as a microtask.</li>
-        <li><code>async function</code> starts and logs "async start".</li>
-        <li><code>await</code> pauses, and only <strong>then</strong> the continuation ("async end") is scheduled.</li>
+        <li><code>Promise.then() → queued right away as a microtask.</code></li>
+        <li><code>async function starts and logs "async start".</code></li>
+        <li><code>await pauses, and only <strong>then</strong> the continuation ("async end") is scheduled.</code></li>
       </ol>
   
-      <p><strong>Conclusion:</strong> Even though both go to the microtask queue, <code>Promise.then()</code> is queued <strong>before</strong> <code>await</code>'s continuation. That’s the difference in “when they are added to the queue”.</p>
+      <p><strong>Conclusion:</strong> Even though both go to the microtask queue, Promise.then() is queued <strong>before</strong> await's continuation. That’s the difference in “when they are added to the queue”.</p>
     </div>
   </li>
   
