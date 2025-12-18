@@ -25744,9 +25744,6 @@ DB Indexing
     - .NET: RabbitMQ .NET Client
   </div>
 
-</body>
-</html>
-
 </div></li>
 
 
@@ -40060,6 +40057,23 @@ don't use &lt;code> in text
 </ul>
 
 <script src="script.js"></script>
+<button id="goToTop" style="display:none; position:fixed; bottom:20px; right:20px; z-index:99; background-color:#007BFF; color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer;">Go to Top</button>
 
+<script>
+  // Show the button when the user scrolls down 20px from the top
+  window.onscroll = function() {
+    const goToTopButton = document.getElementById("goToTop");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      goToTopButton.style.display = "block";
+    } else {
+      goToTopButton.style.display = "none";
+    }
+  };
+
+  // Scroll to the top when the button is clicked
+  document.getElementById("goToTop").onclick = function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+</script>
 </body>
 </html>
