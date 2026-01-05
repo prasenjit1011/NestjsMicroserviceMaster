@@ -77,16 +77,16 @@ hr{
 }
 
 a{
-  color: chartreuse;
+  color: #9c9ae0;
 }
 
 .yellow{
-  background-color: #12de23 !important;
+  background-color: #9c9ae0 !important;
   color: #000;
 }
 
 .green {
-  background-color: #0F0;
+  background-color: #9c9ae0;
   color: #000;
 }
 
@@ -96,7 +96,7 @@ a{
 }
 
 span.green {
-  background-color: #0F0;
+  background-color: #9c9ae0;
   color: #000;
   padding-right: 150px;
   padding-top: 5px;
