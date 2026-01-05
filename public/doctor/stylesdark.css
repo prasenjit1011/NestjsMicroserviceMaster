@@ -1,5 +1,5 @@
 
-/*********************************************************************************/
+/************************************ Dark Style *********************************************/
 
 body {
   background-color: #000;
@@ -81,12 +81,12 @@ a{
 }
 
 .yellow{
-  background-color: #9c9ae0 !important;
+  background-color: #b4bed7 !important;
   color: #000;
 }
 
 .green {
-  background-color: #9c9ae0;
+  background-color: #b4bed7;
   color: #000;
 }
 
@@ -96,7 +96,7 @@ a{
 }
 
 span.green {
-  background-color: #9c9ae0;
+  background-color: #b4bed7;
   color: #000;
   padding-right: 150px;
   padding-top: 5px;
