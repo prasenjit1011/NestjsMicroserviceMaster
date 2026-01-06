@@ -16,8 +16,12 @@ export class DematController {
 
   @Get('table-view')
   async getTableView(@Res() res: Response) {
-    const data = await this.dematService.getDataFromCsv();
-    
+    const data    = await this.dematService.getDataFromCsv();
+    const sidData = this.dematService.getDataFromJson();
+    console.log('SID Data:', sidData);
+
+
+
     // Read the HTML template
     const templatePath = path.join(__dirname, 'templates', 'table-view.html');
     let html = fs.readFileSync(templatePath, 'utf8');
@@ -26,13 +30,22 @@ export class DematController {
     const tableRows = data.map(item => {
       // console.log('Processing item:', item.sid);
       // console.log('Processing item:', item);
+
+      
+
+
+      const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
+      const sid = sidItem ? sidItem.sid : 'N/A';
+      console.log('Processing item::::::', sidItem);
+
       return `
       <tr>
         <td>${item.sid || 'N/A'}</td>
+        <td>${sid || 'N/A'}</td>
         <td>${item.name || 'N/A'}</td>
-        <td class="price">₹${(item.price || 0).toLocaleString()}</td>
+        <td class="price">₹${(item.price || 0).toFixed(0)}</td>
         <td class="qty">${item.qty || 0}</td>
-        <td class="total">₹${(item.total || 0).toLocaleString()}</td>
+        <td class="total">₹${(item.total || 0).toFixed(0)}</td>
       </tr>
     `}).join('');
     

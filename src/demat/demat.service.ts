@@ -37,7 +37,7 @@ export class DematService {
   }
 
   getDataFromJson() {
-    const filePath = path.join(__dirname, '../../public/data/data.json');
+    const filePath = path.join(__dirname, '../../public/data/siddata.json');
     const jsonData = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(jsonData);
   }

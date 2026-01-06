@@ -1,0 +1,298 @@
+[
+  {
+    "iciciCode": "KOTGOL",
+    "sid": "KTGF"
+  },
+  {
+    "iciciCode": "HDFGOL",
+    "sid": "HDGO"
+  },
+  {
+    "iciciCode": "DABIND",
+    "sid": "DABU"
+  },
+  {
+    "iciciCode": "SBISIL",
+    "sid": "SBISI"
+  },
+  {
+    "iciciCode": "ITC",
+    "sid": "ITC"
+  },
+  {
+    "iciciCode": "NIPSIL",
+    "sid": "NIPSIL"
+  },
+  {
+    "iciciCode": "TATCAP",
+    "sid": "TATAC"
+  },
+  {
+    "iciciCode": "COLPAL",
+    "sid": "COLG"
+  },
+  {
+    "iciciCode": "HERHON",
+    "sid": "HROM"
+  },
+  {
+    "iciciCode": "SBICAR",
+    "sid": "SBIC"
+  },
+  {
+    "iciciCode": "INDGAS",
+    "sid": "IGAS"
+  },
+  {
+    "iciciCode": "AARIND",
+    "sid": "ARTI"
+  },
+  {
+    "iciciCode": "DHASUG",
+    "sid": "DAMS"
+  },
+  {
+    "iciciCode": "ADAGAS",
+    "sid": "ADAG"
+  },
+  {
+    "iciciCode": "INDBA",
+    "sid": "INBK"
+  },
+  {
+    "iciciCode": "CREGRA",
+    "sid": "CRDE"
+  },
+  {
+    "iciciCode": "ASIPAI",
+    "sid": "ASPN"
+  },
+  {
+    "iciciCode": "RAJEXP",
+    "sid": "REXP"
+  },
+  {
+    "iciciCode": "CAMACT",
+    "sid": "CAMP"
+  },
+  {
+    "iciciCode": "BHAPET",
+    "sid": "BHAPET"
+  },
+  {
+    "iciciCode": "IRMENE",
+    "sid": "IRMENE"
+  },
+  {
+    "iciciCode": "WIPRO",
+    "sid": "WIPRO"
+  },
+  {
+    "iciciCode": "ADAENT",
+    "sid": "ADAENT"
+  },
+  {
+    "iciciCode": "KOTMAH",
+    "sid": "KOTMAH"
+  },
+  {
+    "iciciCode": "INDPES",
+    "sid": "INDPES"
+  },
+  {
+    "iciciCode": "ADATRA",
+    "sid": "ADATRA"
+  },
+  {
+    "iciciCode": "FLAWRI",
+    "sid": "FLAWRI"
+  },
+  {
+    "iciciCode": "CIPLA",
+    "sid": "CIPLA"
+  },
+  {
+    "iciciCode": "GOPSNA",
+    "sid": "GOPSNA"
+  },
+  {
+    "iciciCode": "MOTGTF",
+    "sid": "MOTGTF"
+  },
+  {
+    "iciciCode": "ZEROSE",
+    "sid": "ZEROSE"
+  },
+  {
+    "iciciCode": "MOTSIL",
+    "sid": "MOTSIL"
+  },
+  {
+    "iciciCode": "VAIGLO",
+    "sid": "VAIGLO"
+  },
+  {
+    "iciciCode": "HDFSIL",
+    "sid": "HDFSIL"
+  },
+  {
+    "iciciCode": "ONGC",
+    "sid": "ONGC"
+  },
+  {
+    "iciciCode": "JIOFIN",
+    "sid": "JIOFIN"
+  },
+  {
+    "iciciCode": "AKMFIN",
+    "sid": "AKMFIN"
+  },
+  {
+    "iciciCode": "INFTEC",
+    "sid": "INFTEC"
+  },
+  {
+    "iciciCode": "PLAWIR",
+    "sid": "PLAWIR"
+  },
+  {
+    "iciciCode": "RELIND",
+    "sid": "RELIND"
+  },
+  {
+    "iciciCode": "ICINIF",
+    "sid": "ICINIF"
+  },
+  {
+    "iciciCode": "NIFBEE",
+    "sid": "NIFBEE"
+  },
+  {
+    "iciciCode": "AETIND",
+    "sid": "AETIND"
+  },
+  {
+    "iciciCode": "INDREN",
+    "sid": "INDREN"
+  },
+  {
+    "iciciCode": "ICIGOL",
+    "sid": "ICIGOL"
+  },
+  {
+    "iciciCode": "SBIGOL",
+    "sid": "SBIGOL"
+  },
+  {
+    "iciciCode": "DELCOR",
+    "sid": "DELCOR"
+  },
+  {
+    "iciciCode": "POPVEH",
+    "sid": "POPVEH"
+  },
+  {
+    "iciciCode": "HINCOP",
+    "sid": "HINCOP"
+  },
+  {
+    "iciciCode": "NTPC",
+    "sid": "NTPC"
+  },
+  {
+    "iciciCode": "BANBAN",
+    "sid": "BANBAN"
+  },
+  {
+    "iciciCode": "BIOCON",
+    "sid": "BIOCON"
+  },
+  {
+    "iciciCode": "ANUPHA",
+    "sid": "ANUPHA"
+  },
+  {
+    "iciciCode": "RKSWA",
+    "sid": "RKSWA"
+  },
+  {
+    "iciciCode": "TRILTD",
+    "sid": "TRILTD"
+  },
+  {
+    "iciciCode": "HDFSTA",
+    "sid": "HDFSTA"
+  },
+  {
+    "iciciCode": "POWINF",
+    "sid": "POWINF"
+  },
+  {
+    "iciciCode": "BODCHE",
+    "sid": "BODCHE"
+  },
+  {
+    "iciciCode": "APOTYR",
+    "sid": "APOTYR"
+  },
+  {
+    "iciciCode": "IDFBAN",
+    "sid": "IDFBAN"
+  },
+  {
+    "iciciCode": "BANBEE",
+    "sid": "BANBEE"
+  },
+  {
+    "iciciCode": "ADAPOW",
+    "sid": "ADAPOW"
+  },
+  {
+    "iciciCode": "EMBOFF",
+    "sid": "EMBOFF"
+  },
+  {
+    "iciciCode": "ICI100",
+    "sid": "ICI100"
+  },
+  {
+    "iciciCode": "TUTALK",
+    "sid": "TUTALK"
+  },
+  {
+    "iciciCode": "SRERAY",
+    "sid": "SRERAY"
+  },
+  {
+    "iciciCode": "CITUNI",
+    "sid": "CITUNI"
+  },
+  {
+    "iciciCode": "MOTSU",
+    "sid": "MOTSU"
+  },
+  {
+    "iciciCode": "TATSTE",
+    "sid": "TATSTE"
+  },
+  {
+    "iciciCode": "MADCOP",
+    "sid": "MADCOP"
+  },
+  {
+    "iciciCode": "NBCC",
+    "sid": "NBCC"
+  },
+  {
+    "iciciCode": "UDAINF",
+    "sid": "UDAINF"
+  },
+  {
+    "iciciCode": "PCJEW",
+    "sid": "PCJEW"
+  },
+  {
+    "iciciCode": "PARPHA",
+    "sid": "PARPHA"
+  }
+]
