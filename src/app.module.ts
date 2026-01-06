@@ -13,7 +13,6 @@ import { join } from 'path';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      serveRoot: '/public',
     }),
     //MongooseModule.forRoot('mongodb+srv://tester:tester1234@cluster0.hlicuim.mongodb.net/demodb?retryWrites=true&w=majority'),
     //ProductModule,
