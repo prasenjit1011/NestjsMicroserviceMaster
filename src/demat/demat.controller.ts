@@ -23,13 +23,13 @@ export class DematController {
 
     // Fetch data from Tickertape API
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
-    console.log('API URL:', apiUrl);
+    // console.log('API URL:', apiUrl);
     
     let apiData: any = {};
     try {
       const response = await fetch(apiUrl);
       apiData = await response.json();
-      console.log('API Response:', apiData);
+      // console.log('API Response:', apiData);
     } catch (error) {
       console.error('Error fetching from API:', error);
     }
@@ -50,8 +50,8 @@ export class DematController {
       const sid     = sidItem ? sidItem.sid : 'N/A';
       const itemData = apiData.data.find(data => data.sid === sid);
       const apiPrice = itemData ? itemData.price.toFixed(0) : 'N/A';
-      console.log(apiPrice);
-      console.log('=====================');
+      // console.log(apiPrice);
+      // console.log('=====================');
 
       return `
       <tr>
