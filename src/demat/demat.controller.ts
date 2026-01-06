@@ -18,9 +18,21 @@ export class DematController {
   async getTableView(@Res() res: Response) {
     const data    = await this.dematService.getDataFromCsv();
     const sidData = this.dematService.getDataFromJson();
-    console.log('SID Data:', sidData);
+    const sidIds  = sidData.map(item => item.sid).join(',');
+    console.log('SID IDs:', sidIds);
 
-
+    // Fetch data from Tickertape API
+    const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
+    console.log('API URL:', apiUrl);
+    
+    let apiData: any = {};
+    try {
+      const response = await fetch(apiUrl);
+      apiData = await response.json();
+      console.log('API Response:', apiData);
+    } catch (error) {
+      console.error('Error fetching from API:', error);
+    }
 
     // Read the HTML template
     const templatePath = path.join(__dirname, 'templates', 'table-view.html');
@@ -35,8 +47,11 @@ export class DematController {
 
 
       const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
-      const sid = sidItem ? sidItem.sid : 'N/A';
-      console.log('Processing item::::::', sidItem);
+      const sid     = sidItem ? sidItem.sid : 'N/A';
+      const itemData = apiData.data.find(data => data.sid === sid);
+      const apiPrice = itemData ? itemData.price.toFixed(0) : 'N/A';
+      console.log(apiPrice);
+      console.log('=====================');
 
       return `
       <tr>
@@ -44,6 +59,7 @@ export class DematController {
         <td>${sid || 'N/A'}</td>
         <td>${item.name || 'N/A'}</td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>
+        <td class="total">₹${apiPrice}</td>
         <td class="qty">${item.qty || 0}</td>
         <td class="total">₹${(item.total || 0).toFixed(0)}</td>
       </tr>
