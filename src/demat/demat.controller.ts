@@ -56,7 +56,7 @@ export class DematController {
         <td>${item.sid || 'N/A'}</td>
         <td>${sid || 'N/A'}</td>
         <td>
-          <a href="/demat/analysis/${sid}" target="_blank">${item.name || 'N/A'}</a>
+          <a href="/demat/quarterly/price/${sid}/${item.name || 'N/A'}" target="_blank">${item.name || 'N/A'}</a>
         </td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>
         <td class="total">₹${apiPrice}</td>
@@ -73,8 +73,21 @@ export class DematController {
     res.send(html);
   }
 
-  @Get('analysis/:sid')
+  @Get('weekly/:sid')
   async getAnalysis(@Param('sid') sid: string, @Res() res: Response) {
+    return this.getAnalysisWithStock(sid, 'N/A', res);
+  }
+
+  @Get('weekly/:sid/:stock')
+  async getAnalysisWithStockParam(@Param('sid') sid: string, @Param('stock') stock: string, @Res() res: Response) {
+    return this.getAnalysisWithStock(sid, stock, res);
+  }
+
+  private async getAnalysisWithStock(sid: string, stock: string, res: Response) {
+    if(!stock || stock === ''){
+      stock = 'N/A';
+    }
+
     const apiUrl = `https://api.tickertape.in/stocks/charts/inter/${sid}?duration=max`;
 
     https.get(apiUrl, (apiRes) => {
@@ -86,8 +99,6 @@ export class DematController {
       
       apiRes.on('end', () => {
         const mydata = JSON.parse(data);
-        console.log('\n\n-: JSON Data Loaded from API :-\n\n');
-
         // Get the latest price (last data point)
         const points = mydata['data'] && mydata['data'][0] ? mydata['data'][0]['points'] : [];
         const latestPoint = points.length > 0 ? points[points.length - 1] : null;
@@ -107,23 +118,27 @@ export class DematController {
         
         // Generate table rows
         const dataRows = mydata['data'] && mydata['data'][0] 
-          ? mydata['data'][0]['points'].map((point, index) => {
-              const timestamp = point['ts'] ? new Date(point['ts']).toLocaleString() : 'N/A';
-              const value = point['lp'] !== null && point['lp'] !== undefined ? point['lp'].toFixed(2) : 'N/A';
+          ? mydata['data'][0]['points']
+              .reverse()
+              .map((point, index) => {
+                const timestamp = point['ts'] ? new Date(point['ts']).toLocaleString() : 'N/A';
+                const value = point['lp'] !== null && point['lp'] !== undefined ? point['lp'].toFixed(2) : 'N/A';
 
-              return `
-              <tr>
-                  <td>${index + 1}</td>
-                  <td class="timestamp">${timestamp}</td>
-                  <td class="value">${value}</td>
-              </tr>
-              `;
-          }).join('')
+                return `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td class="timestamp">${timestamp}</td>
+                    <td class="value">${value}</td>
+                </tr>
+                `;
+              }).join('')
           : '<tr><td colspan="3">No data available</td></tr>';
 
         const jsonData = JSON.stringify(mydata, null, 2);
 
         // Replace placeholders with actual data
+        html = html.replace('{{stockName}}', stock);
+        html = html.replace('{{sid}}', sid);
         html = html.replace('{{dataSeriesCount}}', dataSeriesCount);
         html = html.replace('{{totalPoints}}', totalPoints);
         html = html.replace('{{dataName}}', dataName);
@@ -144,7 +159,19 @@ export class DematController {
 
   @Get('yearly/price/:sid')
   async getYearlyPrice(@Param('sid') sid: string, @Res() res: Response) {
+    return this.getYearlyPriceWithStock(sid, 'N/A', res);
+  }
+
+  @Get('yearly/price/:sid/:stock')
+  async getYearlyPriceWithStockParam(@Param('sid') sid: string, @Param('stock') stock: string, @Res() res: Response) {
+    return this.getYearlyPriceWithStock(sid, stock, res);
+  }
+
+  private async getYearlyPriceWithStock(sid: string, stock: string, res: Response) {
     const apiUrl = `https://api.tickertape.in/stocks/charts/inter/${sid}?duration=max`;
+    if(!stock || stock === ''){
+      stock = 'N/A';
+    }
 
     https.get(apiUrl, (apiRes) => {
       let data = '';
@@ -197,6 +224,8 @@ export class DematController {
         }).join('');
 
         // Replace placeholders
+        html = html.replace('{{stockName}}', stock);
+        html = html.replace('{{sid}}', sid);
         html = html.replace('{{status}}', 'Success ✓');
         html = html.replace('{{message}}', 'Yearly high/low data fetched successfully!');
         html = html.replace('{{latestPrice}}', `₹${latestPrice.toFixed(2)}`);
@@ -213,7 +242,19 @@ export class DematController {
 
   @Get('quarterly/price/:sid')
   async getQuarterlyPrice(@Param('sid') sid: string, @Res() res: Response) {
+    return this.getQuarterlyPriceWithStock(sid, 'N/A', res);
+  }
+
+  @Get('quarterly/price/:sid/:stock')
+  async getQuarterlyPriceWithStockParam(@Param('sid') sid: string, @Param('stock') stock: string, @Res() res: Response) {
+    return this.getQuarterlyPriceWithStock(sid, stock, res);
+  }
+
+  private async getQuarterlyPriceWithStock(sid: string, stock: string, res: Response) {
     const apiUrl = `https://api.tickertape.in/stocks/charts/inter/${sid}?duration=max`;
+    if(!stock || stock === ''){
+      stock = 'N/A';
+    }
 
     https.get(apiUrl, (apiRes) => {
       let data = '';
@@ -281,6 +322,8 @@ export class DematController {
         }).join('');
 
         // Replace placeholders
+        html = html.replace('{{stockName}}', stock);
+        html = html.replace('{{sid}}', sid);
         html = html.replace('{{status}}', 'Success ✓');
         html = html.replace('{{message}}', 'Quarterly high/low data fetched successfully!');
         html = html.replace('{{apiUrl}}', apiUrl);
