@@ -4,188 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quarterly - {{sid}} {{stockName}} High/Low Analysis</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            padding: 40px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.8em;
-            font-weight: 700;
-        }
-        
-        .subtitle {
-            color: #666;
-            font-size: 1.2em;
-            font-weight: 300;
-        }
-        
-        .info-box {
-            background: linear-gradient(to right, #e3f2fd, #f3e5f5);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            border-left: 5px solid #667eea;
-        }
-        
-        .info-box p {
-            color: #555;
-            font-size: 1.1em;
-            margin: 5px 0;
-        }
-        
-        .info-box .status {
-            color: #4caf50;
-            font-weight: 600;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-        
-        thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        th {
-            padding: 18px 15px;
-            text-align: left;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-        }
-        
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 1em;
-        }
-        
-        tbody tr {
-            transition: all 0.2s ease;
-        }
-        
-        tbody tr:hover {
-            background-color: #f0f4ff;
-        }
-        
-        tbody tr:nth-child(even) {
-            background-color: #fafafa;
-        }
-        
-        .high-price {
-            color: #28a745;
-            font-weight: 600;
-        }
-        
-        .low-price {
-            color: #dc3545;
-            font-weight: 600;
-        }
-        
-        .range {
-            color: #667eea;
-            font-weight: 600;
-        }
-        
-        /* Go to Top Button */
-        .goto-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
-            transition: all 0.3s ease;
-            opacity: 0;
-            visibility: hidden;
-            z-index: 1000;
-        }
-        
-        .goto-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .goto-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.7);
-        }
-        
-        /* Go to Bottom Button */
-        .goto-bottom {
-            position: fixed;
-            bottom: 90px;
-            right: 30px;
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.5);
-            transition: all 0.3s ease;
-            opacity: 0;
-            visibility: hidden;
-            z-index: 1000;
-        }
-        
-        .goto-bottom.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .goto-bottom:hover {
-            transform: translateY(5px);
-            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.7);
-        }
-    </style>
+    <link rel="stylesheet" href="/css/quarterly-high-low.css">
 </head>
 <body>
     <div class="container">
@@ -196,19 +15,19 @@
         
         
         <!-- Latest Price Display -->
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);">
-            <h2 style="margin: 0 0 15px 0; font-size: 1.5em; color: white;">💰 Latest Stock Price</h2>
-            <div style="font-size: 3em; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">{{latestPrice}}</div>
-            <div style="font-size: 1.1em; opacity: 0.9;">As of {{latestDate}}</div>
-            <p><strong>API URL:</strong> <a href="{{apiUrl}}" target="_blank">{{apiUrl}}</a></p>
+        <div class="latest-price-box">
+            <h2>💰 Latest Stock Price</h2>
+            <div class="price">{{latestPrice}}</div>
+            <div class="date">As of {{latestDate}}</div>
+            <p><strong>API URL:</strong> <a href="{{apiUrl}}" target="_blank" style="color: white;">{{apiUrl}}</a></p>
         </div>
 
-        <h2 style="color: #333; margin-bottom: 25px; font-size: 1.8em; display: flex; justify-content: space-between; align-items: center;">
+        <h2 class="section-header">
             📊 Quarterly Data
-            <span style="font-size: 0.7em; color: #555; font-weight: normal;">
-                <a href="/demat/quarterly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Quarterly</a>
-                | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Yearly</a>
-                | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Weekly</a>
+            <span class="nav-links">
+                <a href="/demat/quarterly/{{sid}}/{{stockName}}">Quarterly</a>
+                | <a href="/demat/yearly/{{sid}}/{{stockName}}">Yearly</a>
+                | <a href="/demat/weekly/{{sid}}/{{stockName}}">Weekly</a>
             </span>
         </h2>
 
