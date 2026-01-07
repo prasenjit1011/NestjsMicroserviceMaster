@@ -9,12 +9,12 @@ import * as path from 'path';
 export class DematController {
   constructor(private readonly dematService: DematService) {}
 
-  @Get()
+  @Get('/csvdata')
   async getData() {
     return this.dematService.getDataFromCsv();
   }
 
-  @Get('table-view')
+  @Get('/')
   async getTableView(@Res() res: Response) {
     const data    = await this.dematService.getDataFromCsv();
     const sidData = this.dematService.getDataFromJson();
@@ -72,4 +72,7 @@ export class DematController {
     res.setHeader('Content-Type', 'text/html');
     res.send(html);
   }
+
+
+  
 }
