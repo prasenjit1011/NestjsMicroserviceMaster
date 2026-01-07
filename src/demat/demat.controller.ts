@@ -48,6 +48,7 @@ export class DematController {
       const sid     = sidItem ? sidItem.sid : 'N/A';
       const itemData = apiData.data.find(data => data.sid === sid);
       const apiPrice = itemData ? itemData.price.toFixed(0) : 'N/A';
+      const dyChange = itemData ? itemData.dyChange.toFixed(0) : 'N/A';
       // console.log(apiPrice);
       // console.log('=====================');
 
@@ -59,6 +60,7 @@ export class DematController {
           <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">${item.name || 'N/A'}</a>
         </td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>
+        <td class="total">${dyChange}%</td>
         <td class="total">₹${apiPrice}</td>
         <td class="qty">${item.qty || 0}</td>
         <td class="total">₹${(item.total || 0).toFixed(0)}</td>
