@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis - DABU Stock Data</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.8em;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            font-weight: 300;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .stat-card p {
+            font-size: 1em;
+            opacity: 0.95;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .data-info {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .data-info p {
+            margin: 10px 0;
+            color: #555;
+            font-size: 1.1em;
+        }
+        
+        .data-info strong {
+            color: #333;
+            font-weight: 600;
+            min-width: 120px;
+            display: inline-block;
+        }
+        
+        .section-title {
+            color: #333;
+            margin: 40px 0 20px 0;
+            font-size: 1.8em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.95em;
+        }
+        
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        tbody tr:hover {
+            background-color: #f0f4ff;
+            transform: scale(1.01);
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        tbody tr:nth-child(even):hover {
+            background-color: #f0f4ff;
+        }
+        
+        .timestamp {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .value {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.05em;
+        }
+        
+        .index-cell {
+            font-weight: 600;
+            color: #999;
+        }
+        
+        .json-section {
+            margin-top: 40px;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .json-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.6;
+            font-family: 'Courier New', Courier, monospace;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        /* Scrollbar styling */
+        pre::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        pre::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        pre::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+        
+        pre::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+        
+        /* Go to Top Button */
+        .goto-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+        
+        .goto-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .goto-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.7);
+        }
+        
+        .goto-top:active {
+            transform: translateY(-2px);
+        }
+        
+        /* Go to Bottom Button */
+        .goto-bottom {
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.5);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+        
+        .goto-bottom.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .goto-bottom:hover {
+            transform: translateY(5px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.7);
+        }
+        
+        .goto-bottom:active {
+            transform: translateY(2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Analysis Dashboard</h1>
+            <p class="subtitle">DABU Stock Data Analysis</p>
+        </div>
+        
+        <!-- Latest Price Display -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);">
+            <h2 style="margin: 0 0 15px 0; font-size: 1.5em; color: white;">💰 Latest Stock Price</h2>
+            <div style="font-size: 3em; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">{{latestPrice}}</div>
+            <div style="font-size: 1.1em; opacity: 0.9;">As of {{latestDate}}</div>
+        </div>
+
+        
+        <h2 class="section-title">📈 Data Points</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Timestamp</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{dataRows}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Go to Top Button -->
+    <button class="goto-top" id="gotoTopBtn" title="Go to top">↑</button>
+    
+    <!-- Go to Bottom Button -->
+    <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
+
+    <script>
+        // Get the buttons
+        const gotoTopBtn = document.getElementById('gotoTopBtn');
+        const gotoBottomBtn = document.getElementById('gotoBottomBtn');
+
+        // Show/hide buttons based on scroll position
+        window.onscroll = function() {
+            const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight;
+            
+            // Show top button when scrolled down 300px
+            if (scrollTop > 300) {
+                gotoTopBtn.classList.add('show');
+            } else {
+                gotoTopBtn.classList.remove('show');
+            }
+            
+            // Show bottom button when not at bottom and scrolled down a bit
+            if (scrollTop < scrollHeight - clientHeight - 100) {
+                gotoBottomBtn.classList.add('show');
+            } else {
+                gotoBottomBtn.classList.remove('show');
+            }
+        };
+
+        // Scroll to top when top button is clicked
+        gotoTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Scroll to bottom when bottom button is clicked
+        gotoBottomBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
