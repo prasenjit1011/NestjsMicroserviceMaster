@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis - DABU Stock Data</title>
+    <title>Weekly - {{sid}} {{stockName}} Stock Data</title>
     <style>
         * {
             margin: 0;
@@ -310,7 +310,15 @@
         </div>
 
         
-        <h2 class="section-title">📈 Data Points</h2>
+        <h2 style="color: #333; margin-bottom: 25px; font-size: 1.8em; display: flex; justify-content: space-between; align-items: center;">
+            📊 Weekly Data
+            <span style="font-size: 0.7em; color: #555; font-weight: normal;">
+                <a href="/demat/quarterly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Quarterly</a>
+                | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Yearly</a>
+                | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Weekly</a>
+            </span>
+        </h2>
+
         <div class="table-container">
             <table>
                 <thead>

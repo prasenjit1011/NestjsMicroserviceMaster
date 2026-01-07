@@ -56,7 +56,7 @@ export class DematController {
         <td>${item.sid || 'N/A'}</td>
         <td>${sid || 'N/A'}</td>
         <td>
-          <a href="/demat/quarterly/price/${sid}/${item.name || 'N/A'}" target="_blank">${item.name || 'N/A'}</a>
+          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">${item.name || 'N/A'}</a>
         </td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>
         <td class="total">₹${apiPrice}</td>
@@ -137,8 +137,8 @@ export class DematController {
         const jsonData = JSON.stringify(mydata, null, 2);
 
         // Replace placeholders with actual data
-        html = html.replace('{{stockName}}', stock);
-        html = html.replace('{{sid}}', sid);
+        html = html.replaceAll('{{stockName}}', stock);
+        html = html.replaceAll('{{sid}}', sid);
         html = html.replace('{{dataSeriesCount}}', dataSeriesCount);
         html = html.replace('{{totalPoints}}', totalPoints);
         html = html.replace('{{dataName}}', dataName);
@@ -157,12 +157,12 @@ export class DematController {
     });
   }
 
-  @Get('yearly/price/:sid')
+  @Get('yearly/:sid')
   async getYearlyPrice(@Param('sid') sid: string, @Res() res: Response) {
     return this.getYearlyPriceWithStock(sid, 'N/A', res);
   }
 
-  @Get('yearly/price/:sid/:stock')
+  @Get('yearly/:sid/:stock')
   async getYearlyPriceWithStockParam(@Param('sid') sid: string, @Param('stock') stock: string, @Res() res: Response) {
     return this.getYearlyPriceWithStock(sid, stock, res);
   }
@@ -223,9 +223,9 @@ export class DematController {
           `;
         }).join('');
 
-        // Replace placeholders
-        html = html.replace('{{stockName}}', stock);
-        html = html.replace('{{sid}}', sid);
+        // Replace placeholders (use replaceAll for multiple occurrences)
+        html = html.replaceAll('{{stockName}}', stock);
+        html = html.replaceAll('{{sid}}', sid);
         html = html.replace('{{status}}', 'Success ✓');
         html = html.replace('{{message}}', 'Yearly high/low data fetched successfully!');
         html = html.replace('{{latestPrice}}', `₹${latestPrice.toFixed(2)}`);
@@ -240,12 +240,12 @@ export class DematController {
     });
   }
 
-  @Get('quarterly/price/:sid')
+  @Get('quarterly/:sid')
   async getQuarterlyPrice(@Param('sid') sid: string, @Res() res: Response) {
     return this.getQuarterlyPriceWithStock(sid, 'N/A', res);
   }
 
-  @Get('quarterly/price/:sid/:stock')
+  @Get('quarterly/:sid/:stock')
   async getQuarterlyPriceWithStockParam(@Param('sid') sid: string, @Param('stock') stock: string, @Res() res: Response) {
     return this.getQuarterlyPriceWithStock(sid, stock, res);
   }
@@ -321,9 +321,9 @@ export class DematController {
           `;
         }).join('');
 
-        // Replace placeholders
-        html = html.replace('{{stockName}}', stock);
-        html = html.replace('{{sid}}', sid);
+        // Replace placeholders (use replaceAll for multiple occurrences)
+        html = html.replaceAll('{{stockName}}', stock);
+        html = html.replaceAll('{{sid}}', sid);
         html = html.replace('{{status}}', 'Success ✓');
         html = html.replace('{{message}}', 'Quarterly high/low data fetched successfully!');
         html = html.replace('{{apiUrl}}', apiUrl);

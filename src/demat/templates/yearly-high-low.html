@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yearly High/Low Analysis</title>
+    <title>Yearly - {{sid}} {{stockName}} High/Low Analysis</title>
     <style>
         * {
             margin: 0;
@@ -269,7 +269,16 @@
             <div style="font-size: 3em; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">{{latestPrice}}</div>
             <div style="font-size: 1.1em; opacity: 0.9;">As of {{latestDate}}</div>
         </div>
-        <h2 style="color: #333; margin-bottom: 25px; font-size: 1.8em;">    📈 Yearly High/Low Data</h2>
+        
+        <h2 style="color: #333; margin-bottom: 25px; font-size: 1.8em; display: flex; justify-content: space-between; align-items: center;">
+            📊 Yearly High/Low Data
+            <span style="font-size: 0.7em; color: #555; font-weight: normal;">
+                <a href="/demat/quarterly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Quarterly</a>
+                | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Yearly</a>
+                | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Weekly</a>
+            </span>
+        </h2>
+
         <div class="table-container">
             <table>
                 <thead>
