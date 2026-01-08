@@ -32,8 +32,8 @@ functions:
           batchSize: 1
           maximumRetryAttempts: 2
 
-plugins:
-  - serverless-offline
+# plugins:
+#   - serverless-offline
 
 package:
   individually: true
@@ -41,6 +41,11 @@ package:
   patterns:
     - '!node_modules/**'
     - 'node_modules/@nestjs/**'
+    - 'node_modules/tslib/**'
+    - 'node_modules/@vendia/**'
+    - 'node_modules/reflect-metadata/**'
+    - 'node_modules/rxjs/**'
+    - 'node_modules/csv-parser/**'
     - 'dist/**'
     - 'src/templates/**'
     - 'public/**'
