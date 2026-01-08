@@ -4,7 +4,7 @@ service: lambda04
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs20.x
   region: us-east-1
   stage: dev
   memorySize: 512
@@ -24,13 +24,13 @@ functions:
     handler: dist/lambda.handler
     events:
       - httpApi: '*'
-  sqsHandler:
-    handler: dist/main.handler
-    events:
-      - sqs:
-          arn: arn:aws:sqs:us-east-1:466015320752:lambdaproductcreate.fifo
-          batchSize: 1
-          maximumRetryAttempts: 2
+#  sqsHandler:
+#    handler: dist/main.handler
+#    events:
+#      - sqs:
+#          arn: arn:aws:sqs:us-east-1:466015320752:lambdaproductcreate.fifo
+#          batchSize: 1
+#          maximumRetryAttempts: 2
 
 # plugins:
 #   - serverless-offline
@@ -38,26 +38,27 @@ functions:
 package:
   individually: true
   patterns:
-    - '!node_modules/@nestjs/cli/**'
-    - '!node_modules/@nestjs/schematics/**'
-    - '!node_modules/@nestjs/testing/**'
-    - '!node_modules/@types/**'
-    - '!node_modules/typescript/**'
-    - '!node_modules/ts-node/**'
-    - '!node_modules/ts-loader/**'
-    - '!node_modules/jest/**'
-    - '!node_modules/prettier/**'
-    - '!node_modules/eslint/**'
-    - '!node_modules/esbuild/**'
-    - '!node_modules/serverless-offline/**'
-    - '!node_modules/serverless-esbuild/**'
-    - '!test/**'
-    - '!src/**/*.spec.ts'
     - 'dist/**'
     - 'src/templates/**'
     - 'public/**'
     - 'node_modules/**'
-    - 'public/**'
+    - '!node_modules/@types/**'
+    - '!node_modules/typescript/**'
+    - '!node_modules/@typescript-eslint/**'
+    - '!node_modules/eslint/**'
+    - '!node_modules/prettier/**'
+    - '!node_modules/jest/**'
+    - '!node_modules/@jest/**'
+    - '!node_modules/ts-jest/**'
+    - '!node_modules/ts-node/**'
+    - '!node_modules/ts-loader/**'
+    - '!node_modules/@nestjs/cli/**'
+    - '!node_modules/@nestjs/schematics/**'
+    - '!node_modules/@nestjs/testing/**'
+    - '!node_modules/serverless/**'
+    - '!node_modules/serverless-offline/**'
+    - '!node_modules/esbuild/**'
+    - '!node_modules/supertest/**'
 
 custom:
   serverless-offline:
