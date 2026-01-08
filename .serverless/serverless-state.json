@@ -1,8 +1,8 @@
 {
   "service": {
-    "service": "lambda01",
+    "service": "lambda04",
     "serviceObject": {
-      "name": "lambda01"
+      "name": "lambda04"
     },
     "provider": {
       "name": "aws",
@@ -14,6 +14,17 @@
       "environment": {
         "MONGODB_URI": "your-mongodb-uri-here"
       },
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "sqs:ReceiveMessage",
+            "sqs:DeleteMessage",
+            "sqs:GetQueueAttributes"
+          ],
+          "Resource": "arn:aws:sqs:us-east-1:466015320752:lambdaproductcreate.fifo"
+        }
+      ],
       "versionFunctions": true,
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
@@ -91,7 +102,13 @@
           "ApiLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/lambda01-dev-api"
+              "LogGroupName": "/aws/lambda/lambda04-dev-api"
+            }
+          },
+          "SqsHandlerLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/lambda04-dev-sqsHandler"
             }
           },
           "IamRoleLambdaExecution": {
@@ -119,7 +136,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "lambda01",
+                        "lambda04",
                         "dev",
                         "lambda"
                       ]
@@ -137,7 +154,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/lambda01-dev*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/lambda04-dev*:*"
                           }
                         ]
                       },
@@ -148,8 +165,22 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/lambda01-dev*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/lambda04-dev*:*:*"
                           }
+                        ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "sqs:ReceiveMessage",
+                          "sqs:DeleteMessage",
+                          "sqs:GetQueueAttributes"
+                        ],
+                        "Resource": [
+                          "arn:aws:sqs:us-east-1:466015320752:lambdaproductcreate.fifo"
                         ]
                       }
                     ]
@@ -161,7 +192,7 @@
                 "Fn::Join": [
                   "-",
                   [
-                    "lambda01",
+                    "lambda04",
                     "dev",
                     {
                       "Ref": "AWS::Region"
@@ -179,11 +210,11 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/lambda01/dev/1747545273120-2025-05-18T05:14:33.120Z/api.zip"
+                "S3Key": "serverless/lambda04/dev/1767856777917-2026-01-08T07:19:37.917Z/api.zip"
               },
               "Handler": "dist/lambda.handler",
               "Runtime": "nodejs18.x",
-              "FunctionName": "lambda01-dev-api",
+              "FunctionName": "lambda04-dev-api",
               "MemorySize": 512,
               "Timeout": 10,
               "Environment": {
@@ -202,20 +233,77 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionT0exQGV9ldbrZ5YRALSbSvySRe06BzuVQq9V1OUMVQY": {
+          "SqsHandlerLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/lambda04/dev/1767856777917-2026-01-08T07:19:37.917Z/sqsHandler.zip"
+              },
+              "Handler": "dist/main.handler",
+              "Runtime": "nodejs18.x",
+              "FunctionName": "lambda04-dev-sqsHandler",
+              "MemorySize": 512,
+              "Timeout": 10,
+              "Environment": {
+                "Variables": {
+                  "MONGODB_URI": "your-mongodb-uri-here"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "SqsHandlerLogGroup"
+            ]
+          },
+          "ApiLambdaVersionlBdE81SdKuUXmbBbD9KXEkrRvMnd5f5rWjOGXFPN7Y": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "WTAGxE23ica552kF/oN/otWT1nsjUyxbSVUESxOTNmo="
+              "CodeSha256": "WnU+a15/g0Uu8z9g69eTs9AARP9NLJwjUtML11+cXxM="
+            }
+          },
+          "SqsHandlerLambdaVersionx9Lx9IkLStlNFbc0hCfSF038DFXKhSunk9abiXcdOk8": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "SqsHandlerLambdaFunction"
+              },
+              "CodeSha256": "WnU+a15/g0Uu8z9g69eTs9AARP9NLJwjUtML11+cXxM="
+            }
+          },
+          "SqsHandlerEventSourceMappingSQSLambdaproductcreatefifo": {
+            "Type": "AWS::Lambda::EventSourceMapping",
+            "DependsOn": [
+              "IamRoleLambdaExecution"
+            ],
+            "Properties": {
+              "BatchSize": 1,
+              "EventSourceArn": "arn:aws:sqs:us-east-1:466015320752:lambdaproductcreate.fifo",
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "SqsHandlerLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Enabled": true
             }
           },
           "HttpApi": {
             "Type": "AWS::ApiGatewayV2::Api",
             "Properties": {
-              "Name": "dev-lambda01",
+              "Name": "dev-lambda04",
               "ProtocolType": "HTTP"
             }
           },
@@ -311,16 +399,25 @@
               "Ref": "ServerlessDeploymentBucket"
             },
             "Export": {
-              "Name": "sls-lambda01-dev-ServerlessDeploymentBucketName"
+              "Name": "sls-lambda04-dev-ServerlessDeploymentBucketName"
             }
           },
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionT0exQGV9ldbrZ5YRALSbSvySRe06BzuVQq9V1OUMVQY"
+              "Ref": "ApiLambdaVersionlBdE81SdKuUXmbBbD9KXEkrRvMnd5f5rWjOGXFPN7Y"
             },
             "Export": {
-              "Name": "sls-lambda01-dev-ApiLambdaFunctionQualifiedArn"
+              "Name": "sls-lambda04-dev-ApiLambdaFunctionQualifiedArn"
+            }
+          },
+          "SqsHandlerLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "SqsHandlerLambdaVersionx9Lx9IkLStlNFbc0hCfSF038DFXKhSunk9abiXcdOk8"
+            },
+            "Export": {
+              "Name": "sls-lambda04-dev-SqsHandlerLambdaFunctionQualifiedArn"
             }
           },
           "HttpApiId": {
@@ -329,7 +426,7 @@
               "Ref": "HttpApi"
             },
             "Export": {
-              "Name": "sls-lambda01-dev-HttpApiId"
+              "Name": "sls-lambda04-dev-HttpApiId"
             }
           },
           "HttpApiUrl": {
@@ -354,7 +451,7 @@
               ]
             },
             "Export": {
-              "Name": "sls-lambda01-dev-HttpApiUrl"
+              "Name": "sls-lambda04-dev-HttpApiUrl"
             }
           }
         }
@@ -449,9 +546,6 @@
         "noPrependStageInUrl": true
       }
     },
-    "plugins": [
-      "serverless-offline"
-    ],
     "pluginsData": {},
     "functions": {
       "api": {
@@ -462,47 +556,76 @@
             "resolvedMethod": "ANY"
           }
         ],
-        "name": "lambda01-dev-api",
+        "name": "lambda04-dev-api",
         "package": {
-          "artifact": ".serverless/api.zip"
+          "artifact": "C:\\myprojects\\github\\demat\\NestjsMicroserviceMaster\\.serverless\\api.zip"
         },
         "memory": 512,
         "timeout": 10,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionT0exQGV9ldbrZ5YRALSbSvySRe06BzuVQq9V1OUMVQY"
+        "versionLogicalId": "ApiLambdaVersionlBdE81SdKuUXmbBbD9KXEkrRvMnd5f5rWjOGXFPN7Y"
+      },
+      "sqsHandler": {
+        "handler": "dist/main.handler",
+        "events": [
+          {
+            "sqs": {
+              "arn": "arn:aws:sqs:us-east-1:466015320752:lambdaproductcreate.fifo",
+              "batchSize": 1,
+              "maximumRetryAttempts": 2
+            }
+          }
+        ],
+        "name": "lambda04-dev-sqsHandler",
+        "package": {
+          "artifact": "C:\\myprojects\\github\\demat\\NestjsMicroserviceMaster\\.serverless\\sqsHandler.zip"
+        },
+        "memory": 512,
+        "timeout": 10,
+        "runtime": "nodejs18.x",
+        "vpc": {},
+        "versionLogicalId": "SqsHandlerLambdaVersionx9Lx9IkLStlNFbc0hCfSF038DFXKhSunk9abiXcdOk8"
       }
     },
     "configValidationMode": "warn",
-    "serviceFilename": "serverless",
+    "serviceFilename": "serverless.yml",
     "initialServerlessConfig": {
-      "service": "lambda01",
+      "service": "lambda04",
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
       },
-      "plugins": {
-        "$ref": "$[\"service\"][\"plugins\"]"
-      },
       "package": {
         "individually": true,
         "excludeDevDependencies": true,
-        "artifactsS3KeyDirname": "serverless/lambda01/dev/code-artifacts",
-        "artifactDirectoryName": "serverless/lambda01/dev/1747545273120-2025-05-18T05:14:33.120Z"
+        "patterns": [
+          "!node_modules/**",
+          "node_modules/@nestjs/**",
+          "node_modules/tslib/**",
+          "node_modules/@vendia/**",
+          "node_modules/reflect-metadata/**",
+          "node_modules/rxjs/**",
+          "node_modules/csv-parser/**",
+          "dist/**",
+          "src/templates/**",
+          "public/**"
+        ],
+        "artifactsS3KeyDirname": "serverless/lambda04/dev/code-artifacts",
+        "artifactDirectoryName": "serverless/lambda04/dev/1767856777917-2026-01-08T07:19:37.917Z"
       },
       "custom": {
         "$ref": "$[\"service\"][\"custom\"]"
       }
     },
-    "appId": null,
-    "orgId": null,
-    "layers": {}
+    "layers": {},
+    "isDashboardMonitoringPreconfigured": false
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/lambda01/dev/1747545273120-2025-05-18T05:14:33.120Z",
+    "artifactDirectoryName": "serverless/lambda04/dev/1767856777917-2026-01-08T07:19:37.917Z",
     "artifact": ""
   }
 }

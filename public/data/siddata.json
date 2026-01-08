@@ -97,43 +97,43 @@
   },
   {
     "iciciCode": "INDPES",
-    "sid": "INDPES"
+    "sid": "IPL"
   },
   {
     "iciciCode": "ADATRA",
-    "sid": "ADATRA"
+    "sid": "ADAI"
   },
   {
     "iciciCode": "FLAWRI",
-    "sid": "FLAWRI"
+    "sid": "FLAI"
   },
   {
     "iciciCode": "CIPLA",
-    "sid": "CIPLA"
+    "sid": "CIPL"
   },
   {
     "iciciCode": "GOPSNA",
-    "sid": "GOPSNA"
+    "sid": "GOPAL"
   },
   {
     "iciciCode": "MOTGTF",
-    "sid": "MOTGTF"
+    "sid": "MOG"
   },
   {
     "iciciCode": "ZEROSE",
-    "sid": "ZEROSE"
+    "sid": "SILVC"
   },
   {
     "iciciCode": "MOTSIL",
-    "sid": "MOTSIL"
+    "sid": "MOSI"
   },
   {
     "iciciCode": "VAIGLO",
-    "sid": "VAIGLO"
+    "sid": "VAIB"
   },
   {
     "iciciCode": "HDFSIL",
-    "sid": "HDFSIL"
+    "sid": "HDFCS"
   },
   {
     "iciciCode": "ONGC",
@@ -141,23 +141,23 @@
   },
   {
     "iciciCode": "JIOFIN",
-    "sid": "JIOFIN"
+    "sid": "JIO"
   },
   {
     "iciciCode": "AKMFIN",
-    "sid": "AKMFIN"
+    "sid": "AFI"
   },
   {
     "iciciCode": "INFTEC",
-    "sid": "INFTEC"
+    "sid": "INFY"
   },
   {
     "iciciCode": "PLAWIR",
-    "sid": "PLAWIR"
+    "sid": "PLA"
   },
   {
     "iciciCode": "RELIND",
-    "sid": "RELIND"
+    "sid": "RELI"
   },
   {
     "iciciCode": "ICINIF",
@@ -173,7 +173,7 @@
   },
   {
     "iciciCode": "INDREN",
-    "sid": "INDREN"
+    "sid": "IRE"
   },
   {
     "iciciCode": "ICIGOL",
@@ -185,7 +185,7 @@
   },
   {
     "iciciCode": "DELCOR",
-    "sid": "DELCOR"
+    "sid": "DELT"
   },
   {
     "iciciCode": "POPVEH",
@@ -193,7 +193,7 @@
   },
   {
     "iciciCode": "HINCOP",
-    "sid": "HINCOP"
+    "sid": "HCPR"
   },
   {
     "iciciCode": "NTPC",
@@ -205,11 +205,11 @@
   },
   {
     "iciciCode": "BIOCON",
-    "sid": "BIOCON"
+    "sid": "BION"
   },
   {
     "iciciCode": "ANUPHA",
-    "sid": "ANUPHA"
+    "sid": "ANUH"
   },
   {
     "iciciCode": "RKSWA",
@@ -217,7 +217,7 @@
   },
   {
     "iciciCode": "TRILTD",
-    "sid": "TRILTD"
+    "sid": "TRIE"
   },
   {
     "iciciCode": "HDFSTA",
@@ -233,7 +233,7 @@
   },
   {
     "iciciCode": "APOTYR",
-    "sid": "APOTYR"
+    "sid": "APLO"
   },
   {
     "iciciCode": "IDFBAN",
@@ -245,7 +245,7 @@
   },
   {
     "iciciCode": "ADAPOW",
-    "sid": "ADAPOW"
+    "sid": "ADAN"
   },
   {
     "iciciCode": "EMBOFF",
@@ -273,11 +273,11 @@
   },
   {
     "iciciCode": "TATSTE",
-    "sid": "TATSTE"
+    "sid": "TISC"
   },
   {
     "iciciCode": "MADCOP",
-    "sid": "MADCOP"
+    "sid": "MADC"
   },
   {
     "iciciCode": "NBCC",
@@ -289,7 +289,7 @@
   },
   {
     "iciciCode": "PCJEW",
-    "sid": "PCJEW"
+    "sid": "PCJE"
   },
   {
     "iciciCode": "PARPHA",

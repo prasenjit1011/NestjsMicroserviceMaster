@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yearly - {{sid}} {{stockName}} High/Low Analysis</title>
+    <link rel="stylesheet" href="/css/commonstyle.css">
+    <style>
+        .year-card .price-info {
+            margin: 15px 0;
+        }
+        
+        .year-card .label {
+            font-size: 0.9em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .year-card .value {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .year-card .high {
+            color: #28a745;
+        }
+        
+        .year-card .low {
+            color: #dc3545;
+        }
+        
+        .year-card .range {
+            color: #667eea;
+        }
+        
+        .year-card .percentage {
+            color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Yearly High/Low Analysis</h1>
+            <p class="subtitle">{{sid}} : {{stockName}} Stock Price Analysis by Year</p>
+        </div>
+        <!-- Latest Price Display -->
+        <div class="latest-price-box">
+            <h2>💰 Latest Stock Price</h2>
+            <div class="price">{{latestPrice}}</div>
+            <div class="date">As of {{latestDate}}</div>
+        </div>
+        
+        <h2 style="color: #333; margin-bottom: 25px; font-size: 1.8em; display: flex; justify-content: space-between; align-items: center;">
+            📊 Yearly High/Low Data
+            <span style="font-size: 0.7em; color: #555; font-weight: normal;">
+                <a href="/demat/quarterly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Quarterly</a>
+                | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Yearly</a>
+                | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Weekly</a>
+            </span>
+        </h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Low Price</th>
+                        <th>High Price</th>
+                        <th>Range</th>
+                        <th>Percentage Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{tableRows}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Go to Top Button -->
+    <button class="goto-top" id="gotoTopBtn" title="Go to top">↑</button>
+
+    <script>
+        // Get the button
+        const gotoTopBtn = document.getElementById('gotoTopBtn');
+
+        // Show button when user scrolls down 300px from top
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                gotoTopBtn.classList.add('show');
+            } else {
+                gotoTopBtn.classList.remove('show');
+            }
+        };
+
+        // Scroll to top when button is clicked
+        gotoTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

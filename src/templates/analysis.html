@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly - {{sid}} {{stockName}} Stock Data</title>
+    <link rel="stylesheet" href="/css/commonstyle.css">
+    <style>
+        .date-cell {
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        .week-cell {
+            color: #764ba2;
+            font-weight: 500;
+        }
+        
+        .goto-top:active {
+            transform: translateY(-2px);
+        }
+        
+        .goto-bottom:active {
+            transform: translateY(2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Analysis Dashboard</h1>
+            <p class="subtitle">{{sid}} : {{stockName}} Stock Data Analysis</p>
+        </div>
+        
+        <!-- Latest Price Display -->
+        <div class="latest-price-box">
+            <h2>💰 Latest Stock Price</h2>
+            <div class="price">{{latestPrice}}</div>
+            <div class="date">As of {{latestDate}}</div>
+        </div>
+
+        
+        <h2 class="section-header">
+            📊 Weekly Data
+            <span class="nav-links">
+                <a href="/demat/quarterly/{{sid}}/{{stockName}}">Quarterly</a>
+                | <a href="/demat/yearly/{{sid}}/{{stockName}}">Yearly</a>
+                | <a href="/demat/weekly/{{sid}}/{{stockName}}">Weekly</a>
+            </span>
+        </h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Timestamp</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{dataRows}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Go to Top Button -->
+    <button class="goto-top" id="gotoTopBtn" title="Go to top">↑</button>
+    
+    <!-- Go to Bottom Button -->
+    <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
+
+    <script>
+        // Get the buttons
+        const gotoTopBtn = document.getElementById('gotoTopBtn');
+        const gotoBottomBtn = document.getElementById('gotoBottomBtn');
+
+        // Show/hide buttons based on scroll position
+        window.onscroll = function() {
+            const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight;
+            
+            // Show top button when scrolled down 300px
+            if (scrollTop > 300) {
+                gotoTopBtn.classList.add('show');
+            } else {
+                gotoTopBtn.classList.remove('show');
+            }
+            
+            // Show bottom button when not at bottom and scrolled down a bit
+            if (scrollTop < scrollHeight - clientHeight - 100) {
+                gotoBottomBtn.classList.add('show');
+            } else {
+                gotoBottomBtn.classList.remove('show');
+            }
+        };
+
+        // Scroll to top when top button is clicked
+        gotoTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Scroll to bottom when bottom button is clicked
+        gotoBottomBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
