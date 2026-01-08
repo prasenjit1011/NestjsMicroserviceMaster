@@ -36,7 +36,7 @@ export class DematController {
     }
 
     // Read the HTML template
-    const templatePath = path.join(__dirname, 'templates', 'table-view.html');
+    const templatePath = path.join(__dirname, '../templates', 'table-view.html');
     let html = fs.readFileSync(templatePath, 'utf8');
     
     // Generate table rows
@@ -108,7 +108,7 @@ export class DematController {
         const latestDate = latestPoint ? new Date(latestPoint['ts']).toLocaleString() : 'N/A';
 
         // Read HTML template
-        const templatePath = path.join(__dirname, 'templates', 'analysis.html');
+        const templatePath = path.join(__dirname, '../templates', 'analysis.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Prepare data
@@ -205,7 +205,7 @@ export class DematController {
         });
 
         // Read HTML template
-        const templatePath = path.join(__dirname, 'templates', 'yearly-high-low.html');
+        const templatePath = path.join(__dirname, '../templates', 'yearly-high-low.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Generate table rows
@@ -297,7 +297,7 @@ export class DematController {
         });
 
         // Read HTML template
-        const templatePath = path.join(__dirname, 'templates', 'quarterly-high-low.html');
+        const templatePath = path.join(__dirname, '../templates', 'quarterly-high-low.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Generate table rows

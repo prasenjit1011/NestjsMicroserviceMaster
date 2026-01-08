@@ -38,6 +38,12 @@ plugins:
 package:
   individually: true
   excludeDevDependencies: true
+  patterns:
+    - '!node_modules/**'
+    - 'node_modules/@nestjs/**'
+    - 'dist/**'
+    - 'src/templates/**'
+    - 'public/**'
 
 custom:
   serverless-offline:
