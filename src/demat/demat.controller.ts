@@ -300,28 +300,52 @@ export class DematController {
         const templatePath = path.join(__dirname, '../templates', 'quarterly-high-low.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
-        // Generate table rows
-        const tableRows = Object.keys(quarterlyData).sort((a, b) => {
-          // Sort by year descending, then by quarter descending
-          const [yearA, qA] = a.split('-Q');
-          const [yearB, qB] = b.split('-Q');
-          if (yearB !== yearA) return Number(yearB) - Number(yearA);
-          return Number(qB) - Number(qA);
-        }).map(key => {
+        // Organize data by year and quarter for matrix view
+        let yearlyQuarters = {};
+        Object.keys(quarterlyData).forEach(key => {
           const data = quarterlyData[key];
-          const range = (data.high - data.low).toFixed(2);
-          const percentageChange = ((data.high - data.low) / data.low * 100).toFixed(2);
+          const year = data.year;
+          const quarter = data.quarter;
           
-          return `
+          if (!yearlyQuarters[year]) {
+            yearlyQuarters[year] = {};
+          }
+          yearlyQuarters[year][`Q${quarter}`] = data;
+        });
+
+        // Generate matrix rows (Year | Q1 | Q2 | Q3 | Q4)
+        const quarterlyMatrixRows = Object.keys(yearlyQuarters)
+          .sort((a, b) => Number(b) - Number(a)) // Sort years descending
+          .map(year => {
+            const quarters = yearlyQuarters[year];
+            
+            // Generate cell for each quarter
+            const generateQuarterCell = (quarterKey) => {
+              if (quarters[quarterKey]) {
+                const data = quarters[quarterKey];
+                const range = (data.high - data.low).toFixed(2);
+                return `
+                  <div class="quarter-cell">
+                    <span class="high-price">H: ₹${data.high.toFixed(2)}</span>
+                    <span class="low-price">L: ₹${data.low.toFixed(2)}</span>
+                    <span class="range">Range: ₹${range}</span>
+                  </div>
+                `;
+              } else {
+                return '<span style="color: #ccc;">-</span>';
+              }
+            };
+            
+            return `
               <tr>
-                  <td style="font-weight: 600; color: #667eea; font-size: 1.1em;">${key}</td>
-                  <td class="low-price">₹${data.low.toFixed(2)}</td>
-                  <td class="high-price">₹${data.high.toFixed(2)}</td>
-                  <td class="range">₹${range}</td>
-                  <td style="font-weight: 600; color: #ff9800;">${percentageChange}%</td>
+                <td class="year-label">${year}</td>
+                <td>${generateQuarterCell('Q1')}</td>
+                <td>${generateQuarterCell('Q2')}</td>
+                <td>${generateQuarterCell('Q3')}</td>
+                <td>${generateQuarterCell('Q4')}</td>
               </tr>
-          `;
-        }).join('');
+            `;
+          }).join('');
 
         // Replace placeholders (use replaceAll for multiple occurrences)
         html = html.replaceAll('{{stockName}}', stock);
@@ -331,7 +355,7 @@ export class DematController {
         html = html.replace('{{apiUrl}}', apiUrl);
         html = html.replace('{{latestPrice}}', `₹${latestPrice.toFixed(2)}`);
         html = html.replace('{{latestDate}}', latestDate);
-        html = html.replace('{{tableRows}}', tableRows);
+        html = html.replace('{{quarterlyMatrixRows}}', quarterlyMatrixRows);
 
         res.send(html);
       });

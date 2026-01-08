@@ -4,7 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quarterly - {{sid}} {{stockName}} High/Low Analysis</title>
-    <link rel="stylesheet" href="/css/quarterly-high-low.css">
+    <link rel="stylesheet" href="/css/commonstyle.css">
+    <style>
+        .latest-price-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .latest-price-box h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.5em;
+        }
+        .latest-price-box .price {
+            font-size: 3em;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .latest-price-box .date {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .quarter-matrix {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        .quarter-matrix table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .quarter-matrix th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .quarter-matrix th.year-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .quarter-matrix td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        .quarter-matrix tr:hover {
+            background: #f8f9fa;
+        }
+        .quarter-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .high-price {
+            color: #28a745;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        .low-price {
+            color: #dc3545;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        .range {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .year-label {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #333;
+            background: #f8f9fa;
+        }
+        .nav-links {
+            float: right;
+            font-size: 0.9em;
+        }
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+        }
+        .nav-links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,37 +104,36 @@
             <p class="subtitle">{{sid}} : {{stockName}} Stock Price Analysis by Quarter</p>
         </div>
         
-        
         <!-- Latest Price Display -->
         <div class="latest-price-box">
             <h2>💰 Latest Stock Price</h2>
             <div class="price">{{latestPrice}}</div>
             <div class="date">As of {{latestDate}}</div>
-            <p><strong>API URL:</strong> <a href="{{apiUrl}}" target="_blank" style="color: white;">{{apiUrl}}</a></p>
+            <p><strong>API URL:</strong> <a href="{{apiUrl}}" target="_blank" style="color: white; text-decoration: underline;">{{apiUrl}}</a></p>
         </div>
 
         <h2 class="section-header">
-            📊 Quarterly Data
+            📊 Quarterly Data Matrix
             <span class="nav-links">
                 <a href="/demat/quarterly/{{sid}}/{{stockName}}">Quarterly</a>
                 | <a href="/demat/yearly/{{sid}}/{{stockName}}">Yearly</a>
-                | <a href="/demat/weekly/{{sid}}/{{stockName}}">Weekly</a>
+                | <a href="/demat/analysis/{{sid}}/{{stockName}}">Weekly</a>
             </span>
         </h2>
 
-        <div class="table-container">
+        <div class="quarter-matrix">
             <table>
                 <thead>
                     <tr>
-                        <th>Quarter</th>
-                        <th>Low Price</th>
-                        <th>High Price</th>
-                        <th>Range</th>
-                        <th>Percentage Change</th>
+                        <th class="year-header">Year</th>
+                        <th>Q1 (Jan-Mar)</th>
+                        <th>Q2 (Apr-Jun)</th>
+                        <th>Q3 (Jul-Sep)</th>
+                        <th>Q4 (Oct-Dec)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{tableRows}}
+                    {{quarterlyMatrixRows}}
                 </tbody>
             </table>
         </div>
@@ -98,4 +188,5 @@
         });
     </script>
 </body>
+</html>
 </html>
