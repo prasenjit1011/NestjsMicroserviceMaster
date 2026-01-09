@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-// import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 //import { ProductModule } from './product/product.module';
 //import { ProductController } from './product/product.controller';
 // import { ProductModule } from './product/product.module';
 import { DematModule } from './demat/demat.module';
+import { CompanyModule } from './company/company.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
@@ -14,8 +15,9 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
-    // MongooseModule.forRoot('mongodb+srv://tester:tester1234@cluster0.hlicuim.mongodb.net/demodb?retryWrites=true&w=majority'),
+    MongooseModule.forRoot('mongodb+srv://tester:tester1234@cluster0.hlicuim.mongodb.net/demat?retryWrites=true&w=majority'),
     // ProductModule,
+    CompanyModule,
     DematModule,
   ],  
   controllers: [AppController],
