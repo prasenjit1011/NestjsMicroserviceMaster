@@ -138,16 +138,16 @@
       <h2 style="margin: 0 0 15px 0;">Portfolio Summary</h2>
       <div class="summary-grid">
         <div class="summary-item">
-          <div class="summary-label">Total Holdings</div>
-          <div class="summary-value" id="totalStocks">-</div>
+          <div class="summary-label">Buy Value</div>
+          <div class="summary-value" id="totalBuyValue">₹ -</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">Portfolio Value</div>
-          <div class="summary-value" id="totalValue">₹ -</div>
+          <div class="summary-label">Sell Value</div>
+          <div class="summary-value" id="totalSellValue">-</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">Total Quantity</div>
-          <div class="summary-value" id="totalQty">-</div>
+          <div class="summary-label">Investment Value</div>
+          <div class="summary-value" id="totalInvestmentValue">-</div>
         </div>
       </div>
     </div>
@@ -186,22 +186,26 @@
     function calculateSummary() {
       const rows = document.querySelectorAll('#tableBody tr');
       let totalStocks = rows.length;
-      let totalValue = 0;
-      let totalQty = 0;
+      let totalBuyValue = 0;
+      let totalSellValue = 0;
 
       rows.forEach(row => {
         const cells = row.cells;
         if (cells.length >= 9) {
-          const qty = parseFloat(cells[4].textContent.replace(/,/g, '')) || 0;
-          const total = parseFloat(cells[7].textContent.replace(/[₹,]/g, '')) || 0;
-          totalQty += qty;
-          totalValue += total;
+          const action = cells[3].textContent.trim();
+          const tradeValue = parseFloat(cells[7].textContent.replace(/[₹,]/g, '')) || 0;
+          
+          if (action === 'Buy') {
+            totalBuyValue += tradeValue;
+          } else if (action === 'Sell') {
+            totalSellValue += tradeValue;
+          }
         }
       });
+      document.getElementById('totalInvestmentValue').textContent = '₹ ' + (totalBuyValue - totalSellValue).toLocaleString('en-IN', {maximumFractionDigits: 2});
 
-      document.getElementById('totalStocks').textContent = totalStocks;
-      document.getElementById('totalValue').textContent = '₹ ' + totalValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
-      document.getElementById('totalQty').textContent = totalQty.toLocaleString('en-IN');
+      document.getElementById('totalBuyValue').textContent = '₹ ' + totalBuyValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalSellValue').textContent = '₹ ' + totalSellValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
     }
 
     // Search functionality
