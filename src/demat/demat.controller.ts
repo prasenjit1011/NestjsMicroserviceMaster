@@ -39,30 +39,17 @@ export class DematController {
     let years     = ['2021', '2022', '2023', '2024', '2025'];
     const data    = await this.dematService.getTradeDataFromCsv('2023');
     const dataRows = data.map((item, key) => {
-      // console.log('Processing item:', item.sid);
-      console.log('Processing item:', item);
-
+      const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
+      const sid     = sidItem ? sidItem.sid : 'N/A';
+      const itemData = apiData.data.find(data => data.sid === sid);
+      const apiPrice = itemData ? itemData.price.toFixed(0) : 0;
+      
       if(item.action == 'Buy'){
         buyValue += item.price * item.qty;
       }
       else{
         sellValue += item.price * item.qty;
       }
-
-
-      const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
-      const sid     = sidItem ? sidItem.sid : 'N/A';
-      const itemData = apiData.data.find(data => data.sid === sid);
-      const apiPrice = itemData ? itemData.price.toFixed(0) : 0;
-      
-      // const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
-      // const sid     = sidItem ? sidItem.sid : 'N/A';
-      // const itemData = apiData.data.find(data => data.sid === sid);
-      // const apiPrice = itemData ? itemData.price.toFixed(0) : 0;
-      // const dyChange = itemData ? itemData.dyChange.toFixed(0) : 0;
-      // const profit = itemData ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
-      // console.log(apiPrice);
-      // console.log('=====================');
 
       return `
         <tr>
@@ -76,7 +63,8 @@ export class DematController {
           <td class="total">₹${item.tradevalue.toFixed(0) || 'N/A'}</td>
           <td>${item.dtd || 'N/A'}</td>
         </tr>
-      `}).join('');
+      `
+    }).join('');
     
     // Replace placeholders
     html = html.replace('{{dataRows}}', dataRows);
