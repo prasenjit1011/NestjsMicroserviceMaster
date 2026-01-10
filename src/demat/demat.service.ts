@@ -49,7 +49,7 @@ export class DematService {
             // Convert string values to numbers
             results.push({
               sid: data['Stock'] || data.sid || '',
-              name: data['Action'] || data.name || '',
+              action: data['Action'] || data.name || '',
               price: parseFloat(data['Price'] || data.price || '0') || 0,
               qty: parseInt(data['Qty'] || data.qty || '0') || 0,
               tradevalue: parseFloat(data['Trade Value'] || data.tradevalue || '0') || 0

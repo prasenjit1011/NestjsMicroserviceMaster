@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demat Portfolio</title>
+  <link rel="stylesheet" href="/css/commonstyle.css">
+  <style>
+    .price {
+      color: #28a745;
+      font-weight: 600;
+    }
+    .qty {
+      color: #007bff;
+      font-weight: 600;
+    }
+    .total {
+      color: #dc3545;
+      font-weight: 700;
+      font-size: 1.1em;
+    }
+    .positive {
+      color: #28a745;
+      font-weight: 600;
+    }
+    .negative {
+      color: #dc3545;
+      font-weight: 600;
+    }
+    .summary-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 15px;
+    }
+    .summary-item {
+      text-align: center;
+      padding: 15px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+    }
+    .summary-label {
+      font-size: 0.9em;
+      opacity: 0.9;
+      margin-bottom: 5px;
+    }
+    .summary-value {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+    .search-box {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+      transition: all 0.3s;
+    }
+    .search-box input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+    tbody tr {
+      transition: all 0.3s;
+    }
+    tbody tr:hover {
+      background: #f0f7ff;
+      transform: scale(1.01);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    th {
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      padding-right: 25px;
+    }
+    th:hover {
+      background: #5a67d8;
+    }
+    th.sortable::after {
+      content: '⇅';
+      position: absolute;
+      right: 8px;
+      opacity: 0.5;
+    }
+    th.sorted-asc::after {
+      content: '↑';
+      opacity: 1;
+    }
+    th.sorted-desc::after {
+      content: '↓';
+      opacity: 1;
+    }
+    .footer {
+      padding: 20px;
+      text-align: center;
+      background: #f8f9fa;
+      color: #6c757d;
+      font-size: 0.9em;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .stock-link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .stock-link:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📊 Demat Portfolio</h1>
+      <p>Your Stock Holdings Overview with Live Prices</p>
+    </div>
+
+    <div class="summary-box">
+      <h2 style="margin: 0 0 15px 0;">Portfolio Summary</h2>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-label">Total Holdings</div>
+          <div class="summary-value" id="totalStocks">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Portfolio Value</div>
+          <div class="summary-value" id="totalValue">₹ -</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Total Quantity</div>
+          <div class="summary-value" id="totalQty">-</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
+    </div>
+
+    <table id="portfolioTable">
+      <thead>
+        <tr>
+          <th class="sortable" data-column="0">#</th>
+          <th class="sortable" data-column="1">SID</th>
+          <th class="sortable" data-column="1">Name</th>
+          <th class="sortable" data-column="2">Action</th>
+          <th class="sortable" data-column="6">Quantity</th>
+          <th class="sortable" data-column="7">Price (₹)</th>
+          <th class="sortable" data-column="8">TradeValue(₹)</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        {{dataRows}}
+      </tbody>
+    </table>
+
+    <div class="footer">
+      <p><strong>Last Updated:</strong> {{TIMESTAMP}}</p>
+      <p>Data refreshed from Tickertape API | Portfolio tracked live</p>
+    </div>
+  </div>
+
+  <script>
+    // Calculate portfolio summary
+    function calculateSummary() {
+      const rows = document.querySelectorAll('#tableBody tr');
+      let totalStocks = rows.length;
+      let totalValue = 0;
+      let totalQty = 0;
+
+      rows.forEach(row => {
+        const cells = row.cells;
+        if (cells.length >= 8) {
+          const qty = parseFloat(cells[6].textContent.replace(/,/g, '')) || 0;
+          const total = parseFloat(cells[7].textContent.replace(/[₹,]/g, '')) || 0;
+          totalQty += qty;
+          totalValue += total;
+        }
+      });
+
+      document.getElementById('totalStocks').textContent = totalStocks;
+      document.getElementById('totalValue').textContent = '₹ ' + totalValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalQty').textContent = totalQty.toLocaleString('en-IN');
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const rows = document.querySelectorAll('#tableBody tr');
+      
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+      });
+    });
+
+    // Table sorting
+    let sortDirection = {};
+    document.querySelectorAll('th.sortable').forEach(header => {
+      header.addEventListener('click', function() {
+        const column = parseInt(this.dataset.column);
+        const table = document.getElementById('portfolioTable');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        
+        // Toggle sort direction
+        sortDirection[column] = sortDirection[column] === 'asc' ? 'desc' : 'asc';
+        
+        // Remove sorted class from all headers
+        document.querySelectorAll('th').forEach(h => {
+          h.classList.remove('sorted-asc', 'sorted-desc');
+        });
+        
+        // Add sorted class to current header
+        this.classList.add(sortDirection[column] === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        
+        // Sort rows
+        rows.sort((a, b) => {
+          let aVal = a.cells[column].textContent.trim();
+          let bVal = b.cells[column].textContent.trim();
+          
+          // Remove currency symbols and commas for numeric comparison
+          aVal = aVal.replace(/[₹,%]/g, '');
+          bVal = bVal.replace(/[₹,%]/g, '');
+          
+          // Try numeric comparison first
+          const aNum = parseFloat(aVal);
+          const bNum = parseFloat(bVal);
+          
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            return sortDirection[column] === 'asc' ? aNum - bNum : bNum - aNum;
+          }
+          
+          // String comparison
+          return sortDirection[column] === 'asc' 
+            ? aVal.localeCompare(bVal)
+            : bVal.localeCompare(aVal);
+        });
+        
+        // Re-append sorted rows
+        rows.forEach(row => tbody.appendChild(row));
+      });
+    });
+
+    // Calculate summary on page load
+    window.addEventListener('load', calculateSummary);
+  </script>
+</body>
+</html>

@@ -26,11 +26,42 @@ export class DematController {
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
     // console.log('API URL:', apiUrl);
 
+    // Read the HTML template
+    const templatePath = path.join(__dirname, '../templates', 'tradelist.html');
+    let html = fs.readFileSync(templatePath, 'utf8');
 
+    // Generate table rows
+    const dataRows = data.map((item, key) => {
+      // console.log('Processing item:', item.sid);
+      console.log('Processing item:', item);
 
+      // const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
+      // const sid     = sidItem ? sidItem.sid : 'N/A';
+      // const itemData = apiData.data.find(data => data.sid === sid);
+      // const apiPrice = itemData ? itemData.price.toFixed(0) : 0;
+      // const dyChange = itemData ? itemData.dyChange.toFixed(0) : 0;
+      // const profit = itemData ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
+      // console.log(apiPrice);
+      // console.log('=====================');
 
-    // Table View
-    return res.send('<h1>Trade Table View</h1>');
+      return `
+        <tr>
+          <td class="total">${key+1}</td>
+          <td>${item.sid || 'N/A'}</td>
+          <td>${item.sid || 'N/A'}</td>
+          <td>${item.action || 'N/A'}</td>
+          <td class="qty">${item.qty || 'N/A'}</td>
+          <td class="total">₹${item.price.toFixed(0) || 'N/A'}</td>
+          <td class="total">₹${item.tradevalue.toFixed(0) || 'N/A'}</td>
+        </tr>
+      `}).join('');
+    
+    // Replace placeholders
+    html = html.replace('{{dataRows}}', dataRows);
+    html = html.replace('{{TIMESTAMP}}', new Date().toLocaleString());
+
+    res.setHeader('Content-Type', 'text/html');
+    res.send(html);
   }
 
 
