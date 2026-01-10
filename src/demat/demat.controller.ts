@@ -15,6 +15,26 @@ export class DematController {
     return this.dematService.getDataFromCsv();
   }
 
+  @Get('/tradelist')
+  async getTradeTableView(@Res() res: Response) {
+    const data    = await this.dematService.getTradeDataFromCsv();
+    const sidData = this.dematService.getDataFromJson();
+    const sidIds  = sidData.map(item => item.sid).join(',');
+    // console.log('SID IDs:', sidIds);
+
+    // Fetch data from Tickertape API
+    const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
+    // console.log('API URL:', apiUrl);
+
+
+
+
+    // Table View
+    return res.send('<h1>Trade Table View</h1>');
+  }
+
+
+
   @Get('/')
   async getTableView(@Res() res: Response) {
     const data    = await this.dematService.getDataFromCsv();
