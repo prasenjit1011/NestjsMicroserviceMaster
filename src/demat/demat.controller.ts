@@ -17,7 +17,6 @@ export class DematController {
 
   @Get('/tradelist')
   async getTradeTableView(@Res() res: Response) {
-    const data    = await this.dematService.getTradeDataFromCsv();
     const sidData = this.dematService.getDataFromJson();
     const sidIds  = sidData.map(item => item.sid).join(',');
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
@@ -36,6 +35,9 @@ export class DematController {
     
     let sellValue = 0;
     let buyValue  = 0;
+
+    let years     = ['2021', '2022', '2023', '2024', '2025'];
+    const data    = await this.dematService.getTradeDataFromCsv('2023');
     const dataRows = data.map((item, key) => {
       // console.log('Processing item:', item.sid);
       console.log('Processing item:', item);

@@ -37,11 +37,11 @@ export class DematService {
   }
 
   
-  async getTradeDataFromCsv(): Promise<any[]> {
+  async getTradeDataFromCsv(year): Promise<any[]> {
     return new Promise((resolve, reject) => {
       const results = [];
-      const filePath = path.join(__dirname, '../../public/data/trade-2025.csv');
-      
+      const filePath = path.join(__dirname, `../../public/data/trade-${year}.csv`);
+
       try {
         fs.createReadStream(filePath)
           .pipe(csv())
