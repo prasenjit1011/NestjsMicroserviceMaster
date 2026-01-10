@@ -310,5 +310,241 @@
   {
     "iciciCode": "TATMOT",
     "sid": "TAMO"
+  },
+  {
+    "iciciCode": "ICIBAN",
+    "sid": "ICBK"
+  },
+  {
+    "iciciCode": "ASHLEY",
+    "sid": "ASHLEY"
+  },
+  {
+    "iciciCode": "REFIND",
+    "sid": "REFIND"
+  },
+  {
+    "iciciCode": "HUDCO",
+    "sid": "HUDCO"
+  },
+  {
+    "iciciCode": "DOLINV",
+    "sid": "DOLINV"
+  },
+  {
+    "iciciCode": "CESC",
+    "sid": "CESC"
+  },
+  {
+    "iciciCode": "INDR",
+    "sid": "INDR"
+  },
+  {
+    "iciciCode": "INDOIL",
+    "sid": "INDOIL"
+  },
+  {
+    "iciciCode": "ESSSH",
+    "sid": "ESSSH"
+  },
+  {
+    "iciciCode": "DCB",
+    "sid": "DCB"
+  },
+  {
+    "iciciCode": "IDBI",
+    "sid": "IDBI"
+  },
+  {
+    "iciciCode": "ZOMLIM",
+    "sid": "ZOMLIM"
+  },
+  {
+    "iciciCode": "SULVIN",
+    "sid": "SULVIN"
+  },
+  {
+    "iciciCode": "ABAHOL",
+    "sid": "ABAHOL"
+  },
+  {
+    "iciciCode": "KALJEW",
+    "sid": "KALJEW"
+  },
+  {
+    "iciciCode": "RELNIP",
+    "sid": "RELNIP"
+  },
+  {
+    "iciciCode": "PARDEF",
+    "sid": "PARDEF"
+  },
+  {
+    "iciciCode": "DIVLAB",
+    "sid": "DIVLAB"
+  },
+  {
+    "iciciCode": "HDFBAN",
+    "sid": "HDFBAN"
+  },
+  {
+    "iciciCode": "BRIIND",
+    "sid": "BRIIND"
+  },
+  {
+    "iciciCode": "PIDIND",
+    "sid": "PIDIND"
+  },
+  {
+    "iciciCode": "MANAFI",
+    "sid": "MANAFI"
+  },
+  {
+    "iciciCode": "HINDAL",
+    "sid": "HINDAL"
+  },
+  {
+    "iciciCode": "AGRPHO",
+    "sid": "AGRPHO"
+  },
+  {
+    "iciciCode": "NIVMER",
+    "sid": "NIVMER"
+  },
+  {
+    "iciciCode": "ADAWIL",
+    "sid": "ADAWIL"
+  },
+  {
+    "iciciCode": "STABAN",
+    "sid": "STABAN"
+  },
+  {
+    "iciciCode": "CASIND",
+    "sid": "CASIND"
+  },
+  {
+    "iciciCode": "KIRIDY",
+    "sid": "KIRIDY"
+  },
+  {
+    "iciciCode": "PUNBAN",
+    "sid": "PUNBAN"
+  },
+  {
+    "iciciCode": "VEDLIM",
+    "sid": "VEDLIM"
+  },
+  {
+    "iciciCode": "NMDSTE",
+    "sid": "NMDSTE"
+  },
+  {
+    "iciciCode": "GAIL",
+    "sid": "GAIL"
+  },
+  {
+    "iciciCode": "ADAPOR",
+    "sid": "ADAPOR"
+  },
+  {
+    "iciciCode": "LIC",
+    "sid": "LIC"
+  },
+  {
+    "iciciCode": "NAVCOR",
+    "sid": "NAVCOR"
+  },
+  {
+    "iciciCode": "HINPET",
+    "sid": "HINPET"
+  },
+  {
+    "iciciCode": "FSNECO",
+    "sid": "FSNECO"
+  },
+  {
+    "iciciCode": "HINOIL",
+    "sid": "HINOIL"
+  },
+  {
+    "iciciCode": "FININD",
+    "sid": "FININD"
+  },
+  {
+    "iciciCode": "GOLDEX",
+    "sid": "GOLDEX"
+  },
+  {
+    "iciciCode": "GSPL",
+    "sid": "GSPL"
+  },
+  {
+    "iciciCode": "UDACEM",
+    "sid": "UDACEM"
+  },
+  {
+    "iciciCode": "TCM",
+    "sid": "TCM"
+  },
+  {
+    "iciciCode": "ELIELE",
+    "sid": "ELIELE"
+  },
+  {
+    "iciciCode": "BANIND",
+    "sid": "BANIND"
+  },
+  {
+    "iciciCode": "GUJGA",
+    "sid": "GUJGA"
+  },
+  {
+    "iciciCode": "MAHLO",
+    "sid": "MAHLO"
+  },
+  {
+    "iciciCode": "MOTSUM",
+    "sid": "MOTSUM"
+  },
+  {
+    "iciciCode": "SHACRO",
+    "sid": "SHACRO"
+  },
+  {
+    "iciciCode": "PARPHO",
+    "sid": "PARPHO"
+  },
+  {
+    "iciciCode": "CROGR",
+    "sid": "CROGR"
+  },
+  {
+    "iciciCode": "FUTVEN",
+    "sid": "FUTVEN"
+  },
+  {
+    "iciciCode": "PARMIL",
+    "sid": "PARMIL"
+  },
+  {
+    "iciciCode": "BHEL",
+    "sid": "BHEL"
+  },
+  {
+    "iciciCode": "INDLTD",
+    "sid": "INDLTD"
+  },
+  {
+    "iciciCode": "KROLAB",
+    "sid": "KROLAB"
+  },
+  {
+    "iciciCode": "VRAIRO",
+    "sid": "VRAIRO"
+  },
+  {
+    "iciciCode": "AGSTRA",
+    "sid": "AGSTRA"
   }
 ]

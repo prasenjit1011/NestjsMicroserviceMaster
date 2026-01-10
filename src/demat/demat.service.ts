@@ -9,7 +9,7 @@ export class DematService {
   async getDataFromCsv(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       const results = [];
-      const filePath = path.join(__dirname, '../../public/data/data.csv');
+      const filePath = path.join(__dirname, '../../public/data/portfoliodata.csv');
       
       try {
         fs.createReadStream(filePath)

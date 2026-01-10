@@ -36,35 +36,67 @@ export class DematController {
     let sellValue = 0;
     let buyValue  = 0;
 
-    let years     = ['2021', '2022', '2023', '2024', '2025'];
-    const data    = await this.dematService.getTradeDataFromCsv('2023');
-    const dataRows = data.map((item, key) => {
-      const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
-      const sid     = sidItem ? sidItem.sid : 'N/A';
-      const itemData = apiData.data.find(data => data.sid === sid);
-      const apiPrice = itemData ? itemData.price.toFixed(0) : 0;
-      
-      if(item.action == 'Buy'){
-        buyValue += item.price * item.qty;
+    const missingSidsSet = new Set();  // Use Set to track unique missing SIDs
+    const years = ['2021', '2022', '2023', '2024', '2025', '2026'];
+    
+    // Fetch all trade data from all years
+    const yearlyTradeData = await Promise.all(
+      years.map(year => this.dematService.getTradeDataFromCsv(year))
+    );
+    
+    // Flatten all trades into a single array
+    const allTrades = yearlyTradeData.flat();
+    
+    console.log(`Total trades across all years: ${allTrades.length}`);
+    console.log('Breakdown by year:', yearlyTradeData.map((trades, i) => 
+      `${years[i]}: ${trades.length} trades`
+    ).join(', '));
+
+    // Create lookup maps for O(1) access
+    const sidDataMap = new Map(sidData.map(item => [item.iciciCode, item.sid]));
+    const apiDataMap = new Map(apiData.data?.map(item => [item.sid, item]) || []);
+
+    const dataRows = allTrades.map((item, index) => {
+      // Calculate buy/sell values
+      const tradeValue = item.price * item.qty;
+      if (item.action === 'Buy') {
+        buyValue += tradeValue;
+      } else {
+        sellValue += tradeValue;
       }
-      else{
-        sellValue += item.price * item.qty;
+
+      // Use Map for O(1) lookup
+      const sid = sidDataMap.get(item.sid) || 'N/A';
+      const itemData = apiDataMap.get(sid);
+      const apiPrice = itemData && (itemData as any).price ? (itemData as any).price.toFixed(0) : '0';
+      
+
+      if(!apiPrice || apiPrice === '0'){
+        missingSidsSet.add(item.sid);  // Add unique SID to Set
       }
 
       return `
         <tr>
-          <td class="total">${key+1}</td>
+          <td class="total">${index + 1}</td>
           <td>${item.sid || 'N/A'}</td>
           <td>${item.sid || 'N/A'}</td>
           <td>${item.action || 'N/A'}</td>
-          <td class="qty">${item.qty || 'N/A'}</td>
-          <td class="total">₹${item.price.toFixed(0) || 'N/A'}</td>
+          <td class="qty">${item.qty || 0}</td>
+          <td class="total">₹${item.price?.toFixed(0) || '0'}</td>
           <td class="total">₹${apiPrice}</td>
-          <td class="total">₹${item.tradevalue.toFixed(0) || 'N/A'}</td>
+          <td class="total">₹${item.tradevalue?.toFixed(0) || '0'}</td>
           <td>${item.dtd || 'N/A'}</td>
         </tr>
-      `
+      `;
     }).join('');
+    
+    // Log missing SIDs (stocks without API price data)
+    if(missingSidsSet.size > 0) {
+      const missingSidsArray = Array.from(missingSidsSet).map(sid => ({iciciCode: sid, sid: sid}));
+      console.log(`\n⚠️  Missing API data for ${missingSidsSet.size} unique stocks:`);
+      console.log(JSON.stringify(missingSidsArray, null, 2));
+      console.log('Length : '+missingSidsArray.length);
+    }
     
     // Replace placeholders
     html = html.replace('{{dataRows}}', dataRows);
@@ -111,6 +143,11 @@ export class DematController {
       const profit = itemData ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
       // console.log(apiPrice);
       // console.log('=====================');
+
+      if(item.qty === 0){
+        // Handle zero quantity case
+        return ``;
+      }
 
       return `
       <tr>
