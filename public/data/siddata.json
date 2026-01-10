@@ -316,235 +316,236 @@
     "sid": "ICBK"
   },
   {
-    "iciciCode": "ASHLEY",
-    "sid": "ASHLEY"
+    "sid": "AHL",
+    "iciciCode": "ABAHOL"
   },
   {
-    "iciciCode": "REFIND",
-    "sid": "REFIND"
+    "sid": "APSE",
+    "iciciCode": "ADAPOR"
   },
   {
-    "iciciCode": "HUDCO",
-    "sid": "HUDCO"
+    "sid": "AWL",
+    "iciciCode": "ADAWIL"
   },
   {
-    "iciciCode": "DOLINV",
-    "sid": "DOLINV"
+    "sid": "AGRP",
+    "iciciCode": "AGRPHO"
   },
   {
-    "iciciCode": "CESC",
-    "sid": "CESC"
+    "sid": "AGS",
+    "iciciCode": "AGSTRA"
   },
   {
-    "iciciCode": "INDR",
-    "sid": "INDR"
+    "sid": "ASOK",
+    "iciciCode": "ASHLEY"
   },
   {
-    "iciciCode": "INDOIL",
-    "sid": "INDOIL"
+    "sid": "BOI",
+    "iciciCode": "BANIND"
   },
   {
-    "iciciCode": "ESSSH",
-    "sid": "ESSSH"
+    "sid": "BHEL",
+    "iciciCode": "BHEL"
   },
   {
-    "iciciCode": "DCB",
-    "sid": "DCB"
+    "sid": "BRIT",
+    "iciciCode": "BRIIND"
   },
   {
-    "iciciCode": "IDBI",
-    "sid": "IDBI"
+    "sid": "CAST",
+    "iciciCode": "CASIND"
   },
   {
-    "iciciCode": "ZOMLIM",
-    "sid": "ZOMLIM"
+    "sid": "CESC",
+    "iciciCode": "CESC"
   },
   {
-    "iciciCode": "SULVIN",
-    "sid": "SULVIN"
+    "sid": "CROP",
+    "iciciCode": "CROGR"
   },
   {
-    "iciciCode": "ABAHOL",
-    "sid": "ABAHOL"
+    "sid": "DCBA",
+    "iciciCode": "DCB"
   },
   {
-    "iciciCode": "KALJEW",
-    "sid": "KALJEW"
+    "sid": "DIVI",
+    "iciciCode": "DIVLAB"
   },
   {
-    "iciciCode": "RELNIP",
-    "sid": "RELNIP"
+    "sid": "DOLA",
+    "iciciCode": "DOLINV"
   },
   {
-    "iciciCode": "PARDEF",
-    "sid": "PARDEF"
+    "sid": "ELIN",
+    "iciciCode": "ELIELE"
   },
   {
-    "iciciCode": "DIVLAB",
-    "sid": "DIVLAB"
+    "sid": "ESPL",
+    "iciciCode": "ESSSH"
   },
   {
-    "iciciCode": "HDFBAN",
-    "sid": "HDFBAN"
+    "sid": "FINX",
+    "iciciCode": "FININD"
   },
   {
-    "iciciCode": "BRIIND",
-    "sid": "BRIIND"
+    "sid": "NYK",
+    "iciciCode": "FSNECO"
   },
   {
-    "iciciCode": "PIDIND",
-    "sid": "PIDIND"
+    "sid": "FTRE",
+    "iciciCode": "FUTVEN"
   },
   {
-    "iciciCode": "MANAFI",
-    "sid": "MANAFI"
+    "sid": "GAIL",
+    "iciciCode": "GAIL"
   },
   {
-    "iciciCode": "HINDAL",
-    "sid": "HINDAL"
+    "sid": "GBES",
+    "iciciCode": "GOLDEX"
   },
   {
-    "iciciCode": "AGRPHO",
-    "sid": "AGRPHO"
+    "sid": "GSPT",
+    "iciciCode": "GSPL"
   },
   {
-    "iciciCode": "NIVMER",
-    "sid": "NIVMER"
+    "sid": "GSPT",
+    "iciciCode": "GSPL"
   },
   {
-    "iciciCode": "ADAWIL",
-    "sid": "ADAWIL"
+    "sid": "GGAS",
+    "iciciCode": "GUJGA"
   },
   {
-    "iciciCode": "STABAN",
-    "sid": "STABAN"
+    "sid": "HDBK",
+    "iciciCode": "HDFBAN"
   },
   {
-    "iciciCode": "CASIND",
-    "sid": "CASIND"
+    "sid": "HALC",
+    "iciciCode": "HINDAL"
   },
   {
-    "iciciCode": "KIRIDY",
-    "sid": "KIRIDY"
+    "sid": "HOEX",
+    "iciciCode": "HINOIL"
   },
   {
-    "iciciCode": "PUNBAN",
-    "sid": "PUNBAN"
+    "sid": "HPCL",
+    "iciciCode": "HINPET"
   },
   {
-    "iciciCode": "VEDLIM",
-    "sid": "VEDLIM"
+    "sid": "HUDC",
+    "iciciCode": "HUDCO"
   },
   {
-    "iciciCode": "NMDSTE",
-    "sid": "NMDSTE"
+    "sid": "ICBK",
+    "iciciCode": "ICIBAN"
   },
   {
-    "iciciCode": "GAIL",
-    "sid": "GAIL"
+    "sid": "IDBI",
+    "iciciCode": "IDBI"
   },
   {
-    "iciciCode": "ADAPOR",
-    "sid": "ADAPOR"
+    "sid": "IOC",
+    "iciciCode": "INDOIL"
   },
   {
-    "iciciCode": "LIC",
-    "sid": "LIC"
+    "sid": "IRF",
+    "iciciCode": "INDR"
   },
   {
-    "iciciCode": "NAVCOR",
-    "sid": "NAVCOR"
+    "sid": "KALYA",
+    "iciciCode": "KALJEW"
   },
   {
-    "iciciCode": "HINPET",
-    "sid": "HINPET"
+    "sid": "KIRI",
+    "iciciCode": "KIRIDY"
   },
   {
-    "iciciCode": "FSNECO",
-    "sid": "FSNECO"
+    "sid": "LIC",
+    "iciciCode": "LIC"
   },
   {
-    "iciciCode": "HINOIL",
-    "sid": "HINOIL"
+    "sid": "MALO",
+    "iciciCode": "MAHLO"
   },
   {
-    "iciciCode": "FININD",
-    "sid": "FININD"
+    "sid": "MNFL",
+    "iciciCode": "MANAFI"
   },
   {
-    "iciciCode": "GOLDEX",
-    "sid": "GOLDEX"
+    "sid": "MOSS",
+    "iciciCode": "MOTSUM"
   },
   {
-    "iciciCode": "GSPL",
-    "sid": "GSPL"
+    "sid": "NAVR",
+    "iciciCode": "NAVCOR"
   },
   {
-    "iciciCode": "UDACEM",
-    "sid": "UDACEM"
+    "sid": "START",
+    "iciciCode": "NIVMER"
   },
   {
-    "iciciCode": "TCM",
-    "sid": "TCM"
+    "sid": "NSLN",
+    "iciciCode": "NMDSTE"
   },
   {
-    "iciciCode": "ELIELE",
-    "sid": "ELIELE"
+    "sid": "NSLN",
+    "iciciCode": "NMDSTE"
   },
   {
-    "iciciCode": "BANIND",
-    "sid": "BANIND"
+    "sid": "PARAS",
+    "iciciCode": "PARDEF"
   },
   {
-    "iciciCode": "GUJGA",
-    "sid": "GUJGA"
+    "sid": "PAMF",
+    "iciciCode": "PARMIL"
+  },
+
+  {
+    "sid": "PARAD",
+    "iciciCode": "PARPHO"
   },
   {
-    "iciciCode": "MAHLO",
-    "sid": "MAHLO"
+    "sid": "PIDI",
+    "iciciCode": "PIDIND"
   },
   {
-    "iciciCode": "MOTSUM",
-    "sid": "MOTSUM"
+    "sid": "PNBK",
+    "iciciCode": "PUNBAN"
   },
   {
-    "iciciCode": "SHACRO",
-    "sid": "SHACRO"
+    "sid": "REFE",
+    "iciciCode": "REFIND"
   },
   {
-    "iciciCode": "PARPHO",
-    "sid": "PARPHO"
+    "sid": "NIPF",
+    "iciciCode": "RELNIP"
   },
   {
-    "iciciCode": "CROGR",
-    "sid": "CROGR"
+    "sid": "SHCR",
+    "iciciCode": "SHACRO"
   },
   {
-    "iciciCode": "FUTVEN",
-    "sid": "FUTVEN"
+    "sid": "SBI",
+    "iciciCode": "STABAN"
   },
-  {
-    "iciciCode": "PARMIL",
-    "sid": "PARMIL"
-  },
-  {
-    "iciciCode": "BHEL",
-    "sid": "BHEL"
-  },
-  {
-    "iciciCode": "INDLTD",
-    "sid": "INDLTD"
-  },
-  {
-    "iciciCode": "KROLAB",
-    "sid": "KROLAB"
-  },
-  {
-    "iciciCode": "VRAIRO",
-    "sid": "VRAIRO"
-  },
-  {
-    "iciciCode": "AGSTRA",
-    "sid": "AGSTRA"
-  }
+{
+  "sid": "SULA",
+  "iciciCode": "SULVIN"
+},
+{
+  "sid": "TCM",
+  "iciciCode": "TCM"
+},
+{
+  "sid": "JKU",
+  "iciciCode": "UDACEM"
+},
+{
+  "sid": "VDAN",
+  "iciciCode": "VEDLIM"
+},
+{
+  "sid": "ZOM",
+  "iciciCode": "ZOMLIM"
+}
 ]

@@ -146,6 +146,7 @@ export class DematController {
 
       if(item.qty === 0){
         // Handle zero quantity case
+        console.log('"', item.sid, '", ');
         return ``;
       }
 
