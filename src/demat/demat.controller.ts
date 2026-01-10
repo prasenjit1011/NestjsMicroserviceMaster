@@ -40,7 +40,7 @@ export class DematController {
     let html = fs.readFileSync(templatePath, 'utf8');
     
     // Generate table rows
-    const tableRows = data.map(item => {
+    const tableRows = data.map((item, key) => {
       // console.log('Processing item:', item.sid);
       // console.log('Processing item:', item);
 
@@ -55,6 +55,7 @@ export class DematController {
 
       return `
       <tr>
+        <td class="total">${key+1}</td>
         <td>${item.sid || 'N/A'}</td>
         <td>${sid || 'N/A'}</td>
         <td>

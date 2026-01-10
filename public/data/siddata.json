@@ -294,5 +294,21 @@
   {
     "iciciCode": "PARPHA",
     "sid": "PARMA"
+  },
+  {
+    "iciciCode": "AVESUP",
+    "sid": "AVEU"
+  },
+  {
+    "iciciCode": "SAIL",
+    "sid": "SAIL"
+  },
+  {
+    "iciciCode": "MAHGAS",
+    "sid": "MGAS"
+  },
+  {
+    "iciciCode": "TATMOT",
+    "sid": "TAMO"
   }
 ]
