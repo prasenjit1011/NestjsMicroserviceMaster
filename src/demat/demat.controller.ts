@@ -79,7 +79,7 @@ export class DematController {
         <tr>
           <td class="total">${index + 1}</td>
           <td>${item.sid || 'N/A'}</td>
-          <td>${item.sid || 'N/A'}</td>
+          <td><a href="/demat/quarterly/${sid}/${item.sid || 'N/A'}" target="_blank">${item.sid || 'N/A'}</a></td>
           <td>${item.action || 'N/A'}</td>
           <td class="qty">${item.qty || 0}</td>
           <td class="total">₹${item.price?.toFixed(0) || '0'}</td>
@@ -146,14 +146,18 @@ export class DematController {
 
       if(item.qty === 0){
         // Handle zero quantity case
-        console.log('"', item.sid, '", ');
-        return ``;
+        // console.log('"', item.sid, '", ');
+        // return ``;
       }
 
       return `
       <tr>
         <td class="total">${key+1}</td>
-        <td>${item.sid || 'N/A'}</td>
+        <td>
+          <a href="/demat/tradelist?iciciCode=${item.sid}" target="_blank">
+            ${item.sid || 'N/A'}
+          </a>
+        </td>
         <td>${sid || 'N/A'}</td>
         <td>
           <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">${item.name || 'N/A'}</a>

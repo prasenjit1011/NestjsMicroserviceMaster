@@ -153,7 +153,7 @@
 
     <div class="search-box">
       <div style="margin-top: 10px; text-align: right;">
-        <a href="/demat/tradelist" class="stock-link" style="font-size: 1.1em;">🏠 Back to Tradelist</a>
+        <a href="/demat/tradelist" class="stock-link" style="font-size: 1.1em;">🏠 Home</a>
       </div>
       <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
     </div>
@@ -336,6 +336,17 @@
 
     // Calculate summary on page load
     window.addEventListener('load', calculateSummary);
+    // Autofill search input from ?iciciCode=... in URL
+    window.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const iciciCode = params.get('iciciCode');
+      if (iciciCode) {
+        const searchInput = document.getElementById('searchInput');
+        searchInput.value = iciciCode;
+        // Trigger input event to filter table and update summary
+        searchInput.dispatchEvent(new Event('input'));
+      }
+    });
   </script>
 </body>
 </html>
