@@ -20,21 +20,39 @@ export class DematController {
     const data    = await this.dematService.getTradeDataFromCsv();
     const sidData = this.dematService.getDataFromJson();
     const sidIds  = sidData.map(item => item.sid).join(',');
-    // console.log('SID IDs:', sidIds);
-
-    // Fetch data from Tickertape API
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
-    // console.log('API URL:', apiUrl);
 
-    // Read the HTML template
     const templatePath = path.join(__dirname, '../templates', 'tradelist.html');
     let html = fs.readFileSync(templatePath, 'utf8');
 
-    // Generate table rows
+    let apiData: any = {};
+    try {
+      const response = await fetch(apiUrl);
+      apiData = await response.json();
+      // console.log('API Response:', apiData);
+    } catch (error) {
+      console.error('Error fetching from API:', error);
+    }
+    
+    let sellValue = 0;
+    let buyValue  = 0;
     const dataRows = data.map((item, key) => {
       // console.log('Processing item:', item.sid);
       console.log('Processing item:', item);
 
+      if(item.action == 'Buy'){
+        buyValue += item.price * item.qty;
+      }
+      else{
+        sellValue += item.price * item.qty;
+      }
+
+
+      const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
+      const sid     = sidItem ? sidItem.sid : 'N/A';
+      const itemData = apiData.data.find(data => data.sid === sid);
+      const apiPrice = itemData ? itemData.price.toFixed(0) : 0;
+      
       // const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
       // const sid     = sidItem ? sidItem.sid : 'N/A';
       // const itemData = apiData.data.find(data => data.sid === sid);
@@ -52,7 +70,9 @@ export class DematController {
           <td>${item.action || 'N/A'}</td>
           <td class="qty">${item.qty || 'N/A'}</td>
           <td class="total">₹${item.price.toFixed(0) || 'N/A'}</td>
+          <td class="total">₹${apiPrice}</td>
           <td class="total">₹${item.tradevalue.toFixed(0) || 'N/A'}</td>
+          <td>${item.dtd || 'N/A'}</td>
         </tr>
       `}).join('');
     
@@ -71,10 +91,8 @@ export class DematController {
     const data    = await this.dematService.getDataFromCsv();
     const sidData = this.dematService.getDataFromJson();
     const sidIds  = sidData.map(item => item.sid).join(',');
-    console.log('SID IDs:', sidIds);
-
-    // Fetch data from Tickertape API
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
+
     // console.log('API URL:', apiUrl);
     
     let apiData: any = {};
@@ -110,7 +128,7 @@ export class DematController {
         <td>${item.sid || 'N/A'}</td>
         <td>${sid || 'N/A'}</td>
         <td>
-          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">tickertape ${item.name || 'N/A'}</a>
+          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">${item.name || 'N/A'}</a>
         </td>
         <td class="total">${dyChange}%</td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>

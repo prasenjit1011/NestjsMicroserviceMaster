@@ -48,6 +48,7 @@ export class DematService {
           .on('data', (data) => {
             // Convert string values to numbers
             results.push({
+              dtd: data['Date'] || data.dtd || '',
               sid: data['Stock'] || data.sid || '',
               action: data['Action'] || data.name || '',
               price: parseFloat(data['Price'] || data.price || '0') || 0,

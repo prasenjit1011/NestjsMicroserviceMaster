@@ -161,11 +161,13 @@
         <tr>
           <th class="sortable" data-column="0">#</th>
           <th class="sortable" data-column="1">SID</th>
-          <th class="sortable" data-column="1">Name</th>
-          <th class="sortable" data-column="2">Action</th>
-          <th class="sortable" data-column="6">Quantity</th>
-          <th class="sortable" data-column="7">Price (₹)</th>
-          <th class="sortable" data-column="8">TradeValue(₹)</th>
+          <th class="sortable" data-column="2">Name</th>
+          <th class="sortable" data-column="3">Action</th>
+          <th class="sortable" data-column="4">Quantity</th>
+          <th class="sortable" data-column="5">Price (₹)</th>
+          <th class="sortable" data-column="6">Live Price (₹)</th>
+          <th class="sortable" data-column="7">TradeValue(₹)</th>
+          <th class="sortable" data-column="8">Date</th>
         </tr>
       </thead>
       <tbody id="tableBody">
@@ -189,8 +191,8 @@
 
       rows.forEach(row => {
         const cells = row.cells;
-        if (cells.length >= 8) {
-          const qty = parseFloat(cells[6].textContent.replace(/,/g, '')) || 0;
+        if (cells.length >= 9) {
+          const qty = parseFloat(cells[4].textContent.replace(/,/g, '')) || 0;
           const total = parseFloat(cells[7].textContent.replace(/[₹,]/g, '')) || 0;
           totalQty += qty;
           totalValue += total;
@@ -237,6 +239,34 @@
         rows.sort((a, b) => {
           let aVal = a.cells[column].textContent.trim();
           let bVal = b.cells[column].textContent.trim();
+          
+          // Check if this is the date column (column 8)
+          if (column === 8) {
+            // Parse date format: DD-MMM-YYYY
+            const parseDate = (dateStr) => {
+              if (dateStr === 'N/A') return new Date(0);
+              const parts = dateStr.split('-');
+              if (parts.length !== 3) return new Date(0);
+              
+              const months = {
+                'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+                'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+              };
+              
+              const day = parseInt(parts[0]);
+              const month = months[parts[1]];
+              const year = parseInt(parts[2]);
+              
+              return new Date(year, month, day);
+            };
+            
+            const aDate = parseDate(aVal);
+            const bDate = parseDate(bVal);
+            
+            return sortDirection[column] === 'asc' 
+              ? aDate.getTime() - bDate.getTime()
+              : bDate.getTime() - aDate.getTime();
+          }
           
           // Remove currency symbols and commas for numeric comparison
           aVal = aVal.replace(/[₹,%]/g, '');
