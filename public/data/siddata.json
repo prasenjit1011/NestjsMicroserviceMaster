@@ -21,7 +21,7 @@
   },
   {
     "iciciCode": "NIPSIL",
-    "sid": "NIPSIL"
+    "sid": "NETFS"
   },
   {
     "iciciCode": "TATCAP",
@@ -161,15 +161,15 @@
   },
   {
     "iciciCode": "ICINIF",
-    "sid": "ICINIF"
+    "sid": "ICNI"
   },
   {
     "iciciCode": "NIFBEE",
-    "sid": "NIFBEE"
+    "sid": "NBES"
   },
   {
     "iciciCode": "AETIND",
-    "sid": "AETIND"
+    "sid": "AET"
   },
   {
     "iciciCode": "INDREN",
@@ -177,11 +177,11 @@
   },
   {
     "iciciCode": "ICIGOL",
-    "sid": "ICIGOL"
+    "sid": "IPEG"
   },
   {
     "iciciCode": "SBIGOL",
-    "sid": "SBIGOL"
+    "sid": "SBIG"
   },
   {
     "iciciCode": "DELCOR",
@@ -189,7 +189,7 @@
   },
   {
     "iciciCode": "POPVEH",
-    "sid": "POPVEH"
+    "sid": "PVS"
   },
   {
     "iciciCode": "HINCOP",
@@ -201,7 +201,7 @@
   },
   {
     "iciciCode": "BANBAN",
-    "sid": "BANBAN"
+    "sid": "BANH"
   },
   {
     "iciciCode": "BIOCON",
@@ -213,7 +213,7 @@
   },
   {
     "iciciCode": "RKSWA",
-    "sid": "RKSWA"
+    "sid": "RKS"
   },
   {
     "iciciCode": "TRILTD",
@@ -221,15 +221,15 @@
   },
   {
     "iciciCode": "HDFSTA",
-    "sid": "HDFSTA"
+    "sid": "HDFL"
   },
   {
     "iciciCode": "POWINF",
-    "sid": "POWINF"
+    "sid": "PGIN"
   },
   {
     "iciciCode": "BODCHE",
-    "sid": "BODCHE"
+    "sid": "BODA"
   },
   {
     "iciciCode": "APOTYR",
@@ -237,11 +237,11 @@
   },
   {
     "iciciCode": "IDFBAN",
-    "sid": "IDFBAN"
+    "sid": "IDFB"
   },
   {
     "iciciCode": "BANBEE",
-    "sid": "BANBEE"
+    "sid": "BBES"
   },
   {
     "iciciCode": "ADAPOW",
@@ -249,27 +249,27 @@
   },
   {
     "iciciCode": "EMBOFF",
-    "sid": "EMBOFF"
+    "sid": "EMBA"
   },
   {
     "iciciCode": "ICI100",
-    "sid": "ICI100"
+    "sid": "ICIC"
   },
   {
     "iciciCode": "TUTALK",
-    "sid": "TUTALK"
+    "sid": "TUT"
   },
   {
     "iciciCode": "SRERAY",
-    "sid": "SRERAY"
+    "sid": "SREER"
   },
   {
     "iciciCode": "CITUNI",
-    "sid": "CITUNI"
+    "sid": "CTBK"
   },
   {
     "iciciCode": "MOTSU",
-    "sid": "MOTSU"
+    "sid": "MSU"
   },
   {
     "iciciCode": "TATSTE",
@@ -285,7 +285,7 @@
   },
   {
     "iciciCode": "UDAINF",
-    "sid": "UDAINF"
+    "sid": "USK"
   },
   {
     "iciciCode": "PCJEW",
@@ -293,6 +293,6 @@
   },
   {
     "iciciCode": "PARPHA",
-    "sid": "PARPHA"
+    "sid": "PARMA"
   }
 ]

@@ -47,9 +47,9 @@ export class DematController {
       const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
       const sid     = sidItem ? sidItem.sid : 'N/A';
       const itemData = apiData.data.find(data => data.sid === sid);
-      const apiPrice = itemData ? itemData.price.toFixed(0) : 'N/A';
-      const dyChange = itemData ? itemData.dyChange.toFixed(0) : 'N/A';
-      const profit = itemData ? (apiPrice * item.qty - item.total).toFixed(0) : 'N/A';
+      const apiPrice = itemData ? itemData.price.toFixed(0) : 0;
+      const dyChange = itemData ? itemData.dyChange.toFixed(0) : 0;
+      const profit = itemData ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
       // console.log(apiPrice);
       // console.log('=====================');
 
@@ -58,10 +58,10 @@ export class DematController {
         <td>${item.sid || 'N/A'}</td>
         <td>${sid || 'N/A'}</td>
         <td>
-          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">${item.name || 'N/A'}</a>
+          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">tickertape ${item.name || 'N/A'}</a>
         </td>
-        <td class="price">₹${(item.price || 0).toFixed(0)}</td>
         <td class="total">${dyChange}%</td>
+        <td class="price">₹${(item.price || 0).toFixed(0)}</td>
         <td class="total">₹${apiPrice}</td>
         <td class="qty">${item.qty || 0}</td>
         <td class="total">₹${(item.total || 0).toFixed(0)}</td>
