@@ -160,15 +160,15 @@
       <thead>
         <tr>
           <th class="sortable" data-column="0">#</th>
-          <th class="sortable" data-column="1">SID</th>
-          <th class="sortable" data-column="1">SID</th>
-          <th class="sortable" data-column="2">Stock Name</th>
-          <th class="sortable" data-column="3">Day Change (%)</th>
-          <th class="sortable" data-column="4">CSV Price (₹)</th>
-          <th class="sortable" data-column="5">Live Price (₹)</th>
-          <th class="sortable" data-column="6">Quantity</th>
-          <th class="sortable" data-column="7">Total Value (₹)</th>
-          <th class="sortable" data-column="8">Profit (₹)</th>
+          <th class="sortable" data-column="1">ICICI Code</th>
+          <th class="sortable" data-column="2">SID</th>
+          <th class="sortable" data-column="3">Stock Name</th>
+          <th class="sortable" data-column="4">Day Change (%)</th>
+          <th class="sortable" data-column="5">CSV Price (₹)</th>
+          <th class="sortable" data-column="6">Live Price (₹)</th>
+          <th class="sortable" data-column="7">Quantity</th>
+          <th class="sortable" data-column="8">Total Value (₹)</th>
+          <th class="sortable" data-column="9">Profit (₹)</th>
         </tr>
       </thead>
       <tbody id="tableBody">
@@ -192,9 +192,9 @@
 
       rows.forEach(row => {
         const cells = row.cells;
-        if (cells.length >= 8) {
-          const qty = parseFloat(cells[6].textContent.replace(/,/g, '')) || 0;
-          const total = parseFloat(cells[7].textContent.replace(/[₹,]/g, '')) || 0;
+        if (cells.length >= 10) {
+          const qty = parseFloat(cells[7].textContent.replace(/,/g, '')) || 0;
+          const total = parseFloat(cells[8].textContent.replace(/[₹,]/g, '')) || 0;
           totalQty += qty;
           totalValue += total;
         }
@@ -241,22 +241,28 @@
           let aVal = a.cells[column].textContent.trim();
           let bVal = b.cells[column].textContent.trim();
           
-          // Remove currency symbols and commas for numeric comparison
-          aVal = aVal.replace(/[₹,%]/g, '');
-          bVal = bVal.replace(/[₹,%]/g, '');
+          // Handle links - extract text content
+          const aLink = a.cells[column].querySelector('a');
+          const bLink = b.cells[column].querySelector('a');
+          if (aLink) aVal = aLink.textContent.trim();
+          if (bLink) bVal = bLink.textContent.trim();
           
-          // Try numeric comparison first
-          const aNum = parseFloat(aVal);
-          const bNum = parseFloat(bVal);
+          // Remove currency symbols, commas, and percentage signs for numeric comparison
+          const aClean = aVal.replace(/[₹,%]/g, '').trim();
+          const bClean = bVal.replace(/[₹,%]/g, '').trim();
+          
+          // Try numeric comparison (handles negative numbers too)
+          const aNum = parseFloat(aClean);
+          const bNum = parseFloat(bClean);
           
           if (!isNaN(aNum) && !isNaN(bNum)) {
             return sortDirection[column] === 'asc' ? aNum - bNum : bNum - aNum;
           }
           
-          // String comparison
+          // String comparison for non-numeric values
           return sortDirection[column] === 'asc' 
-            ? aVal.localeCompare(bVal)
-            : bVal.localeCompare(aVal);
+            ? aVal.localeCompare(bVal, undefined, {numeric: true, sensitivity: 'base'})
+            : bVal.localeCompare(aVal, undefined, {numeric: true, sensitivity: 'base'});
         });
         
         // Re-append sorted rows
