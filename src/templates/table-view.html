@@ -130,19 +130,23 @@
 <body>
   <div class="container">
     <div class="summary-box">
-      <h2 style="margin: 0 0 15px 0;">Portfolio Summary</h2>
+      <h2 style="margin: 0 0 15px 0;">Portfolio Summary....</h2>
       <div class="summary-grid">
         <div class="summary-item">
           <div class="summary-label">Total Holdings</div>
           <div class="summary-value" id="totalStocks">-</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">Portfolio Value</div>
+          <div class="summary-label">BuyPrice</div>
           <div class="summary-value" id="totalValue">₹ -</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">Total Quantity</div>
+          <div class="summary-label">LivePrice</div>
           <div class="summary-value" id="totalQty">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">ProfitPrice</div>
+          <div class="summary-value" id="ProfitPrice">-</div>
         </div>
       </div>
     </div>
@@ -181,26 +185,40 @@
   </div>
 
   <script>
-    // Calculate portfolio summary
+    // Calculate portfolio summary (only visible rows)
     function calculateSummary() {
       const rows = document.querySelectorAll('#tableBody tr');
-      let totalStocks = rows.length;
+      let totalStocks = 0;
       let totalValue = 0;
       let totalQty = 0;
+      let livePrice = 0;
+      let buyPrice = 0;
 
       rows.forEach(row => {
+        // only include visible rows
+        if (row.style.display === 'none') return;
+
         const cells = row.cells;
         if (cells.length >= 10) {
+          totalStocks++;
           const qty = parseFloat(cells[7].textContent.replace(/,/g, '')) || 0;
-          const total = parseFloat(cells[8].textContent.replace(/[₹,]/g, '')) || 0;
+          // remove currency symbol and any non-numeric chars
+          const total = parseFloat(cells[8].textContent.replace(/[^0-9.-]+/g, '')) || 0;
           totalQty += qty;
           totalValue += total;
+
+          buyPrice  += parseFloat(cells[8].textContent.replace(/[^0-9.-]+/g, '')) || 0;
+          livePrice += qty*parseFloat(cells[6].textContent.replace(/[^0-9.-]+/g, '')) || 0;
         }
       });
 
       document.getElementById('totalStocks').textContent = totalStocks;
       document.getElementById('totalValue').textContent = '₹ ' + totalValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('totalQty').textContent = totalQty.toLocaleString('en-IN');
+      
+      document.getElementById('totalValue').textContent = '₹ ' + buyPrice.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalQty').textContent = '₹ ' + livePrice.toLocaleString('en-IN');
+      document.getElementById('ProfitPrice').textContent = '₹ ' + (livePrice - buyPrice).toLocaleString('en-IN', {maximumFractionDigits: 2});
     }
 
     // Search functionality
@@ -212,6 +230,8 @@
         const text = row.textContent.toLowerCase();
         row.style.display = text.includes(searchTerm) ? '' : 'none';
       });
+      // update summary when filter changes
+      calculateSummary();
     });
 
     // Table sorting

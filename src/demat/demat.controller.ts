@@ -69,7 +69,7 @@ export class DematController {
       const sid = sidDataMap.get(item.sid) || 'N/A';
       const itemData = apiDataMap.get(sid);
       const apiPrice = itemData && (itemData as any).price ? (itemData as any).price.toFixed(0) : '0';
-      
+      const sidCode = itemData && (itemData as any).sid ? (itemData as any).sid : 'NA';
 
       if(!apiPrice || apiPrice === '0'){
         missingSidsSet.add(item.sid);  // Add unique SID to Set
@@ -79,6 +79,7 @@ export class DematController {
         <tr>
           <td class="total">${index + 1}</td>
           <td>${item.sid || 'N/A'}</td>
+          <td>${sidCode || 'N/A'}</td>
           <td><a href="/demat/quarterly/${sid}/${item.sid || 'N/A'}" target="_blank">${item.sid || 'N/A'}</a></td>
           <td>${item.action || 'N/A'}</td>
           <td class="qty">${item.qty || 0}</td>
@@ -154,13 +155,17 @@ export class DematController {
       <tr>
         <td class="total">${key+1}</td>
         <td>
-          <a href="/demat/tradelist?iciciCode=${item.sid}" target="_blank">
+          <a href="/demat/tradelist?sidCode=${sid}" target="_blank">
             ${item.sid || 'N/A'}
           </a>
         </td>
-        <td>${sid || 'N/A'}</td>
         <td>
-          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">${item.name || 'N/A'}</a>
+          <a href="http://localhost:4200/details/${sid}" target="_blank">
+            ${sid || 'N/A'}
+          </a>
+        </td>
+        <td>
+          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">tickertape ${item.name || 'N/A'}</a>
         </td>
         <td class="total">${dyChange}%</td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>

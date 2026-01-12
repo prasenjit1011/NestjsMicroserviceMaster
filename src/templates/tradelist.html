@@ -153,7 +153,7 @@
 
     <div class="search-box">
       <div style="margin-top: 10px; text-align: right;">
-        <a href="/demat/tradelist" class="stock-link" style="font-size: 1.1em;">🏠 Home</a>
+        <a href="/demat" class="stock-link" style="font-size: 1.1em;">🏠 Home</a>
       </div>
       <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
     </div>
@@ -162,14 +162,15 @@
       <thead>
         <tr>
           <th class="sortable" data-column="0">#</th>
-          <th class="sortable" data-column="1">SID</th>
-          <th class="sortable" data-column="2">Name</th>
-          <th class="sortable" data-column="3">Action</th>
-          <th class="sortable" data-column="4">Quantity</th>
-          <th class="sortable" data-column="5">Price (₹)</th>
-          <th class="sortable" data-column="6">Live Price (₹)</th>
-          <th class="sortable" data-column="7">TradeValue(₹)</th>
-          <th class="sortable" data-column="8">Date</th>
+          <th class="sortable" data-column="1">iciciCode</th>
+          <th class="sortable" data-column="2">SID</th>
+          <th class="sortable" data-column="3">Name</th>
+          <th class="sortable" data-column="4">Action</th>
+          <th class="sortable" data-column="5">Quantity</th>
+          <th class="sortable" data-column="6">Price (₹)</th>
+          <th class="sortable" data-column="7">Live Price (₹)</th>
+          <th class="sortable" data-column="8">TradeValue(₹)</th>
+          <th class="sortable" data-column="9">Date</th>
         </tr>
       </thead>
       <tbody id="tableBody">
@@ -190,7 +191,6 @@
       let totalStocks = 0;
       let totalBuyValue = 0;
       let totalSellValue = 0;
-      
       // Map to track net quantity and live price per stock (SID)
       const stockMap = new Map();
 
@@ -199,25 +199,25 @@
         if (row.style.display !== 'none') {
           totalStocks++;
           const cells = row.cells;
-          if (cells.length >= 9) {
-            const sid = cells[1].textContent.trim();
-            const action = cells[3].textContent.trim();
-            const quantity = parseFloat(cells[4].textContent.replace(/,/g, '')) || 0;
-            const livePrice = parseFloat(cells[6].textContent.replace(/[₹,]/g, '')) || 0;
-            const tradeValue = parseFloat(cells[7].textContent.replace(/[₹,]/g, '')) || 0;
-            
+          if (cells.length >= 10) {
+            const sid = cells[1].textContent.trim(); // iciciCode
+            const action = cells[4].textContent.trim(); // Action
+            const quantity = parseFloat(cells[5].textContent.replace(/,/g, '')) || 0; // Quantity
+            const livePrice = parseFloat(cells[7].textContent.replace(/[₹,]/g, '')) || 0; // Live Price
+            const tradeValue = parseFloat(cells[8].textContent.replace(/[₹,]/g, '')) || 0; // TradeValue
+
             // Calculate buy/sell values
             if (action === 'Buy') {
               totalBuyValue += tradeValue;
             } else if (action === 'Sell') {
               totalSellValue += tradeValue;
             }
-            
+
             // Track net quantity per stock for current value calculation
             if (!stockMap.has(sid)) {
               stockMap.set(sid, { netQty: 0, livePrice: livePrice });
             }
-            
+
             const stockData = stockMap.get(sid);
             if (action === 'Buy') {
               stockData.netQty += quantity;
@@ -231,13 +231,13 @@
           }
         }
       });
-      
+
       // Calculate total current value: sum of (netQty * livePrice) for each stock
       let totalCurrentValue = 0;
       stockMap.forEach((stockData, sid) => {
         totalCurrentValue += stockData.netQty * stockData.livePrice;
       });
-      
+
       document.getElementById('totalInvestmentValue').textContent = '₹ ' + (totalBuyValue - totalSellValue).toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('totalBuyValue').textContent = '₹ ' + totalBuyValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('totalSellValue').textContent = '₹ ' + totalSellValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
@@ -283,29 +283,24 @@
           let aVal = a.cells[column].textContent.trim();
           let bVal = b.cells[column].textContent.trim();
           
-          // Check if this is the date column (column 8)
-          if (column === 8) {
+          // Check if this is the date column (column 9)
+          if (column === 9) {
             // Parse date format: DD-MMM-YYYY
             const parseDate = (dateStr) => {
               if (dateStr === 'N/A') return new Date(0);
               const parts = dateStr.split('-');
               if (parts.length !== 3) return new Date(0);
-              
               const months = {
                 'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
                 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
               };
-              
               const day = parseInt(parts[0]);
               const month = months[parts[1]];
               const year = parseInt(parts[2]);
-              
               return new Date(year, month, day);
             };
-            
             const aDate = parseDate(aVal);
             const bDate = parseDate(bVal);
-            
             return sortDirection[column] === 'asc' 
               ? aDate.getTime() - bDate.getTime()
               : bDate.getTime() - aDate.getTime();
@@ -339,10 +334,10 @@
     // Autofill search input from ?iciciCode=... in URL
     window.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);
-      const iciciCode = params.get('iciciCode');
-      if (iciciCode) {
+      const sidCode = params.get('sidCode');
+      if (sidCode) {
         const searchInput = document.getElementById('searchInput');
-        searchInput.value = iciciCode;
+        searchInput.value = sidCode;
         // Trigger input event to filter table and update summary
         searchInput.dispatchEvent(new Event('input'));
       }
