@@ -80,7 +80,7 @@ export class DematController {
           <td class="total">${index + 1}</td>
           <td>${item.sid || 'N/A'}</td>
           <td>${sidCode || 'N/A'}</td>
-          <td><a href="/demat/quarterly/${sid}/${item.sid || 'N/A'}" target="_blank">${item.sid || 'N/A'}</a></td>
+          <td><a href="/demat/quarterly/${sid}/${item.sid || 'N/A'}" >${item.sid || 'N/A'}</a></td>
           <td>${item.action || 'N/A'}</td>
           <td class="qty">${item.qty || 0}</td>
           <td class="total">₹${item.price?.toFixed(0) || '0'}</td>
@@ -155,17 +155,17 @@ export class DematController {
       <tr>
         <td class="total">${key+1}</td>
         <td>
-          <a href="/demat/tradelist?sidCode=${sid}" target="_blank">
+          <a href="/demat/tradelist?sidCode=${sid}" >
             ${item.sid || 'N/A'}
           </a>
         </td>
         <td>
-          <a href="http://localhost:4200/details/${sid}" target="_blank">
+          <a href="http://localhost:4200/details/${sid}" >
             ${sid || 'N/A'}
           </a>
         </td>
         <td>
-          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" target="_blank">tickertape ${item.name || 'N/A'}</a>
+          <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" >tickertape ${item.name || 'N/A'}</a>
         </td>
         <td class="total">${dyChange}%</td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>
@@ -176,6 +176,81 @@ export class DematController {
       </tr>
     `}).join('');
     
+    // --- Build and store yearly high/low per SID into public/data/sid_yearly_highlow.json ---
+    // Helper: fetch historical data for a SID and compute yearly high/low
+    const fetchYearlyHighLow = (sid: string) => {
+      return new Promise<Record<string, { low: number; high: number }>>((resolve) => {
+        const apiUrl = `https://api.tickertape.in/stocks/charts/inter/${sid}?duration=max`;
+        try {
+          https.get(apiUrl, (apiRes) => {
+            let body = '';
+            apiRes.on('data', (chunk) => body += chunk);
+            apiRes.on('end', () => {
+              try {
+                const mydata = JSON.parse(body);
+                const points = mydata['data'] && mydata['data'][0] ? mydata['data'][0]['points'] : [];
+                const yearly: Record<string, { low: number; high: number }> = {};
+                points.forEach(point => {
+                  const year = new Date(point['ts']).getFullYear();
+                  if (!yearly[year]) yearly[year] = { low: Infinity, high: -Infinity };
+                  yearly[year].high = Math.max(yearly[year].high, point['lp']);
+                  yearly[year].low = Math.min(yearly[year].low, point['lp']);
+                });
+                resolve(yearly);
+              } catch (err) {
+                console.error(`Error parsing historical data for ${sid}:`, err);
+                resolve({});
+              }
+            });
+          }).on('error', (err) => {
+            console.error(`HTTP error for ${sid}:`, err);
+            resolve({});
+          });
+        } catch (err) {
+          console.error(`Request error for ${sid}:`, err);
+          resolve({});
+        }
+      });
+    };
+
+    // Collect unique SIDs from holdings (mapped via sidData)
+    const uniqueSids = Array.from(new Set(data.map(item => {
+      const sidItem = sidData.find(s => s.iciciCode === item.sid);
+      return sidItem ? sidItem.sid : null;
+    }).filter(Boolean)));
+
+    const outDir = path.join(__dirname, '../../public/data');
+    try {
+      if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+    } catch (err) {
+      console.error('Error creating data directory:', err);
+    }
+
+    const outFile = path.join(outDir, 'sid_yearly_highlow.json');
+    const result: Record<string, Record<string, { low: number; high: number }>> = {};
+
+    // Limit to first 50 SIDs to avoid long-running requests; remove or increase as needed
+    const limit = 50;
+    for (let i = 0; i < Math.min(uniqueSids.length, limit); i++) {
+      const s = uniqueSids[i];
+      try {
+        // Sequential fetch to be polite to API
+        // eslint-disable-next-line no-await-in-loop
+        const yearly = await fetchYearlyHighLow(s);
+        result[s] = yearly;
+      } catch (err) {
+        console.error(`Failed to fetch yearly data for ${s}:`, err);
+        result[s] = {};
+      }
+    }
+
+    try {
+      fs.writeFileSync(outFile, JSON.stringify(result, null, 2), 'utf8');
+      console.log(`Wrote yearly high/low data for ${Object.keys(result).length} SIDs to ${outFile}`);
+    } catch (err) {
+      console.error('Error writing yearly high/low JSON file:', err);
+    }
+
     // Replace placeholders
     html = html.replace('{{TABLE_ROWS}}', tableRows);
     html = html.replace('{{TIMESTAMP}}', new Date().toLocaleString());
