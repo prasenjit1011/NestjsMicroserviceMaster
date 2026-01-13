@@ -230,7 +230,7 @@ export class DematController {
     const result: Record<string, Record<string, { low: number; high: number }>> = {};
 
     // Limit to first 50 SIDs to avoid long-running requests; remove or increase as needed
-    const limit = 50;
+    const limit = 500;
     for (let i = 0; i < Math.min(uniqueSids.length, limit); i++) {
       const s = uniqueSids[i];
       try {
