@@ -3,13 +3,14 @@ import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as csv from 'csv-parser';
+import { getPublicPath } from '../utils/path.util';
 
 @Injectable()
 export class DematService {
   async getDataFromCsv(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       const results = [];
-      const filePath = path.join(__dirname, '../../public/data/portfoliodata.csv');
+      const filePath = getPublicPath('data/portfoliodata.csv');
       
       try {
         fs.createReadStream(filePath)
@@ -40,7 +41,7 @@ export class DematService {
   async getTradeDataFromCsv(year): Promise<any[]> {
     return new Promise((resolve, reject) => {
       const results = [];
-      const filePath = path.join(__dirname, `../../public/data/trade-${year}.csv`);
+      const filePath = getPublicPath(`data/trade-${year}.csv`);
 
       try {
         fs.createReadStream(filePath)
@@ -69,7 +70,7 @@ export class DematService {
   }
   
   getDataFromJson() {
-    const filePath = path.join(__dirname, '../../public/data/siddata.json');
+    const filePath = getPublicPath('data/siddata.json');
     const jsonData = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(jsonData);
   }

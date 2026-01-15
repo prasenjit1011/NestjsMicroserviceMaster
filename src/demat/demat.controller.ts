@@ -5,6 +5,7 @@ import { DematService } from './demat.service';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as https from 'https';
+import { getTemplatePath } from '../utils/path.util';
 
 @Controller('demat')
 export class DematController {
@@ -12,16 +13,22 @@ export class DematController {
 
   @Get('/csvdata')
   async getData() {
-    return this.dematService.getDataFromCsv();
+    try {
+      return await this.dematService.getDataFromCsv();
+    } catch (error) {
+      console.error('Error in getData:', error);
+      throw error;
+    }
   }
 
   @Get('/tradelist')
   async getTradeTableView(@Res() res: Response) {
+    try {
     const sidData = this.dematService.getDataFromJson();
     const sidIds  = sidData.map(item => item.sid).join(',');
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
 
-    const templatePath = path.join(__dirname, '../templates', 'tradelist.html');
+    const templatePath = getTemplatePath('tradelist.html');
     let html = fs.readFileSync(templatePath, 'utf8');
 
     let apiData: any = {};
@@ -105,6 +112,10 @@ export class DematController {
 
     res.setHeader('Content-Type', 'text/html');
     res.send(html);
+  } catch (error) {
+    console.error('Error in getTradeTableView:', error);
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
+  }
   }
 
 
@@ -128,7 +139,7 @@ export class DematController {
     }
 
     // Read the HTML template
-    const templatePath = path.join(__dirname, '../templates', 'table-view.html');
+    const templatePath = getTemplatePath('table-view.html');
     let html = fs.readFileSync(templatePath, 'utf8');
     
     // Generate table rows
