@@ -147,17 +147,23 @@
       grid-template-columns: 1fr 1fr;
       gap: 15px;
       align-items: flex-start;
+      position: relative;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      grid-column: 1;
     }
 
     .search-box input {
       width: 100%;
       padding: 12px 16px;
+      padding-right: 45px;
       border: 2px solid #e5e7eb;
       border-radius: 8px;
       font-size: 1em;
       transition: all 0.3s ease;
       font-weight: 500;
-      grid-column: 1;
     }
 
     .search-box input:focus {
@@ -168,6 +174,36 @@
 
     .search-box input::placeholder {
       color: #9ca3af;
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.6em;
+      font-weight: 900;
+      cursor: pointer;
+      color: #4f46e5;
+      padding: 4px 8px;
+      transition: all 0.3s ease;
+      display: none;
+      z-index: 5;
+      line-height: 1;
+      text-shadow: 0 0 4px rgba(79, 70, 229, 0.3);
+    }
+
+    .clear-search:hover {
+      color: #667eea;
+      transform: translateY(-50%) scale(1.3);
+      text-shadow: 0 0 8px rgba(102, 126, 234, 0.6);
+      filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.4));
+    }
+
+    .search-box input:not(:placeholder-shown) ~ .clear-search {
+      display: block;
     }
 
     .nav-links {
@@ -627,7 +663,10 @@
     </div>
 
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
+        <button type="button" class="clear-search" id="clearSearch" title="Clear search">✕</button>
+      </div>
       <div class="nav-links">
         <a href="/demat/tradelist" class="stock-link">🏠 Trade List</a>
         <a href="https://www.cnbc.com/quotes/@GC.1" class="stock-link external" target="_blank">🥇 Gold</a>
@@ -780,6 +819,17 @@
         // Re-append sorted rows
         rows.forEach(row => tbody.appendChild(row));
       });
+    });
+
+    // Clear search functionality
+    document.getElementById('clearSearch').addEventListener('click', function() {
+      document.getElementById('searchInput').value = '';
+      const rows = document.querySelectorAll('#tableBody tr');
+      rows.forEach(row => {
+        row.style.display = '';
+      });
+      calculateSummary();
+      document.getElementById('searchInput').focus();
     });
 
     // Calculate summary on page load
