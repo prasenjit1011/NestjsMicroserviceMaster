@@ -187,6 +187,21 @@ export class DematController {
       </tr>
     `}).join('');
     
+    // Replace placeholders
+    html = html.replace('{{TABLE_ROWS}}', tableRows);
+    html = html.replace('{{TIMESTAMP}}', new Date().toLocaleString());
+    
+    res.setHeader('Content-Type', 'text/html');
+    res.send(html);
+  }
+
+  @Get('/fetch-stock-data')
+  async fetchStockData(@Res() res: Response) {
+    try {
+      const data    = await this.dematService.getDataFromCsv();
+      const sidData = this.dematService.getDataFromJson();
+
+
     // --- Build and store yearly high/low per SID into public/data/sid_yearly_highlow.json ---
     // Helper: fetch historical data for a SID and compute yearly high/low
     const fetchYearlyHighLow = (sid: string) => {
@@ -240,7 +255,7 @@ export class DematController {
     const outFile = path.join(outDir, 'sid_yearly_highlow.json');
     const result: Record<string, Record<string, { low: number; high: number }>> = {};
 
-    // Limit to first 50 SIDs to avoid long-running requests; remove or increase as needed
+    // Limit to first 500 SIDs to avoid long-running requests; remove or increase as needed
     const limit = 500;
     for (let i = 0; i < Math.min(uniqueSids.length, limit); i++) {
       const s = uniqueSids[i];
@@ -262,12 +277,11 @@ export class DematController {
       console.error('Error writing yearly high/low JSON file:', err);
     }
 
-    // Replace placeholders
-    html = html.replace('{{TABLE_ROWS}}', tableRows);
-    html = html.replace('{{TIMESTAMP}}', new Date().toLocaleString());
-    
-    res.setHeader('Content-Type', 'text/html');
-    res.send(html);
+      res.json({ message: 'Yearly high/low data fetch initiated', sidsFetched: Object.keys(result).length });
+    } catch (error) {
+      console.error('Error in fetchStockData:', error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
   }
 
   @Get('weekly/:sid')
@@ -279,6 +293,8 @@ export class DematController {
   async getAnalysisWithStockParam(@Param('sid') sid: string, @Param('stock') stock: string, @Res() res: Response) {
     return this.getAnalysisWithStock(sid, stock, res);
   }
+
+
 
   private async getAnalysisWithStock(sid: string, stock: string, res: Response) {
     if(!stock || stock === ''){
@@ -303,7 +319,7 @@ export class DematController {
         const latestDate = latestPoint ? new Date(latestPoint['ts']).toLocaleString() : 'N/A';
 
         // Read HTML template
-        const templatePath = path.join(__dirname, '../templates', 'analysis.html');
+        const templatePath = getTemplatePath('analysis.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Prepare data
@@ -400,7 +416,7 @@ export class DematController {
         });
 
         // Read HTML template
-        const templatePath = path.join(__dirname, '../templates', 'yearly-high-low.html');
+        const templatePath = getTemplatePath('yearly-high-low.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Generate table rows
@@ -492,7 +508,7 @@ export class DematController {
         });
 
         // Read HTML template
-        const templatePath = path.join(__dirname, '../templates', 'quarterly-high-low.html');
+        const templatePath = getTemplatePath('quarterly-high-low.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Organize data by year and quarter for matrix view
