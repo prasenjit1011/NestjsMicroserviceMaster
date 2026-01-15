@@ -6,192 +6,675 @@
   <title>Demat Portfolio</title>
   <link rel="stylesheet" href="/css/commonstyle.css">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 20px 0;
+    }
+
     .price {
-      color: #28a745;
-      font-weight: 600;
+      color: #10b981;
+      font-weight: 700;
     }
     .qty {
-      color: #007bff;
+      color: #3b82f6;
       font-weight: 600;
     }
     .total {
-      color: #dc3545;
+      color: #ef4444;
       font-weight: 700;
       font-size: 1.1em;
     }
     .positive {
-      color: #28a745;
-      font-weight: 600;
+      color: #10b981;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
     }
     .negative {
-      color: #dc3545;
-      font-weight: 600;
+      color: #ef4444;
+      font-weight: 700;
+      background: rgba(239, 68, 68, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
     }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
     .summary-box {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 25px;
-      border-radius: 12px;
+      padding: 30px;
+      border-radius: 16px;
       margin-bottom: 30px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+      animation: slideDown 0.6s ease-out;
+      position: relative;
+      overflow: hidden;
     }
+
+    .summary-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .summary-box h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
       margin-top: 15px;
+      position: relative;
+      z-index: 1;
     }
+
     .summary-item {
       text-align: center;
-      padding: 15px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
+      padding: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
     }
+
+    .summary-item:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
     .summary-label {
       font-size: 0.9em;
-      opacity: 0.9;
-      margin-bottom: 5px;
+      opacity: 0.95;
+      margin-bottom: 8px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
+
     .summary-value {
-      font-size: 1.8em;
-      font-weight: 700;
+      font-size: 1.9em;
+      font-weight: 800;
+      letter-spacing: -1px;
     }
+
     .search-box {
-      margin: 20px 0;
-      padding: 15px;
-      background: #f8f9fa;
-      border-radius: 8px;
+      margin: 25px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      animation: fadeIn 0.8s ease-out;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      align-items: flex-start;
     }
+
     .search-box input {
       width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 6px;
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
       font-size: 1em;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      grid-column: 1;
     }
+
     .search-box input:focus {
       outline: none;
       border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
     }
+
+    .search-box input::placeholder {
+      color: #9ca3af;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .nav-links a {
+      padding: 9px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 0.95em;
+      white-space: nowrap;
+    }
+
     tbody tr {
-      transition: all 0.3s;
+      transition: all 0.25s ease;
+      animation: fadeIn 0.5s ease-out;
     }
+
     tbody tr:hover {
-      background: #f0f7ff;
-      transform: scale(1.01);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background: linear-gradient(90deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.05) 100%);
+      box-shadow: inset 0 0 10px rgba(102, 126, 234, 0.1);
     }
+
     th {
       cursor: pointer;
       user-select: none;
       position: relative;
       padding-right: 25px;
+      transition: all 0.3s ease;
+      white-space: nowrap;
     }
+
     th:hover {
-      background: #5a67d8;
+      background: linear-gradient(135deg, #764ba2 0%, #6a5acd 50%, #667eea 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      animation: headerShine 0.6s ease-in-out;
     }
+
+    th.sortable {
+      cursor: pointer;
+    }
+
     th.sortable::after {
       content: '⇅';
       position: absolute;
       right: 8px;
-      opacity: 0.5;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+      font-weight: bold;
     }
+
+    th:hover.sortable::after {
+      opacity: 1;
+    }
+
     th.sorted-asc::after {
       content: '↑';
       opacity: 1;
+      color: #fbbf24;
+      font-weight: bold;
+      animation: slideUp 0.4s ease-out;
     }
+
     th.sorted-desc::after {
       content: '↓';
       opacity: 1;
+      color: #fbbf24;
+      font-weight: bold;
+      animation: slideDown 0.4s ease-out;
     }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes headerShine {
+      0% {
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+      50% {
+        box-shadow: 0 8px 28px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      }
+      100% {
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+    }
+
     .footer {
-      padding: 20px;
+      padding: 25px;
       text-align: center;
-      background: #f8f9fa;
-      color: #6c757d;
-      font-size: 0.9em;
-      border-radius: 8px;
-      margin-top: 20px;
+      background: white;
+      color: #6b7280;
+      font-size: 0.95em;
+      border-radius: 12px;
+      margin-top: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      border-top: 3px solid #667eea;
     }
-    .stock-link {
+
+    .footer p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .footer strong {
       color: #667eea;
+      font-weight: 700;
+    }
+
+    .stock-link {
+      color: white;
       text-decoration: none;
       font-weight: 600;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 10px 16px;
+      border-radius: 6px;
+      display: inline-block;
     }
+
     .stock-link:hover {
-      color: #764ba2;
-      text-decoration: underline;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .stock-link.external {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .stock-link.external:hover {
+      box-shadow: 0 8px 15px rgba(245, 87, 108, 0.3);
+    }
+    /* Responsive Table Styles */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      min-width: 800px;
+    }
+    thead th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6a5acd 100%);
+      color: white;
+      padding: 16px 12px;
+      text-align: left;
+      font-weight: 800;
+      border-bottom: 4px solid #764ba2;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.8em;
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      background-attachment: fixed;
+    }
+
+    thead th::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    }
+    tbody td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.95em;
+    }
+    tbody td:first-child {
+      font-weight: 600;
+      color: #667eea;
+      min-width: 30px;
+    }
+
+    /* Large Screens (1024px+) */
+    @media (min-width: 1024px) {
+      tbody tr:hover {
+        background: #eff6ff;
+        box-shadow: inset 0 0 15px rgba(102, 126, 234, 0.12);
+      }
+    }
+
+    /* Tablet Responsive (769px - 1023px) */
+    @media (max-width: 1023px) and (min-width: 769px) {
+      body {
+        padding: 12px 0;
+      }
+      .container {
+        padding: 12px;
+      }
+      table {
+        font-size: 0.9em;
+        min-width: 700px;
+      }
+      thead th {
+        padding: 10px 6px;
+        font-size: 0.85em;
+      }
+      tbody td {
+        padding: 8px 6px;
+        font-size: 0.9em;
+      }
+      .summary-box {
+        padding: 20px;
+      }
+      .summary-item {
+        padding: 15px;
+      }
+      .summary-value {
+        font-size: 1.6em;
+      }
+      .nav-links {
+        justify-content: center;
+        gap: 12px;
+      }
+      .stock-link {
+        padding: 8px 12px;
+        font-size: 0.9em;
+      }
+      .search-box {
+        padding: 15px;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .search-box input {
+        grid-column: 1;
+      }
+      .nav-links {
+        grid-column: 1;
+        grid-row: auto;
+        gap: 10px;
+      }
+    }
+
+    /* Small Tablets (577px - 768px) */
+    @media (max-width: 768px) and (min-width: 577px) {
+      body {
+        padding: 8px 0;
+      }
+      .container {
+        padding: 10px;
+      }
+      table {
+        font-size: 0.8em;
+        min-width: 600px;
+      }
+      thead th {
+        padding: 8px 5px;
+        font-size: 0.75em;
+      }
+      tbody td {
+        padding: 6px 5px;
+        font-size: 0.8em;
+      }
+      th:hover {
+        background: #3a4556 !important;
+      }
+      .summary-box {
+        padding: 15px;
+      }
+      .summary-item {
+        padding: 12px;
+      }
+      .summary-value {
+        font-size: 1.4em;
+      }
+      .summary-label {
+        font-size: 0.8em;
+      }
+      .nav-links {
+        justify-content: center;
+        gap: 8px;
+      }
+      .stock-link {
+        padding: 7px 10px;
+        font-size: 0.8em;
+      }
+      .search-box {
+        padding: 12px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .search-box input {
+        padding: 10px 12px;
+        font-size: 0.9em;
+        grid-column: 1;
+      }
+      .nav-links {
+        grid-column: 1;
+        grid-row: auto;
+        gap: 8px;
+      }
+    }
+
+    /* Mobile Responsive (361px - 576px) */
+    @media (max-width: 576px) {
+      body {
+        padding: 5px 0;
+      }
+      .container {
+        padding: 8px;
+      }
+      table {
+        font-size: 0.65em;
+        min-width: 500px;
+      }
+      thead th {
+        padding: 6px 4px;
+        font-size: 0.6em;
+      }
+      tbody td {
+        padding: 5px 4px;
+        font-size: 0.65em;
+      }
+      .summary-box {
+        padding: 12px;
+        margin-bottom: 15px;
+      }
+      .summary-box h2 {
+        font-size: 1.3em;
+        margin-bottom: 10px;
+      }
+      .summary-grid {
+        gap: 8px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .summary-item {
+        padding: 10px;
+        border-radius: 8px;
+      }
+      .summary-item:hover {
+        transform: translateY(-2px);
+      }
+      .summary-value {
+        font-size: 1.1em;
+      }
+      .summary-label {
+        font-size: 0.6em;
+      }
+      .search-box {
+        padding: 10px;
+        margin: 12px 0;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .search-box input {
+        padding: 10px 12px;
+        font-size: 0.9em;
+        grid-column: 1;
+      }
+      .nav-links {
+        flex-direction: row;
+        gap: 6px;
+        grid-column: 1;
+        grid-row: auto;
+        flex-wrap: wrap;
+      }
+      .stock-link {
+        flex: 1;
+        min-width: 75px;
+        text-align: center;
+        padding: 8px 8px;
+        font-size: 0.75em;
+      }
+      .footer {
+        padding: 12px;
+        font-size: 0.75em;
+        margin-top: 15px;
+      }
+      .footer p {
+        margin: 4px 0;
+      }
+    }
+
+    /* Extra Small Mobile (< 361px) */
+    @media (max-width: 360px) {
+      body {
+        padding: 3px 0;
+      }
+      .container {
+        padding: 6px;
+      }
+      table {
+        font-size: 0.55em;
+        min-width: 450px;
+      }
+      thead th {
+        padding: 5px 3px;
+        font-size: 0.5em;
+      }
+      tbody td {
+        padding: 4px 3px;
+        font-size: 0.55em;
+      }
+      .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .summary-value {
+        font-size: 1em;
+      }
+    }
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 15px;
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="summary-box">
-      <h2 style="margin: 0 0 15px 0;">Portfolio</h2>
+      <h2>📊 Portfolio Dashboard</h2>
       <div class="summary-grid">
         <div class="summary-item">
           <div class="summary-label">Total Holdings</div>
           <div class="summary-value" id="totalStocks">-</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">BuyPrice</div>
+          <div class="summary-label">Buy Price</div>
           <div class="summary-value" id="totalValue">₹ -</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">LivePrice</div>
+          <div class="summary-label">Live Price</div>
           <div class="summary-value" id="totalQty">-</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">ProfitPrice</div>
+          <div class="summary-label">Profit/Loss</div>
           <div class="summary-value" id="ProfitPrice">-</div>
         </div>
       </div>
     </div>
 
     <div class="search-box">
-      <div style="margin-top: 10px; text-align: right;">
-        <a href="/demat/tradelist" class="stock-link" style="font-size: 1.1em;">🏠 TradeList</a>
-        | <a href="https://www.cnbc.com/quotes/@GC.1" class="stock-link" target="_blank">Gold</a>
-        | <a href="https://www.cnbc.com/quotes/@SI.1" class="stock-link" target="_blank">Silver</a>
-        | <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link" target="_blank">Copper</a>
-      </div>
       <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
+      <div class="nav-links">
+        <a href="/demat/tradelist" class="stock-link">🏠 Trade List</a>
+        <a href="https://www.cnbc.com/quotes/@GC.1" class="stock-link external" target="_blank">🥇 Gold</a>
+        <a href="https://www.cnbc.com/quotes/@SI.1" class="stock-link external" target="_blank">💰 Silver</a>
+        <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link external" target="_blank">🔧 Copper</a>
+      </div>
     </div>
 
-    <table id="portfolioTable">
+    <div class="table-wrapper">
+      <table id="portfolioTable">
       <thead>
         <tr>
           <th class="sortable" data-column="0">#</th>
-          <th class="sortable" data-column="1">ICICI Code</th>
+          <th class="sortable" data-column="1">ICICI</th>
           <th class="sortable" data-column="2">SID</th>
           <th class="sortable" data-column="3">Stock Name</th>
           <th class="sortable" data-column="4">Chg(%)</th>
           <th class="sortable" data-column="5">CSV Price (₹)</th>
           <th class="sortable" data-column="6">Live Price (₹)</th>
           <th class="sortable" data-column="7">Qty</th>
-          <th class="sortable" data-column="8">Total Value (₹)</th>
+          <th class="sortable" data-column="8">Total (₹)</th>
           <th class="sortable" data-column="9">Profit (₹)</th>
+          <th class="sortable" data-column="18">2020</th>
+
+          
+          <th class="sortable" data-column="12">2026</th>
+          <th class="sortable" data-column="13">2025</th>
+          <th class="sortable" data-column="14">2024</th>
+          <th class="sortable" data-column="15">2023</th>
+          <th class="sortable" data-column="16">2022</th>
+          <th class="sortable" data-column="17">2021</th>
+          <th class="sortable" data-column="19">2018</th>
+          <th class="sortable" data-column="20">2015</th>
+
           <th class="sortable" data-column="10">Highest (₹)</th>
           <th class="sortable" data-column="11">Lowest (₹)</th>
-          <th class="sortable" data-column="12">2026 High (₹)</th>
-          <th class="sortable" data-column="13">2025 High (₹)</th>
-          <th class="sortable" data-column="14">2024 High (₹)</th>
-          <th class="sortable" data-column="14">2023 High (₹)</th>
-          <th class="sortable" data-column="14">2022 High (₹)</th>
-          <th class="sortable" data-column="14">2021 High (₹)</th>
         </tr>
       </thead>
       <tbody id="tableBody">
         {{TABLE_ROWS}}
       </tbody>
     </table>
+    </div>
 
     <div class="footer">
-      <p><strong>Last Updated:</strong> {{TIMESTAMP}}</p>
-      <p>Data refreshed from Tickertape API | Portfolio tracked live</p>
+      <p><strong>📅 Last Updated:</strong> {{TIMESTAMP}}</p>
+      <p>✅ Data refreshed from Tickertape API | 📈 Portfolio tracked live</p>
     </div>
   </div>
 

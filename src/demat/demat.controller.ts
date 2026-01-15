@@ -153,7 +153,7 @@ export class DematController {
       const profit = apiDataItem ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
       let highestValue = 0;
       let lowestValue = 0;
-      let yearlyHigh = [0, 0, 0, 0, 0, 0];
+      let yearlyHigh = [0, 0, 0, 0, 0, 0, 0, 0];
 
       if(item.qty === 0){
         // Handle zero quantity case
@@ -172,6 +172,9 @@ export class DematController {
         yearlyHigh[3]   = yearlyHighLowData[sid][years-3] ? yearlyHighLowData[sid][years-3].high : 0;
         yearlyHigh[4]   = yearlyHighLowData[sid][years-4] ? yearlyHighLowData[sid][years-4].high : 0;
         yearlyHigh[5]   = yearlyHighLowData[sid][years-5] ? yearlyHighLowData[sid][years-5].high : 0;
+        yearlyHigh[6]   = yearlyHighLowData[sid][2020] ? yearlyHighLowData[sid][2020].low : 0;
+        yearlyHigh[7]   = yearlyHighLowData[sid][years-8] ? yearlyHighLowData[sid][years-8].high : 0;
+        yearlyHigh[8]   = yearlyHighLowData[sid][years-11] ? yearlyHighLowData[sid][years-11].high : 0;
       }
       
 
@@ -197,14 +200,20 @@ export class DematController {
         <td class="qty">${item.qty || 0}</td>
         <td class="total">₹${(item.total || 0).toFixed(0)}</td>
         <td class="total">₹${profit || 0}</td>
-        <td class="total">₹${highestValue || 0}</td>
-        <td class="total">₹${lowestValue || 0}</td>
+        <td class="total">₹${yearlyHigh[6].toFixed(0) || 0}</td>
+
         <td class="total">₹${yearlyHigh[0].toFixed(0) || 0}</td>
         <td class="total">₹${yearlyHigh[1].toFixed(0) || 0}</td>
         <td class="total">₹${yearlyHigh[2].toFixed(0) || 0}</td>
         <td class="total">₹${yearlyHigh[3].toFixed(0) || 0}</td>
         <td class="total">₹${yearlyHigh[4].toFixed(0) || 0}</td>
         <td class="total">₹${yearlyHigh[5].toFixed(0) || 0}</td>
+        <td class="total">₹${yearlyHigh[7].toFixed(0) || 0}</td>
+        <td class="total">₹${yearlyHigh[8].toFixed(0) || 0}</td>
+
+        
+        <td class="total">₹${highestValue || 0}</td>
+        <td class="total">₹${lowestValue || 0}</td>
       </tr>
     `}).join('');
     
