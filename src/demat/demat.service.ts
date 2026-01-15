@@ -74,4 +74,24 @@ export class DematService {
     const jsonData = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(jsonData);
   }
+
+  /**
+   * Read yearly high/low data from the pre-computed JSON file
+   */
+  yearlyHighLowData(): Record<string, Record<string, { low: number; high: number }>> {
+    try {
+      const filePath = getPublicPath('data/sid_yearly_highlow.json');
+      
+      if (!fs.existsSync(filePath)) {
+        console.warn(`File not found: ${filePath}`);
+        return {};
+      }
+      
+      const jsonData = fs.readFileSync(filePath, 'utf8');
+      return JSON.parse(jsonData);
+    } catch (error) {
+      console.error('Error reading yearly high/low data:', error);
+      return {};
+    }
+  }
 }

@@ -122,12 +122,14 @@ export class DematController {
 
   @Get('/')
   async getTableView(@Res() res: Response) {
+    try {
+    const yearlyHighLowData = this.dematService.yearlyHighLowData();
     const data    = await this.dematService.getDataFromCsv();
     const sidData = this.dematService.getDataFromJson();
     const sidIds  = sidData.map(item => item.sid).join(',');
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
 
-    // console.log('API URL:', apiUrl);
+    // console.log('yearlyHighLowData:', yearlyHighLowData, 'yearlyHighLowData===');
     
     let apiData: any = {};
     try {
@@ -149,10 +151,10 @@ export class DematController {
 
       const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
       const sid     = sidItem ? sidItem.sid : 'N/A';
-      const itemData = apiData.data.find(data => data.sid === sid);
-      const apiPrice = itemData ? itemData.price.toFixed(0) : 0;
-      const dyChange = itemData ? itemData.dyChange.toFixed(0) : 0;
-      const profit = itemData ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
+      const apiDataItem = apiData.data && apiData.data.find(data => data.sid === sid);
+      const apiPrice = apiDataItem ? apiDataItem.price.toFixed(0) : 0;
+      const dyChange = apiDataItem ? apiDataItem.dyChange.toFixed(0) : 0;
+      const profit = apiDataItem ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
       // console.log(apiPrice);
       // console.log('=====================');
 
@@ -161,6 +163,20 @@ export class DematController {
         // console.log('"', item.sid, '", ');
         // return ``;
       }
+
+
+      //console.log('yearlyHighLowData : ',sid, ' ::: ', yearlyHighLowData[sid], 'yearlyHighLowData===>>>>');
+
+      console.log('yearlyHighLowData : ',sid, ' ::: ', yearlyHighLowData[sid], 'yearlyHighLowData===>>>>');
+      
+      // Get the highest value across all years
+      let highestValue = 0;
+      let lowestValue = 0;
+      if (yearlyHighLowData[sid]) {
+        highestValue = Math.round(Math.max(...Object.values(yearlyHighLowData[sid]).map((v: any) => v.high)));
+        lowestValue = Math.round(Math.min(...Object.values(yearlyHighLowData[sid]).map((v: any) => v.low)));
+      }
+      
 
       return `
       <tr>
@@ -184,6 +200,8 @@ export class DematController {
         <td class="qty">${item.qty || 0}</td>
         <td class="total">₹${(item.total || 0).toFixed(0)}</td>
         <td class="total">₹${profit || 0}</td>
+        <td class="total">₹${highestValue || 0}</td>
+        <td class="total">₹${lowestValue || 0}</td>
       </tr>
     `}).join('');
     
@@ -193,6 +211,10 @@ export class DematController {
     
     res.setHeader('Content-Type', 'text/html');
     res.send(html);
+    } catch (error) {
+      console.error('Error in getTableView:', error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
   }
 
   @Get('/fetch-stock-data')

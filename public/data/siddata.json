@@ -547,5 +547,17 @@
 {
   "sid": "ZOM",
   "iciciCode": "ZOMLIM"
+},
+{
+  "sid": "VRA",
+  "iciciCode": "VRAIRO"
+},
+{
+  "sid": "KRON",
+  "iciciCode": "KROLAB"
+},
+{
+  "sid": "INDGN",
+  "iciciCode": "INDLTD"
 }
 ]
