@@ -181,7 +181,7 @@ export class DematController {
       let overPrice = 0;
       if(yearlyHigh[6]) {
         overPrice = apiPrice / yearlyHigh[6];
-        overPrice = ((overPrice - 1) * 100);
+        // overPrice = ((overPrice - 1) * 100);
       }
 
       return `
