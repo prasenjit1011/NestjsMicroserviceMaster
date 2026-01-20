@@ -178,6 +178,12 @@ export class DematController {
       }
       
 
+      let overPrice = 0;
+      if(yearlyHigh[6]) {
+        overPrice = apiPrice / yearlyHigh[6];
+        overPrice = ((overPrice - 1) * 100);
+      }
+
       return `
       <tr>
         <td class="total">${key+1}</td>
@@ -200,7 +206,8 @@ export class DematController {
         <td class="qty">${item.qty || 0}</td>
         <td class="total">₹${(item.total || 0).toFixed(0)}</td>
         <td class="total">₹${profit || 0}</td>
-        <td class="total">₹${yearlyHigh[6].toFixed(0) || 0}</td>
+        <td class="price">${overPrice.toFixed(2) || 0}</td>
+        <td class="price">₹${yearlyHigh[6].toFixed(0) || 0}</td>
 
         <td class="total">₹${yearlyHigh[0].toFixed(0) || 0}</td>
         <td class="total">₹${yearlyHigh[1].toFixed(0) || 0}</td>

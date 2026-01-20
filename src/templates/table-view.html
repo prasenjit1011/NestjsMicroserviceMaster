@@ -20,15 +20,15 @@
     }
 
     .price {
-      color: #10b981;
+      color: #c21e27;
       font-weight: 700;
     }
     .qty {
-      color: #3b82f6;
+      color: #c21e27;
       font-weight: 600;
     }
     .total {
-      color: #ef4444;
+      color: #2b6506;
       font-weight: 700;
       font-size: 1.1em;
     }
@@ -392,20 +392,31 @@
     }
     tbody td {
       padding: 10px 8px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid #5568d3;
       font-size: 0.95em;
+      color: #1b3ca6;
+    }
+    tbody tr {
+      background: #b8f1db;
+      transition: all 0.25s ease;
+      animation: fadeIn 0.5s ease-out;
+    }
+    tbody tr:nth-child(even) {
+      background: #b2ecce;
     }
     tbody td:first-child {
       font-weight: 600;
-      color: #667eea;
+      color: #1b3ca6;
       min-width: 30px;
     }
 
     /* Large Screens (1024px+) */
     @media (min-width: 1024px) {
       tbody tr:hover {
-        background: #eff6ff;
-        box-shadow: inset 0 0 15px rgba(102, 126, 234, 0.12);
+        /* background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); */
+        background: #7ff557;
+        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
       }
     }
 
@@ -641,7 +652,7 @@
 <body>
   <div class="container">
     <div class="summary-box">
-      <h2>📊 Portfolio Dashboard</h2>
+      <h2>📊 Dashboard</h2>
       <div class="summary-grid">
         <div class="summary-item">
           <div class="summary-label">Total Holdings</div>
@@ -689,6 +700,7 @@
           <th class="sortable" data-column="7">Qty</th>
           <th class="sortable" data-column="8">Total (₹)</th>
           <th class="sortable" data-column="9">Profit (₹)</th>
+          <th class="sortable" data-column="21">Over Price</th>
           <th class="sortable" data-column="18">2020</th>
 
           
@@ -769,15 +781,17 @@
 
     // Table sorting
     let sortDirection = {};
-    document.querySelectorAll('th.sortable').forEach(header => {
+    document.querySelectorAll('th.sortable').forEach((header, headerIndex) => {
       header.addEventListener('click', function() {
-        const column = parseInt(this.dataset.column);
         const table = document.getElementById('portfolioTable');
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
         
+        // Use header's actual position in the table, not data-column value
+        const columnIndex = headerIndex;
+        
         // Toggle sort direction
-        sortDirection[column] = sortDirection[column] === 'asc' ? 'desc' : 'asc';
+        sortDirection[columnIndex] = sortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
         
         // Remove sorted class from all headers
         document.querySelectorAll('th').forEach(h => {
@@ -785,16 +799,21 @@
         });
         
         // Add sorted class to current header
-        this.classList.add(sortDirection[column] === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        this.classList.add(sortDirection[columnIndex] === 'asc' ? 'sorted-asc' : 'sorted-desc');
         
         // Sort rows
         rows.sort((a, b) => {
-          let aVal = a.cells[column].textContent.trim();
-          let bVal = b.cells[column].textContent.trim();
+          // Use columnIndex to access the actual cell position
+          if (columnIndex >= a.cells.length || columnIndex >= b.cells.length) {
+            return 0; // Skip if cell doesn't exist
+          }
+          
+          let aVal = a.cells[columnIndex].textContent.trim();
+          let bVal = b.cells[columnIndex].textContent.trim();
           
           // Handle links - extract text content
-          const aLink = a.cells[column].querySelector('a');
-          const bLink = b.cells[column].querySelector('a');
+          const aLink = a.cells[columnIndex].querySelector('a');
+          const bLink = b.cells[columnIndex].querySelector('a');
           if (aLink) aVal = aLink.textContent.trim();
           if (bLink) bVal = bLink.textContent.trim();
           
@@ -807,11 +826,11 @@
           const bNum = parseFloat(bClean);
           
           if (!isNaN(aNum) && !isNaN(bNum)) {
-            return sortDirection[column] === 'asc' ? aNum - bNum : bNum - aNum;
+            return sortDirection[columnIndex] === 'asc' ? aNum - bNum : bNum - aNum;
           }
           
           // String comparison for non-numeric values
-          return sortDirection[column] === 'asc' 
+          return sortDirection[columnIndex] === 'asc' 
             ? aVal.localeCompare(bVal, undefined, {numeric: true, sensitivity: 'base'})
             : bVal.localeCompare(aVal, undefined, {numeric: true, sensitivity: 'base'});
         });
