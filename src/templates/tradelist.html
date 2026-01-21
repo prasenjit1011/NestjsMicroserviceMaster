@@ -106,6 +106,47 @@
       content: '↓';
       opacity: 1;
     }
+    
+    /* Scroll buttons */
+    .scroll-buttons {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+    
+    .scroll-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .scroll-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+    }
+    
+    .scroll-btn.show {
+      display: flex;
+    }
+    
+    .scroll-btn:active {
+      transform: translateY(-1px);
+    }
+    
     .footer {
       padding: 20px;
       text-align: center;
@@ -331,6 +372,7 @@
 
     // Calculate summary on page load
     window.addEventListener('load', calculateSummary);
+    
     // Autofill search input from ?iciciCode=... in URL
     window.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);
@@ -342,6 +384,45 @@
         searchInput.dispatchEvent(new Event('input'));
       }
     });
+
+    // Scroll buttons - ensure elements are loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      const goTopBtn = document.getElementById('goTopBtn');
+      const goBottomBtn = document.getElementById('goBottomBtn');
+
+      if (!goTopBtn || !goBottomBtn) {
+        console.error('Scroll buttons not found in DOM');
+        return;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          goTopBtn.classList.add('show');
+        } else {
+          goTopBtn.classList.remove('show');
+        }
+        
+        if (window.scrollY < document.documentElement.scrollHeight - window.innerHeight - 300) {
+          goBottomBtn.classList.add('show');
+        } else {
+          goBottomBtn.classList.remove('show');
+        }
+      });
+
+      goTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      goBottomBtn.addEventListener('click', () => {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+      });
+    });
   </script>
+
+  <!-- Scroll buttons -->
+  <div class="scroll-buttons">
+    <button id="goTopBtn" class="scroll-btn" title="Go to Top">↑</button>
+    <button id="goBottomBtn" class="scroll-btn" title="Go to Bottom">↓</button>
+  </div>
 </body>
 </html>
