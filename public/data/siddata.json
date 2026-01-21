@@ -559,5 +559,13 @@
 {
   "sid": "INDGN",
   "iciciCode": "INDLTD"
+},
+{
+  "sid": "INGL",
+  "iciciCode": "INTAVI"
+},
+{
+  "sid": "KOTAS",
+  "iciciCode": "KOTSIL"
 }
 ]
