@@ -65,6 +65,7 @@ export class DematController {
 
     const dataRows = allTrades.map((item, index) => {
       // Calculate buy/sell values
+      let colorCode = this.stringToColor(item.sid);
       const tradeValue = item.price * item.qty;
       if (item.action === 'Buy') {
         buyValue += tradeValue;
@@ -83,7 +84,7 @@ export class DematController {
       }
 
       return `
-        <tr>
+        <tr style="background-color: ${colorCode}">
           <td class="total">${index + 1}</td>
           <td>${item.sid || 'N/A'}</td>
           <td>${sidCode || 'N/A'}</td>
@@ -150,6 +151,8 @@ export class DematController {
       const apiDataItem = apiData.data && apiData.data.find(data => data.sid === sid);
       const apiPrice = apiDataItem ? apiDataItem.price.toFixed(0) : 0;
       const dyChange = apiDataItem ? apiDataItem.dyChange.toFixed(0) : 0;
+      const wkChange = apiDataItem ? apiDataItem.wkChange.toFixed(0) : 0;
+      const mnChange = apiDataItem ? apiDataItem.mnChange.toFixed(0) : 0;
       const profit = apiDataItem ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
       let highestValue = 0;
       let lowestValue = 0;
@@ -201,6 +204,8 @@ export class DematController {
           <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" >tickertape ${item.name || 'N/A'}</a>
         </td>
         <td class="total">${dyChange}%</td>
+        <td class="total">${wkChange}%</td>
+        <td class="total">${mnChange}%</td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>
         <td class="total">₹${apiPrice}</td>
         <td class="qty">${item.qty || 0}</td>
@@ -617,8 +622,36 @@ export class DematController {
     });
   }
 
-
-
-
-
+  private stringToColor(str: string): string {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    // Generate light green shades
+    // Keep red and blue low, vary green for different shades of light green
+    const hue = Math.abs(hash) % 360;
+    const saturation = 60 + (Math.abs(hash) % 20); // 60-80%
+    const lightness = 70 + (Math.abs(hash) % 15); // 70-85% (light)
+    
+    // HSL to RGB conversion
+    const c = (1 - Math.abs(2 * lightness / 100 - 1)) * (saturation / 100);
+    const x = c * (1 - Math.abs((hue / 60) % 2 - 1));
+    const m = lightness / 100 - c / 2;
+    
+    let r = 0, g = 0, b = 0;
+    
+    if (hue >= 0 && hue < 60) { r = c; g = x; b = 0; }
+    else if (hue >= 60 && hue < 120) { r = x; g = c; b = 0; }
+    else if (hue >= 120 && hue < 180) { r = 0; g = c; b = x; }
+    else if (hue >= 180 && hue < 240) { r = 0; g = x; b = c; }
+    else if (hue >= 240 && hue < 300) { r = x; g = 0; b = c; }
+    else { r = c; g = 0; b = x; }
+    
+    const toHex = (val: number) => {
+      const hex = Math.round((val + m) * 255).toString(16);
+      return ('0' + hex).slice(-2);
+    };
+    
+    return '#' + toHex(r) + toHex(g) + toHex(b);
+  }
 }
