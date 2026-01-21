@@ -166,15 +166,15 @@ export class DematController {
         highestValue  = Math.round(Math.max(...Object.values(yearlyHighLowData[sid]).map((v: any) => v.high)));
         lowestValue   = Math.round(Math.min(...Object.values(yearlyHighLowData[sid]).map((v: any) => v.low)));
 
-        yearlyHigh[0]   = yearlyHighLowData[sid][years] ? yearlyHighLowData[sid][years].high : 0;
-        yearlyHigh[1]   = yearlyHighLowData[sid][years-1] ? yearlyHighLowData[sid][years-1].high : 0;
-        yearlyHigh[2]   = yearlyHighLowData[sid][years-2] ? yearlyHighLowData[sid][years-2].high : 0;
-        yearlyHigh[3]   = yearlyHighLowData[sid][years-3] ? yearlyHighLowData[sid][years-3].high : 0;
-        yearlyHigh[4]   = yearlyHighLowData[sid][years-4] ? yearlyHighLowData[sid][years-4].high : 0;
-        yearlyHigh[5]   = yearlyHighLowData[sid][years-5] ? yearlyHighLowData[sid][years-5].high : 0;
-        yearlyHigh[6]   = yearlyHighLowData[sid][2020] ? yearlyHighLowData[sid][2020].low : 0;
-        yearlyHigh[7]   = yearlyHighLowData[sid][years-8] ? yearlyHighLowData[sid][years-8].high : 0;
-        yearlyHigh[8]   = yearlyHighLowData[sid][years-11] ? yearlyHighLowData[sid][years-11].high : 0;
+        yearlyHigh[0]   = yearlyHighLowData[sid][years] ? yearlyHighLowData[sid][years].high : null;
+        yearlyHigh[1]   = yearlyHighLowData[sid][years-1] ? yearlyHighLowData[sid][years-1].high : null;
+        yearlyHigh[2]   = yearlyHighLowData[sid][years-2] ? yearlyHighLowData[sid][years-2].high : null;
+        yearlyHigh[3]   = yearlyHighLowData[sid][years-3] ? yearlyHighLowData[sid][years-3].high : null;
+        yearlyHigh[4]   = yearlyHighLowData[sid][years-4] ? yearlyHighLowData[sid][years-4].high : null;
+        yearlyHigh[5]   = yearlyHighLowData[sid][years-5] ? yearlyHighLowData[sid][years-5].high : null;
+        yearlyHigh[6]   = yearlyHighLowData[sid][2020] ? yearlyHighLowData[sid][2020].low : null;
+        yearlyHigh[7]   = yearlyHighLowData[sid][years-8] ? yearlyHighLowData[sid][years-8].high : null;
+        yearlyHigh[8]   = yearlyHighLowData[sid][years-11] ? yearlyHighLowData[sid][years-11].high : null;
       }
       
 
@@ -207,16 +207,16 @@ export class DematController {
         <td class="total">₹${(item.total || 0).toFixed(0)}</td>
         <td class="total">₹${profit || 0}</td>
         <td class="price">${overPrice.toFixed(2) || 0}</td>
-        <td class="price">₹${yearlyHigh[6].toFixed(0) || 0}</td>
+        <td class="price">₹${(yearlyHigh[6] || 0).toFixed(0)}</td>
 
-        <td class="total">₹${yearlyHigh[0].toFixed(0) || 0}</td>
-        <td class="total">₹${yearlyHigh[1].toFixed(0) || 0}</td>
-        <td class="total">₹${yearlyHigh[2].toFixed(0) || 0}</td>
-        <td class="total">₹${yearlyHigh[3].toFixed(0) || 0}</td>
-        <td class="total">₹${yearlyHigh[4].toFixed(0) || 0}</td>
-        <td class="total">₹${yearlyHigh[5].toFixed(0) || 0}</td>
-        <td class="total">₹${yearlyHigh[7].toFixed(0) || 0}</td>
-        <td class="total">₹${yearlyHigh[8].toFixed(0) || 0}</td>
+        <td class="total">₹${(yearlyHigh[0] || 0).toFixed(0)}</td>
+        <td class="total">₹${(yearlyHigh[1] || 0).toFixed(0)}</td>
+        <td class="total">₹${(yearlyHigh[2] || 0).toFixed(0)}</td>
+        <td class="total">₹${(yearlyHigh[3] || 0).toFixed(0)}</td>
+        <td class="total">₹${(yearlyHigh[4] || 0).toFixed(0)}</td>
+        <td class="total">₹${(yearlyHigh[5] || 0).toFixed(0)}</td>
+        <td class="total">₹${(yearlyHigh[7] || 0).toFixed(0)}</td>
+        <td class="total">₹${(yearlyHigh[8] || 0).toFixed(0)}</td>
 
         
         <td class="total">₹${highestValue || 0}</td>
