@@ -98,7 +98,7 @@
 
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(6, 1fr);
       gap: 20px;
       margin-top: 15px;
       position: relative;
@@ -107,7 +107,7 @@
 
     .summary-item {
       text-align: center;
-      padding: 20px;
+      padding: 12px;
       background: rgba(255,255,255,0.15);
       border-radius: 12px;
       backdrop-filter: blur(10px);
@@ -117,21 +117,21 @@
 
     .summary-item:hover {
       background: rgba(255,255,255,0.25);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
     .summary-label {
-      font-size: 0.9em;
+      font-size: 0.75em;
       opacity: 0.95;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .summary-value {
-      font-size: 1.9em;
+      font-size: 1.4em;
       font-weight: 800;
       letter-spacing: -1px;
     }
@@ -352,7 +352,24 @@
     .stock-link.external:hover {
       box-shadow: 0 8px 15px rgba(245, 87, 108, 0.3);
     }
-    /* Responsive Table Styles */
+
+    .stock-link .text {
+      display: inline;
+    }
+
+    .stock-link .icon {
+      margin-right: 6px;
+    }
+
+    /* Hide text on mobile, show only icons */
+    @media (max-width: 576px) {
+      .stock-link .text {
+        display: none;
+      }
+      .stock-link .icon {
+        margin-right: 0;
+      }
+    }
     .table-wrapper {
       overflow-x: auto;
       border-radius: 12px;
@@ -670,6 +687,14 @@
           <div class="summary-label">Profit/Loss</div>
           <div class="summary-value" id="ProfitPrice">-</div>
         </div>
+        <div class="summary-item">
+          <div class="summary-label">Percentage</div>
+          <div class="summary-value" id="percentageData">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Days</div>
+          <div class="summary-value" id="daysData">-</div>
+        </div>
       </div>
     </div>
 
@@ -679,10 +704,10 @@
         <button type="button" class="clear-search" id="clearSearch" title="Clear search">✕</button>
       </div>
       <div class="nav-links">
-        <a href="/demat/tradelist" class="stock-link">🏠 Trade List</a>
-        <a href="https://www.cnbc.com/quotes/@GC.1" class="stock-link external" target="_blank">🥇 Gold</a>
-        <a href="https://www.cnbc.com/quotes/@SI.1" class="stock-link external" target="_blank">💰 Silver</a>
-        <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link external" target="_blank">🔧 Copper</a>
+        <a href="/demat/tradelist" class="stock-link"><span class="icon">🏠</span><span class="text">Trade List</span></a>
+        <a href="https://www.cnbc.com/quotes/@GC.1" class="stock-link external" target="_blank"><span class="icon">🥇</span><span class="text">Gold</span></a>
+        <a href="https://www.cnbc.com/quotes/@SI.1" class="stock-link external" target="_blank"><span class="icon">💰</span><span class="text">Silver</span></a>
+        <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link external" target="_blank"><span class="icon">🔧</span><span class="text">Copper</span></a>
       </div>
     </div>
 
@@ -741,6 +766,7 @@
       let totalQty = 0;
       let livePrice = 0;
       let buyPrice = 0;
+      let daysData = 0;
 
       rows.forEach(row => {
         // only include visible rows
@@ -757,6 +783,7 @@
 
           buyPrice  += parseFloat(cells[8].textContent.replace(/[^0-9.-]+/g, '')) || 0;
           livePrice += qty*parseFloat(cells[6].textContent.replace(/[^0-9.-]+/g, '')) || 0;
+          daysData  += parseFloat(cells[24].textContent.replace(/[^0-9.-]+/g, '')) || 0;
         }
       });
 
@@ -767,6 +794,8 @@
       document.getElementById('totalValue').textContent = '₹ ' + buyPrice.toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('totalQty').textContent = '₹ ' + livePrice.toLocaleString('en-IN');
       document.getElementById('ProfitPrice').textContent = '₹ ' + (livePrice - buyPrice).toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('percentageData').textContent = (((livePrice - buyPrice)*100)/buyPrice).toFixed(2) + '%';
+      // document.getElementById('daysData').textContent = '₹ ' + daysData.toLocaleString('en-IN', {maximumFractionDigits: 2});
     }
 
     // Search functionality
