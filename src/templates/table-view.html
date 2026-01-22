@@ -98,7 +98,7 @@
 
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 20px;
       margin-top: 15px;
       position: relative;
@@ -131,7 +131,7 @@
     }
 
     .summary-value {
-      font-size: 1.4em;
+      font-size: 1.2em;
       font-weight: 800;
       letter-spacing: -1px;
     }
@@ -672,7 +672,7 @@
       <h2>📊 Dashboard</h2>
       <div class="summary-grid">
         <div class="summary-item">
-          <div class="summary-label">Total Holdings</div>
+          <div class="summary-label">Holdings</div>
           <div class="summary-value" id="totalStocks">-</div>
         </div>
         <div class="summary-item">
@@ -694,6 +694,14 @@
         <div class="summary-item">
           <div class="summary-label">Days</div>
           <div class="summary-value" id="daysData" style="cursor: pointer;" title="Click to toggle">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">🥇 Gold (₹/oz)</div>
+          <div class="summary-value" id="goldPrice">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">💰 Silver (₹/oz)</div>
+          <div class="summary-value" id="silverPrice">-</div>
         </div>
       </div>
     </div>
@@ -758,6 +766,31 @@
   </div>
 
   <script>
+    // Fetch Gold and Silver prices from API (INR rates)
+    async function fetchMetalPrices() {
+      try {
+        const response = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
+        const data = await response.json();
+        
+        if (data.items && data.items.length > 0) {
+          console.log('Metal Prices Data:', data);
+          // Find INR currency data
+          const inrData = data.items.find(item => item.curr === 'USD');
+          if (inrData) {
+            const goldPrice = inrData.xauPrice;
+            const silverPrice = inrData.xagPrice;
+            
+            document.getElementById('goldPrice').textContent = '₹ ' + goldPrice.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('silverPrice').textContent = '₹ ' + silverPrice.toLocaleString('en-IN', {maximumFractionDigits: 1});
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching metal prices:', error);
+        document.getElementById('goldPrice').textContent = 'N/A';
+        document.getElementById('silverPrice').textContent = 'N/A';
+      }
+    }
+
     // Calculate portfolio summary (only visible rows)
     function calculateSummary() {
       const rows = document.querySelectorAll('#tableBody tr');
@@ -890,6 +923,10 @@
     // Initialize visibility after page load
     window.addEventListener('load', function() {
       calculateSummary();
+      fetchMetalPrices();
+      
+      // Refresh metal prices every 5 minutes
+      setInterval(fetchMetalPrices, 5 * 60 * 1000);
       
       // Set initial visibility based on value
       setTimeout(function() {
