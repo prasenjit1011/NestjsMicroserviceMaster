@@ -119,7 +119,17 @@ export class DematController {
   }
   }
 
-
+  @Get('/daystatus/:investmentValue/:currentValue')
+  async getDayStatus(@Param('investmentValue') investmentValue: number, @Param('currentValue') currentValue: number, @Res() res: Response) {
+    try {
+      const yearlyHighLowData = this.dematService.yearlyHighLowData();
+      console.log(yearlyHighLowData);
+      res.status(200).json(yearlyHighLowData);
+    } catch (error) {
+      console.error('Error in getDayStatus:', error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+  }
 
   @Get('/')
   async getTableView(@Res() res: Response) {
@@ -143,7 +153,11 @@ export class DematController {
     // Read the HTML template
     const templatePath = getTemplatePath('table-view.html');
     let html = fs.readFileSync(templatePath, 'utf8');
-    
+
+    let buyAmount = 0;
+    let currentPrice = 0;
+    let daysProfit = 0;
+
     // Generate table rows
     const tableRows = data.map((item, key) => {
       const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
@@ -153,7 +167,7 @@ export class DematController {
       const dyChange = apiDataItem ? apiDataItem.dyChange.toFixed(0) : 0;
       const wkChange = apiDataItem ? apiDataItem.wkChange.toFixed(0) : 0;
       const mnChange = apiDataItem ? apiDataItem.mnChange.toFixed(0) : 0;
-      const change   = apiDataItem ? (apiDataItem.change * item.qty).toFixed(0) : 0;
+      const change   = apiDataItem ? parseFloat((apiDataItem.change * item.qty).toFixed(0)) : 0;
       const profit = apiDataItem ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
       let highestValue = 0;
       let lowestValue = 0;
@@ -187,6 +201,10 @@ export class DematController {
         overPrice = apiPrice / yearlyHigh[6];
         // overPrice = ((overPrice - 1) * 100);
       }
+
+      buyAmount += item.price * item.qty;
+      currentPrice += apiPrice * item.qty;
+      daysProfit += change;
 
       return `
       <tr>
@@ -231,6 +249,98 @@ export class DematController {
       </tr>
     `}).join('');
     
+    console.log('==>', buyAmount, currentPrice)
+    const overallProfit = currentPrice - buyAmount;
+
+
+    // Store profit/loss data with timestamp (Business hours only: Mon-Fri, 9:15 AM - 3:59 PM)
+    try {
+      const now = new Date();
+      const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const timeInMinutes = hours * 60 + minutes; // Convert to minutes for easier comparison
+      
+      // Check if within business hours: Monday (1) to Friday (5), 9:15 AM to 3:59 PM
+      const isMonday = dayOfWeek === 1;
+      const isFriday = dayOfWeek === 5;
+      const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 5; // Monday to Friday
+      const isBusinessHours = timeInMinutes >= 555 && timeInMinutes < 1439; // 9:15 AM (555 min) to 3:59 PM (1439 min)
+      
+      if (isWeekday && isBusinessHours) {
+        const profitDataPath = path.join(process.cwd(), 'public', 'data', 'profit.json');
+        let profitHistory = [];
+        
+        // Read existing data if file has content
+        if (fs.existsSync(profitDataPath)) {
+          const fileContent = fs.readFileSync(profitDataPath, 'utf8');
+          if (fileContent.trim()) {
+            profitHistory = JSON.parse(fileContent);
+          }
+        }
+        
+        // Calculate current profit/loss percent
+        const currentProfitLossPercent = buyAmount > 0 ? parseFloat(((overallProfit / buyAmount) * 100).toFixed(2)) : 0;
+        
+        // Check if we should save this entry
+        let shouldSave = false;
+        let lastHourEntry = null;
+        
+        if (profitHistory.length === 0) {
+          // First entry, always save
+          shouldSave = true;
+        } else {
+          // Check if last entry is from same hour
+          const lastEntry = profitHistory[profitHistory.length - 1];
+          const lastEntryTime = new Date(lastEntry.date);
+          const lastEntryHour = lastEntryTime.getHours();
+          const currentHour = now.getHours();
+          
+          // Only save if it's a different hour
+          if (currentHour !== lastEntryHour) {
+            // Check if profit/loss percent has changed by at least 1%
+            const lastProfitPercent = parseFloat(lastEntry.profitLossPercent);
+            const percentDifference = Math.abs(currentProfitLossPercent - lastProfitPercent);
+            
+            if (percentDifference >= 1) {
+              shouldSave = true;
+            }
+          }
+        }
+        
+        if (shouldSave) {
+          // Add new profit/loss entry with timestamp
+          const timestamp = now.toISOString();
+          const profitPadded = parseInt(String(Math.round(overallProfit)).padStart(6, '0'));
+          const profitEntry = {
+            date: timestamp,
+            curAmount: parseInt(currentPrice.toFixed(0)),
+            buyAmount: parseInt(buyAmount.toFixed(0)),
+            currProfit: profitPadded,
+            dayProfit: parseInt(daysProfit.toFixed(0)),
+            curPercent: parseFloat(currentProfitLossPercent.toFixed(2))
+          };
+          
+          profitHistory.push(profitEntry);
+          
+          // Keep only last 100 entries to avoid file getting too large
+          if (profitHistory.length > 100) {
+            profitHistory = profitHistory.slice(-100);
+          }
+          
+          // Write updated data
+          fs.writeFileSync(profitDataPath, JSON.stringify(profitHistory, null, 2), 'utf8');
+          console.log('Profit/Loss data saved:', profitEntry);
+        } else {
+          console.log('Skipped saving: Same hour or insufficient profit/loss change (<1%)');
+        }
+      } else {
+        console.log('Outside business hours: Mon-Fri 9:15 AM - 3:59 PM. Data not saved.');
+      }
+    } catch (error) {
+      console.error('Error saving profit/loss data:', error);
+    }
+
     // Replace placeholders
     html = html.replace('{{TABLE_ROWS}}', tableRows);
     html = html.replace('{{TIMESTAMP}}', new Date().toLocaleString());
