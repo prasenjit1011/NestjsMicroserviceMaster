@@ -704,6 +704,7 @@
           <div class="summary-value" id="silverPrice">-</div>
         </div>
       </div>
+      
     </div>
 
     <div class="search-box">
@@ -719,7 +720,7 @@
       </div>
     </div>
 
-    <div class="table-wrapper">
+    <div class="table-wrapper" style="margin-bottom: 30px;">
       <table id="portfolioTable">
       <thead>
         <tr>
@@ -759,6 +760,29 @@
     </table>
     </div>
 
+
+    <!-- Profit History Table -->
+    <div class="table-wrapper" style="margin-bottom: 30px;">
+      <table style="width: 100%; border-collapse: collapse; background: white;">
+        <thead>
+          <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6a5acd 100%); color: white; padding: 16px 12px; text-align: left; font-weight: 800; border-bottom: 4px solid #764ba2; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8em;">
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📅 Date</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💹 Current Profit</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📊 Days Profit</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💰 Buy Amount</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💎 Current Amount</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📈 Profit %</th>
+          </tr>
+        </thead>
+        <tbody id="profitHistoryBody">
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 20px; color: #999;">Loading profit history...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
     <div class="footer">
       <p><strong>📅 Last Updated:</strong> {{TIMESTAMP}}</p>
       <p>✅ Data refreshed from Tickertape API | 📈 Portfolio tracked live</p>
@@ -788,6 +812,94 @@
         console.error('Error fetching metal prices:', error);
         document.getElementById('goldPrice').textContent = 'N/A';
         document.getElementById('silverPrice').textContent = 'N/A';
+      }
+    }
+
+    // Fetch profit history from JSON file
+    async function fetchProfitHistory() {
+      try {
+        console.log('Fetching profit history...');
+        // Try multiple paths for better compatibility
+        let response = await fetch('/data/profit.json');
+        if (!response.ok) {
+          console.log('Trying alternative path: ../data/profit.json');
+          response = await fetch('../data/profit.json');
+        }
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const profitHistory = await response.json();
+        console.log('Profit history data:', profitHistory);
+        
+        if (profitHistory && profitHistory.length > 0) {
+          // Get the latest entry for the summary
+          const latestEntry = profitHistory[profitHistory.length - 1];
+          
+          // Format date as DD/MM/YYYY HH:MM
+          const date = new Date(latestEntry.date);
+          const formattedDate = date.toLocaleString('en-IN', { 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          // document.getElementById('historyDate').textContent = formattedDate;
+          // document.getElementById('historyCurrProfit').textContent = '₹ ' + latestEntry.currProfit.toLocaleString('en-IN');
+          // document.getElementById('historyDayProfit').textContent = '₹ ' + latestEntry.dayProfit.toLocaleString('en-IN');
+          
+          // Populate the history table with all entries (in reverse order - newest first)
+          const tableBody = document.getElementById('profitHistoryBody');
+          if (!tableBody) {
+            console.error('profitHistoryBody element not found in DOM');
+            return;
+          }
+          tableBody.innerHTML = '';
+          
+          // Sort by date descending (newest first)
+          const sortedHistory = [...profitHistory].reverse();
+          
+          sortedHistory.forEach((entry, index) => {
+            const entryDate = new Date(entry.date);
+            const formattedEntryDate = entryDate.toLocaleString('en-IN', { 
+              year: 'numeric', 
+              month: '2-digit', 
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+            
+            // Alternate row colors
+            const rowColor = index % 2 === 0 ? '#b8f1db' : '#b2ecce';
+            const profitColor = entry.currProfit >= 0 ? '#10b981' : '#ef4444';
+            const dayProfitColor = entry.dayProfit >= 0 ? '#10b981' : '#ef4444';
+            
+            const row = `
+              <tr style="background-color: ${rowColor}; transition: all 0.25s ease;">
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">${formattedEntryDate}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: ${profitColor}; font-weight: 600;">₹ ${entry.currProfit.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: ${dayProfitColor}; font-weight: 600;">₹ ${entry.dayProfit.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">₹ ${entry.buyAmount.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">₹ ${entry.curAmount.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6; font-weight: 600;">${entry.curPercent}%</td>
+              </tr>
+            `;
+            tableBody.innerHTML += row;
+          });
+          
+          console.log('Profit history loaded:', profitHistory.length, 'entries');
+        }
+      } catch (error) {
+        console.error('Error fetching profit history:', error);
+        document.getElementById('historyDate').textContent = 'N/A';
+        document.getElementById('historyCurrProfit').textContent = 'N/A';
+        document.getElementById('historyDayProfit').textContent = 'N/A';
+        
+        // Show error in table
+        const tableBody = document.getElementById('profitHistoryBody');
+        tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #999;">Failed to load profit history</td></tr>';
       }
     }
 
@@ -924,9 +1036,11 @@
     window.addEventListener('load', function() {
       calculateSummary();
       fetchMetalPrices();
+      fetchProfitHistory();
       
-      // Refresh metal prices every 5 minutes
+      // Refresh metal prices and profit history every 5 minutes
       setInterval(fetchMetalPrices, 5 * 60 * 1000);
+      setInterval(fetchProfitHistory, 5 * 60 * 1000);
       
       // Set initial visibility based on value
       setTimeout(function() {
