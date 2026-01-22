@@ -693,7 +693,7 @@
         </div>
         <div class="summary-item">
           <div class="summary-label">Days</div>
-          <div class="summary-value" id="daysData">-</div>
+          <div class="summary-value" id="daysData" style="cursor: pointer;" title="Click to toggle">-</div>
         </div>
       </div>
     </div>
@@ -795,7 +795,7 @@
       document.getElementById('totalQty').textContent = '₹ ' + livePrice.toLocaleString('en-IN');
       document.getElementById('ProfitPrice').textContent = '₹ ' + (livePrice - buyPrice).toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('percentageData').textContent = (((livePrice - buyPrice)*100)/buyPrice).toFixed(2) + '%';
-      // document.getElementById('daysData').textContent = '₹ ' + daysData.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('daysData').textContent = '₹ ' + daysData.toLocaleString('en-IN', {maximumFractionDigits: 2});
     }
 
     // Search functionality
@@ -883,8 +883,46 @@
       document.getElementById('searchInput').focus();
     });
 
-    // Calculate summary on page load
-    window.addEventListener('load', calculateSummary);
+    // Toggle daysData visibility based on value
+    let daysDataVisible = true;
+    let daysDataValue = '';
+    
+    // Initialize visibility after page load
+    window.addEventListener('load', function() {
+      calculateSummary();
+      
+      // Set initial visibility based on value
+      setTimeout(function() {
+        const daysDataElement = document.getElementById('daysData');
+        if (daysDataElement) {
+          const valueText = daysDataElement.textContent.trim();
+          const numValue = parseFloat(valueText.replace(/[^0-9.-]+/g, ''));
+          
+          if (numValue < 0) {
+            // Hide by default for negative values
+            daysDataValue = valueText;
+            daysDataElement.textContent = '****';
+            daysDataVisible = false;
+          } else if (numValue > 0) {
+            // Show by default for positive values
+            daysDataValue = valueText;
+            daysDataVisible = true;
+          }
+        }
+      }, 100);
+    });
+    
+    // Toggle on click
+    document.getElementById('daysData').addEventListener('click', function() {
+      if (daysDataVisible) {
+        daysDataValue = this.textContent;
+        this.textContent = '****';
+        daysDataVisible = false;
+      } else {
+        this.textContent = daysDataValue;
+        daysDataVisible = true;
+      }
+    });
   </script>
 </body>
 </html>
