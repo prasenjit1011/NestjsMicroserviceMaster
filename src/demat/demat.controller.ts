@@ -153,6 +153,7 @@ export class DematController {
       const dyChange = apiDataItem ? apiDataItem.dyChange.toFixed(0) : 0;
       const wkChange = apiDataItem ? apiDataItem.wkChange.toFixed(0) : 0;
       const mnChange = apiDataItem ? apiDataItem.mnChange.toFixed(0) : 0;
+      const change   = apiDataItem ? (apiDataItem.change * item.qty).toFixed(0) : 0;
       const profit = apiDataItem ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
       let highestValue = 0;
       let lowestValue = 0;
@@ -204,8 +205,6 @@ export class DematController {
           <a href="/demat/quarterly/${sid}/${item.name || 'N/A'}" >tickertape ${item.name || 'N/A'}</a>
         </td>
         <td class="total">${dyChange}%</td>
-        <td class="total">${wkChange}%</td>
-        <td class="total">${mnChange}%</td>
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>
         <td class="total">₹${apiPrice}</td>
         <td class="qty">${item.qty || 0}</td>
@@ -226,6 +225,9 @@ export class DematController {
         
         <td class="total">₹${highestValue || 0}</td>
         <td class="total">₹${lowestValue || 0}</td>
+        <td class="total">${wkChange}%</td>
+        <td class="total">${mnChange}%</td>
+        <th class="total">${change}</th>
       </tr>
     `}).join('');
     
