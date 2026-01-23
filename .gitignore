@@ -49,7 +49,7 @@ lerna-debug.log*
 .tmp
 
 # Profit data (user-specific, should not be committed)
-public/data/profit.json
+# public/data/profit.json
 
 # Runtime data
 pids
