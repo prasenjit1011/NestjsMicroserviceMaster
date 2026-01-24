@@ -288,20 +288,24 @@
     
     <div class="stats">
       <div class="stat-box">
-        <h3>{{TRANSACTION_COUNT}}</h3>
         <p>Total Transactions</p>
+        <h3 id="dynamicCount">{{TRANSACTION_COUNT}}</h3>
       </div>
       <div class="stat-box">
-        <h3>₹{{TOTAL_WITHDRAWAL}}</h3>
-        <p>Total Withdrawal</p>
+        <p>Withdrawal</p>
+        <h3 id="dynamicWithdrawal">₹{{TOTAL_WITHDRAWAL}}</h3>
       </div>
       <div class="stat-box">
-        <h3>₹{{TOTAL_DEPOSIT}}</h3>
-        <p>Total Deposit</p>
+        <p>Deposit</p>
+        <h3 id="dynamicDeposit">₹{{TOTAL_DEPOSIT}}</h3>
       </div>
       <div class="stat-box">
-        <h3>₹{{LATEST_BALANCE}}</h3>
-        <p>Latest Balance</p>
+        <p>Balance</p>
+        <h3 id="dynamicBalance"></h3>
+      </div>
+      <div class="stat-box">
+        <p>Ending Balance</p>
+        <h3 id="dynamicLatestBalance">₹{{LATEST_BALANCE}}</h3>
       </div>
     </div>
 
@@ -350,11 +354,20 @@
   <script>
     let allTransactions = [];
 
+    // Format number with commas
+    function formatNumberWithCommas(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     // Parse table data on page load
     document.addEventListener('DOMContentLoaded', function() {
       const table = document.querySelector('table tbody');
       const rows = table.querySelectorAll('tr');
       const totalTransactions = rows.length;
+
+      let originalWithdrawal = 0;
+      let originalDeposit = 0;
+      let originalBalance = 0;
 
       rows.forEach((row, idx) => {
         const cells = row.querySelectorAll('td');
@@ -368,17 +381,38 @@
             balance: cells[5].textContent.trim(),
             element: row
           });
+
+          // Calculate totals and get latest balance
+          const withdrawal = parseFloat(cells[3].textContent.trim().replace(/[₹,]/g, '')) || 0;
+          const deposit = parseFloat(cells[4].textContent.trim().replace(/[₹,]/g, '')) || 0;
+          const balance = parseFloat(cells[5].textContent.trim().replace(/[₹,]/g, '')) || 0;
+          
+          originalWithdrawal += withdrawal;
+          originalDeposit += deposit;
+          originalBalance = balance; // Last row's balance
         }
       });
 
-      // Store total for search results
+      // Store totals for reference
       window.totalTransactions = totalTransactions;
+      window.originalWithdrawal = originalWithdrawal.toFixed(0);
+      window.originalDeposit = originalDeposit.toFixed(0);
+      window.originalBalance = originalBalance.toFixed(0);
+
+      // Format and update initial stats display with commas
+      document.getElementById('dynamicCount').textContent = formatNumberWithCommas(totalTransactions);
+      document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal);
+      document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit);
+      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(window.originalBalance);
     });
 
     function filterTable() {
       const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
       const resultsInfo = document.getElementById('resultsInfo');
       let visibleCount = 0;
+      let totalWithdrawal = 0;
+      let totalDeposit = 0;
+      let latestBalance = 0;
 
       if (searchValue === '') {
         // Show all rows
@@ -386,10 +420,15 @@
           t.element.style.display = '';
         });
         resultsInfo.style.display = 'none';
+        // Reset to original stats with comma formatting
+        document.getElementById('dynamicCount').textContent = formatNumberWithCommas(window.totalTransactions);
+        document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal || '0');
+        document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit || '0');
+        document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(window.originalBalance || '0');
         return;
       }
 
-      // Filter transactions
+      // Filter transactions and calculate stats
       allTransactions.forEach(transaction => {
         const searchText = (
           transaction.sNo + ' ' +
@@ -403,10 +442,25 @@
         if (searchText.includes(searchValue)) {
           transaction.element.style.display = '';
           visibleCount++;
+          
+          // Parse and accumulate amounts
+          const withdrawal = parseFloat(transaction.withdrawal.replace(/[₹,]/g, '')) || 0;
+          const deposit = parseFloat(transaction.deposit.replace(/[₹,]/g, '')) || 0;
+          const balance = parseFloat(transaction.balance.replace(/[₹,]/g, '')) || 0;
+          
+          totalWithdrawal += withdrawal;
+          totalDeposit += deposit;
+          latestBalance = balance; // Last visible row's balance
         } else {
           transaction.element.style.display = 'none';
         }
       });
+
+      // Update stats dynamically with comma formatting
+      document.getElementById('dynamicCount').textContent = formatNumberWithCommas(visibleCount);
+      document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(totalWithdrawal.toFixed(0));
+      document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(totalDeposit.toFixed(0));
+      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(latestBalance.toFixed(0));
 
       // Show results info
       if (visibleCount === 0) {
@@ -423,6 +477,11 @@
       allTransactions.forEach(t => {
         t.element.style.display = '';
       });
+      // Reset stats to original with comma formatting
+      document.getElementById('dynamicCount').textContent = formatNumberWithCommas(window.totalTransactions);
+      document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal || '0');
+      document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit || '0');
+      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(window.originalBalance || '0');
       document.getElementById('searchInput').focus();
     }
 

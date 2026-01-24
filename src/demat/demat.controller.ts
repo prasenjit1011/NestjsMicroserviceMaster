@@ -59,14 +59,14 @@ export class DematController {
       const templatePath = getTemplatePath('transaction.html');
       let html = fs.readFileSync(templatePath, 'utf8');
 
-      // Replace placeholders
-      html = html.replace('{{YEAR}}', year);
-      html = html.replace('{{TRANSACTION_COUNT}}', transactions.length.toString());
-      html = html.replace('{{TOTAL_WITHDRAWAL}}', totalWithdrawal.toFixed(0));
-      html = html.replace('{{TOTAL_DEPOSIT}}', totalDeposit.toFixed(0));
-      html = html.replace('{{LATEST_BALANCE}}', latestBalance.toFixed(0));
-      html = html.replace('{{TABLE_ROWS}}', tableRows);
-      html = html.replace('{{TIMESTAMP}}', new Date().toLocaleString());
+      // Replace placeholders (using global replace for multiple occurrences)
+      html = html.replace(/{{YEAR}}/g, year);
+      html = html.replace(/{{TRANSACTION_COUNT}}/g, transactions.length.toString());
+      html = html.replace(/{{TOTAL_WITHDRAWAL}}/g, totalWithdrawal.toFixed(0));
+      html = html.replace(/{{TOTAL_DEPOSIT}}/g, totalDeposit.toFixed(0));
+      html = html.replace(/{{LATEST_BALANCE}}/g, latestBalance.toFixed(0));
+      html = html.replace(/{{TABLE_ROWS}}/g, tableRows);
+      html = html.replace(/{{TIMESTAMP}}/g, new Date().toLocaleString());
 
       res.setHeader('Content-Type', 'text/html');
       res.send(html);
