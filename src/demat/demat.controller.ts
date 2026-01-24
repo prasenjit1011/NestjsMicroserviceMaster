@@ -21,6 +21,61 @@ export class DematController {
     }
   }
 
+  @Get('/transaction/:year')
+  async getTransactionByYear(@Param('year') year: string, @Res() res: Response) {
+    try {
+      // Validate year format (should be 4 digits)
+      if (!/^\d{4}$/.test(year)) {
+        return res.status(400).send('<h1>Invalid year format. Year must be 4 digits (e.g., 2021)</h1>');
+      }
+
+      // Get transaction data from Excel file
+      const transactions = await this.dematService.getTransactionsByYear(year);
+
+      if (!transactions || transactions.length === 0) {
+        return res.send('<h1>No transactions found for year ' + year + '</h1>');
+      }
+
+      // Calculate statistics
+      const totalWithdrawal = transactions.reduce((sum, t) => sum + (t.withdrawalAmount || 0), 0);
+      const totalDeposit = transactions.reduce((sum, t) => sum + (t.depositAmount || 0), 0);
+      const latestBalance = transactions.length > 0 ? transactions[transactions.length - 1].balance : 0;
+
+      // Generate table rows
+      const tableRows = transactions.map((t, idx) =>{
+        console.log(`Generating row for transaction Dtd : `, t.valueDate, ' === ');
+        return `
+        <tr style="background-color: ${idx % 2 === 0 ? '#f0f8ff' : '#ffffff'}; border-bottom: 1px solid #ddd;">
+          <td style="padding: 10px; border-right: 1px solid #ddd; text-align: center; font-weight: 600;">${t.sNo}</td>
+          <td style="padding: 10px; border-right: 1px solid #ddd; font-weight: 600; color: #0066cc;">${t.transactionDate}</td>
+          <td style="padding: 10px; border-right: 1px solid #ddd;">${t.transactionRemarks}</td>
+          <td style="padding: 10px; border-right: 1px solid #ddd; text-align: right; font-weight: 600; color: ${t.withdrawalAmount > 0 ? '#e74c3c' : '#999'};">₹${t.withdrawalAmount > 0 ? t.withdrawalAmount.toFixed(0) : '-'}</td>
+          <td style="padding: 10px; border-right: 1px solid #ddd; text-align: right; font-weight: 600; color: ${t.depositAmount > 0 ? '#2ecc71' : '#999'};">₹${t.depositAmount > 0 ? t.depositAmount.toFixed(0) : '-'}</td>
+          <td style="padding: 10px; text-align: right; font-weight: 600; color: #0066cc;">₹${t.balance.toFixed(2)}</td>
+        </tr>
+      `}).join('');
+
+      // Read and render the template
+      const templatePath = getTemplatePath('transaction.html');
+      let html = fs.readFileSync(templatePath, 'utf8');
+
+      // Replace placeholders
+      html = html.replace('{{YEAR}}', year);
+      html = html.replace('{{TRANSACTION_COUNT}}', transactions.length.toString());
+      html = html.replace('{{TOTAL_WITHDRAWAL}}', totalWithdrawal.toFixed(0));
+      html = html.replace('{{TOTAL_DEPOSIT}}', totalDeposit.toFixed(0));
+      html = html.replace('{{LATEST_BALANCE}}', latestBalance.toFixed(0));
+      html = html.replace('{{TABLE_ROWS}}', tableRows);
+      html = html.replace('{{TIMESTAMP}}', new Date().toLocaleString());
+
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      console.error('Error in getTransactionByYear:', error);
+      res.status(500).send(`<h1>Error</h1><p>${error.message}</p>`);
+    }
+  }
+
   @Get('/tradelist')
   async getTradeTableView(@Res() res: Response) {
     try {

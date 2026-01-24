@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank Transactions - {{YEAR}}</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 30px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 20px;
+    }
+    .header h1 {
+      color: #333;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    .header p {
+      color: #666;
+      font-size: 1.1em;
+      margin: 5px 0;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .stat-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    .stat-box h3 {
+      font-size: 2em;
+      margin-bottom: 5px;
+    }
+    .stat-box p {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+    thead tr {
+      background: #667eea;
+      color: white;
+      font-weight: bold;
+      text-align: left;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    thead th {
+      padding: 12px 10px;
+      border-right: 1px solid #555;
+      white-space: nowrap;
+      font-size: 0.95em;
+    }
+    tbody tr:hover {
+      background-color: #f9f9f9 !important;
+      transition: background-color 0.2s ease;
+    }
+    tbody td {
+      padding: 10px;
+      border-right: 1px solid #ddd;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background: #667eea;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .back-link:hover {
+      background: #764ba2;
+    }
+    .timestamp {
+      font-size: 0.85em;
+      color: #999;
+      margin-top: 50px;
+      text-align: center;
+    }
+    .search-container {
+      margin-bottom: 25px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .search-input {
+      flex: 1;
+      max-width: 500px;
+      padding: 12px 16px;
+      border: 2px solid #667eea;
+      border-radius: 5px;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: #764ba2;
+      box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+    }
+    .search-button {
+      padding: 12px 24px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .search-button:hover {
+      background: #764ba2;
+    }
+    .results-info {
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      background: #f0f8ff;
+      border-left: 4px solid #667eea;
+      border-radius: 3px;
+      font-size: 0.95em;
+      color: #333;
+    }
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+      font-size: 1.1em;
+    }
+    .scroll-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+    .scroll-btn {
+      padding: 12px 24px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 1em;
+    }
+    .scroll-btn:hover {
+      background: #764ba2;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .scroll-btn:active {
+      transform: translateY(0);
+    }
+    /* Floating scroll buttons - fixed position */
+    .floating-scroll-buttons {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 999;
+    }
+    .floating-scroll-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #667eea;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s ease;
+    }
+    .floating-scroll-btn:hover {
+      background: #764ba2;
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+    }
+    .floating-scroll-btn:active {
+      transform: scale(0.95);
+    }
+    @media (max-width: 768px) {
+      .floating-scroll-buttons {
+        bottom: 20px;
+        right: 20px;
+      }
+      .floating-scroll-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+      }
+    }
+    /* Sortable column headers */
+    thead th {
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+    thead th:hover {
+      background: #5568d3;
+    }
+    thead th.sortable::after {
+      content: ' ⇅';
+      font-size: 0.8em;
+      opacity: 0.6;
+    }
+    thead th.sort-asc::after {
+      content: ' ▲';
+      opacity: 1;
+      color: #ffd700;
+    }
+    thead th.sort-desc::after {
+      content: ' ▼';
+      opacity: 1;
+      color: #ffd700;
+    }
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        padding: 0;
+      }
+      .back-link {
+        display: none;
+      }
+      .scroll-buttons {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/demat/" class="back-link">← Back to Dashboard</a>
+    
+    <div class="header">
+      <h1>🏦 Bank Transaction History</h1>
+      <p>Year: {{YEAR}}</p>
+      <p style="font-size: 0.9em; color: #999;">Generated on {{TIMESTAMP}}</p>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <h3>{{TRANSACTION_COUNT}}</h3>
+        <p>Total Transactions</p>
+      </div>
+      <div class="stat-box">
+        <h3>₹{{TOTAL_WITHDRAWAL}}</h3>
+        <p>Total Withdrawal</p>
+      </div>
+      <div class="stat-box">
+        <h3>₹{{TOTAL_DEPOSIT}}</h3>
+        <p>Total Deposit</p>
+      </div>
+      <div class="stat-box">
+        <h3>₹{{LATEST_BALANCE}}</h3>
+        <p>Latest Balance</p>
+      </div>
+    </div>
+
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="search-input" 
+        placeholder="Search by date, remarks, or amount... (e.g., 02/01/2024 or EBA or 194.49)"
+        onkeyup="filterTable()"
+      >
+      <button class="search-button" onclick="resetSearch()">Clear</button>
+    </div>
+
+    <div id="resultsInfo" class="results-info" style="display: none;"></div>
+
+    <div id="tableContainer" class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px; text-align: center;" class="sortable" onclick="sortTable(0)">S No.</th>
+            <th class="sortable" onclick="sortTable(1)">Transaction Date</th>
+            <th class="sortable" onclick="sortTable(2)">Transaction Remarks</th>
+            <th style="text-align: right;" class="sortable" onclick="sortTable(3)">Withdrawal Amount (₹)</th>
+            <th style="text-align: right;" class="sortable" onclick="sortTable(4)">Deposit Amount (₹)</th>
+            <th style="text-align: right;" class="sortable" onclick="sortTable(5)">Balance (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{TABLE_ROWS}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Floating Scroll Buttons -->
+    <div class="floating-scroll-buttons">
+      <button class="floating-scroll-btn" onclick="scrollToTop()" title="Go to Top">⬆️</button>
+      <button class="floating-scroll-btn" onclick="scrollToBottom()" title="Go to Bottom">⬇️</button>
+    </div>
+
+    <div class="timestamp">
+      <p>Last updated: {{TIMESTAMP}}</p>
+    </div>
+  </div>
+
+  <script>
+    let allTransactions = [];
+
+    // Parse table data on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const table = document.querySelector('table tbody');
+      const rows = table.querySelectorAll('tr');
+      const totalTransactions = rows.length;
+
+      rows.forEach((row, idx) => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length >= 6) {
+          allTransactions.push({
+            sNo: cells[0].textContent.trim(),
+            date: cells[1].textContent.trim(),
+            remarks: cells[2].textContent.trim(),
+            withdrawal: cells[3].textContent.trim(),
+            deposit: cells[4].textContent.trim(),
+            balance: cells[5].textContent.trim(),
+            element: row
+          });
+        }
+      });
+
+      // Store total for search results
+      window.totalTransactions = totalTransactions;
+    });
+
+    function filterTable() {
+      const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
+      const resultsInfo = document.getElementById('resultsInfo');
+      let visibleCount = 0;
+
+      if (searchValue === '') {
+        // Show all rows
+        allTransactions.forEach(t => {
+          t.element.style.display = '';
+        });
+        resultsInfo.style.display = 'none';
+        return;
+      }
+
+      // Filter transactions
+      allTransactions.forEach(transaction => {
+        const searchText = (
+          transaction.sNo + ' ' +
+          transaction.date + ' ' +
+          transaction.remarks + ' ' +
+          transaction.withdrawal + ' ' +
+          transaction.deposit + ' ' +
+          transaction.balance
+        ).toLowerCase();
+
+        if (searchText.includes(searchValue)) {
+          transaction.element.style.display = '';
+          visibleCount++;
+        } else {
+          transaction.element.style.display = 'none';
+        }
+      });
+
+      // Show results info
+      if (visibleCount === 0) {
+        resultsInfo.innerHTML = `<strong>No transactions found</strong> for "${searchValue}"`;
+      } else {
+        resultsInfo.innerHTML = `<strong>Showing ${visibleCount} of ${window.totalTransactions} transactions</strong>`;
+      }
+      resultsInfo.style.display = 'block';
+    }
+
+    function resetSearch() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('resultsInfo').style.display = 'none';
+      allTransactions.forEach(t => {
+        t.element.style.display = '';
+      });
+      document.getElementById('searchInput').focus();
+    }
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    function scrollToBottom() {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+
+    // Allow search on Enter key
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            filterTable();
+          }
+        });
+      }
+    });
+
+    // Sorting functionality
+    let currentSortColumn = -1;
+    let sortAscending = true;
+
+    function sortTable(columnIndex) {
+      // Get all rows from tbody
+      const tbody = document.querySelector('table tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      
+      // Filter out hidden rows (from search)
+      const visibleRows = rows.filter(row => row.style.display !== 'none');
+      
+      // If no visible rows or column not sortable, return
+      if (visibleRows.length === 0) return;
+
+      // Toggle sort direction if same column clicked
+      if (currentSortColumn === columnIndex) {
+        sortAscending = !sortAscending;
+      } else {
+        sortAscending = true;
+        currentSortColumn = columnIndex;
+      }
+
+      // Sort rows based on column
+      visibleRows.sort((a, b) => {
+        const aCell = a.querySelectorAll('td')[columnIndex];
+        const bCell = b.querySelectorAll('td')[columnIndex];
+        
+        if (!aCell || !bCell) return 0;
+
+        let aValue = aCell.textContent.trim();
+        let bValue = bCell.textContent.trim();
+
+        // Try to parse as number for numeric columns
+        if (columnIndex >= 3) {
+          const aNum = parseFloat(aValue.replace(/[₹,]/g, ''));
+          const bNum = parseFloat(bValue.replace(/[₹,]/g, ''));
+          
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            return sortAscending ? aNum - bNum : bNum - aNum;
+          }
+        }
+
+        // Handle date column (format: DD/MM/YYYY)
+        if (columnIndex === 1) {
+          const aDate = new Date(aValue.split('/').reverse().join('-'));
+          const bDate = new Date(bValue.split('/').reverse().join('-'));
+          
+          if (!isNaN(aDate.getTime()) && !isNaN(bDate.getTime())) {
+            return sortAscending ? aDate - bDate : bDate - aDate;
+          }
+        }
+
+        // Default string comparison
+        return sortAscending ? 
+          aValue.localeCompare(bValue) : 
+          bValue.localeCompare(aValue);
+      });
+
+      // Update allTransactions order
+      const sortedTransactions = [];
+      visibleRows.forEach(row => {
+        const transaction = allTransactions.find(t => t.element === row);
+        if (transaction) {
+          sortedTransactions.push(transaction);
+        }
+      });
+
+      // Re-append sorted rows to tbody
+      visibleRows.forEach(row => tbody.appendChild(row));
+
+      // Update sort indicator on header
+      updateSortIndicators(columnIndex);
+    }
+
+    function updateSortIndicators(columnIndex) {
+      const headers = document.querySelectorAll('thead th');
+      headers.forEach((th, idx) => {
+        th.classList.remove('sort-asc', 'sort-desc');
+        if (idx === columnIndex) {
+          th.classList.add(sortAscending ? 'sort-asc' : 'sort-desc');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
