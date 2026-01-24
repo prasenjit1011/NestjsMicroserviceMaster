@@ -403,7 +403,9 @@
       document.getElementById('dynamicCount').textContent = formatNumberWithCommas(totalTransactions);
       document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal);
       document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit);
-      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(window.originalBalance);
+
+      let dyBal = 1000;
+      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(dyBal);
     });
 
     function filterTable() {
@@ -424,7 +426,10 @@
         document.getElementById('dynamicCount').textContent = formatNumberWithCommas(window.totalTransactions);
         document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal || '0');
         document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit || '0');
-        document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(window.originalBalance || '0');
+
+        let dyBal = 8000;
+        dyBal = window.originalDeposit - window.originalWithdrawal;
+        document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(dyBal);
         return;
       }
 
@@ -460,7 +465,10 @@
       document.getElementById('dynamicCount').textContent = formatNumberWithCommas(visibleCount);
       document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(totalWithdrawal.toFixed(0));
       document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(totalDeposit.toFixed(0));
-      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(latestBalance.toFixed(0));
+
+      let dyBal = 5000;
+      dyBal = window.originalDeposit - window.originalWithdrawal;
+      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(dyBal);
 
       // Show results info
       if (visibleCount === 0) {
@@ -481,7 +489,9 @@
       document.getElementById('dynamicCount').textContent = formatNumberWithCommas(window.totalTransactions);
       document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal || '0');
       document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit || '0');
-      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(window.originalBalance || '0');
+
+      let dyBal = 6000;
+      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(dyBal);
       document.getElementById('searchInput').focus();
     }
 

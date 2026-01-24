@@ -51,7 +51,7 @@ export class DematController {
           <td style="padding: 10px; border-right: 1px solid #ddd;">${t.transactionRemarks}</td>
           <td style="padding: 10px; border-right: 1px solid #ddd; text-align: right; font-weight: 600; color: ${t.withdrawalAmount > 0 ? '#e74c3c' : '#999'};">₹${t.withdrawalAmount > 0 ? t.withdrawalAmount.toFixed(0) : '-'}</td>
           <td style="padding: 10px; border-right: 1px solid #ddd; text-align: right; font-weight: 600; color: ${t.depositAmount > 0 ? '#2ecc71' : '#999'};">₹${t.depositAmount > 0 ? t.depositAmount.toFixed(0) : '-'}</td>
-          <td style="padding: 10px; text-align: right; font-weight: 600; color: #0066cc;">₹${t.balance.toFixed(2)}</td>
+          <td style="padding: 10px; text-align: right; font-weight: 600; color: #0066cc;">₹${parseInt(t.balance)}</td>
         </tr>
       `}).join('');
 
