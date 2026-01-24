@@ -41,6 +41,43 @@
       font-size: 1.1em;
       margin: 5px 0;
     }
+    .year-buttons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .year-btn {
+      padding: 8px 16px;
+      background: #f0f0f0;
+      color: #333;
+      border: 2px solid #667eea;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9em;
+      transition: all 0.3s;
+    }
+    .year-btn:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+    .year-btn.active {
+      background: #667eea;
+      color: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    @media (max-width: 768px) {
+      .year-buttons {
+        gap: 6px;
+      }
+      .year-btn {
+        padding: 6px 12px;
+        font-size: 0.85em;
+      }
+    }
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -281,9 +318,16 @@
     <a href="/demat/" class="back-link">← Back to Dashboard</a>
     
     <div class="header">
-      <h1>🏦 Bank Transaction History</h1>
-      <p>Year: {{YEAR}}</p>
-      <p style="font-size: 0.9em; color: #999;">Generated on {{TIMESTAMP}}</p>
+      <h1>🏦 Transaction History</h1>
+      <p id="yearDisplay">Year: {{YEAR}}</p>
+      <div class="year-buttons">
+        <button class="year-btn" onclick="navigateToYear('2021')">2021</button>
+        <button class="year-btn" onclick="navigateToYear('2022')">2022</button>
+        <button class="year-btn" onclick="navigateToYear('2023')">2023</button>
+        <button class="year-btn" onclick="navigateToYear('2024')">2024</button>
+        <button class="year-btn" onclick="navigateToYear('2025')">2025</button>
+        <button class="year-btn" onclick="navigateToYear('2026')">2026</button>
+      </div>
     </div>
     
     <div class="stats">
@@ -292,12 +336,12 @@
         <h3 id="dynamicCount">{{TRANSACTION_COUNT}}</h3>
       </div>
       <div class="stat-box">
-        <p>Withdrawal</p>
-        <h3 id="dynamicWithdrawal">₹{{TOTAL_WITHDRAWAL}}</h3>
-      </div>
-      <div class="stat-box">
         <p>Deposit</p>
         <h3 id="dynamicDeposit">₹{{TOTAL_DEPOSIT}}</h3>
+      </div>
+      <div class="stat-box">
+        <p>Withdrawal</p>
+        <h3 id="dynamicWithdrawal">₹{{TOTAL_WITHDRAWAL}}</h3>
       </div>
       <div class="stat-box">
         <p>Balance</p>
@@ -359,8 +403,40 @@
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    // Navigate to selected year
+    function navigateToYear(year) {
+      if (year) {
+        window.location.href = `/demat/transaction/${year}`;
+      }
+    }
+
+    // Set the current year in dropdown and highlight button
+    function setCurrentYearInUI() {
+      const yearDisplay = document.getElementById('yearDisplay');
+      if (!yearDisplay) {
+        console.warn('Year display element not found');
+        return;
+      }
+      
+      const yearText = yearDisplay.textContent;
+      const year = yearText.replace('Year: ', '').trim();
+      
+      // Highlight active year button
+      const yearButtons = document.querySelectorAll('.year-btn');
+      yearButtons.forEach(btn => {
+        if (btn.textContent === year) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
     // Parse table data on page load
     document.addEventListener('DOMContentLoaded', function() {
+      // Set current year in dropdown and highlight button
+      setCurrentYearInUI();
+
       const table = document.querySelector('table tbody');
       const rows = table.querySelectorAll('tr');
       const totalTransactions = rows.length;
