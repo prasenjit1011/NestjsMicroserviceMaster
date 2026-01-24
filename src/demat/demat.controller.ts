@@ -107,8 +107,10 @@ export class DematController {
     );
     
     // Flatten all trades into a single array
-    const allTrades = yearlyTradeData.flat();
-    
+    const allTrades = yearlyTradeData.flat().sort((a, b) => {
+      return new Date(b.dtd).getTime() - new Date(a.dtd).getTime();
+    });
+
     console.log(`Total trades across all years: ${allTrades.length}`);
     console.log('Breakdown by year:', yearlyTradeData.map((trades, i) => 
       `${years[i]}: ${trades.length} trades`
