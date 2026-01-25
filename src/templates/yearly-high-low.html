@@ -47,12 +47,6 @@
             <h1>📊 Yearly High/Low Analysis</h1>
             <p class="subtitle">{{sid}} : {{stockName}} Stock Price Analysis by Year</p>
         </div>
-        <!-- Latest Price Display -->
-        <div class="latest-price-box">
-            <h2>💰 Latest Stock Price</h2>
-            <div class="price">{{latestPrice}}</div>
-            <div class="date">As of {{latestDate}}</div>
-        </div>
         
         <h2 style="color: #333; margin-bottom: 25px; font-size: 1.8em; display: flex; justify-content: space-between; align-items: center;">
             📊 Yearly High/Low Data
@@ -65,6 +59,14 @@
             </span>
         </h2>
 
+        <!-- Latest Price Display -->
+        <div class="latest-price-box">
+            <h2>💰 Latest Stock Price</h2>
+            <div class="price">{{latestPrice}}</div>
+            <div class="date">As of {{latestDate}}</div>
+        </div>
+        
+        
         <div class="table-container">
             <table>
                 <thead>

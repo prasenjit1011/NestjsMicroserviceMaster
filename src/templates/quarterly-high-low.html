@@ -104,14 +104,6 @@
             <p class="subtitle">{{sid}} : {{stockName}} Stock Price Analysis by Quarter</p>
         </div>
         
-        <!-- Latest Price Display -->
-        <div class="latest-price-box">
-            <h2>💰 Latest Stock Price</h2>
-            <div class="price">{{latestPrice}}</div>
-            <div class="date">As of {{latestDate}}</div>
-            <p><strong>API URL:</strong> <a href="{{apiUrl}}"  style="color: white; text-decoration: underline;">{{apiUrl}}</a></p>
-        </div>
-
         <h2 class="section-header">
             📊 Quarterly Data Matrix
             <span class="nav-links">
@@ -122,6 +114,15 @@
                 | <a href="/demat/weekly/{{sid}}/{{stockName}}">Weekly</a>
             </span>
         </h2>
+        <!-- Latest Price Display -->
+        <div class="latest-price-box">
+            <h2>💰 Latest Stock Price</h2>
+            <div class="price">{{latestPrice}}</div>
+            <div class="date">As of {{latestDate}}</div>
+            <p><strong>API URL:</strong> <a href="{{apiUrl}}"  style="color: white; text-decoration: underline;">{{apiUrl}}</a></p>
+        </div>
+
+        
 
         <div class="quarter-matrix">
             <table>
