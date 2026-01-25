@@ -153,6 +153,7 @@
     .search-input-wrapper {
       position: relative;
       grid-column: 1;
+      max-width: 500px;
     }
 
     .search-box input {
@@ -210,10 +211,12 @@
       display: flex;
       justify-content: center;
       gap: 12px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
       grid-column: 2;
       grid-row: 1;
+      flex: 1;
+      overflow-x: auto;
     }
 
     .nav-links a {
@@ -717,7 +720,7 @@
         <a href="/demat/transaction" class="stock-link"><span class="icon">🏠</span><span class="text">Transaction</span></a>
         <a href="https://www.cnbc.com/quotes/@GC.1" class="stock-link external" target="_blank"><span class="icon">🥇</span><span class="text">Gold</span></a>
         <a href="https://www.cnbc.com/quotes/@SI.1" class="stock-link external" target="_blank"><span class="icon">💰</span><span class="text">Silver</span></a>
-        <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link external" target="_blank"><span class="icon">🔧</span><span class="text">Copper</span></a>
+        <!-- <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link external" target="_blank"><span class="icon">🔧</span><span class="text">Copper</span></a> -->
       </div>
     </div>
 
