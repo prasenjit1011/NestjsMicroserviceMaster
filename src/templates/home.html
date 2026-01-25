@@ -143,23 +143,27 @@
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       animation: fadeIn 0.8s ease-out;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: row;
       gap: 15px;
-      align-items: flex-start;
+      align-items: center;
       position: relative;
+      flex-wrap: wrap;
+      overflow: hidden;
     }
 
     .search-input-wrapper {
       position: relative;
-      grid-column: 1;
+      flex: 0 0 auto;
+      min-width: 250px;
       max-width: 500px;
+      width: 100%;
     }
 
     .search-box input {
       width: 100%;
       padding: 12px 16px;
-      padding-right: 45px;
+      padding-right: 40px;
       border: 2px solid #e5e7eb;
       border-radius: 8px;
       font-size: 1em;
@@ -179,16 +183,21 @@
 
     .clear-search {
       position: absolute;
-      right: 12px;
+      right: 8px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
-      font-size: 1.6em;
+      font-size: 1.2em;
       font-weight: 900;
       cursor: pointer;
       color: #4f46e5;
-      padding: 4px 8px;
+      padding: 2px 4px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.3s ease;
       display: none;
       z-index: 5;
@@ -209,14 +218,12 @@
 
     .nav-links {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 12px;
       flex-wrap: nowrap;
       align-items: center;
-      grid-column: 2;
-      grid-row: 1;
-      flex: 1;
-      overflow-x: auto;
+      flex: 0 1 auto;
+      min-width: 0;
     }
 
     .nav-links a {
@@ -225,6 +232,7 @@
       transition: all 0.3s ease;
       font-size: 0.95em;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     tbody tr {
@@ -720,7 +728,7 @@
         <a href="/demat/transaction" class="stock-link"><span class="icon">🏠</span><span class="text">Transaction</span></a>
         <a href="https://www.cnbc.com/quotes/@GC.1" class="stock-link external" target="_blank"><span class="icon">🥇</span><span class="text">Gold</span></a>
         <a href="https://www.cnbc.com/quotes/@SI.1" class="stock-link external" target="_blank"><span class="icon">💰</span><span class="text">Silver</span></a>
-        <!-- <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link external" target="_blank"><span class="icon">🔧</span><span class="text">Copper</span></a> -->
+        <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link external" target="_blank"><span class="icon">🔧</span><span class="text">Copper</span></a>
       </div>
     </div>
 
