@@ -447,6 +447,20 @@ tbody tr:nth-child(even) {
     margin-top: 30px;
 }
 
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+.back-link:hover {
+    background: #764ba2;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
@@ -510,3 +524,4 @@ tbody tr:nth-child(even) {
         font-size: 1.8em;
     }
 }
+

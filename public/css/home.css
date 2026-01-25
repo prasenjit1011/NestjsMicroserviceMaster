@@ -61,6 +61,7 @@
 
     .summary-box {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      /* background: linear-gradient(135deg, #667eea 0%, #4ba276 100%); */
       color: white;
       padding: 30px;
       border-radius: 16px;
@@ -220,7 +221,7 @@
     }
 
     .nav-links a {
-      padding: 9px 16px;
+      padding: 9px 12px 9px 10px;
       border-radius: 8px;
       transition: all 0.3s ease;
       font-size: 0.95em;

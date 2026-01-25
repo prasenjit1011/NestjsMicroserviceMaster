@@ -6,6 +6,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as https from 'https';
 import { getTemplatePath } from '../utils/path.util';
+import { json } from 'stream/consumers';
 
 @Controller('demat')
 export class DematController {
@@ -87,6 +88,10 @@ export class DematController {
     const sidData = this.dematService.getDataFromJson();
     const sidIds  = sidData.map(item => item.sid).join(',');
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
+    const stockData = await this.dematService.getDataFromCsv();
+
+    console.log('Stock Data: ', stockData);
+    // return res.send(stockData);
 
     const templatePath = getTemplatePath('tradelist.html');
     let html = fs.readFileSync(templatePath, 'utf8');
@@ -145,12 +150,14 @@ export class DematController {
         missingSidsSet.add(item.sid);  // Add unique SID to Set
       }
 
+      const stockName = stockData.find(stock => stock.sid === item.sid)?.name || 'N/A';
+
       return `
         <tr style="background-color: ${colorCode}">
           <td class="total">${index + 1}</td>
           <td>${item.sid || 'N/A'}</td>
           <td>${sidCode || 'N/A'}</td>
-          <td><a href="/demat/quarterly/${sid}/${item.sid || 'N/A'}" >${item.sid || 'N/A'}</a></td>
+          <td><a href="/demat/quarterly/${sid}/${item.sid || 'N/A'}" style="font-size: 0.9em;">${stockName || 'N/A'}</a></td>
           <td>${item.action || 'N/A'}</td>
           <td class="qty">${item.qty || 0}</td>
           <td class="total">₹${item.price?.toFixed(0) || '0'}</td>
