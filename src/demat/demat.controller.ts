@@ -21,6 +21,11 @@ export class DematController {
     }
   }
 
+  @Get('/transaction')
+  async getTransaction(@Res() res: Response) {
+    return this.getTransactionByYear('2021', res);
+  }
+
   @Get('/transaction/:year')
   async getTransactionByYear(@Param('year') year: string, @Res() res: Response) {
     try {
@@ -208,7 +213,7 @@ export class DematController {
     }
 
     // Read the HTML template
-    const templatePath = getTemplatePath('table-view.html');
+    const templatePath = getTemplatePath('home.html');
     let html = fs.readFileSync(templatePath, 'utf8');
 
     let buyAmount = 0;
