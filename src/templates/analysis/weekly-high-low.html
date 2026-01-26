@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yearly - {{sid}} {{stockName}} High/Low Analysis</title>
+    <title>Weekly - {{sid}} {{stockName}} Stock Data</title>
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/commonstyle.css">
-    <link rel="stylesheet" href="/css/yearly-high-low.css">
+    <link rel="stylesheet" href="/css/weekly-high-low.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Yearly Analysis</h1>
-            <p class="subtitle">{{sid}} : {{stockName}} Stock Price Analysis</p>
+            <h1>📊 Weekly Analysis</h1>
+            <p class="subtitle">{{sid}} : {{stockName}} Stock Data Analysis</p>
         </div>
         
         <h2 class="section-header">
-            📊 Yearly High/Low Data
+            📊 Weekly Data
             <span class="nav-links">
                 <a href="/demat">🏠</a>
                 | <a href="/demat/tradelist" style="color: #555; text-decoration: none;">TradeList</a>
                 | <a href="/demat/quarterly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Quarterly</a>
-                | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #2e2ec0; text-decoration: none; font-weight: bold;">Yearly</a>
-                | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Weekly</a>
+                | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Yearly</a>
+                | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #2e2ec0; text-decoration: none; font-weight: bold;">Weekly</a>
             </span>
         </h2>
 
@@ -30,21 +31,20 @@
             <div class="price">💰 Price : {{latestPrice}}</div>
             <div class="date">As of {{latestDate}}</div>
         </div>
+
         
         
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>Year</th>
-                        <th>Low Price</th>
-                        <th>High Price</th>
-                        <th>Range</th>
-                        <th>Percentage Change</th>
+                        <th>#</th>
+                        <th>Timestamp</th>
+                        <th>Value</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{tableRows}}
+                    {{dataRows}}
                 </tbody>
             </table>
         </div>
@@ -52,6 +52,7 @@
 
     <!-- Go to Top Button -->
     <button class="goto-top" id="gotoTopBtn" title="Go to top">↑</button>
+    
     <!-- Go to Bottom Button -->
     <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
 

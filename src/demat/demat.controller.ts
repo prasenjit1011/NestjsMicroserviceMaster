@@ -582,7 +582,7 @@ export class DematController {
         const latestDate = latestPoint ? new Date(latestPoint['ts']).toLocaleString() : 'N/A';
 
         // Read HTML template
-        const templatePath = getTemplatePath('weekly-high-low.html');
+        const templatePath = getTemplatePath('analysis/weekly-high-low.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Prepare data
@@ -679,7 +679,7 @@ export class DematController {
         });
 
         // Read HTML template
-        const templatePath = getTemplatePath('yearly-high-low.html');
+        const templatePath = getTemplatePath('analysis/yearly-high-low.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Generate table rows
@@ -771,7 +771,7 @@ export class DematController {
         });
 
         // Read HTML template
-        const templatePath = getTemplatePath('quarterly-high-low.html');
+        const templatePath = getTemplatePath('analysis/quarterly-high-low.html');
         let html = fs.readFileSync(templatePath, 'utf-8');
 
         // Organize data by year and quarter for matrix view

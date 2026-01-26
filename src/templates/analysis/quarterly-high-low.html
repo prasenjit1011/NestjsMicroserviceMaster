@@ -3,47 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weekly - {{sid}} {{stockName}} Stock Data</title>
+    <title>Quarterly - {{sid}} {{stockName}} High/Low Analysis</title>
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/commonstyle.css">
-    <link rel="stylesheet" href="/css/weekly-high-low.css">
+    <link rel="stylesheet" href="/css/quarterly-high-low.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Weekly Analysis</h1>
-            <p class="subtitle">{{sid}} : {{stockName}} Stock Data Analysis</p>
+            <h1>📊 Quarterly Analysis</h1>
+            <p class="subtitle">{{sid}} : {{stockName}} Stock Price Analysis</p>
         </div>
         
         <h2 class="section-header">
-            📊 Weekly Data
+            📊 Quarterly Data Matrix
             <span class="nav-links">
                 <a href="/demat">🏠</a>
                 | <a href="/demat/tradelist" style="color: #555; text-decoration: none;">TradeList</a>
-                | <a href="/demat/quarterly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Quarterly</a>
+                | <a href="/demat/quarterly/{{sid}}/{{stockName}}" style="color: #2e2ec0; text-decoration: none; font-weight: bold;">Quarterly</a>
                 | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Yearly</a>
-                | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #2e2ec0; text-decoration: none; font-weight: bold;">Weekly</a>
+                | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Weekly</a>
             </span>
         </h2>
-
         <!-- Latest Price Display -->
         <div class="latest-price-box">
             <div class="price">💰 Price : {{latestPrice}}</div>
-            <div class="date">As of {{latestDate}}</div>
+            <p><strong>API URL:</strong> <a href="{{apiUrl}}"  style="color: white; text-decoration: underline;">{{apiUrl}}</a></p>
         </div>
-
-        
-        
-        <div class="table-container">
+        <div class="quarter-matrix">
             <table>
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Timestamp</th>
-                        <th>Value</th>
+                        <th class="year-header">Year</th>
+                        <th>Q1 (Jan-Mar)</th>
+                        <th>Q2 (Apr-Jun)</th>
+                        <th>Q3 (Jul-Sep)</th>
+                        <th>Q4 (Oct-Dec)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{dataRows}}
+                    {{quarterlyMatrixRows}}
                 </tbody>
             </table>
         </div>
@@ -51,10 +50,9 @@
 
     <!-- Go to Top Button -->
     <button class="goto-top" id="gotoTopBtn" title="Go to top">↑</button>
-    
     <!-- Go to Bottom Button -->
     <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
-
     <script src="/js/common.js"></script>
 </body>
+</html>
 </html>
