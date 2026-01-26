@@ -121,10 +121,37 @@ export class DematController {
       return new Date(b.dtd).getTime() - new Date(a.dtd).getTime();
     });
 
-    console.log(`Total trades across all years: ${allTrades.length}`);
-    console.log('Breakdown by year:', yearlyTradeData.map((trades, i) => 
-      `${years[i]}: ${trades.length} trades`
-    ).join(', '));
+
+    const stockDetails = allTrades.reduce((acc, trade) => {
+      const { sid, action, qty } = trade;
+      
+      if (!acc[sid]) {
+      acc[sid] = { sid, buyQty: 0, sellQty: 0, curQty: 0 };
+      }
+      
+      if (action === 'Buy') {
+      acc[sid].buyQty += qty;
+      } else if (action === 'Sell') {
+      acc[sid].sellQty += qty;
+      }
+      
+      acc[sid].curQty = acc[sid].buyQty - acc[sid].sellQty;
+      
+      return acc;
+    }, {} as Record<string, { sid: string; buyQty: number; sellQty: number; curQty: number }>);
+
+    const stockDetailsArray = Object.values(stockDetails).sort((a: { sid: string; buyQty: number; sellQty: number; curQty: number }, b: { sid: string; buyQty: number; sellQty: number; curQty: number }) => a.curQty - b.curQty);
+    
+    // return res.send(allTrades);
+    // return res.send(stockDetailsArray);
+
+    
+
+
+    // console.log(`Total trades across all years: ${allTrades.length}`);
+    // console.log('Breakdown by year:', yearlyTradeData.map((trades, i) => 
+    //   `${years[i]}: ${trades.length} trades`
+    // ).join(', '));
 
     // Create lookup maps for O(1) access
     const sidDataMap = new Map(sidData.map(item => [item.iciciCode, item.sid]));

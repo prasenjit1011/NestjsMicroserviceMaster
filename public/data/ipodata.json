@@ -1,0 +1,37 @@
+[
+  {
+    "sid": "INDREN",
+    "price": 32,
+    "buyQty": 460
+  },
+  {
+    "sid": "ABAHOL",
+    "price": 270,
+    "buyQty": 55
+  },
+  {
+    "sid": "SULVIN",
+    "price": 357,
+    "buyQty": 42
+  },
+  {
+    "sid": "CAMACT",
+    "price": 292,
+    "buyQty": 51
+  },
+  {
+    "sid": "AETIND",
+    "price": 642,
+    "buyQty": 23
+  },
+  {
+    "sid": "IRMENE",
+    "price": 505,
+    "buyQty": 29
+  },
+  {
+    "sid": "TATCAP",
+    "price": 326,
+    "buyQty": 46
+  }
+]

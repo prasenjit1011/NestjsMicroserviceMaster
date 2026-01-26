@@ -14,6 +14,10 @@
       <h2 style="margin: 0 0 15px 0;">Portfolio Summary</h2>
       <div class="summary-grid">
         <div class="summary-item">
+          <div class="summary-label">Qty</div>
+          <div class="summary-value" id="totalQty"></div>
+        </div>
+        <div class="summary-item">
           <div class="summary-label">Buy</div>
           <div class="summary-value" id="totalBuyValue">₹ -</div>
         </div>
@@ -31,15 +35,12 @@
         </div>
         <div class="summary-item">
           <div class="summary-label">Profit</div>
-          <div class="summary-value" id="totalInvestmentValue">-</div>
+          <div class="summary-value" id="totalProfit">-</div>
         </div>
       </div>
     </div>
 
     <div class="search-box">
-      <div style="margin-top: 10px; text-align: right;">
-        <a href="/demat" class="stock-link" style="font-size: 1.1em;">🏠 Home</a>
-      </div>
       <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
       <button type="button" class="clear-search-btn" id="clearSearchBtn" title="Clear search">✕</button>
     </div>
@@ -136,18 +137,21 @@
       });
 
       // Calculate total current value: sum of (netQty * livePrice) for each stock
-      let totalCurrentValue = 0;
+      let totalQty  = 0;
+      let totalCurrentValue = (totalBuyValue - totalSellValue) > 0 ? (totalBuyValue - totalSellValue) : 0;
       stockMap.forEach((stockData, sid) => {
-        totalCurrentValue += stockData.netQty * stockData.livePrice;
+        // totalCurrentValue += stockData.netQty * stockData.livePrice;
         // Add to totalLivePrice: net quantity * live price
         totalLivePrice += stockData.netQty * stockData.livePrice;
+        totalQty += stockData.netQty;
       });
 
-      document.getElementById('totalInvestmentValue').textContent = '₹ ' + ((totalCurrentValue + totalSellValue) - totalBuyValue).toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalProfit').textContent = '₹ ' + ((totalLivePrice + totalSellValue) - totalBuyValue).toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('totalBuyValue').textContent = '₹ ' + totalBuyValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('totalSellValue').textContent = '₹ ' + totalSellValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('totalCurrentValue').textContent = '₹ ' + totalCurrentValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
       document.getElementById('totalLivePrice').textContent = '₹ ' + totalLivePrice.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalQty').textContent = totalQty.toLocaleString('en-IN', {maximumFractionDigits: 0});
     }
 
     // Search functionality
