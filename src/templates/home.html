@@ -132,6 +132,11 @@
     </div>
   </div>
 
+  <!-- Go to Top Button -->
+  <button class="goto-top" id="gotoTopBtn" title="Go to top">↑</button>
+  <!-- Go to Bottom Button -->
+  <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
+
   <script>
     // Fetch Gold and Silver prices from API (INR rates)
     async function fetchMetalPrices() {
@@ -417,14 +422,7 @@
         daysDataVisible = true;
       }
     });
-  </script>
-
-  <!-- Go to Top Button -->
-  <button class="goto-top" id="gotoTopBtn" title="Go to top">↑</button>
-  <!-- Go to Bottom Button -->
-  <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
-
-  <script>
+  
     // Get the buttons
     const gotoTopBtn = document.getElementById('gotoTopBtn');
     const gotoBottomBtn = document.getElementById('gotoBottomBtn');
