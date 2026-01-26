@@ -117,11 +117,23 @@ export class DematController {
     );
     
     // Flatten all trades into a single array
-    const allTrades = yearlyTradeData.flat().sort((a, b) => {
+    let allTrades = yearlyTradeData.flat().sort((a, b) => {
       return new Date(b.dtd).getTime() - new Date(a.dtd).getTime();
     });
 
+    // Limit to top 5 trades
+    // allTrades = allTrades.slice(0, 3);
+    let ipodata = this.dematService.getIPODataFromJson();
 
+    
+
+    // // Merge IPO data with all trades
+    allTrades = [...ipodata, ...allTrades].sort((a, b) => {
+      return new Date(b.dtd).getTime() - new Date(a.dtd).getTime();
+    });
+
+    // return res.send(mergedData);
+    /*
     const stockDetails = allTrades.reduce((acc, trade) => {
       const { sid, action, qty } = trade;
       
@@ -141,7 +153,7 @@ export class DematController {
     }, {} as Record<string, { sid: string; buyQty: number; sellQty: number; curQty: number }>);
 
     const stockDetailsArray = Object.values(stockDetails).sort((a: { sid: string; buyQty: number; sellQty: number; curQty: number }, b: { sid: string; buyQty: number; sellQty: number; curQty: number }) => a.curQty - b.curQty);
-    
+    */
     // return res.send(allTrades);
     // return res.send(stockDetailsArray);
 
@@ -198,9 +210,6 @@ export class DematController {
     // Log missing SIDs (stocks without API price data)
     if(missingSidsSet.size > 0) {
       const missingSidsArray = Array.from(missingSidsSet).map(sid => ({iciciCode: sid, sid: sid}));
-      console.log(`\n⚠️  Missing API data for ${missingSidsSet.size} unique stocks:`);
-      console.log(JSON.stringify(missingSidsArray, null, 2));
-      console.log('Length : '+missingSidsArray.length);
     }
     
     // Replace placeholders
@@ -306,7 +315,7 @@ export class DematController {
       <tr>
         <td class="total">${key+1}</td>
         <td>
-          <a href="/demat/tradelist?sidCode=${sid}" >
+          <a href="/demat/tradelist?sidCode=${sid}" target="_blank">
             ${item.sid || 'N/A'}
           </a>
         </td>

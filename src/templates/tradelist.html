@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TradeList</title>
+  <title id="pageTitle">TradeList</title>
   <link rel="stylesheet" href="/css/commonstyle.css">
   <link rel="stylesheet" href="/css/tradelist.css">
 </head>
@@ -166,11 +166,13 @@
       
       // Recalculate summary for visible rows only
       calculateSummary();
+      document.getElementById('pageTitle').textContent = 'TradeList ' + searchTerm;
     });
 
     // Clear search button functionality
     document.getElementById('clearSearchBtn').addEventListener('click', function() {
       document.getElementById('searchInput').value = '';
+      document.getElementById('pageTitle').textContent = 'TradeList';
       const rows = document.querySelectorAll('#tableBody tr');
       rows.forEach(row => {
         row.style.display = '';
@@ -301,6 +303,7 @@
         searchInput.value = sidCode;
         // Trigger input event to filter table and update summary
         searchInput.dispatchEvent(new Event('input'));
+        document.getElementById('pageTitle').textContent = 'TradeList ' +sidCode
       }
     });
   </script>

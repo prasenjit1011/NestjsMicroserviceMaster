@@ -76,6 +76,22 @@ export class DematService {
     return JSON.parse(jsonData);
   }
 
+  getIPODataFromJson() {
+    const filePath = getPublicPath('data/ipodata.json');
+    try {
+      if (fs.existsSync(filePath)) {
+        const jsonData = fs.readFileSync(filePath, 'utf8');
+        return JSON.parse(jsonData);
+      } else {
+        console.warn(`IPO data file not found: ${filePath}`);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error reading IPO data:', error);
+      return [];
+    }
+  }
+
   /**
    * Get bank transaction data from Excel file for a specific year
    * Reads OpTransactionHistory-{year}.xls from public/transaction folder
