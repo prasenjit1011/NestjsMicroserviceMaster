@@ -120,7 +120,7 @@ h1 {
 /* Section Headers */
 .section-header {
     color: #333;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     font-size: 1.8em;
     display: flex;
     justify-content: space-between;
@@ -525,3 +525,17 @@ tbody tr:nth-child(even) {
     }
 }
 
+.nav-links {
+    float: right;
+    font-size: 0.9em;
+}
+.nav-links a {
+    color: #667eea;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 600;
+}
+.nav-links a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}

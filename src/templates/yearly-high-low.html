@@ -10,25 +10,24 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Yearly High/Low Analysis</h1>
-            <p class="subtitle">{{sid}} : {{stockName}} Stock Price Analysis by Year</p>
+            <h1>📊 Yearly Analysis</h1>
+            <p class="subtitle">{{sid}} : {{stockName}} Stock Price Analysis</p>
         </div>
         
-        <h2 style="color: #333; margin-bottom: 25px; font-size: 1.8em; display: flex; justify-content: space-between; align-items: center;">
+        <h2 class="section-header">
             📊 Yearly High/Low Data
-            <span style="font-size: 0.7em; color: #555; font-weight: normal;">
+            <span class="nav-links">
                 <a href="/demat">🏠</a>
-                | <a href="/demat/tradelist">TradeList</a>
+                | <a href="/demat/tradelist" style="color: #555; text-decoration: none;">TradeList</a>
                 | <a href="/demat/quarterly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Quarterly</a>
-                | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Yearly</a>
+                | <a href="/demat/yearly/{{sid}}/{{stockName}}" style="color: #2e2ec0; text-decoration: none; font-weight: bold;">Yearly</a>
                 | <a href="/demat/weekly/{{sid}}/{{stockName}}" style="color: #555; text-decoration: none;">Weekly</a>
             </span>
         </h2>
 
         <!-- Latest Price Display -->
         <div class="latest-price-box">
-            <h2>💰 Latest Stock Price</h2>
-            <div class="price">{{latestPrice}}</div>
+            <div class="price">💰 Price : {{latestPrice}}</div>
             <div class="date">As of {{latestDate}}</div>
         </div>
         
@@ -56,45 +55,6 @@
     <!-- Go to Bottom Button -->
     <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
 
-    <script>
-        // Get the buttons
-        const gotoTopBtn = document.getElementById('gotoTopBtn');
-        const gotoBottomBtn = document.getElementById('gotoBottomBtn');
-
-        // Show button when user scrolls down 300px from top
-        window.onscroll = function() {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                gotoTopBtn.classList.add('show');
-            } else {
-                gotoTopBtn.classList.remove('show');
-            }
-            
-            // Show bottom button when not at bottom
-            const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            
-            if (scrollTop < docHeight - 300) {
-                gotoBottomBtn.classList.add('show');
-            } else {
-                gotoBottomBtn.classList.remove('show');
-            }
-        };
-
-        // Scroll to top when button is clicked
-        gotoTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Scroll to bottom when button is clicked
-        gotoBottomBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: document.documentElement.scrollHeight,
-                behavior: 'smooth'
-            });
-        });
-    </script>
+    <script src="/js/common.js"></script>
 </body>
 </html>
