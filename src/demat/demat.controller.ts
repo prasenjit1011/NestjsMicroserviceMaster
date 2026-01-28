@@ -273,7 +273,9 @@ export class DematController {
       const wkChange = apiDataItem ? apiDataItem.wkChange.toFixed(0) : 0;
       const mnChange = apiDataItem ? apiDataItem.mnChange.toFixed(0) : 0;
       const change   = apiDataItem ? parseFloat((apiDataItem.change * item.qty).toFixed(0)) : 0;
-      const profit = apiDataItem ? (apiPrice * item.qty - item.total).toFixed(0) : 0;
+      const stockApiPrice = apiDataItem ? apiDataItem.price.toFixed(4) : 0;
+      const profit = Math.trunc(stockApiPrice * item.qty - item.total);
+      
       let highestValue = 0;
       let lowestValue = 0;
       let yearlyHigh = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -331,7 +333,7 @@ export class DematController {
         <td class="price">₹${(item.price || 0).toFixed(0)}</td>
         <td class="total">₹${apiPrice}</td>
         <td class="qty">${item.qty || 0}</td>
-        <td class="total">₹${(item.total || 0).toFixed(0)}</td>
+        <td class="total">₹${Math.trunc(item.total || 0)}</td>
         <td class="total">₹${profit || 0}</td>
         <td class="price">${overPrice.toFixed(2) || 0}</td>
         <td class="price">₹${(yearlyHigh[6] || 0).toFixed(0)}</td>
@@ -401,21 +403,33 @@ export class DematController {
           const lastEntryHour = lastEntryTime.getHours();
           const currentHour = now.getHours();
           
+          // console.log('Last Entry Time:', lastEntryTime.toISOString());
+          // console.log('Last Entry Date:', lastEntryTime.toLocaleString());
+          // console.log('Current Time:', now.toLocaleString());
+          // console.log('Difference in Hours:', (now.getTime() - lastEntryTime.getTime()) / (1000 * 60 * 60));
+
           // Only save if it's a different hour
-          if (currentHour !== lastEntryHour) {
+          if (Math.abs(now.getTime() - lastEntryTime.getTime()) / (1000 * 60 * 60) > 1) {
+
+            console.log('\n\nDifferent hour detected, checking profit/loss change...');
+            console.log('lastEntry->currProfit : ',lastEntry.currProfit)
+            console.log('overallProfit : ',overallProfit)
+
             // Check if profit/loss percent has changed by at least 1%
             const lastProfitPercent = parseFloat(lastEntry.profitLossPercent);
             const percentDifference = Math.abs(currentProfitLossPercent - lastProfitPercent);
-            
-            if (percentDifference >= 1) {
+
+            if (Math.abs(lastEntry.currProfit - overallProfit) >= 1000) {
               shouldSave = true;
             }
           }
         }
         
+        // shouldSave = true;
         if (shouldSave) {
-          // Add new profit/loss entry with timestamp
-          const timestamp = now.toISOString();
+          // Add new profit/loss entry with timestamp (IST)
+          const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST (+5:30)
+          const timestamp = istTime.toISOString();
           const profitPadded = parseInt(String(Math.round(overallProfit)).padStart(6, '0'));
           const profitEntry = {
             date: timestamp,
