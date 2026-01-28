@@ -286,6 +286,11 @@ h1 {
     color: #667eea;
 }
 
+.topComp{
+    color: #FFF;
+    float: right;
+    font-size: medium;
+}
 /* Table Styles */
 .table-container {
     overflow-x: auto;

@@ -40,59 +40,27 @@
     "curPercent": 5.69
   },
   {
-    "date": "2026-01-28T09:22:00.664Z",
-    "curAmount": 625723,
+    "date": "2026-01-28T18:36:34.172Z",
+    "curAmount": 629458,
     "buyAmount": 592063,
-    "currProfit": 33660,
-    "dayProfit": 10406,
-    "curPercent": 5.69
+    "currProfit": 37395,
+    "dayProfit": 14499,
+    "curPercent": 6.32
   },
   {
-    "date": "2026-01-28T09:22:35.515Z",
-    "curAmount": 625684,
+    "date": "2026-01-28T18:39:50.869Z",
+    "curAmount": 629458,
     "buyAmount": 592063,
-    "currProfit": 33621,
-    "dayProfit": 10559,
-    "curPercent": 5.68
+    "currProfit": 37395,
+    "dayProfit": 14499,
+    "curPercent": 6.32
   },
   {
-    "date": "2026-01-28T09:33:55.902Z",
-    "curAmount": 625726,
+    "date": "2026-01-28T18:44:40.880Z",
+    "curAmount": 643099,
     "buyAmount": 592063,
-    "currProfit": 33663,
-    "dayProfit": 11018,
-    "curPercent": 5.69
-  },
-  {
-    "date": "2026-01-28T09:36:44.082Z",
-    "curAmount": 625506,
-    "buyAmount": 592063,
-    "currProfit": 33443,
-    "dayProfit": 10491,
-    "curPercent": 5.65
-  },
-  {
-    "date": "2026-01-28T09:36:57.172Z",
-    "curAmount": 625546,
-    "buyAmount": 592063,
-    "currProfit": 33483,
-    "dayProfit": 10465,
-    "curPercent": 5.66
-  },
-  {
-    "date": "2026-01-28T09:37:45.144Z",
-    "curAmount": 625424,
-    "buyAmount": 592063,
-    "currProfit": 33361,
-    "dayProfit": 10220,
-    "curPercent": 5.63
-  },
-  {
-    "date": "2026-01-28T09:52:03.634Z",
-    "curAmount": 624197,
-    "buyAmount": 592063,
-    "currProfit": 32134,
-    "dayProfit": 9506,
-    "curPercent": 5.43
+    "currProfit": 51036,
+    "dayProfit": 14307,
+    "curPercent": 8.62
   }
 ]
