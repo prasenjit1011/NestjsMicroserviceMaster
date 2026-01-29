@@ -390,10 +390,11 @@ export class DematController {
         // Check if profit/loss percent has changed by at least 1000 and at least 1 hour
         const lastEntry     = profitHistory[profitHistory.length - 1];
         const lastEntryTime = new Date(lastEntry.date);
+        const daysProfit    = overallProfit - lastEntry.currProfit;
+        const daysChange    = Math.abs(daysProfit);
         const timeDiffHr    = Math.abs(now.getTime() - lastEntryTime.getTime()) / (1000 * 60 * 60);
-        const daysProfit    = Math.abs(overallProfit - lastEntry.currProfit);
 
-        if (daysProfit>5000 || (daysProfit > 1000 && timeDiffHr > 1)) {
+        if (daysChange>5000 || (daysChange>1000 && timeDiffHr > 1)) {
             shouldSave = true;
         }
       }
