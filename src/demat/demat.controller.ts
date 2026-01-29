@@ -358,16 +358,20 @@ export class DematController {
     `}).join('');
     
     console.log('==>', buyAmount, currentPrice)
-    const overallProfit = currentPrice - buyAmount;
 
-
-    // Store profit/loss data with timestamp (Business hours only: Mon-Fri, 9:15 AM - 3:59 PM)
+    // Store profit/loss data with timestamp
     try {
+
+      // Keep only last 3120 entries to avoid file getting too large
+      // 3120 = 2*52*5*6, 52 weeks * 5 days * 6 entries per day
+      const maxElements = 3120; 
       const now         = new Date();
       let shouldSave    = false;
       let profitHistory = [];
-      const profitPercent = buyAmount > 0 ? parseFloat(((overallProfit / buyAmount) * 100).toFixed(2)) : 0;
-      const profitDataPath = path.join(process.cwd(), 'public', 'data', 'profit.json');
+
+      const overallProfit   = currentPrice - buyAmount;
+      const profitPercent   = buyAmount > 0 ? parseFloat(((overallProfit / buyAmount) * 100).toFixed(2)) : 0;
+      const profitDataPath  = path.join(process.cwd(), 'public', 'data', 'profit.json');
 
       // Read existing data if file has content
       if (fs.existsSync(profitDataPath)) {
@@ -383,14 +387,13 @@ export class DematController {
         shouldSave = true;
       } 
       else {
-
         // Check if profit/loss percent has changed by at least 1000 and at least 1 hour
         const lastEntry     = profitHistory[profitHistory.length - 1];
         const lastEntryTime = new Date(lastEntry.date);
         const timeDiffHr    = Math.abs(now.getTime() - lastEntryTime.getTime()) / (1000 * 60 * 60);
         const daysProfit    = Math.abs(overallProfit - lastEntry.currProfit);
 
-        if (daysProfit>5000 || (daysProfit >= 1000 && timeDiffHr > 1)) {
+        if (daysProfit>5000 || (daysProfit > 1000 && timeDiffHr > 1)) {
             shouldSave = true;
         }
       }
@@ -410,21 +413,19 @@ export class DematController {
         };
         
         profitHistory.push(profitEntry);
-        
-        // Keep only last 100 entries to avoid file getting too large
-        // if (profitHistory.length > 100) {
-        //   profitHistory = profitHistory.slice(-100);
-        // }
+        if (profitHistory.length > maxElements) {
+          profitHistory = profitHistory.slice(-maxElements);
+        }
         
         // Write updated data
         fs.writeFileSync(profitDataPath, JSON.stringify(profitHistory, null, 2), 'utf8');
         console.log('Profit/Loss data saved:', profitEntry);
-      } else {
+      }
+      else {
         console.log('Skipped saving: Same hour or insufficient profit/loss change (<1%)');
       }
-      
-      
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error saving profit/loss data:', error);
     }
 

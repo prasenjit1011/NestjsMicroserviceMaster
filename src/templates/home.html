@@ -173,18 +173,43 @@
     async function fetchProfitHistory() {
       try {
         console.log('Fetching profit history...');
-        // Try multiple paths for better compatibility
-        let response = await fetch('/data/profit.json');
-        if (!response.ok) {
-          console.log('Trying alternative path: ../data/profit.json');
-          response = await fetch('../data/profit.json');
+        let response;
+        let lastError;
+        
+        // Try primary path first
+        try {
+          console.log('Attempting fetch from: /data/profit.json');
+          response = await fetch('/data/profit.json');
+          console.log('Response status from /data/profit.json:', response.status);
+          if (response.ok) {
+            console.log('Successfully fetched from /data/profit.json');
+          }
+        } catch (error) {
+          lastError = error;
+          console.log('Error fetching from /data/profit.json:', error);
         }
-        console.log('Response status:', response.status);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        
+        // Try alternative path if first failed
+        if (!response || !response.ok) {
+          try {
+            console.log('Attempting fetch from: /public/data/profit.json');
+            response = await fetch('/public/data/profit.json');
+            console.log('Response status from /public/data/profit.json:', response.status);
+          } catch (error) {
+            lastError = error;
+            console.log('Error fetching from /public/data/profit.json:', error);
+          }
         }
+        
+        // Check if we have a valid response
+        if (!response || !response.ok) {
+          const statusMsg = response ? `HTTP error! status: ${response.status}` : `Fetch failed: ${lastError?.message || 'Unknown error'}`;
+          console.error('Failed to fetch profit.json:', statusMsg);
+          throw new Error(statusMsg);
+        }
+        
         const profitHistory = await response.json();
-        console.log('Profit history data:', profitHistory);
+        console.log('Profit history data loaded:', profitHistory.length, 'entries');
         
         if (profitHistory && profitHistory.length > 0) {
           // Get the latest entry for the summary
