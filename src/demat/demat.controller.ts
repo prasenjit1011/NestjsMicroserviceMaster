@@ -353,6 +353,7 @@ export class DematController {
         <td class="total">${wkChange}%</td>
         <td class="total">${mnChange}%</td>
         <th class="total">${change}</th>
+        <td class="total">₹${Math.trunc(stockApiPrice * item.qty)}</td>
       </tr>
     `}).join('');
     
@@ -362,100 +363,67 @@ export class DematController {
 
     // Store profit/loss data with timestamp (Business hours only: Mon-Fri, 9:15 AM - 3:59 PM)
     try {
-      const now = new Date();
-      const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const timeInMinutes = hours * 60 + minutes; // Convert to minutes for easier comparison
-      
-      // Check if within business hours: Monday (1) to Friday (5), 9:15 AM to 3:59 PM
-      const isMonday = dayOfWeek === 1;
-      const isFriday = dayOfWeek === 5;
-      const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 5; // Monday to Friday
-      const isBusinessHours = timeInMinutes >= 555 && timeInMinutes < 1439; // 9:15 AM (555 min) to 3:59 PM (1439 min)
-      
-      if (isWeekday && isBusinessHours) {
-        const profitDataPath = path.join(process.cwd(), 'public', 'data', 'profit.json');
-        let profitHistory = [];
-        
-        // Read existing data if file has content
-        if (fs.existsSync(profitDataPath)) {
-          const fileContent = fs.readFileSync(profitDataPath, 'utf8');
-          if (fileContent.trim()) {
-            profitHistory = JSON.parse(fileContent);
-          }
+      const now         = new Date();
+      let shouldSave    = false;
+      let profitHistory = [];
+      const profitPercent = buyAmount > 0 ? parseFloat(((overallProfit / buyAmount) * 100).toFixed(2)) : 0;
+      const profitDataPath = path.join(process.cwd(), 'public', 'data', 'profit.json');
+
+      // Read existing data if file has content
+      if (fs.existsSync(profitDataPath)) {
+        const fileContent = fs.readFileSync(profitDataPath, 'utf8');
+        if (fileContent.trim()) {
+          profitHistory = JSON.parse(fileContent);
         }
-        
-        // Calculate current profit/loss percent
-        const currentProfitLossPercent = buyAmount > 0 ? parseFloat(((overallProfit / buyAmount) * 100).toFixed(2)) : 0;
-        
-        // Check if we should save this entry
-        let shouldSave = false;
-        let lastHourEntry = null;
-        
-        if (profitHistory.length === 0) {
-          // First entry, always save
-          shouldSave = true;
-        } else {
-          // Check if last entry is from same hour
-          const lastEntry = profitHistory[profitHistory.length - 1];
-          const lastEntryTime = new Date(lastEntry.date);
-          const lastEntryHour = lastEntryTime.getHours();
-          const currentHour = now.getHours();
-          
-          // console.log('Last Entry Time:', lastEntryTime.toISOString());
-          // console.log('Last Entry Date:', lastEntryTime.toLocaleString());
-          // console.log('Current Time:', now.toLocaleString());
-          // console.log('Difference in Hours:', (now.getTime() - lastEntryTime.getTime()) / (1000 * 60 * 60));
-
-          // Only save if it's a different hour
-          if (Math.abs(now.getTime() - lastEntryTime.getTime()) / (1000 * 60 * 60) > 1) {
-
-            console.log('\n\nDifferent hour detected, checking profit/loss change...');
-            console.log('lastEntry->currProfit : ',lastEntry.currProfit)
-            console.log('overallProfit : ',overallProfit)
-
-            // Check if profit/loss percent has changed by at least 1%
-            const lastProfitPercent = parseFloat(lastEntry.profitLossPercent);
-            const percentDifference = Math.abs(currentProfitLossPercent - lastProfitPercent);
-
-            if (Math.abs(lastEntry.currProfit - overallProfit) >= 1000) {
-              shouldSave = true;
-            }
-          }
-        }
-        
-        // shouldSave = true;
-        if (shouldSave) {
-          // Add new profit/loss entry with timestamp (IST)
-          const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST (+5:30)
-          const timestamp = istTime.toISOString();
-          const profitPadded = parseInt(String(Math.round(overallProfit)).padStart(6, '0'));
-          const profitEntry = {
-            date: timestamp,
-            curAmount: parseInt(currentPrice.toFixed(0)),
-            buyAmount: parseInt(buyAmount.toFixed(0)),
-            currProfit: profitPadded,
-            dayProfit: parseInt(daysProfit.toFixed(0)),
-            curPercent: parseFloat(currentProfitLossPercent.toFixed(2))
-          };
-          
-          profitHistory.push(profitEntry);
-          
-          // Keep only last 100 entries to avoid file getting too large
-          if (profitHistory.length > 100) {
-            profitHistory = profitHistory.slice(-100);
-          }
-          
-          // Write updated data
-          fs.writeFileSync(profitDataPath, JSON.stringify(profitHistory, null, 2), 'utf8');
-          console.log('Profit/Loss data saved:', profitEntry);
-        } else {
-          console.log('Skipped saving: Same hour or insufficient profit/loss change (<1%)');
-        }
-      } else {
-        console.log('Outside business hours: Mon-Fri 9:15 AM - 3:59 PM. Data not saved.');
       }
+
+      // Check if we should save this entry
+      if (profitHistory.length === 0) {
+        // First entry, always save
+        shouldSave = true;
+      } 
+      else {
+
+        // Check if profit/loss percent has changed by at least 1000 and at least 1 hour
+        const lastEntry     = profitHistory[profitHistory.length - 1];
+        const lastEntryTime = new Date(lastEntry.date);
+        const timeDiffHr    = Math.abs(now.getTime() - lastEntryTime.getTime()) / (1000 * 60 * 60);
+        const daysProfit    = Math.abs(overallProfit - lastEntry.currProfit);
+
+        if (daysProfit>5000 || (daysProfit >= 1000 && timeDiffHr > 1)) {
+            shouldSave = true;
+        }
+      }
+
+      if (shouldSave) {
+        // Add new profit/loss entry with timestamp (IST)
+        const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST (+5:30)
+        const timestamp = istTime.toISOString();
+        const profitPadded = parseInt(String(Math.round(overallProfit)).padStart(6, '0'));
+        const profitEntry = {
+          date: timestamp,
+          curAmount: parseInt(currentPrice.toFixed(0)),
+          buyAmount: parseInt(buyAmount.toFixed(0)),
+          currProfit: profitPadded,
+          dayProfit: parseInt(daysProfit.toFixed(0)),
+          curPercent: parseFloat(profitPercent.toFixed(2))
+        };
+        
+        profitHistory.push(profitEntry);
+        
+        // Keep only last 100 entries to avoid file getting too large
+        // if (profitHistory.length > 100) {
+        //   profitHistory = profitHistory.slice(-100);
+        // }
+        
+        // Write updated data
+        fs.writeFileSync(profitDataPath, JSON.stringify(profitHistory, null, 2), 'utf8');
+        console.log('Profit/Loss data saved:', profitEntry);
+      } else {
+        console.log('Skipped saving: Same hour or insufficient profit/loss change (<1%)');
+      }
+      
+      
     } catch (error) {
       console.error('Error saving profit/loss data:', error);
     }
