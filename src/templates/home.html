@@ -59,6 +59,7 @@
         <button type="button" class="clear-search" id="clearSearch" title="Clear search">✕</button>
       </div>
       <div class="nav-links">
+        <a href="#" class="stock-link" onclick="showHoldings()"><span class="icon">🏠</span><span class="text">Holdings</span></a>
         <a href="/demat/tradelist" class="stock-link"><span class="icon">🏠</span><span class="text">Trade List</span></a>
         <a href="/demat/transaction" class="stock-link"><span class="icon">🏠</span><span class="text">Transaction</span></a>
         <a href="/demat/quarterly/ARTI/AARTI%20INDUSTRIES%20LTD" class="stock-link"><span class="icon">🏠</span><span class="text">Analysis</span></a>
@@ -144,6 +145,26 @@
   <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
 
   <script>
+    async function showHoldings() {
+      // Display only holdings with Qty > 0
+      const rows = document.querySelectorAll('#tableBody tr');
+      
+      rows.forEach(row => {
+        const cells = row.cells;
+        if (cells.length >= 8) {
+          // Column 7 is the Qty column
+          const qty = parseFloat(cells[7].textContent.replace(/,/g, '')) || 0;
+          // Show row only if Qty > 0
+          row.style.display = qty > 0 ? '' : 'none';
+        }
+      });
+      
+      // Clear search input
+      document.getElementById('searchInput').value = '';
+      
+      // Update summary with filtered data
+      calculateSummary();
+    }
     // Fetch Gold and Silver prices from API (INR rates)
     async function fetchMetalPrices() {
       try {
@@ -401,6 +422,7 @@
       document.getElementById('searchInput').value = '';
       const rows = document.querySelectorAll('#tableBody tr');
       rows.forEach(row => {
+        // Show all rows regardless of Qty when clearing search
         row.style.display = '';
       });
       calculateSummary();

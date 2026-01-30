@@ -399,6 +399,7 @@ export class DematController {
         }
       }
 
+      // shouldSave = true;
       if (shouldSave) {
         // Add new profit/loss entry with timestamp (IST)
         const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST (+5:30)
