@@ -371,7 +371,7 @@ tbody tr:nth-child(even) {
 /* Navigation Buttons */
 .goto-top {
     position: fixed;
-    bottom: 30px;
+    bottom: 90px;
     right: 30px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -384,7 +384,7 @@ tbody tr:nth-child(even) {
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
     transition: all 0.3s ease;
     opacity: 0;
-    visibility: hidden;
+    visibility: visible;
     z-index: 1000;
 }
 
@@ -400,7 +400,7 @@ tbody tr:nth-child(even) {
 
 .goto-bottom {
     position: fixed;
-    bottom: 90px;
+    bottom: 30px;
     right: 30px;
     background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
     color: white;
@@ -413,7 +413,7 @@ tbody tr:nth-child(even) {
     box-shadow: 0 4px 15px rgba(118, 75, 162, 0.5);
     transition: all 0.3s ease;
     opacity: 0;
-    visibility: hidden;
+    visibility: visible;
     z-index: 1000;
 }
 

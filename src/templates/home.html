@@ -121,11 +121,11 @@
         <thead>
           <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6a5acd 100%); color: white; padding: 16px 12px; text-align: left; font-weight: 800; border-bottom: 4px solid #764ba2; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8em;">
             <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📅 Date</th>
-            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💹 Current Profit</th>
-            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📊 Days Profit</th>
-            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💰 Buy Amount</th>
-            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💎 Current Amount</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💰 Buy</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💹 Status</th>
             <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📈 Profit %</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📊 Days</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💎 Current Amount</th>
           </tr>
         </thead>
         <tbody id="profitHistoryBody">
@@ -283,11 +283,11 @@
             const row = `
               <tr style="background-color: ${rowColor}; transition: all 0.25s ease;">
                 <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">${formattedEntryDate}</td>
-                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: ${profitColor}; font-weight: 600;">₹ ${entry.currProfit.toLocaleString('en-IN')}</td>
-                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: ${dayProfitColor}; font-weight: 600;">₹ ${entry.dayProfit.toLocaleString('en-IN')}</td>
                 <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">₹ ${entry.buyAmount.toLocaleString('en-IN')}</td>
-                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">₹ ${entry.curAmount.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: ${profitColor}; font-weight: 600;">₹ ${entry.currProfit.toLocaleString('en-IN')}</td>
                 <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6; font-weight: 600;">${entry.curPercent}%</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: ${dayProfitColor}; font-weight: 600;">₹ ${entry.dayProfit.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">₹ ${entry.curAmount.toLocaleString('en-IN')}</td>
               </tr>
             `;
             tableBody.innerHTML += row;
