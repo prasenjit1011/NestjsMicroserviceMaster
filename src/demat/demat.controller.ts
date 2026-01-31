@@ -12,6 +12,83 @@ import { json } from 'stream/consumers';
 export class DematController {
   constructor(private readonly dematService: DematService) {}
 
+  @Get('/transaction/all')
+  async getAllTransactions(@Res() res: Response) {
+    try {
+      const years = [2021, 2022, 2023, 2024, 2025, 2026];
+      let allTransactions: any[] = [];
+      for (const year of years) {
+        try {
+          const txns = await this.dematService.getTransactionsByYear(year.toString());
+          allTransactions = allTransactions.concat(txns);
+        } catch (err) {
+          // If a year file is missing, skip it
+          console.warn(`No transactions for year ${year}:`, err.message);
+        }
+      }
+
+      if (allTransactions.length === 0) {
+        return res.send('<h1>No transactions found for years 2021-2026</h1>');
+      }
+
+      // Calculate statistics
+      const totalWithdrawal = allTransactions.reduce((sum, t) => sum + (t.withdrawalAmount || 0), 0);
+      const totalDeposit = allTransactions.reduce((sum, t) => sum + (t.depositAmount || 0), 0);
+      const latestBalance = allTransactions.length > 0 ? allTransactions[allTransactions.length - 1].balance : 0;
+
+      // Sort by date (descending, robust for DD/MM/YYYY and fallback)
+      allTransactions.sort((a, b) => {
+        function parseDate(val: string) {
+          if (!val) return new Date(0);
+          // Try DD/MM/YYYY
+          const parts = val.split('/');
+          if (parts.length === 3) {
+            // If year is 4 digits, assume DD/MM/YYYY
+            if (parts[2].length === 4) {
+              return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+            }
+          }
+          // Fallback to Date constructor
+          return new Date(val);
+        }
+        const dA = parseDate(a.transactionDate || a.valueDate || '');
+        const dB = parseDate(b.transactionDate || b.valueDate || '');
+        return dA.getTime() - dB.getTime();
+      });
+
+      // Generate table rows
+      const tableRows = allTransactions.map((t, idx) => `
+        <tr style="background-color: ${idx % 2 === 0 ? '#f0f8ff' : '#ffffff'}; border-bottom: 1px solid #ddd;">
+          <td style="padding: 10px; border-right: 1px solid #ddd; text-align: center; font-weight: 600;">${idx+1}</td>
+          <td style="padding: 10px; border-right: 1px solid #ddd; font-weight: 600; color: #0066cc;">${t.transactionDate}</td>
+          <td style="padding: 10px; border-right: 1px solid #ddd;">${t.transactionRemarks}</td>
+          <td style="padding: 10px; border-right: 1px solid #ddd; text-align: right; font-weight: 600; color: ${t.withdrawalAmount > 0 ? '#e74c3c' : '#999'};">₹${t.withdrawalAmount > 0 ? parseInt(t.withdrawalAmount) : '-'}</td>
+          <td style="padding: 10px; border-right: 1px solid #ddd; text-align: right; font-weight: 600; color: ${t.depositAmount > 0 ? '#2ecc71' : '#999'};">₹${t.depositAmount > 0 ? parseInt(t.depositAmount) : '-'}</td>
+          <td style="padding: 10px; text-align: right; font-weight: 600; color: #0066cc;">₹${parseInt(t.balance)}</td>
+        </tr>
+      `).join('');
+
+      // Read and render the template
+      const templatePath = getTemplatePath('transaction.html');
+      let html = fs.readFileSync(templatePath, 'utf8');
+
+      // Replace placeholders (using global replace for multiple occurrences)
+      html = html.replace(/{{YEAR}}/g, '2021-2026');
+      html = html.replace(/{{TRANSACTION_COUNT}}/g, allTransactions.length.toString());
+      html = html.replace(/{{TOTAL_WITHDRAWAL}}/g, totalWithdrawal.toFixed(0));
+      html = html.replace(/{{TOTAL_DEPOSIT}}/g, totalDeposit.toFixed(0));
+      html = html.replace(/{{LATEST_BALANCE}}/g, latestBalance.toFixed(0));
+      html = html.replace(/{{TABLE_ROWS}}/g, tableRows);
+      html = html.replace(/{{TIMESTAMP}}/g, new Date().toLocaleString());
+
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      console.error('Error in getAllTransactions:', error);
+      res.status(500).send(`<h1>Error</h1><p>${error.message}</p>`);
+    }
+  }
+
   @Get('/csvdata')
   async getData() {
     try {
@@ -49,7 +126,8 @@ export class DematController {
 
       // Generate table rows
       const tableRows = transactions.map((t, idx) =>{
-        console.log(`Generating row for transaction Dtd : `, t.valueDate, ' === ');
+        // console.log(`Generating row for transaction Dtd : `, t.valueDate, ' === ');
+        
         return `
         <tr style="background-color: ${idx % 2 === 0 ? '#f0f8ff' : '#ffffff'}; border-bottom: 1px solid #ddd;">
           <td style="padding: 10px; border-right: 1px solid #ddd; text-align: center; font-weight: 600;">${t.sNo}</td>
@@ -90,7 +168,7 @@ export class DematController {
     const apiUrl = `https://quotes-api.tickertape.in/quotes?sids=${sidIds}`;
     const stockData = await this.dematService.getDataFromCsv();
 
-    console.log('Stock Data: ', stockData);
+    // console.log('Stock Data: ', stockData);
     // return res.send(stockData);
 
     const templatePath = getTemplatePath('tradelist.html');
@@ -228,7 +306,7 @@ export class DematController {
   async getDayStatus(@Param('investmentValue') investmentValue: number, @Param('currentValue') currentValue: number, @Res() res: Response) {
     try {
       const yearlyHighLowData = this.dematService.yearlyHighLowData();
-      console.log(yearlyHighLowData);
+      // console.log(yearlyHighLowData);
       res.status(200).json(yearlyHighLowData);
     } catch (error) {
       console.error('Error in getDayStatus:', error);

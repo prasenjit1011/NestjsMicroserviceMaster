@@ -124,12 +124,12 @@ export class DematService {
         if (row.__EMPTY_1 && row.__EMPTY_1.includes('Transactions List')) {
           // The next row is the column headers, data starts 2 rows after "Transactions List"
           dataStartIndex = i + 2;
-          console.log(`Found Transactions List at row ${i}, data starts at ${dataStartIndex}`);
+          // console.log(`Found Transactions List at row ${i}, data starts at ${dataStartIndex}`);
         }
         // Look for the start of legend section
         if (row.__EMPTY_5 && row.__EMPTY_5.includes('Legends Used in Account Statement')) {
           legendStartIndex = i;
-          console.log(`Found Legends at row ${i}`);
+          // console.log(`Found Legends at row ${i}`);
           break;
         }
       }
@@ -144,7 +144,7 @@ export class DematService {
       let serialNumber = 1;
       const endIndex = legendStartIndex !== -1 ? legendStartIndex : rawData.length;
 
-      console.log(`Processing rows from ${dataStartIndex} to ${endIndex}`);
+      // console.log(`Processing rows from ${dataStartIndex} to ${endIndex}`);
 
       for (let i = dataStartIndex; i < endIndex; i++) {
         const row: any = rawData[i];
@@ -170,7 +170,7 @@ export class DematService {
 
         // Debug log for first few rows
         if (i < dataStartIndex + 10) {
-          console.log(`Row ${i}: S.No=${sNoRaw}, Date=${transactionDate}, Remarks=${remarks}, Withdrawal=${withdrawalAmount}, Deposit=${depositAmount}, Balance=${balance}`);
+          // console.log(`Row ${i}: S.No=${sNoRaw}, Date=${transactionDate}, Remarks=${remarks}, Withdrawal=${withdrawalAmount}, Deposit=${depositAmount}, Balance=${balance}`);
         }
 
         // Skip completely empty rows

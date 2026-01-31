@@ -20,6 +20,7 @@
         <button class="year-btn" onclick="navigateToYear('2024')">2024</button>
         <button class="year-btn" onclick="navigateToYear('2025')">2025</button>
         <button class="year-btn" onclick="navigateToYear('2026')">2026</button>
+        <button class="year-btn" onclick="navigateToYear('all')">All</button>
       </div>
     </div>
     
@@ -54,7 +55,9 @@
         placeholder="Search by date, remarks, or amount... (e.g., 02/01/2024 or EBA or 194.49)"
         onkeyup="filterTable()"
       >
-      <button class="search-button" onclick="resetSearch()">Clear</button>
+      <button class="search-button" onclick="resetSearch('')">Clear</button>
+      <button class="search-button" onclick="resetSearch('SALARY')">Salary</button>
+      <button class="search-button" onclick="resetSearch('EBA')">EBA</button>
     </div>
 
     <div id="resultsInfo" class="results-info" style="display: none;"></div>
@@ -119,7 +122,11 @@
       yearButtons.forEach(btn => {
         if (btn.textContent === year) {
           btn.classList.add('active');
-        } else {
+        }
+        else if(btn.textContent == 'All' && year == '2021-2026'){
+          btn.classList.add('active');
+        }
+        else {
           btn.classList.remove('active');
         }
       });
@@ -249,21 +256,11 @@
       resultsInfo.style.display = 'block';
     }
 
-    function resetSearch() {
-      document.getElementById('searchInput').value = '';
-      document.getElementById('resultsInfo').style.display = 'none';
-      allTransactions.forEach(t => {
-        t.element.style.display = '';
-      });
-      // Reset stats to original with comma formatting
-      document.getElementById('dynamicCount').textContent = formatNumberWithCommas(window.totalTransactions);
-      document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal || '0');
-      document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit || '0');
-      
-      // Calculate balance = Deposit - Withdrawal
-      const netBalance = parseFloat(window.originalDeposit) - parseFloat(window.originalWithdrawal);
-      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(netBalance.toFixed(0));
+    function resetSearch(filterText) {
+      document.getElementById('searchInput').value = filterText;
       document.getElementById('searchInput').focus();
+      document.getElementById('searchInput').click();
+      filterTable();
     }
 
     function scrollToTop() {
