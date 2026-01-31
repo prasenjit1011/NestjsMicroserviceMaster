@@ -359,6 +359,68 @@ export class DematController {
     
     console.log('==>', buyAmount, currentPrice)
 
+
+    // Get latest entry per day from profit history
+    const profitDataPath = path.join(process.cwd(), 'public', 'data', 'profit.json');
+    let dailyProfitData = [];
+
+    if (fs.existsSync(profitDataPath)) {
+      const fileContent = fs.readFileSync(profitDataPath, 'utf8');
+      if (fileContent.trim()) {
+        const profitHistory = JSON.parse(fileContent);
+        
+        // Group by date (YYYY-MM-DD) and get latest entry per day
+        const dailyMap = new Map();
+        profitHistory.forEach(entry => {
+          const dateKey = entry.date.split('T')[0]; // Extract YYYY-MM-DD
+          const currentEntry = dailyMap.get(dateKey);
+          
+          // Keep the latest entry for each day (compare timestamps)
+          if (!currentEntry || new Date(entry.date) > new Date(currentEntry.date)) {
+            dailyMap.set(dateKey, entry);
+          }
+        });
+        
+        // Convert map to array and sort by date
+        dailyProfitData = Array.from(dailyMap.values())
+          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        
+        console.log(`Loaded ${dailyProfitData.length} daily profit entries`);
+      }
+    }
+
+    // console.log(`Loaded ${dailyProfitData.length} daily profit entries`);
+    // console.log(dailyProfitData);
+
+    // Calculate daily profit/loss
+    // Reverse the dailyProfitData to process from latest to oldest
+    dailyProfitData.slice().reverse().forEach(entry => {
+      const date = entry.date.split('T')[0]; // Extract YYYY-MM-DD
+      const profit = entry.dayProfit;
+      console.log(`Data: ${date} : ${profit}`);
+    });
+
+    const dailyData = dailyProfitData.reverse().map(entry => {
+      const [year, month, day] = entry.date.split('T')[0].split('-');
+      const ddmm = `${day}/${month}`;
+      return {
+        date: ddmm,
+        profit: entry.dayProfit
+      };
+    });
+
+    const daysData = dailyData.map(({ date, profit }) => {
+                              return `
+                                <div class="summary-item daily-item">
+                                  <div class="summary-label">${date}</div>
+                                  <div class="daily-data" id="totalStocks">₹${profit.toLocaleString('en-IN', {maximumFractionDigits: 2})}</div>
+                                </div>`;
+                                
+                            }).join('');
+
+    html = html.replace('{{daysData}}', daysData);
+
+
     // Store profit/loss data with timestamp
     try {
 

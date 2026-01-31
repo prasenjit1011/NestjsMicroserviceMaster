@@ -129,6 +129,10 @@
       letter-spacing: -1px;
     }
 
+    .daily-item{
+      padding: 5px !important;
+    }
+
     .search-box {
       margin: 25px 0;
       padding: 20px;
