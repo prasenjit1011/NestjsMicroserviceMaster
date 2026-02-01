@@ -345,6 +345,7 @@ export class DematController {
     const tableRows = data.map((item, key) => {
       const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
       const sid     = sidItem ? sidItem.sid : 'N/A';
+      const sidType = sidItem && sidItem.type? sidItem.type : 'N/A';
       const apiDataItem = apiData.data && apiData.data.find(data => data.sid === sid);
       const apiPrice = apiDataItem ? apiDataItem.price.toFixed(0) : 0;
       const dyChange = apiDataItem ? apiDataItem.dyChange.toFixed(0) : 0;
@@ -432,6 +433,7 @@ export class DematController {
         <td class="total">${mnChange}%</td>
         <th class="total">${change}</th>
         <td class="total">₹${Math.trunc(stockApiPrice * item.qty)}</td>
+        <th class="total">${sidType}</th>
       </tr>
     `}).join('');
     
