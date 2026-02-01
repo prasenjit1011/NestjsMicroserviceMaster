@@ -17,7 +17,8 @@
   },
   {
     "iciciCode": "ITC",
-    "sid": "ITC"
+    "sid": "ITC",
+    "type": "LARGECAP"
   },
   {
     "iciciCode": "NIPSIL",
@@ -25,27 +26,33 @@
   },
   {
     "iciciCode": "TATCAP",
-    "sid": "TATAC"
+    "sid": "TATAC",
+    "type": "LARGECAP"
   },
   {
     "iciciCode": "COLPAL",
-    "sid": "COLG"
+    "sid": "COLG",
+    "type": "MIDCAP"
   },
   {
     "iciciCode": "HERHON",
-    "sid": "HROM"
+    "sid": "HROM",
+    "type": "LARGECAP"
   },
   {
     "iciciCode": "SBICAR",
-    "sid": "SBIC"
+    "sid": "SBIC",
+    "type": "MIDCAP"
   },
   {
     "iciciCode": "INDGAS",
-    "sid": "IGAS"
+    "sid": "IGAS",
+    "type": "SMALLCAP"
   },
   {
     "iciciCode": "AARIND",
-    "sid": "ARTI"
+    "sid": "ARTI",
+    "type": "SMALLCAP"
   },
   {
     "iciciCode": "DHASUG",
@@ -109,7 +116,8 @@
   },
   {
     "iciciCode": "CIPLA",
-    "sid": "CIPL"
+    "sid": "CIPL",
+    "type": "LARGECAP"
   },
   {
     "iciciCode": "GOPSNA",
@@ -157,7 +165,8 @@
   },
   {
     "iciciCode": "RELIND",
-    "sid": "RELI"
+    "sid": "RELI",
+    "type": "LARGECAP"
   },
   {
     "iciciCode": "ICINIF",
@@ -297,7 +306,8 @@
   },
   {
     "iciciCode": "AVESUP",
-    "sid": "AVEU"
+    "sid": "AVEU",
+    "type": "LARGECAP"
   },
   {
     "iciciCode": "SAIL",
@@ -562,7 +572,8 @@
 },
 {
   "sid": "INGL",
-  "iciciCode": "INTAVI"
+  "iciciCode": "INTAVI",
+  "type": "LARGECAP"
 },
 {
   "sid": "KOTAS",
@@ -570,7 +581,8 @@
 },
 {
   "sid": "SUN",
-  "iciciCode": "SUNPHA"
+  "iciciCode": "SUNPHA",
+  "type": "LARGECAP"
 },
 {
   "sid": "TITN",
