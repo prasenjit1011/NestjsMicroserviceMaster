@@ -174,5 +174,53 @@
     "currProfit": -12584,
     "dayProfit": -2077,
     "curPercent": -3.72
+  },
+  {
+    "date": "2026-02-03T09:24:46.318Z",
+    "curAmount": 215025,
+    "buyAmount": 221800,
+    "currProfit": 0,
+    "dayProfit": 5936,
+    "curPercent": -3.05
+  },
+  {
+    "date": "2026-02-03T09:42:20.271Z",
+    "curAmount": 214723,
+    "buyAmount": 221800,
+    "currProfit": 0,
+    "dayProfit": 5603,
+    "curPercent": -3.19
+  },
+  {
+    "date": "2026-02-03T09:54:13.463Z",
+    "curAmount": 214419,
+    "buyAmount": 221800,
+    "currProfit": 0,
+    "dayProfit": 5318,
+    "curPercent": -3.33
+  },
+  {
+    "date": "2026-02-03T09:57:26.734Z",
+    "curAmount": 214353,
+    "buyAmount": 221800,
+    "currProfit": 0,
+    "dayProfit": 5224,
+    "curPercent": -3.36
+  },
+  {
+    "date": "2026-02-03T10:14:14.409Z",
+    "curAmount": 213581,
+    "buyAmount": 221800,
+    "currProfit": 0,
+    "dayProfit": 4509,
+    "curPercent": -3.71
+  },
+  {
+    "date": "2026-02-03T10:16:35.144Z",
+    "curAmount": 213843,
+    "buyAmount": 221800,
+    "currProfit": 0,
+    "dayProfit": 4782,
+    "curPercent": -3.59
   }
 ]
