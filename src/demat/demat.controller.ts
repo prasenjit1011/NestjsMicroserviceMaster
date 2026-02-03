@@ -406,7 +406,7 @@ export class DematController {
     const tableRows = data.map((item, key) => {
       const sidItem = sidData.find(sid => sid.iciciCode === item.sid);
       const sid     = sidItem ? sidItem.sid : 'N/A';
-      const sidType = sidItem && sidItem.type? sidItem.type : 'N/A';
+      const sidType = sidItem && sidItem.type? sidItem.type : '';
       const apiDataItem = apiData.data && apiData.data.find(data => data.sid === sid);
       const apiPrice = apiDataItem ? apiDataItem.price.toFixed(0) : 0;
       const dyChange = apiDataItem ? apiDataItem.dyChange.toFixed(0) : 0;
@@ -460,6 +460,7 @@ export class DematController {
           <a href="/demat/tradelist?sidCode=${sid}" target="_blank">
             ${item.sid || 'N/A'}
           </a>
+          ${sidType ? `(${sidType})` : 'NOCAP'}
         </td>
         <td>
           <a href="http://localhost:4200/details/${sid}" >
@@ -624,7 +625,7 @@ export class DematController {
           date: timestamp,
           curAmount: parseInt(currentPrice.toFixed(0)),
           buyAmount: parseInt(buyAmount.toFixed(0)),
-          currProfit: profitPadded,
+          currProfit: parseInt(overallProfit.toFixed(0)),
           dayProfit: parseInt(daysProfit.toFixed(0)),
           curPercent: parseFloat(profitPercent.toFixed(2))
         };
