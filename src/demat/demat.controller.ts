@@ -163,6 +163,98 @@ export class DematController {
     }
   }
 
+  @Get('/alltrade')
+  async getAllTrade(@Res() res: Response){
+    const years = ['2021', '2022', '2023', '2024', '2025', '2026'];
+    const sidData = this.dematService.getDataFromJson();
+
+    // Fetch all trade data from all years
+    const yearlyTradeData = await Promise.all(
+      years.map(year => this.dematService.getTradeDataFromCsv(year))
+    );
+    
+    // Flatten all trades into a single array
+    let allTrades = yearlyTradeData.flat().sort((a, b) => {
+      return new Date(b.dtd).getTime() - new Date(a.dtd).getTime();
+    });
+
+    // Limit to top 5 trades
+    // allTrades = allTrades.slice(0, 3);
+    let ipodata = this.dematService.getIPODataFromJson();
+
+    // // Merge IPO data with all trades
+    allTrades = [...ipodata, ...allTrades].sort((a, b) => {
+      return new Date(b.dtd).getTime() - new Date(a.dtd).getTime();
+    });
+
+
+
+    // console.log('All Trades: ', allTrades);
+    // Calculate buyAmt and sellAmt for each sidData entry
+    const sidDetails = sidData.map(entry => {
+      const trades = allTrades.filter(trade => trade.sid === entry.iciciCode);
+
+      const buyAmt = trades
+      .filter(trade => trade.action === 'Buy')
+      .reduce((sum, trade) => sum + trade.tradevalue, 0);
+
+      // const totalTradeValue = trades.reduce((sum, trade) => sum + trade.price, 0);
+
+      const sellAmt = trades
+      .filter(trade => trade.action === 'Sell')
+      .reduce((sum, trade) => sum + trade.tradevalue, 0);
+
+
+      // console.log(`Total Trade Value for SID ${entry.sid}:\t\t ${buyAmt} + ${sellAmt}`);
+      // if(entry.sid === 'KTGF' || entry.sid === 'TATAC'){  
+      //   console.log(`Trades for SID ${entry.sid}: `, trades);
+      //   console.log(buyAmt);
+      // }
+
+      return {
+      ...entry,
+      buyAmt: parseInt(buyAmt),
+      sellAmt: parseInt(sellAmt)
+    };
+  });
+
+    let totalBuyAmt = sidDetails.reduce((sum, entry) => sum + entry.buyAmt, 0);
+    let totalSellAmt = sidDetails.reduce((sum, entry) => sum + entry.sellAmt, 0);
+
+    console.log(`Total Buy Amount: ${totalBuyAmt}`);
+    console.log(`Total Sell Amount: ${totalSellAmt}`);
+
+
+    const portfolioEntry = sidDetails.find(entry => entry.iciciCode === 'PORTFOLIO');
+    if (portfolioEntry) {
+      portfolioEntry.buyAmt = parseInt(totalBuyAmt);
+      portfolioEntry.sellAmt = parseInt(totalSellAmt);
+      // Optionally update investedAmt as difference
+      portfolioEntry.invAmt = parseInt((totalBuyAmt - totalSellAmt).toString());
+    }
+
+    console.log("portfolioEntry:", portfolioEntry);
+
+    // Update sidDetails JSON file with latest sidDetails array
+    try {
+      const sidDetailsPath = path.join(process.cwd(), 'public', 'data', 'siddata.json');
+      fs.writeFileSync(sidDetailsPath, JSON.stringify(sidDetails, null, 2), 'utf8');
+      console.log(`siddata.json updated at ${sidDetailsPath}`);
+    } catch (err) {
+      console.error('Error writing siddata.json:', err);
+    }
+    // Add summary element as the first element
+    // sidDetails.unshift({
+    //   totalBuyAmt: parseInt(totalBuyAmt),
+    //   totalSellAmt: parseInt(totalSellAmt),
+    //   totalInvested: parseInt((totalBuyAmt - totalSellAmt).toString())
+    // });
+
+    return res.json(sidDetails);
+
+  }
+
+
   @Get('/tradelist')
   async getTradeTableView(@Res() res: Response) {
     try {
@@ -205,8 +297,6 @@ export class DematController {
     // Limit to top 5 trades
     // allTrades = allTrades.slice(0, 3);
     let ipodata = this.dematService.getIPODataFromJson();
-
-    
 
     // // Merge IPO data with all trades
     allTrades = [...ipodata, ...allTrades].sort((a, b) => {
