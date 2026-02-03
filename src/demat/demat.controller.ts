@@ -230,7 +230,7 @@ export class DematController {
       portfolioEntry.buyAmt = parseInt(totalBuyAmt);
       portfolioEntry.sellAmt = parseInt(totalSellAmt);
       // Optionally update investedAmt as difference
-      portfolioEntry.invAmt = parseInt((totalBuyAmt - totalSellAmt).toString());
+      portfolioEntry.invtAmt = parseInt((totalBuyAmt - totalSellAmt).toString());
     }
 
     console.log("portfolioEntry:", portfolioEntry);
@@ -498,8 +498,20 @@ export class DematController {
       </tr>
     `}).join('');
     
-    console.log('==>', buyAmount, currentPrice)
+    console.log('==>', buyAmount, currentPrice);
 
+    const portfolioEntry = sidData.find(entry => entry.iciciCode === 'PORTFOLIO');
+    if (portfolioEntry) {
+      portfolioEntry.currAmt = Math.trunc(currentPrice);
+    }
+    // Update siddata.json with latest current amount
+    try {
+      const sidDetailsPath = path.join(process.cwd(), 'public', 'data', 'siddata.json');
+      fs.writeFileSync(sidDetailsPath, JSON.stringify(sidData, null, 2), 'utf8');
+      console.log(`siddata.json updated at ${sidDetailsPath}`);
+    } catch (err) {
+      console.error('Error writing siddata.json:', err);
+    }
 
     // Get latest entry per day from profit history
     const profitDataPath = path.join(process.cwd(), 'public', 'data', 'profit.json');
