@@ -618,11 +618,9 @@ export class DematController {
       // shouldSave = true;
       if (shouldSave) {
         // Add new profit/loss entry with timestamp (IST)
-        const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST (+5:30)
-        const timestamp = istTime.toISOString();
-        const profitPadded = parseInt(String(Math.round(overallProfit)).padStart(6, '0'));
+        const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST (+5:30)        
         const profitEntry = {
-          date: timestamp,
+          date: istTime.toISOString(),
           curAmount: parseInt(currentPrice.toFixed(0)),
           buyAmount: parseInt(buyAmount.toFixed(0)),
           currProfit: parseInt(overallProfit.toFixed(0)),
