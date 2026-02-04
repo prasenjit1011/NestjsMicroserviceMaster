@@ -5,7 +5,7 @@
     "buyAmt": 946956,
     "sellAmt": 807005,
     "invtAmt": 139951,
-    "currAmt": 215332
+    "currAmt": 217014
   },
   {
     "iciciCode": "KOTGOL",
@@ -22,6 +22,7 @@
   {
     "iciciCode": "DABIND",
     "sid": "DABU",
+    "type": "MIDCAP",
     "buyAmt": 55999,
     "sellAmt": 25461
   },
@@ -96,6 +97,7 @@
   {
     "iciciCode": "ADAGAS",
     "sid": "ADAG",
+    "type": "MIDCAP",
     "buyAmt": 6002,
     "sellAmt": 0
   },
@@ -114,6 +116,7 @@
   {
     "iciciCode": "ASIPAI",
     "sid": "ASPN",
+    "type": "LARGECAP",
     "buyAmt": 7427,
     "sellAmt": 0
   },
@@ -132,6 +135,7 @@
   {
     "iciciCode": "BHAPET",
     "sid": "BPCL",
+    "type": "LARGECAP",
     "buyAmt": 7954,
     "sellAmt": 8736
   },
@@ -150,12 +154,14 @@
   {
     "iciciCode": "ADAENT",
     "sid": "ADEL",
+    "type": "LARGECAP",
     "buyAmt": 14063,
     "sellAmt": 12794
   },
   {
     "iciciCode": "KOTMAH",
     "sid": "KTKM",
+    "type": "LARGECAP",
     "buyAmt": 3530,
     "sellAmt": 0
   },
@@ -168,6 +174,7 @@
   {
     "iciciCode": "ADATRA",
     "sid": "ADAI",
+    "type": "LARGECAP",
     "buyAmt": 3339,
     "sellAmt": 0
   },
@@ -223,6 +230,7 @@
   {
     "iciciCode": "ONGC",
     "sid": "ONGC",
+    "type": "LARGECAP",
     "buyAmt": 2582,
     "sellAmt": 2333
   },
@@ -332,6 +340,7 @@
   {
     "iciciCode": "ANUPHA",
     "sid": "ANUH",
+    "type": "SMALLCAP",
     "buyAmt": 1050,
     "sellAmt": 203
   },
@@ -368,6 +377,7 @@
   {
     "iciciCode": "APOTYR",
     "sid": "APLO",
+    "type": "SMALLCAP",
     "buyAmt": 507,
     "sellAmt": 0
   },
@@ -386,6 +396,7 @@
   {
     "iciciCode": "ADAPOW",
     "sid": "ADAN",
+    "type": "LARGECAP",
     "buyAmt": 3140,
     "sellAmt": 9242
   },
@@ -422,12 +433,14 @@
   {
     "iciciCode": "MOTSU",
     "sid": "MSU",
+    "type": "SMALLCAP",
     "buyAmt": 288,
     "sellAmt": 58
   },
   {
     "iciciCode": "TATSTE",
     "sid": "TISC",
+    "type": "LARGECAP",
     "buyAmt": 172,
     "sellAmt": 0
   },
@@ -483,6 +496,7 @@
   {
     "iciciCode": "TATMOT",
     "sid": "TAMO",
+    "type": "LARGECAP",
     "buyAmt": 3239,
     "sellAmt": 0
   },
@@ -501,6 +515,7 @@
   {
     "sid": "APSE",
     "iciciCode": "ADAPOR",
+    "type": "LARGECAP",
     "buyAmt": 2811,
     "sellAmt": 5206
   },
@@ -525,6 +540,7 @@
   {
     "sid": "ASOK",
     "iciciCode": "ASHLEY",
+    "type": "LARGECAP",
     "buyAmt": 726,
     "sellAmt": 775
   },
@@ -537,12 +553,14 @@
   {
     "sid": "BHEL",
     "iciciCode": "BHEL",
+    "type": "MIDCAP",
     "buyAmt": 141,
     "sellAmt": 164
   },
   {
     "sid": "BRIT",
     "iciciCode": "BRIIND",
+    "type": "LARGECAP",
     "buyAmt": 3640,
     "sellAmt": 3647
   },
@@ -573,12 +591,14 @@
   {
     "sid": "DIVI",
     "iciciCode": "DIVLAB",
+    "type": "LARGECAP",
     "buyAmt": 7450,
     "sellAmt": 7799
   },
   {
     "sid": "DOLA",
     "iciciCode": "DOLINV",
+    "type": "SMALLCAP",
     "buyAmt": 387,
     "sellAmt": 493
   },
@@ -645,6 +665,7 @@
   {
     "sid": "HDBK",
     "iciciCode": "HDFBAN",
+    "type": "LARGECAP",
     "buyAmt": 3293,
     "sellAmt": 1481
   },
@@ -675,6 +696,7 @@
   {
     "sid": "ICBK",
     "iciciCode": "ICIBAN",
+    "type": "LARGECAP",
     "buyAmt": 1227,
     "sellAmt": 1671
   },
@@ -723,6 +745,7 @@
   {
     "sid": "MNFL",
     "iciciCode": "MANAFI",
+    "type": "SMALLCAP",
     "buyAmt": 4422,
     "sellAmt": 5513
   },
@@ -759,6 +782,7 @@
   {
     "sid": "PARAS",
     "iciciCode": "PARDEF",
+    "type": "SMALLCAP",
     "buyAmt": 3142,
     "sellAmt": 2218
   },
@@ -777,6 +801,7 @@
   {
     "sid": "PIDI",
     "iciciCode": "PIDIND",
+    "type": "LARGECAP",
     "buyAmt": 2021,
     "sellAmt": 2609
   },
@@ -807,6 +832,7 @@
   {
     "sid": "SBI",
     "iciciCode": "STABAN",
+    "type": "LARGECAP",
     "buyAmt": 2275,
     "sellAmt": 2868
   },
@@ -881,6 +907,7 @@
   {
     "sid": "TITN",
     "iciciCode": "TITIND",
+    "type": "LARGECAP",
     "buyAmt": 4021,
     "sellAmt": 0
   },
@@ -893,6 +920,7 @@
   {
     "sid": "BJFN",
     "iciciCode": "BAJFI",
+    "type": "LARGECAP",
     "buyAmt": 1817,
     "sellAmt": 0
   }
