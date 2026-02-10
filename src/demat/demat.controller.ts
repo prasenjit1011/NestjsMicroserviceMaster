@@ -503,7 +503,8 @@ export class DematController {
 
     const portfolioEntry = sidData.find(entry => entry.iciciCode === 'PORTFOLIO');
     if (portfolioEntry) {
-      portfolioEntry.currAmt = Math.trunc(currentPrice);
+      portfolioEntry.currVal = Math.trunc(currentPrice);
+      portfolioEntry.profitAmt = portfolioEntry.currVal - portfolioEntry.invtAmt;
     }
     // Update siddata.json with latest current amount
     try {

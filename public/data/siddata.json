@@ -2,16 +2,17 @@
   {
     "iciciCode": "PORTFOLIO",
     "sid": "PORTFOLIO",
-    "buyAmt": 946956,
-    "sellAmt": 807005,
-    "invtAmt": 139951,
-    "currAmt": 217430
+    "buyAmt": 983866,
+    "sellAmt": 819527,
+    "invtAmt": 164339,
+    "currVal": 240223,
+    "profitAmt": 75884
   },
   {
     "iciciCode": "KOTGOL",
     "sid": "KTGF",
-    "buyAmt": 114295,
-    "sellAmt": 128367
+    "buyAmt": 118219,
+    "sellAmt": 130851
   },
   {
     "iciciCode": "HDFGOL",
@@ -43,7 +44,7 @@
     "iciciCode": "NIPSIL",
     "sid": "NETFS",
     "buyAmt": 58240,
-    "sellAmt": 52801
+    "sellAmt": 53961
   },
   {
     "iciciCode": "TATCAP",
@@ -98,7 +99,7 @@
     "iciciCode": "ADAGAS",
     "sid": "ADAG",
     "type": "MIDCAP",
-    "buyAmt": 6002,
+    "buyAmt": 7087,
     "sellAmt": 0
   },
   {
@@ -136,7 +137,7 @@
     "iciciCode": "BHAPET",
     "sid": "BPCL",
     "type": "LARGECAP",
-    "buyAmt": 7954,
+    "buyAmt": 9894,
     "sellAmt": 8736
   },
   {
@@ -155,7 +156,7 @@
     "iciciCode": "ADAENT",
     "sid": "ADEL",
     "type": "LARGECAP",
-    "buyAmt": 14063,
+    "buyAmt": 18503,
     "sellAmt": 12794
   },
   {
@@ -163,7 +164,7 @@
     "sid": "KTKM",
     "type": "LARGECAP",
     "buyAmt": 3530,
-    "sellAmt": 0
+    "sellAmt": 3296
   },
   {
     "iciciCode": "INDPES",
@@ -175,7 +176,7 @@
     "iciciCode": "ADATRA",
     "sid": "ADAI",
     "type": "LARGECAP",
-    "buyAmt": 3339,
+    "buyAmt": 6224,
     "sellAmt": 0
   },
   {
@@ -207,13 +208,13 @@
     "iciciCode": "ZEROSE",
     "sid": "SILVC",
     "buyAmt": 7869,
-    "sellAmt": 6467
+    "sellAmt": 6640
   },
   {
     "iciciCode": "MOTSIL",
     "sid": "MOSI",
     "buyAmt": 2448,
-    "sellAmt": 0
+    "sellAmt": 486
   },
   {
     "iciciCode": "VAIGLO",
@@ -225,7 +226,7 @@
     "iciciCode": "HDFSIL",
     "sid": "HDFCS",
     "buyAmt": 2717,
-    "sellAmt": 0
+    "sellAmt": 2053
   },
   {
     "iciciCode": "ONGC",
@@ -262,7 +263,7 @@
     "iciciCode": "RELIND",
     "sid": "RELI",
     "type": "LARGECAP",
-    "buyAmt": 13696,
+    "buyAmt": 18033,
     "sellAmt": 5145
   },
   {
@@ -274,14 +275,14 @@
   {
     "iciciCode": "NIFBEE",
     "sid": "NBES",
-    "buyAmt": 13010,
+    "buyAmt": 16211,
     "sellAmt": 11837
   },
   {
     "iciciCode": "AETIND",
     "sid": "AET",
     "buyAmt": 14766,
-    "sellAmt": 16921
+    "sellAmt": 17961
   },
   {
     "iciciCode": "INDREN",
@@ -478,7 +479,7 @@
     "iciciCode": "AVESUP",
     "sid": "AVEU",
     "type": "LARGECAP",
-    "buyAmt": 7605,
+    "buyAmt": 15248,
     "sellAmt": 0
   },
   {
@@ -516,7 +517,7 @@
     "sid": "APSE",
     "iciciCode": "ADAPOR",
     "type": "LARGECAP",
-    "buyAmt": 2811,
+    "buyAmt": 8955,
     "sellAmt": 5206
   },
   {
@@ -642,7 +643,7 @@
     "sid": "GBES",
     "iciciCode": "GOLDEX",
     "buyAmt": 42483,
-    "sellAmt": 35085
+    "sellAmt": 36915
   },
   {
     "sid": "GSPT",
@@ -783,7 +784,7 @@
     "sid": "PARAS",
     "iciciCode": "PARDEF",
     "type": "SMALLCAP",
-    "buyAmt": 3142,
+    "buyAmt": 4453,
     "sellAmt": 2218
   },
   {

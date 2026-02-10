@@ -78,5 +78,21 @@
     "currProfit": -4372,
     "dayProfit": 2174,
     "curPercent": -1.97
+  },
+  {
+    "date": "2026-02-05T09:33:14.455Z",
+    "curAmount": 216279,
+    "buyAmount": 221800,
+    "currProfit": -5521,
+    "dayProfit": -1042,
+    "curPercent": -2.49
+  },
+  {
+    "date": "2026-02-05T09:45:04.389Z",
+    "curAmount": 215183,
+    "buyAmount": 221800,
+    "currProfit": -6617,
+    "dayProfit": -2045,
+    "curPercent": -2.98
   }
 ]
