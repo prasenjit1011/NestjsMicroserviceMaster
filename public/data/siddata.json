@@ -2,11 +2,11 @@
   {
     "iciciCode": "PORTFOLIO",
     "sid": "PORTFOLIO",
-    "buyAmt": 983866,
-    "sellAmt": 819527,
-    "invtAmt": 164339,
-    "currVal": 240223,
-    "profitAmt": 75884
+    "buyAmt": 987005,
+    "sellAmt": 826362,
+    "invtAmt": 160643,
+    "currVal": 234514,
+    "profitAmt": 74514
   },
   {
     "iciciCode": "KOTGOL",
@@ -100,7 +100,7 @@
     "sid": "ADAG",
     "type": "MIDCAP",
     "buyAmt": 7087,
-    "sellAmt": 0
+    "sellAmt": 518
   },
   {
     "iciciCode": "INDBA",
@@ -125,7 +125,7 @@
     "iciciCode": "RAJEXP",
     "sid": "REXP",
     "buyAmt": 4636,
-    "sellAmt": 0
+    "sellAmt": 680
   },
   {
     "iciciCode": "CAMACT",
@@ -138,7 +138,7 @@
     "sid": "BPCL",
     "type": "LARGECAP",
     "buyAmt": 9894,
-    "sellAmt": 8736
+    "sellAmt": 9846
   },
   {
     "iciciCode": "IRMENE",
@@ -156,8 +156,8 @@
     "iciciCode": "ADAENT",
     "sid": "ADEL",
     "type": "LARGECAP",
-    "buyAmt": 18503,
-    "sellAmt": 12794
+    "buyAmt": 20682,
+    "sellAmt": 17004
   },
   {
     "iciciCode": "KOTMAH",
@@ -183,7 +183,7 @@
     "iciciCode": "FLAWRI",
     "sid": "FLAI",
     "buyAmt": 4046,
-    "sellAmt": 3869
+    "sellAmt": 4186
   },
   {
     "iciciCode": "CIPLA",
@@ -379,7 +379,7 @@
     "iciciCode": "APOTYR",
     "sid": "APLO",
     "type": "SMALLCAP",
-    "buyAmt": 507,
+    "buyAmt": 1467,
     "sellAmt": 0
   },
   {

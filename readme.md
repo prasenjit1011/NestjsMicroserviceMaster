@@ -1,3 +1,21 @@
+-: Plan :-
+
+|Fri    |Sat    |Sun    |Mon    |Tue    |Wed    |Thu    |Fri    |Sat    |Sun    |Mon
+Train   |Train  |Sri    |Gul    |Son    |Phal   |Phal   |Train  |Train  |Room
+Train   |Train  |Sri    |Gul    |Son    |Sri    |Phal   |Phal   |Train  |Train  |Room
+Train   |Train  |Sri    |Gul    |Son    |Sri    |Phal   |Phal   |Train  |Train  |Room
+
+Train   |Train  |Sri    |Gul    |Son    |Phal   |Phal   |Vaisno |Train  |Train  |Room
+
+
+Train   |Train  |Phal   |Phal   |Sri    |Son    |Gul    |Train  |Train  |Room
+
+
+
+
+Simla -> Del -> 
+
+
 C+G:0+5000*(0.10)
 C+G:0+5500
 C+G:500+5000*(0.10)     |   0+5000
