@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NodeJS</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+    }
+
+    .menu {
+      background: #333;
+      color: white;
+      padding: 10px;
+    }
+
+    .menu a {
+      color: #fff;
+      margin-right: 10px;
+      text-decoration: none;
+    }
+
+    .container {
+      display: flex;
+      height: calc(100vh - 50px);
+    }
+
+    pre.code-block, pre.output-block {
+      flex: 1;
+      margin: 0;
+      padding: 15px;
+      overflow: auto;
+    }
+
+    pre.code-block {
+      flex-basis:  70%;
+      background: #000;
+      color: #fff;
+      border-right: 1px solid #ccc;
+    }
+
+    pre.output-block {
+      flex-basis: 30%;
+      background: #272822;
+      color: #fff;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="menu">
+    <a href="/doctor/index.html">Nodejs</a>
+    <a href="/doctor/react.html">React</a>
+    <a href="/doctor/docker.html">Docker</a>
+    <a href="/doctor/cmd.html">CMD</a>
+    <a href="/doctor/kafka.html">Kafka</a>
+    <a href="kafka-interview.html">Kafka Interview</a>
+    <a href="mongodb.html">Mongo DB</a>
+    <a href="code.html">Promise</a>
+    <a href="coding.html">Coding</a>
+    <a href="https://onecompiler.com/nodejs/43hqq7r87" >Live Coding</a>
+  </div>
+
+  <div class="container">
+    <pre class="code-block"><code>
+      ---------- Example 01 ----------
+      const express = require('express');
+      const bodyParser = require('body-parser');
+      
+      const app = express();
+      const PORT = 3000;
+      
+      app.use(bodyParser.json());
+      
+      // In-memory "database"
+      let products = [];
+      let idCounter = 1;
+      
+      // Create
+      app.post('/products', (req, res) => {
+        const product = { id: idCounter++, ...req.body };
+        products.push(product);
+        res.status(201).json(product);
+      });
+      
+      // Read all
+      app.get('/products', (req, res) => {
+        res.json(products);
+      });
+      
+      // Read one
+      app.get('/products/:id', (req, res) => {
+        const product = products.find(p => p.id === parseInt(req.params.id));
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+        res.json(product);
+      });
+      
+      // Update
+      app.put('/products/:id', (req, res) => {
+        const index = products.findIndex(p => p.id === parseInt(req.params.id));
+        if (index === -1) return res.status(404).json({ error: 'Product not found' });
+      
+        products[index] = { id: products[index].id, ...req.body };
+        res.json(products[index]);
+      });
+      
+      // Delete
+      app.delete('/products/:id', (req, res) => {
+        const index = products.findIndex(p => p.id === parseInt(req.params.id));
+        if (index === -1) return res.status(404).json({ error: 'Product not found' });
+      
+        const deleted = products.splice(index, 1);
+        res.json(deleted[0]);
+      });
+      
+      // Start server
+      app.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+      });
+      
+
+
+    
+  </code></pre>
+
+
+
+    <pre id="output" class="output-block"></pre>
+  </div>
+
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+
+  body {
+    margin: 0;
+    font-family: monospace;
+  }
+
+  .menu {
+    background: #333;
+    color: white;
+    padding: 10px;
+  }
+
+  .menu a {
+    color: #fff;
+    margin-right: 10px;
+    text-decoration: none;
+  }
+
+  .container {
+    display: flex;
+    height: calc(100vh - 50px);
+  }
+
+  pre.code-block, pre.output-block {
+    flex: 1;
+    margin: 0;
+    padding: 15px;
+    overflow: auto;
+  }
+
+  pre.code-block {
+    flex-basis:  100%;
+    background: #000;
+    color: #fff;
+    border-right: 1px solid #ccc;
+  }
+
+  pre.output-block {
+    flex-basis: 0%;
+    background: #272822;
+    color: #fff;
+    white-space: pre-wrap;
+  }

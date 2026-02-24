@@ -1,0 +1,82 @@
+/* Admin login page styles */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.login-container {
+    background: rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    width: 400px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type='text'], input[type='password'] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255,255,255,0.3);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    background: rgba(255,255,255,0.4);
+    transform: translateY(-2px);
+}
+
+.back-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-link a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+}
+
+.error {
+    color: #ff6b6b;
+    margin-bottom: 15px;
+    text-align: center;
+    background: rgba(255,107,107,0.2);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,107,107,0.3);
+}

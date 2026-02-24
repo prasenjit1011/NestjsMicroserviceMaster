@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include '_header.html' %}
+    <div class="add-product-container">
+        <h1>Add New Product</h1>
+        <form method="post">
+            <label for="name">Product Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="price">Price:</label><br>
+            <input type="number" id="price" name="price" step="0.01" required><br><br>
+            <label for="description">Description:</label><br>
+            <textarea id="description" name="description" rows="3" required></textarea><br><br>
+            <label for="image">Image URL:</label><br>
+            <input type="url" id="image" name="image" required><br><br>
+            <button class="details-btn" type="submit">Add Product</button>
+        </form>
+    </div>
+    {% include '_banner_slider.html' %}
+    {% set year = 2025 %}
+    {% include '_footer.html' %}
+</body>
+</html>

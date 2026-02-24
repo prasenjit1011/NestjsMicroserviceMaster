@@ -1,0 +1,29 @@
+{
+  "_comment": "Plain text passwords: admin='admin123', john_doe='password123', jane_smith='password123'",
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin12345",
+      "email": "admin@example.com",
+      "role": "ADMIN",
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "username": "john_doe",
+      "password": "admin12345",
+      "email": "john@example.com",
+      "role": "USER",
+      "enabled": true
+    },
+    {
+      "id": 3,
+      "username": "jane_smith",
+      "password": "admin12345",
+      "email": "jane@example.com",
+      "role": "USER",
+      "enabled": true
+    }
+  ]
+}

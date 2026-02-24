@@ -1,0 +1,58 @@
+[
+  {
+    "sid": "INDREN",
+    "price": 32,
+    "qty": 460,
+    "action": "Buy",
+    "dtd": "01-Jan-2025",
+    "tradevalue": 14720
+  },
+  {
+    "sid": "ABAHOL",
+    "price": 270,
+    "qty": 55,
+    "action": "Buy",
+    "dtd": "01-Jan-2025",
+    "tradevalue": 14850
+  },
+  {
+    "sid": "SULVIN",
+    "price": 357,
+    "qty": 42,
+    "action": "Buy",
+    "dtd": "01-Jan-2025",
+    "tradevalue": 14994
+  },
+  {
+    "sid": "CAMACT",
+    "price": 292,
+    "qty": 51,
+    "action": "Buy",
+    "dtd": "01-Jan-2025",
+    "tradevalue": 14892
+  },
+  {
+    "sid": "AETIND",
+    "price": 642,
+    "qty": 23,
+    "action": "Buy",
+    "dtd": "01-Jan-2025",
+    "tradevalue": 14766
+  },
+  {
+    "sid": "IRMENE",
+    "price": 505,
+    "qty": 29,
+    "action": "Buy",
+    "dtd": "01-Jan-2025",
+    "tradevalue": 14645
+  },
+  {
+    "sid": "TATCAP",
+    "price": 326,
+    "qty": 46,
+    "action": "Buy",
+    "dtd": "01-Jan-2025",
+    "tradevalue": 14996
+  }
+]

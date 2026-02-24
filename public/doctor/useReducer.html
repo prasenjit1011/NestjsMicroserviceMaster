@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>React useReducer Example</title>
+  <meta charset="UTF-8" />
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const { useReducer } = React;
+
+    // Step 1: Define the reducer function
+    function counterReducer(state, action) {
+      switch (action.type) {
+        case 'increment':
+          return { count: state.count + 1 };
+        case 'decrement':
+          return { count: state.count - 1 };
+        case 'reset':
+          return { count: 0 };
+        default:
+          return state;
+      }
+    }
+
+    // Step 2: Component using useReducer
+    function Counter() {
+      const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+
+      return (
+        <div style={{ fontFamily: 'Arial', padding: '20px' }}>
+          <h2>useReducer Counter</h2>
+          <p>Count: {state.count}</p>
+          <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+          <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+          <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+        </div>
+      );
+    }
+
+    // Render the component
+    ReactDOM.createRoot(document.getElementById('root')).render(<Counter />);
+
+  </script>
+</body>
+</html>

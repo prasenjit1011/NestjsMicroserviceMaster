@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy Now - Checkout</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include '_header.html' %}
+    <div class="checkout-container">
+        <h2>Checkout</h2>
+        <form method="post">
+            <label for="address">Address:</label><br>
+            <input type="text" id="address" name="address" required><br><br>
+            <label for="payment">Payment Method:</label><br>
+            <select id="payment" name="payment" required>
+                <option value="debit">Debit Card</option>
+                <option value="credit">Credit Card</option>
+                <option value="upi">UPI</option>
+                <option value="cod">Cash on Delivery</option>
+            </select><br><br>
+            <button type="submit" class="details-btn">Order</button>
+        </form>
+        <form method="get" action="/">
+            <button type="submit" class="details-btn">Returns</button>
+        </form>
+    </div>
+    {% include '_footer.html' %}
+</body>
+</html>

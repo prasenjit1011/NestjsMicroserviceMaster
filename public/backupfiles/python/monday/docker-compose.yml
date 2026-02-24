@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  web-calculator:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    volumes:
+      - .:/app
+    command: python web_calculator.py
+    
+  online-shop:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    volumes:
+      - .:/app
+    command: python shop_app.py
+
+  ui-calculator:
+    build: .
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    volumes:
+      - .:/app
+    command: python ui_calculator_app.py
+    
+  console-calculator:
+    build: .
+    stdin_open: true
+    tty: true
+    command: python calculator.py
+    profiles:
+      - console

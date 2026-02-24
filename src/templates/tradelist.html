@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">TradeList</title>
+  <link rel="stylesheet" href="/css/commonstyle.css">
+  <link rel="stylesheet" href="/css/tradelist.css">
+</head>
+<body>
+  <div class="container">
+    <a href="/demat/" class="back-link">← Back to Dashboard</a>
+    <div class="summary-box">
+      <h2 style="margin: 0 0 15px 0;">Portfolio Summary</h2>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-label">Qty</div>
+          <div class="summary-value" id="totalQty"></div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Buy</div>
+          <div class="summary-value" id="totalBuyValue">₹ -</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Sell</div>
+          <div class="summary-value" id="totalSellValue">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">CurrInvestment</div>
+          <div class="summary-value" id="totalCurrentValue">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">LivePrice</div>
+          <div class="summary-value" id="totalLivePrice">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Profit</div>
+          <div class="summary-value" id="totalProfit">-</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
+      <button type="button" class="clear-search-btn" id="clearSearchBtn" title="Clear search">✕</button>
+    </div>
+
+    <table id="portfolioTable">
+      <thead>
+        <tr>
+          <th class="sortable" data-column="0">#</th>
+          <th class="sortable" data-column="1">iciciCode</th>
+          <th class="sortable" data-column="2">SID</th>
+          <th class="sortable" data-column="3">Name</th>
+          <th class="sortable" data-column="4">Action</th>
+          <th class="sortable" data-column="5">Qty</th>
+          <th class="sortable" data-column="6">Price (₹)</th>
+          <th class="sortable" data-column="7">Live Price (₹)</th>
+          <th class="sortable" data-column="8">TradeValue(₹)</th>
+          <th class="sortable" data-column="9">Date</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        {{dataRows}}
+      </tbody>
+    </table>
+
+    <div class="footer">
+      <p><strong>Last Updated:</strong> {{TIMESTAMP}}</p>
+      <p>Data refreshed from Tickertape API | Portfolio tracked live</p>
+    </div>
+  </div>
+
+  <script>
+    // Scroll to top function - Global scope
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Scroll to bottom function - Global scope
+    function scrollToBottom() {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+
+    // Calculate portfolio summary
+    function calculateSummary() {
+      const rows = document.querySelectorAll('#tableBody tr');
+      let totalStocks = 0;
+      let totalBuyValue = 0;
+      let totalSellValue = 0;
+      let totalLivePrice = 0;
+      // Map to track net quantity and live price per stock (SID)
+      const stockMap = new Map();
+
+      rows.forEach(row => {
+        // Only count visible rows
+        if (row.style.display !== 'none') {
+          totalStocks++;
+          const cells = row.cells;
+          if (cells.length >= 10) {
+            const sid = cells[1].textContent.trim(); // iciciCode
+            const action = cells[4].textContent.trim(); // Action
+            const quantity = parseFloat(cells[5].textContent.replace(/,/g, '')) || 0; // Quantity
+            const livePrice = parseFloat(cells[7].textContent.replace(/[₹,]/g, '')) || 0; // Live Price
+            const tradeValue = parseFloat(cells[8].textContent.replace(/[₹,]/g, '')) || 0; // TradeValue
+
+            // Calculate buy/sell values
+            if (action === 'Buy') {
+              totalBuyValue += tradeValue;
+            } else if (action === 'Sell') {
+              totalSellValue += tradeValue;
+            }
+
+            // Track net quantity per stock for current value calculation
+            if (!stockMap.has(sid)) {
+              stockMap.set(sid, { netQty: 0, livePrice: livePrice });
+            }
+
+            const stockData = stockMap.get(sid);
+            if (action === 'Buy') {
+              stockData.netQty += quantity;
+            } else if (action === 'Sell') {
+              stockData.netQty -= quantity;
+            }
+            // Update live price (use latest)
+            if (livePrice > 0) {
+              stockData.livePrice = livePrice;
+            }
+          }
+        }
+      });
+
+      // Calculate total current value: sum of (netQty * livePrice) for each stock
+      let totalQty  = 0;
+      let totalCurrentValue = (totalBuyValue - totalSellValue) > 0 ? (totalBuyValue - totalSellValue) : 0;
+      stockMap.forEach((stockData, sid) => {
+        // totalCurrentValue += stockData.netQty * stockData.livePrice;
+        // Add to totalLivePrice: net quantity * live price
+        totalLivePrice += stockData.netQty * stockData.livePrice;
+        totalQty += stockData.netQty;
+      });
+
+      document.getElementById('totalProfit').textContent = '₹ ' + ((totalLivePrice + totalSellValue) - totalBuyValue).toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalBuyValue').textContent = '₹ ' + totalBuyValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalSellValue').textContent = '₹ ' + totalSellValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalCurrentValue').textContent = '₹ ' + totalCurrentValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalLivePrice').textContent = '₹ ' + totalLivePrice.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalQty').textContent = totalQty.toLocaleString('en-IN', {maximumFractionDigits: 0});
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const rows = document.querySelectorAll('#tableBody tr');
+      
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+      });
+      
+      // Recalculate summary for visible rows only
+      calculateSummary();
+      document.getElementById('pageTitle').textContent = 'TradeList ' + searchTerm;
+    });
+
+    // Clear search button functionality
+    document.getElementById('clearSearchBtn').addEventListener('click', function() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('pageTitle').textContent = 'TradeList';
+      const rows = document.querySelectorAll('#tableBody tr');
+      rows.forEach(row => {
+        row.style.display = '';
+      });
+      calculateSummary();
+      document.getElementById('searchInput').focus();
+    });
+
+    // Table sorting
+    let sortDirection = {};
+    document.querySelectorAll('th.sortable').forEach(header => {
+      header.addEventListener('click', function() {
+        const column = parseInt(this.dataset.column);
+        const table = document.getElementById('portfolioTable');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        
+        // Toggle sort direction
+        sortDirection[column] = sortDirection[column] === 'asc' ? 'desc' : 'asc';
+        
+        // Remove sorted class from all headers
+        document.querySelectorAll('th').forEach(h => {
+          h.classList.remove('sorted-asc', 'sorted-desc');
+        });
+        
+        // Add sorted class to current header
+        this.classList.add(sortDirection[column] === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        
+        // Sort rows
+        rows.sort((a, b) => {
+          let aVal = a.cells[column].textContent.trim();
+          let bVal = b.cells[column].textContent.trim();
+          
+          // Check if this is the date column (column 9)
+          if (column === 9) {
+            // Parse date format: DD-MMM-YYYY
+            const parseDate = (dateStr) => {
+              if (dateStr === 'N/A' || !dateStr) return new Date(0);
+              
+              dateStr = dateStr.trim();
+              
+              // Handle DD-MMM-YYYY format (e.g., 08-Dec-2023, 28-Nov-2024)
+              // Split by '-' but need to be careful since there are multiple dashes
+              const parts = dateStr.split('-');
+              
+              if (parts.length >= 3) {
+                const months = {
+                  'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+                  'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+                };
+                
+                // For DD-MMM-YYYY, we expect: parts[0]=day, parts[1]=month, parts[2]=year
+                const day = parts[0].trim();
+                const monthStr = parts[1].trim();
+                const year = parts[parts.length - 1].trim(); // Last part is year
+                
+                // Check if valid month abbreviation
+                if (months[monthStr]) {
+                  // Create ISO format: YYYY-MM-DD for consistent parsing
+                  const isoDate = `${year}-${months[monthStr]}-${day.padStart(2, '0')}`;
+                  const parsedDate = new Date(isoDate + 'T00:00:00');
+                  
+                  if (!isNaN(parsedDate.getTime())) {
+                    return parsedDate;
+                  }
+                }
+              }
+              
+              // Try DD/MM/YYYY format (e.g., 15/01/2024)
+              if (dateStr.includes('/')) {
+                const parts = dateStr.split('/');
+                if (parts.length === 3) {
+                  const day = parts[0].trim().padStart(2, '0');
+                  const month = parts[1].trim().padStart(2, '0');
+                  const year = parts[2].trim();
+                  const isoDate = `${year}-${month}-${day}`;
+                  const parsedDate = new Date(isoDate + 'T00:00:00');
+                  if (!isNaN(parsedDate.getTime())) {
+                    return parsedDate;
+                  }
+                }
+              }
+              
+              // Fallback: return epoch
+              return new Date(0);
+            };
+            
+            const aDate = parseDate(aVal);
+            const bDate = parseDate(bVal);
+            
+            return sortDirection[column] === 'asc' 
+              ? aDate.getTime() - bDate.getTime()
+              : bDate.getTime() - aDate.getTime();
+          }
+          
+          // Remove currency symbols and commas for numeric comparison
+          aVal = aVal.replace(/[₹,%]/g, '');
+          bVal = bVal.replace(/[₹,%]/g, '');
+          
+          // Try numeric comparison first
+          const aNum = parseFloat(aVal);
+          const bNum = parseFloat(bVal);
+          
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            return sortDirection[column] === 'asc' ? aNum - bNum : bNum - aNum;
+          }
+          
+          // String comparison
+          return sortDirection[column] === 'asc' 
+            ? aVal.localeCompare(bVal)
+            : bVal.localeCompare(aVal);
+        });
+        
+        // Re-append sorted rows
+        rows.forEach(row => tbody.appendChild(row));
+      });
+    });
+
+    // Calculate summary on page load
+    window.addEventListener('load', calculateSummary);
+    
+    // Autofill search input from ?iciciCode=... in URL
+    window.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const sidCode = params.get('sidCode');
+      if (sidCode) {
+        const searchInput = document.getElementById('searchInput');
+        searchInput.value = sidCode;
+        // Trigger input event to filter table and update summary
+        searchInput.dispatchEvent(new Event('input'));
+        document.getElementById('pageTitle').textContent = 'TradeList ' +sidCode
+      }
+    });
+  </script>
+
+  <!-- Scroll buttons -->
+  <div class="scroll-buttons">
+    <button class="floating-scroll-btn" onclick="scrollToTop()" title="Go to Top">↑</button>
+    <button class="floating-scroll-btn" onclick="scrollToBottom()" title="Go to Bottom">↓</button>
+  </div>
+</body>
+</html>

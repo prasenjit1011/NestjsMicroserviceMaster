@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Promise Methods Demo</title>
+</head>
+<body>
+  <h1>Check Console for Output</h1>
+
+  <script>
+    // Sample promises
+    const promise1 = new Promise((resolve) => setTimeout(() => resolve("✅ Promise 1 resolved"), 1000));
+    const promise2 = new Promise((resolve) => setTimeout(() => resolve("✅ Promise 2 resolved"), 2000));
+    const promise3 = new Promise((_, reject) => setTimeout(() => reject("❌ Promise 3 rejected"), 1500));
+
+    // Promise.all() — all must resolve
+    Promise.all([promise1, promise2])
+      .then(results => console.log("Promise.all:", results))
+      .catch(err => console.error("Promise.all Error:", err));
+
+    // Promise.race() — first to settle (resolve/reject)
+    Promise.race([promise1, promise3])
+      .then(result => console.log("Promise.race:", result))
+      .catch(err => console.error("Promise.race Error:", err));
+
+    // Promise.allSettled() — waits for all, regardless of result
+    Promise.allSettled([promise1, promise2, promise3])
+      .then(results => console.log("Promise.allSettled:", results));
+
+    // Promise.any() — resolves if at least one resolves (ignores rejections)
+    Promise.any([promise3, promise1])
+      .then(result => console.log("Promise.any:", result))
+      .catch(err => console.error("Promise.any Error:", err)); // All rejected
+
+    // Chaining example
+    new Promise((resolve) => {
+      setTimeout(() => resolve(10), 1000);
+    })
+    .then(result => {
+      console.log("Chaining Step 1:", result);
+      return result * 2;
+    })
+    .then(result => {
+      console.log("Chaining Step 2:", result);
+      return result + 5;
+    })
+    .then(result => {
+      console.log("Chaining Final Result:", result); // 25
+    });
+
+    // Error handling in chain
+    new Promise((_, reject) => {
+      setTimeout(() => reject("Oops! Something went wrong."), 1000);
+    })
+    .then(() => {
+      console.log("This will not run");
+    })
+    .catch(error => {
+      console.error("Caught Error:", error);
+    });
+  </script>
+</body>
+</html>

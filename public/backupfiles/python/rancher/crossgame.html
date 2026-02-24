@@ -1,0 +1,134 @@
+<html>
+  <head>
+    <title>
+      iM NoT a robot Game
+    </title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        gap: 12px;
+        background-color: aqua;
+      }
+
+      .game-container {
+        display: none;
+        width: 380px;
+        text-align: center;
+        margin-top: 20px;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        background: #fff;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        gap: 5px;
+        margin: 20px auto;
+      }
+
+      .cell {
+        width: 100px;
+        height: 100px;
+        font-size: 24px;
+        cursor: pointer;
+        border: 2px solid #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+      }
+
+      .cell:hover { background-color: #f0f0f0; }
+    </style>
+  </head>
+  <body>
+    <h1>iM NoT a robot Game</h1> <br>
+    <p>Welcome to the game! Can you prove you are not a robot?</p> <br>
+    <button onclick="startGame()">Start</button>
+
+    <div class="game-container" id="gameContainer">
+      <h2>Tic Tac Toe - Beat the Bot!</h2>
+      <p id="gameStatus">Your turn (X)</p>
+      <div class="board" id="board"></div>
+      <button onclick="resetGame()">New Game</button>
+    </div>
+
+    <script>
+      let board = ['', '', '', '', '', '', '', '', ''];
+      let gameActive = false;
+      const winPatterns = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
+
+      function startGame() {
+        document.getElementById('gameContainer').style.display = 'block';
+        resetGame();
+      }
+
+      function resetGame() {
+        board = ['', '', '', '', '', '', '', '', ''];
+        gameActive = true;
+        renderBoard();
+        document.getElementById('gameStatus').innerText = 'Your turn (X)';
+      }
+
+      function renderBoard() {
+        const boardDiv = document.getElementById('board');
+        boardDiv.innerHTML = '';
+        board.forEach((cell, index) => {
+          const cellDiv = document.createElement('div');
+          cellDiv.className = 'cell';
+          cellDiv.innerText = cell;
+          cellDiv.onclick = () => playerMove(index);
+          boardDiv.appendChild(cellDiv);
+        });
+      }
+
+      function playerMove(index) {
+        if (board[index] === '' && gameActive) {
+          board[index] = 'X';
+          renderBoard();
+          if (checkWin('X')) {
+            document.getElementById('gameStatus').innerText = 'You won! 🎉';
+            gameActive = false;
+            return;
+          }
+          if (board.every(cell => cell !== '')) {
+            document.getElementById('gameStatus').innerText = 'Draw!';
+            gameActive = false;
+            return;
+          }
+          setTimeout(botMove, 500);
+        }
+      }
+
+      function botMove() {
+        const emptyIndexes = board.map((cell, i) => cell === '' ? i : null).filter(i => i !== null);
+        const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+        board[randomIndex] = 'O';
+        renderBoard();
+        if (checkWin('O')) {
+          document.getElementById('gameStatus').innerText = 'Bot won! Try again.';
+          gameActive = false;
+          return;
+        }
+        if (board.every(cell => cell !== '')) {
+          document.getElementById('gameStatus').innerText = 'Draw!';
+          gameActive = false;
+          return;
+        }
+        document.getElementById('gameStatus').innerText = 'Your turn (X)';
+      }
+
+      function checkWin(player) {
+        return winPatterns.some(pattern => pattern.every(index => board[index] === player));
+      }
+    </script>
+  </body>
+</html>

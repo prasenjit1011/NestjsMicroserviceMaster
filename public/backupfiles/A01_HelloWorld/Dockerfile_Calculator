@@ -1,0 +1,12 @@
+# Use the official Python runtime as a parent image
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the calculator files into the container
+COPY calculator.py calculator_simple.py ./
+
+# Run the main calculator when the container launches
+# Using -u flag to ensure unbuffered output for interactive input
+CMD ["python", "-u", "calculator.py"]

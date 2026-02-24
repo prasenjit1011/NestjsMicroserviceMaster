@@ -1,0 +1,248 @@
+.add-product-container, .checkout-container {
+	max-width: 500px;
+	margin: 40px auto;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+	padding: 32px;
+	text-align: center;
+}
+.cart-container {
+	max-width: 600px;
+	margin: 40px auto;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+	padding: 32px;
+	text-align: center;
+}
+.cart-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.cart-item {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	margin-bottom: 18px;
+	background: #f7f7f7;
+	border-radius: 10px;
+	padding: 12px;
+}
+.cart-image {
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	border-radius: 8px;
+}
+.cart-info h3 {
+	margin: 0 0 6px 0;
+	font-size: 1.1em;
+}
+.main-footer {
+	background: #222;
+	color: #eee;
+	padding: 24px 0 12px 0;
+	text-align: center;
+	margin-top: 40px;
+}
+.footer-content {
+	max-width: 900px;
+	margin: 0 auto;
+	font-size: 1em;
+}
+.footer-nav a {
+	color: #eee;
+	text-decoration: none;
+	margin: 0 8px;
+	font-weight: 500;
+}
+.footer-nav a:hover {
+	text-decoration: underline;
+}
+.banner-slider {
+	width: 100%;
+	background: #f7f7f7;
+	padding: 32px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 0;
+}
+.slider-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	max-width: 700px;
+	min-height: 220px;
+	position: relative;
+}
+.slide {
+	display: none;
+	flex-direction: row;
+	align-items: center;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+	padding: 18px;
+	width: 100%;
+	max-width: 700px;
+	min-height: 180px;
+	gap: 24px;
+}
+.slide-image {
+	width: 120px;
+	height: 120px;
+	object-fit: cover;
+	border-radius: 10px;
+}
+.slide-info h3 {
+	margin: 0 0 8px 0;
+	font-size: 1.2em;
+}
+.slide-info p {
+	margin: 2px 0;
+	font-size: 1em;
+}
+.slider-btn {
+	background: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 50%;
+	width: 36px;
+	height: 36px;
+	font-size: 1.5em;
+	cursor: pointer;
+	margin: 0 8px;
+	position: relative;
+	top: -60px;
+	z-index: 2;
+}
+.slider-btn:hover {
+	background: #0056b3;
+}
+.auth-card {
+	max-width: 400px;
+	margin: 40px auto;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+	padding: 32px;
+	text-align: center;
+}
+.profile-card {
+	max-width: 400px;
+	margin: 40px auto;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+	padding: 32px;
+	text-align: center;
+}
+.banner {
+	position: relative;
+	padding: 0;
+	margin-bottom: 24px;
+	height: 220px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+.banner-image {
+	width: 100%;
+	height: 220px;
+	object-fit: cover;
+	filter: brightness(0.7);
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+.banner-text {
+	position: relative;
+	z-index: 2;
+	color: #fff;
+	font-size: 2.5em;
+	font-weight: bold;
+	text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+	letter-spacing: 2px;
+}
+.about-container, .contact-container {
+	max-width: 500px;
+	margin: 40px auto;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+	padding: 32px;
+	text-align: center;
+}
+.about-container h1, .contact-container h1 {
+	margin-bottom: 18px;
+}
+.contact-container form {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+.contact-container input, .contact-container textarea {
+	margin-bottom: 12px;
+	padding: 8px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	font-size: 1em;
+}
+/* Header and Navigation */
+.main-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 32px;
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+	margin-bottom: 0;
+}
+.logo img {
+	height: 40px;
+	vertical-align: middle;
+}
+.main-nav {
+	display: flex;
+	gap: 18px;
+}
+.main-nav a {
+	color: #007bff;
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 1.05em;
+	padding: 6px 12px;
+	border-radius: 6px;
+	transition: background 0.2s, color 0.2s;
+}
+.main-nav a:hover {
+	background: #007bff;
+	color: #fff;
+}
+body { font-family: Arial, sans-serif; background: #f4f4f4; color: #222; margin: 0; }
+.banner { background: linear-gradient(90deg, #007bff 60%, #00c6ff 100%); color: #fff; padding: 32px; text-align: center; font-size: 2.5em; font-weight: bold; letter-spacing: 2px; margin-bottom: 24px; }
+.products { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin: 20px 0; }
+.product { background: #fff; border: 1px solid #ddd; padding: 20px; width: 240px; text-align: center; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); transition: box-shadow 0.2s; position: relative; }
+.product:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.13); }
+.product-image { width: 120px; height: 120px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; }
+.product h3 { margin: 8px 0 4px 0; font-size: 1.2em; }
+.product-price { color: #007bff; font-weight: bold; margin: 4px 0; font-size: 1.1em; }
+.product-description { font-size: 0.95em; color: #555; margin-bottom: 10px; }
+.details-btn { display: inline-block; padding: 8px 16px; background: #007bff; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 500; margin-top: 8px; transition: background 0.2s; }
+.details-btn:hover { background: #0056b3; }
+.product-detail { max-width: 400px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.09); padding: 32px; text-align: center; }
+.product-image-large { width: 200px; height: 200px; object-fit: cover; border-radius: 16px; margin-bottom: 18px; }
+.product-detail h2 { margin: 12px 0 8px 0; font-size: 2em; }
+.product-detail .product-price { font-size: 1.3em; margin-bottom: 12px; }
+.product-detail .product-description { font-size: 1.1em; color: #444; margin-bottom: 18px; }
+.dark { background: #222 !important; color: #eee !important; }
+.dark .banner { background: #333 !important; color: #fff !important; }
+.dark .product { background: #333 !important; color: #fff !important; border-color: #444 !important; }
+.dark .details-btn { background: #444 !important; color: #fff !important; }
+.dark .product-detail { background: #333 !important; color: #fff !important; }

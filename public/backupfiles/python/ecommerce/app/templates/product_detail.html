@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }} - Details</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include '_header.html' %}
+    <div class="product-detail">
+        <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image-large">
+        <h2>{{ product.name }}</h2>
+        <p class="product-price">${{ product.price }}</p>
+        <p class="product-description">{{ product.description }}</p>
+        <form method="post" action="/add_to_cart/{{ product.id }}">
+            <button class="details-btn" type="submit">Add to Cart</button>
+        </form>
+        <form method="get" action="/buy_now/{{ product.id }}">
+            <button class="details-btn" type="submit">Buy Now</button>
+        </form>
+        <a class="details-btn" href="/">Back to Home</a>
+    </div>
+    {% include '_banner_slider.html' %}
+    {% set year = 2025 %}
+    {% include '_footer.html' %}
+</body>
+</html>

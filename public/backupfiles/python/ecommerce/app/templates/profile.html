@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark');
+        }
+    </script>
+</head>
+<body {% if dark_mode %}class="dark"{% endif %}>
+    {% include '_header.html' %}
+    <div class="profile-card">
+        <h2>Profile</h2>
+        <form method="post">
+            <button class="details-btn" type="submit">Toggle Dark Mode</button>
+        </form>
+        <a class="details-btn" href="/logout">Logout</a>
+        <a class="details-btn" href="/">Home</a>
+    </div>
+    {% include '_banner_slider.html' %}
+    {% set year = 2025 %}
+    {% include '_footer.html' %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Use the official Python runtime as a parent image
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the to-do list files into the container
+COPY todo_list.py todo_simple.py ./
+
+# Copy the tasks.json file if it exists (optional)
+COPY tasks.json* ./
+
+# Create a volume for persistent task storage
+VOLUME ["/app/data"]
+
+# Set environment variable for task file location
+ENV TASK_FILE="/app/data/tasks.json"
+
+# Run the full to-do list application when the container launches
+# Using -u flag to ensure unbuffered output for interactive input
+CMD ["python", "-u", "todo_list.py"]

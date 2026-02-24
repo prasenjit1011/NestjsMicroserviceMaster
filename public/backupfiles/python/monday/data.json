@@ -1,0 +1,67 @@
+{
+  "users": {
+    "john": {
+      "password": "1234",
+      "balance": 100,
+      "locked": false,
+      "locked_time": null
+    },
+    "admin": {
+      "password": "admin123",
+      "balance": 1000,
+      "locked": false,
+      "locked_time": null,
+      "is_admin": true
+    }
+  },
+  "products": {
+    "1": {
+      "name": "Book",
+      "price": 20.0,
+      "stock": 50,
+      "category": "Education",
+      "description": "Programming fundamentals book",
+      "image": "book_20251019_090738_iqvia-logo.png"
+    },
+    "2": {
+      "name": "Headphones",
+      "price": 50,
+      "stock": 25,
+      "category": "Electronics",
+      "description": "Wireless Bluetooth headphones",
+      "image": "default-headphones.jpg"
+    },
+    "3": {
+      "name": "Laptop",
+      "price": 2000,
+      "stock": 5,
+      "category": "Electronics",
+      "description": "High-performance laptop",
+      "image": "default-laptop.jpg"
+    },
+    "4": {
+      "name": "Phone",
+      "price": 1200,
+      "stock": 10,
+      "category": "Electronics",
+      "description": "Latest smartphone",
+      "image": "default-phone.jpg"
+    },
+    "5": {
+      "name": "Smart TV",
+      "price": 1500,
+      "stock": 8,
+      "category": "Electronics",
+      "description": "4K Smart TV with streaming",
+      "image": "default-tv.jpg"
+    },
+    "6": {
+      "name": "Microwave",
+      "price": 500,
+      "stock": 15,
+      "category": "Appliances",
+      "description": "Digital microwave oven",
+      "image": "default-microwave.jpg"
+    }
+  }
+}

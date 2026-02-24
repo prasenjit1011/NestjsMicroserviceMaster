@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FAQ</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+
+<ul class="faq">
+
+
+
+<li data-id="q1"><span class="faq-question">ReactJS </span><div class="answer">
+What is memoization in React and when should you use React.memo?<br />
+How does lazy loading components improve app performance?<br />
+What are Forward Refs in React?<br />
+What is the significance of key props in lists?<br />
+What are functional components?<br />
+What are class components?<br />
+What are the different phases of the component lifecycle?<br />
+What lifecycle methods are used for side effects?<br />
+When would you use componentDidUpdate()?<br />
+What is the Context API and how does it work?<br />
+How does code-splitting work in React?<br />
+
+
+</div></li>
+
+
+
+
+
+<li data-id="q3"><span class="faq-question">---------------------------------------</span><br /><span class="faq-question">---------------------------------------</span></li>  
+<li data-id="q3"><span class="faq-question">---------------------------------------</span><br /><span class="faq-question">---------------------------------------</span></li>  
+
+
+<li data-id="q_reconciliation"><span class="faq-question">
+Reconciliation?
+</span><div class="answer">
+Reconciliation is the process React uses to update the DOM efficiently when the state or props of a component change.
+
+Instead of re-rendering the entire UI, React:
+<ol class="subul">
+<li>Uses the <b>Virtual DOM</b> to represent the current state of the UI.</li>
+<li>Compares the new Virtual DOM with the previous one using a <b>diffing algorithm</b>.</li>
+<li>Calculates the minimal number of changes needed.</li>
+<li>Updates only the changed parts in the real DOM.</li>
+</ol>
+
+
+<b>Example:</b> If only one item in a list changes, React will update that item instead of re-rendering the entire list.
+<br />
+<b>Benefits:</b>
+- Improves performance.
+- Avoids full page refresh.
+- Provides smooth user experiences by minimizing DOM operations.
+
+This efficient update process is what makes React fast and responsive.
+</div></li>
+
+
+
+
+<li data-id="q1"><span class="faq-question">
+React?
+</span><div class="answer">
+<ol class="subul">
+<li><b>React</b> is a JavaScript library developed by Facebook for building user interfaces, especially for single-page applications. It allows developers to create reusable UI components.</li>
+<li><b>Components</b> are the building blocks of a React application. They can be functional or class-based, and each component represents a part of the UI.</li>
+<li><b>JSX</b> (JavaScript XML) is a syntax extension that allows writing HTML inside JavaScript. It makes the code more readable and easier to write React elements.</li>
+<li><b>Reconciliation</b> React compares the new virtual DOM with the previous one using a diffing algorithm and updates only the parts of the DOM that changed (this process is called reconciliation).</li>
+
+<li><b>Controlled Components :</b> form elements whose values are controlled by React state.</li>
+<li><b>Uncontrolled components :</b> form elements that maintain their state using the DOM (accessed via refs).</li>
+
+
+<li><b>useState() : </b>The <code>useState()</code> hook is used in React functional components to manage local state. It allows you to store, read, and update values across re-renders.
+<br />
+This enables your component to reactively update the UI based on user interactions or other changes.
+</li>
+
+<li><b>Prop Drilling : </b>Prop Drilling refers to the process of passing data from a parent component down to child components, and then further down to deeply nested components, even if intermediate components don’t need that data. It becomes problematic when the component tree is large, leading to tight coupling and making components harder to manage and maintain.
+</li>
+
+
+<li><b>defaultProps : </b>
+
+is a feature in React that allows you to define default values for a component’s props. If a parent component does not provide a specific prop, the default value will be used instead. It helps prevent bugs and ensures components behave as expected even if some props are not passed.<br />
+
+Usage (for functional components):<br />
+<pre><code>
+const Greeting = ({ name = "Guest" }) =&gt; (
+&lt;h1&gt;Hello, {name}&lt;/h1&gt;
+);
+</code></pre>
+</li>
+
+
+</ol>
+</div></li>
+
+<li data-id="q1"><span class="faq-question">
+Commonly used hooks.
+</span><div class="answer">
+<ol class="subul">
+<li><strong>useState</strong></li>
+<li><strong>useEffect</strong> runs after painting the DOM.</li>
+<li><strong>useContext</strong></li>
+<li><strong>useReducer</strong></li>
+<li><strong>useCallback : </strong>Returns a memoized version of a function that only changes if dependencies change — useful for preventing unnecessary re-renders.</li>
+<li><strong>useMemo : </strong> memoizes the result of a function to avoid recalculating it. Memoizes a computed value, recalculating it only when dependencies change.</li>
+<li><strong>useReducer : </strong> An alternative to useState for managing complex state logic.</li>
+<li><strong>useRef : </strong></li>
+<li><strong>useLayoutEffect : </strong> runs synchronously before the DOM is painted — useful for layout measurements or DOM mutations.</li>
+<li><strong>useImperativeHandle</strong></li>
+<li><strong>useDebugValue</strong></li>
+</ol>
+<br />
+</div></li>
+
+
+
+<li data-id="q_hoc"><span class="faq-question">
+HOC?
+</span><div class="answer">
+A Higher-Order Component (HOC) is an advanced pattern in React used to reuse component logic. It’s a function that takes a component and returns a new component with added functionality.
+
+<br><br><strong>Syntax:</strong><br>
+<pre><code>
+const withExtraProps = (WrappedComponent) => {
+return (props) => &lt;WrappedComponent {...props} extra="value" /&gt;;
+};
+</code></pre>
+
+<br><strong>Use Cases:</strong><br>
+<ul>
+<li>Authentication</li>
+<li>Logging</li>
+<li>Theming or Localization</li>
+<li>Permission Checks</li>
+</ul>
+
+<br><strong>Example:</strong><br>
+<pre><code>
+const withLogger = (WrappedComponent) => {
+return (props) => {
+console.log('Props:', props);
+return &lt;WrappedComponent {...props} /&gt;;
+};
+};
+
+const MyComponent = (props) =&gt; &lt;div&gt;{props.message}&lt;/div&gt;;
+
+export default withLogger(MyComponent);
+</code></pre>
+
+<br><strong>Main Use:</strong><br>
+To reuse logic across multiple components without duplicating code.
+
+<br><br><strong>HOC vs Alternatives:</strong><br>
+<ul>
+<li><strong>HOC:</strong> Wraps and returns enhanced component.</li>
+<li><strong>Render Props:</strong> Uses a function to determine what to render.</li>
+<li><strong>Custom Hooks:</strong> Encapsulates reusable logic using <code>useXYZ</code>.</li>
+</ul>
+</div></li>
+
+
+<li data-id="q1"><span class="faq-question">
+Component Lifecycle
+</span><div class="answer">
+React class components have 3 main lifecycle phases:
+<ol class="subul">
+<li><b>Mounting</b> (Component is being created and inserted into the DOM)</li>
+<li><b>Updating</b> (Component is re-rendered due to prop or state changes)</li>
+<li><b>Unmounting</b> (Component is removed from the DOM</li>
+</ol>
+<br />
+</div></li>
+
+<li data-id="q_react_vs_reactdom"><span class="faq-question">
+React Vs ReactDOM?
+</span><div class="answer">
+<strong>React</strong> and <strong>ReactDOM</strong> are two separate libraries in the React ecosystem, each with a distinct purpose:
+
+<br><br><strong>React:</strong><br>
+- React is the core library for building component-based user interfaces.
+- It provides methods like <code>React.createElement()</code>, <code>useState()</code>, and <code>useEffect()</code> for component logic.
+- It’s platform-agnostic, meaning it doesn’t assume the environment (browser, mobile, etc.).
+
+<br><br><strong>ReactDOM:</strong><br>
+- ReactDOM is the library that specifically handles rendering React components to the DOM (i.e., web browsers).
+- It includes methods like <code>ReactDOM.createRoot()</code> and <code>ReactDOM.render()</code>.
+- It bridges React with the actual DOM for web applications.
+
+<br><br><strong>In Summary:</strong><br>
+- Use <strong>React</strong> for building components and managing logic.
+- Use <strong>ReactDOM</strong> for mounting React components to the web page.
+</div></li>
+
+
+
+<li data-id="q_react_performance"><span class="faq-question">
+How can you improve performance in a React application?
+</span><div class="answer">
+Improving performance in a React application involves multiple strategies to minimize re-renders, optimize rendering behavior, and reduce resource usage.
+
+<br><br><strong>Key Techniques:</strong>
+<ol class="subul">
+<li><strong>Memoization:</strong> Use <code>React.memo</code> for components and <code>useMemo</code> for values to avoid unnecessary recalculations.</li>
+<li><strong>useCallback:</strong> Prevents re-creation of functions during re-renders.</li>
+<li><strong>Code Splitting:</strong> Use <code>React.lazy</code> and <code>Suspense</code> to load components on demand.</li>
+<li><strong>Virtualization:</strong> Libraries like <code>react-window</code> or <code>react-virtualized</code> render only visible items in long lists.</li>
+<li><strong>Efficient State Management:</strong> Keep state local where possible and avoid lifting state unnecessarily.</li>
+<li><strong>Avoid Inline Functions:</strong> Especially in props of frequently updating components.</li>
+<li><strong>Debounce Input Handlers:</strong> Reduces update frequency in response to user typing or scroll events.</li>
+<li><strong>Use Production Builds:</strong> Always deploy with optimized production build using <code>npm run build</code>.</li>
+</ol>
+
+<br><strong>Tools:</strong>
+Use tools like React DevTools, Lighthouse, and Chrome Performance tab to identify performance bottlenecks.
+
+</div></li>
+
+
+
+<li data-id="q3"><span class="faq-question">---------------------------------------</span><br /><span class="faq-question">---------------------------------------</span></li>  
+
+
+<li data-id="q_useCallback"><span class="faq-question">
+useCallback() help performance?
+</span><div class="answer">
+<code>useCallback()</code> is a React hook that memoizes a function, preventing it from being re-created on every render unless its dependencies change. This improves performance, especially when passing callback functions to memoized child components, because it avoids unnecessary re-renders.
+<br />
+<b>Use Case:</b> When a child component receives a function as a prop and is wrapped with <code>React.memo</code>, using <code>useCallback</code> ensures that the function reference remains stable.
+
+<b>Example:</b>
+<pre><code>
+const handleClick = useCallback(() =&gt; {
+console.log('Button clicked');
+}, []);
+</code></pre>
+
+This helps reduce render cycles and optimize React apps by maintaining stable function references.
+</div></li>
+
+<li data-id="q_useCallback_easy"><span class="faq-question">
+useCallback() : Example
+</span><div class="answer">
+Here's a basic and easy-to-understand example of how <code>useCallback()</code> avoids unnecessary re-renders.
+
+<pre><code>
+// Parent.jsx
+import React, { useState, useCallback } from 'react';
+import Button from './Button';
+
+const Parent = () =&gt; {
+const [count, setCount] = useState(0);
+
+const sayHello = useCallback(() =&gt; {
+alert("Hello!");
+}, []);
+
+return (
+&lt;div&gt;
+&lt;p&gt;Count: {count}&lt;/p&gt;
+&lt;button onClick={() =&gt; setCount(count + 1)}&gt;Increment&lt;/button&gt;
+&lt;Button onClick={sayHello} /&gt;
+&lt;/div&gt;
+);
+};
+
+export default Parent;
+
+// Button.jsx
+import React from 'react';
+
+const Button = React.memo(({ onClick }) =&gt; {
+console.log("Button rendered");
+return &lt;button onClick={onClick}&gt;Say Hello&lt;/button&gt;;
+});
+
+export default Button;
+</code></pre>
+
+<b>Explanation:</b> Each time the count updates, <code>Parent</code> re-renders. Without <code>useCallback</code>, a new <code>sayHello</code> function would be created each time, causing <code>Button</code> to re-render too. With <code>useCallback</code>, the function reference stays the same, preventing the <code>Button</code> from unnecessary re-renders.
+</div></li>
+
+<li data-id="q_useCallback_dep"><span class="faq-question">
+What is the second parameter [] in <code>useCallback(fn, [])</code>?
+</span><div class="answer">
+The second parameter in <code>useCallback(() =&gt; {...}, [])</code> is called the <b>dependency array</b>.
+
+- An empty array <code>[]</code> means the callback function will be created once on the initial render and reused on every re-render.
+- If any dependencies are listed inside the array (e.g., <code>[count]</code>), the function will only be re-created if those dependencies change.
+
+<b>Example:</b>
+<pre><code>
+const sayHello = useCallback(() =&gt; {
+alert("Hello!");
+}, []); // No dependencies – function never re-created
+</code></pre>
+
+<b>Purpose:</b> Improves performance by avoiding unnecessary re-creation of functions unless specific values change.
+</div></li>
+
+<li data-id="q_useCallback_real"><span class="faq-question">
+useCallback() : Example 02
+</span><div class="answer">
+Here’s a practical example of how <code>useCallback()</code> helps prevent unnecessary re-renders of child components that depend on callback props.
+
+<pre><code>
+// ParentComponent.jsx
+import React, { useState, useCallback } from 'react';
+import Child from './Child';
+
+const Parent = () =&gt; {
+const [count, setCount] = useState(0);
+
+const handleClick = useCallback(() =&gt; {
+console.log('Clicked!');
+}, []);
+
+return (
+&lt;div&gt;
+&lt;h2&gt;Count: {count}&lt;/h2&gt;
+&lt;button onClick={() =&gt; setCount(count + 1)}&gt;Increment&lt;/button&gt;
+&lt;Child onClick={handleClick} /&gt;
+&lt;/div&gt;
+);
+};
+
+export default Parent;
+
+// Child.jsx
+import React from 'react';
+
+const Child = React.memo(({ onClick }) =&gt; {
+console.log('Child rendered');
+return &lt;button onClick={onClick}&gt;Child Button&lt;/button&gt;;
+});
+
+export default Child;
+</code></pre>
+
+<b>Why this improves performance:</b><br>
+Without <code>useCallback()</code>, the <code>handleClick</code> function gets re-created on each render, causing <code>Child</code> to re-render too. With <code>useCallback()</code>, the function is memoized and doesn’t change unless its dependencies change, preventing unnecessary renders.
+</div></li>
+
+
+
+<li data-id="q3"><span class="faq-question">---------------------------------------</span><br /><span class="faq-question">---------------------------------------</span></li>  
+
+
+<li data-id="q_memory_cleanup"><span class="faq-question">
+Memory Cleanup
+</span><div class="answer">
+Memory cleanup in React refers to the practice of releasing resources, subscriptions, and side effects when a component unmounts or re-renders, to avoid memory leaks.
+
+<br><br><strong>Why it's important:</strong>
+<ul>
+<li>Prevents memory leaks.</li>
+<li>Improves app performance and stability.</li>
+<li>Avoids unwanted side effects.</li>
+</ul>
+
+<br><strong>Typical use case with <b>useEffect</b>:</strong>
+<pre><code>
+useEffect(() =&gt; {
+const id = setInterval(() =&gt; {
+console.log('Running interval...');
+}, 1000);
+
+return () =&gt; {
+clearInterval(id); // cleanup
+};
+}, []);
+</code></pre>
+
+<br><strong>Other cleanup examples:</strong>
+<ul>
+<li><strong>WebSocket connections:</strong> Close them on unmount.</li>
+<li><strong>Event listeners:</strong> Remove them using <code>removeEventListener</code>.</li>
+<li><strong>Subscriptions:</strong> Unsubscribe to avoid multiple calls.</li>
+</ul>
+
+<br><strong>Key Tip:</strong> Always return a cleanup function inside <code>useEffect</code> to handle teardown properly.
+<br /><br />
+<strong>Prevents memory leaks:</strong> Cleaning up resources like timers, listeners, or network requests ensures your app doesn’t hold onto unused memory, avoiding gradual slowdowns or crashes.<br>
+Memory leaks happen when resources like timers or event listeners persist after a component unmounts, causing increased memory use over time.<br>
+<em>Example:</em> Forgetting to clear a <code>setInterval</code> keeps it running even when the component is gone.<br><br>
+
+
+<strong>Improves app performance and stability:</strong> Proper cleanup reduces unnecessary work and resource consumption, making your app faster and more reliable.<br> Cleaning up avoids unnecessary processing and frees resources, helping the app run faster and reducing crashes.<br>
+<em>Example:</em> Removing event listeners prevents them from firing needlessly.<br><br>
+
+
+<strong>Avoids unwanted side effects:</strong> Stale or orphaned subscriptions can cause unexpected behavior; cleanup stops this by removing obsolete event handlers or data fetches. Side effects like duplicated API calls or event handling can cause bugs.<br>
+<em>Example:</em> Multiple listeners causing repeated console logs.<br><br>
+
+
+<strong>WebSocket connections:</strong> Close WebSocket connections on component unmount to prevent ongoing data streams and memory usage.<br><br>
+
+<strong>Event listeners:</strong> Always remove event listeners with <code>removeEventListener</code> to avoid duplicated or lingering handlers.<br><br>
+
+
+
+Proper cleanup ensures smooth, predictable app behavior and optimal resource use.
+
+<br />
+
+
+
+
+<strong>WebSocket connections:</strong> Always close WebSockets on unmount to stop receiving messages and free resources.<br>
+<pre><code>useEffect(() =&gt; {
+const ws = new WebSocket('wss://example.com');
+ws.onmessage = event =&gt; console.log(event.data);
+return () =&gt; ws.close();
+}, []);</code></pre>
+
+<strong>Event listeners:</strong> Add listeners on mount and remove on unmount.<br>
+<pre><code>useEffect(() =&gt; {
+const onScroll = () =&gt; console.log('scroll');
+window.addEventListener('scroll', onScroll);
+return () =&gt; window.removeEventListener('scroll', onScroll);
+}, []);</code></pre>
+
+<strong>Subscriptions:</strong> Unsubscribe from observables or data sources to prevent multiple triggers and memory leaks. Unsubscribe to avoid multiple triggers.<br>
+<pre><code>useEffect(() =&gt; {
+const subscription = someObservable.subscribe(data =&gt; console.log(data));
+return () =&gt; subscription.unsubscribe();
+}, []);</code></pre>
+
+Cleaning up keeps React apps efficient and bug-free.
+</div></li>
+
+
+<li data-id="q_cleanup_example"><span class="faq-question">
+Memory Cleanup : timers, listeners and network requests to prevent memory leaks
+</span><div class="answer">
+Here’s a React example showing how to clean up timers, event listeners, and fetch requests:
+
+<pre><code>import React, { useEffect, useState } from 'react';
+
+const CleanupExample = () =&gt; {
+const [data, setData] = useState(null);
+
+useEffect(() =&gt; {
+// Timer setup
+const timerId = setInterval(() =&gt; {
+console.log('Timer tick');
+}, 1000);
+
+// Event listener setup
+const handleResize = () =&gt; {
+console.log('Window resized');
+};
+window.addEventListener('resize', handleResize);
+
+// Network request with AbortController
+const controller = new AbortController();
+fetch('https://jsonplaceholder.typicode.com/posts/1', { signal: controller.signal })
+.then(res =&gt; res.json())
+.then(json =&gt; setData(json))
+.catch(err =&gt; {
+if (err.name === 'AbortError') {
+console.log('Fetch aborted');
+} else {
+console.error(err);
+}
+});
+
+// Cleanup function runs on component unmount
+return () =&gt; {
+clearInterval(timerId);             // Clear timer
+window.removeEventListener('resize', handleResize); // Remove listener
+controller.abort();                  // Abort fetch request
+console.log('Cleaned up resources');
+};
+}, []);
+
+return (
+&lt;div&gt;
+&lt;h3&gt;Data from API:&lt;/h3&gt;
+&lt;pre&gt;{JSON.stringify(data, null, 2)}&lt;/pre&gt;
+&lt;/div&gt;
+);
+};
+
+export default CleanupExample;
+</code></pre>
+
+This prevents memory leaks by stopping timers, removing listeners, and aborting unfinished network requests when the component unmounts.
+</div></li>
+
+
+<li data-id="q_memory_cleanup_api_list"><span class="faq-question">
+How to handle memory cleanup for an items list fetched from an API in React?
+</span><div class="answer">
+When fetching and displaying an items list from an API, it’s important to clean up resources like ongoing requests or subscriptions to prevent memory leaks.
+
+<br><br><strong>Example using <code>axios</code> with cancellation:</strong>
+<pre><code>
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const ItemList = () =&gt; {
+const [items, setItems] = useState([]);
+
+useEffect(() =&gt; {
+const source = axios.CancelToken.source();
+
+axios.get('https://jsonplaceholder.typicode.com/posts', {
+cancelToken: source.token
+})
+.then(res =&gt; setItems(res.data))
+.catch(err =&gt; {
+if(axios.isCancel(err)) {
+console.log('Request canceled');
+} else {
+console.error(err);
+}
+});
+
+return () =&gt; {
+source.cancel('Component unmounted, request canceled');
+};
+}, []);
+
+return (
+&lt;ul&gt;
+{items.map(item =&gt; (
+&lt;li key={item.id}&gt;{item.title}&lt;/li&gt;
+))}
+&lt;/ul&gt;
+);
+};
+
+export default ItemList;
+</code></pre>
+
+<br><strong>Key points:</strong>
+<ul>
+<li>Use <code>axios.CancelToken</code> to cancel API requests if the component unmounts.</li>
+<li>This prevents setting state on unmounted components, avoiding memory leaks and warnings.</li>
+<li>Always clean up subscriptions or listeners similarly in <code>useEffect</code>.</li>
+</ul>
+</div></li>
+
+<li data-id="q_memory_cleanup_fetch"><span class="faq-question">
+Is memory cleanup possible with <code>fetch()</code> in React? How to do it?
+</span><div class="answer">
+Yes, memory cleanup with <code>fetch()</code> is possible by using the <code>AbortController</code> API to cancel ongoing requests when a component unmounts.
+
+<br><br><strong>Example:</strong>
+<pre><code>
+import React, { useEffect, useState } from 'react';
+
+const ItemList = () =&gt; {
+const [items, setItems] = useState([]);
+
+useEffect(() =&gt; {
+const controller = new AbortController();
+const signal = controller.signal;
+
+fetch('https://jsonplaceholder.typicode.com/posts', { signal })
+.then(response =&gt; response.json())
+.then(data =&gt; setItems(data))
+.catch(err =&gt; {
+if (err.name === 'AbortError') {
+console.log('Fetch aborted');
+} else {
+console.error(err);
+}
+});
+
+return () =&gt; {
+controller.abort(); // Cleanup: abort fetch on unmount
+};
+}, []);
+
+return (
+&lt;ul&gt;
+{items.map(item =&gt; (
+&lt;li key={item.id}&gt;{item.title}&lt;/li&gt;
+))}
+&lt;/ul&gt;
+);
+};
+
+export default ItemList;
+</code></pre>
+
+<br><strong>Summary:</strong>
+<ul>
+<li><code>AbortController</code> cancels fetch requests.</li>
+<li>Prevents setting state after unmount, avoiding memory leaks.</li>
+<li>Works similarly to cancellation tokens in libraries like axios.</li>
+</ul>
+</div></li>
+
+
+<li data-id="q_lazyloading"><span class="faq-question">
+Lazy Loading
+</span><div class="answer">
+Lazy loading in React is a performance optimization technique that delays the loading of components until they are needed. It reduces the initial bundle size and improves app load time.
+
+<b>React provides:</b> <code>React.lazy()</code> and <code>Suspense</code> for lazy loading components.
+
+<b>Example:</b>
+<pre><code>
+// Lazy import
+const MyComponent = React.lazy(() => import('./MyComponent'));
+
+function App() {
+return (
+&lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+&lt;MyComponent /&gt;
+&lt;/Suspense&gt;
+);
+}
+</code></pre>
+
+<b>Key Benefits:</b>
+<ul>
+<li>Faster initial load</li>
+<li>Code splitting</li>
+<li>Improved performance for large apps</li>
+</ul>
+</div></li>
+
+
+<li data-id="q_virtualization"><span class="faq-question">
+Virtualization
+</span><div class="answer">
+<strong>Virtualization</strong> in React refers to a performance optimization technique used to efficiently render long lists or large datasets by only rendering items visible in the viewport. Instead of rendering all items in the DOM, virtualization ensures that only a subset (visible + buffer) is rendered, improving load time and scroll performance.
+
+<br><br><strong>Popular Libraries:</strong>
+<ul>
+<li><code>react-window</code></li>
+<li><code>react-virtualized</code></li>
+</ul>
+
+<br><strong>Example:</strong>
+Instead of rendering 10,000 rows at once, virtualization renders only, say, 30 at a time, reusing DOM elements as the user scrolls.
+
+<br><br><strong>Benefits:</strong>
+<ul>
+<li>Improves rendering speed</li>
+<li>Reduces memory usage</li>
+<li>Enhances user experience with smooth scrolling</li>
+</ul>
+
+<br><strong>Use Case:</strong> Ideal for chat apps, data grids, tables, and infinite scroll UIs.
+</div></li>
+
+<li data-id="q_virtualization_api"><span class="faq-question">
+How do you implement Virtualization with API data in a functional React component?
+</span><div class="answer">
+
+You can combine virtualization with API data by first fetching data and then rendering it using a virtualization library like <code>react-window</code>.
+
+<br><br><strong>Step-by-step Example:</strong>
+<pre><code>
+import React, { useEffect, useState } from 'react';
+import { FixedSizeList as List } from 'react-window';
+import axios from 'axios';
+
+const VirtualizedItemList = () =&gt; {
+const [items, setItems] = useState([]);
+
+useEffect(() =&gt; {
+axios.get('https://jsonplaceholder.typicode.com/posts')
+.then((res) =&gt; setItems(res.data))
+.catch((err) =&gt; console.error(err));
+}, []);
+
+const Row = ({ index, style }) =&gt; (
+&lt;div style={style}&gt;
+&lt;strong&gt;{items[index]?.title}&lt;/strong&gt;
+&lt;p&gt;{items[index]?.body}&lt;/p&gt;
+&lt;/div&gt;
+);
+
+return (
+&lt;div&gt;
+&lt;h3&gt;Virtualized API Item List&lt;/h3&gt;
+{items.length &gt; 0 &amp;&amp; (
+&lt;List
+height={400}
+itemCount={items.length}
+itemSize={80}
+width={'100%'}
+&gt;
+{Row}
+&lt;/List&gt;
+)}
+&lt;/div&gt;
+);
+};
+
+export default VirtualizedItemList;
+</code></pre>
+
+<br><strong>Explanation:</strong>
+<ul>
+<li><code>axios</code> fetches data from the API.</li>
+<li><code>FixedSizeList</code> renders only visible items.</li>
+<li>Optimized for large lists with smooth scrolling.</li>
+</ul>
+
+</div></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li data-id="q3"><span class="faq-question">---------------------------------------</span><br /><span class="faq-question">---------------------------------------</span></li>    
+
+
+
+<li data-id="q_getderivedstatefromprops"><span class="faq-question">
+What is <code>getDerivedStateFromProps</code> in React?
+</span><div class="answer">
+<code>getDerivedStateFromProps</code> is a static lifecycle method in React class components that gets called right before rendering, both on the initial mount and on subsequent updates. It is used to update the component's state based on changes in props.
+<br />
+<b>Syntax:</b>
+<pre><code>
+static getDerivedStateFromProps(nextProps, prevState) {
+if (nextProps.value !== prevState.value) {
+return { value: nextProps.value };
+}
+return null;
+}
+</code></pre>
+
+<b>Use Cases:</b>
+<ol class="subul">
+<li>Sync internal state with props</li>
+<li>Reset state when props change</li>
+</ol>
+
+<b>Important Notes:</b>
+<ol class="subul">
+<li>It must return an object to update state or <code>null</code> to do nothing.</li>
+<li>Avoid side effects here—use it only for state updates.</li>
+</ol>
+
+</div></li>
+
+
+<li data-id="q_onchange_vs_oninput"><span class="faq-question">
+Difference between <code>onChange</code> and <code>onInput</code>?
+</span><div class="answer">
+In React, both <code>onChange</code> and <code>onInput</code> are event handlers for form elements, but they behave slightly differently:
+<br />
+<b>onChange:</b>
+- Triggered when the input loses focus or the value changes.
+- React wraps <code>onChange</code> to behave more like <code>onInput</code> (fires on every keystroke) for text inputs.
+<br />
+<b>onInput:</b>
+- Triggered immediately after the value of an element changes.
+- Fires for more input types like <code>range</code>, <code>color</code>, etc.
+<br />
+<b>In practice:</b> For text inputs, <code>onChange</code> and <code>onInput</code> behave similarly in React.
+
+<pre><code>
+// Example
+&lt;input onChange={(e) =&gt; console.log("Change:", e.target.value)} /&gt;
+&lt;input onInput={(e) =&gt; console.log("Input:", e.target.value)} /&gt;
+</code></pre>
+
+Use <code>onChange</code> in React forms as it's the standard for capturing user input.<br /><br /><br />
+
+
+<b>When should we use <code>onChange</code> and when <code>onInput</code> in React?</b>
+
+<b>Use <code>onChange</code> when:</b>
+<ol class="subul">
+<li>You are working with form elements like <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>, or <code>&lt;select&gt;</code>.</li>
+<li>You want to follow React's controlled component pattern.</li>
+<li>You are managing form state (e.g., capturing user input in state).</li>
+</ol>
+
+<b>Use <code>onInput</code> when:</b>
+<ol class="subul">
+<li>You need more immediate, lower-level input events (e.g., for custom validation or live formatting).</li>
+<li>You're working with input types like <code>range</code>, <code>color</code>, or other non-text fields where <code>onChange</code> may behave differently.</li>
+</ol>
+
+<b>Example:</b>
+<pre><code>
+&lt;!-- Standard form control --&gt;
+&lt;input type="text" onChange={(e) =&gt; setValue(e.target.value)} /&gt;
+
+&lt;!-- Live input handling (e.g., formatting) --&gt;
+&lt;input type="text" onInput={(e) =&gt; handleFormat(e.target.value)} /&gt;
+</code></pre>
+
+In most React forms, <code>onChange</code> is the preferred and consistent choice.
+</div></li>
+
+
+
+<li data-id="q_error_boundaries"><span class="faq-question">
+What are Error Boundaries in React?
+</span><div class="answer">
+Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of crashing the entire app.
+
+<b>Use Case:</b> They prevent an entire React app from crashing due to an error in a specific part of the UI.
+
+<b>Implementing an Error Boundary:</b>
+<pre><code>
+class ErrorBoundary extends React.Component {
+constructor(props) {
+super(props);
+this.state = { hasError: false };
+}
+
+static getDerivedStateFromError(error) {
+return { hasError: true };
+}
+
+componentDidCatch(error, info) {
+console.error("Error caught:", error, info);
+}
+
+render() {
+if (this.state.hasError) {
+return &lt;h1&gt;Something went wrong.&lt;/h1&gt;;
+}
+return this.props.children;
+}
+}
+</code></pre>
+
+<b>Usage:</b>
+<pre><code>
+&lt;ErrorBoundary&gt;
+&lt;MyComponent /&gt;
+&lt;/ErrorBoundary&gt;
+</code></pre>
+
+<b>Note:</b> Error Boundaries only catch errors in render, lifecycle methods, and constructors of the child components—not in event handlers.
+</div></li>
+
+
+
+<li data-id="q1"><span class="faq-question">
+getStaticProps Vs getServerSideProps
+</span><div class="answer">
+getStaticProps?
+Answer: Runs at build time to fetch data and pass it as props for static generation
+<br />
+
+getServerSideProps?
+Answer: Runs on each request (server-side) to fetch data dynamically.
+
+<br />
+</div></li>
+
+
+<li data-id="q1"><span class="faq-question">
+What is ISR (Incremental Static Regeneration)?
+</span><div class="answer">
+
+
+Answer: Allows you to update static content after deployment without rebuilding the entire site.
+export async function getStaticProps() {
+return {
+props: { ... },
+revalidate: 10, // seconds
+};
+}
+
+<br />
+</div></li>
+
+
+
+
+
+
+<li data-id="q22">
+    <span class="faq-question">useImperativeHandle Hook</span>
+    <div class="answer">
+    <h4>📌 What is <code>useImperativeHandle</code>?</h4>
+    <p>
+    <code>useImperativeHandle</code> is a React hook that lets you customize the instance value that is exposed when using <code>ref</code> with a functional component. It is commonly used with <code>forwardRef</code>.
+    </p>
+    
+    <h4>✅ Why Use It?</h4>
+    <ul>
+    <li>Expose only specific methods or values to parent components.</li>
+    <li>Hide internal component logic while allowing imperative access to a limited API.</li>
+    </ul>
+    
+    <h4>🧪 Syntax:</h4>
+    <pre><code>
+    useImperativeHandle(ref, () => ({
+    // methods or properties to expose
+    }));
+    </code></pre>
+    
+    <h4>🧩 Example:</h4>
+    <p><strong>ChildComponent.js</strong></p>
+    <pre><code>
+    import React, { useImperativeHandle, useRef, forwardRef } from "react";
+    
+    const CustomInput = forwardRef((props, ref) => {
+    const inputRef = useRef();
+    
+    useImperativeHandle(ref, () => ({
+    focus: () => {
+    inputRef.current.focus();
+    },
+    clear: () => {
+    inputRef.current.value = "";
+    }
+    }));
+    
+    return &lt;input ref={inputRef} type="text" /&gt;;
+    });
+    
+    export default CustomInput;
+    </code></pre>
+    
+    <p><strong>ParentComponent.js</strong></p>
+    <pre><code>
+    import React, { useRef } from "react";
+    import CustomInput from "./CustomInput";
+    
+    function ParentComponent() {
+    const inputRef = useRef();
+    
+    return (
+    &lt;div&gt;
+    &lt;CustomInput ref={inputRef} /&gt;
+    &lt;button onClick={() =&gt; inputRef.current.focus()}&gt;Focus&lt;/button&gt;
+    &lt;button onClick={() =&gt; inputRef.current.clear()}&gt;Clear&lt;/button&gt;
+    &lt;/div&gt;
+    );
+    }
+    </code></pre>
+    
+    <h4>🔍 Summary:</h4>
+    <ul>
+    <li><code>useImperativeHandle</code> helps define what a ref will expose to the parent.</li>
+    <li>Works only with <code>forwardRef</code>.</li>
+    <li>Useful when building reusable UI components like custom inputs, modals, or tooltips.</li>
+    </ul>
+    </div>
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li data-id="q21">
+    <span class="faq-question">How do portals work in React?</span>
+    <div class="answer">
+    <h4>📌 What is a Portal?</h4>
+    <p>
+    A <strong>portal</strong> allows you to render a child component into a different part of the DOM <strong>outside</strong> of its parent component hierarchy.
+    This is useful for UI elements like modals, tooltips, and dropdowns that should visually break out of their container.
+    </p>
+    
+    <h4>✅ How It Works:</h4>
+    <p>
+    React provides <code>ReactDOM.createPortal(child, container)</code> to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+    </p>
+    
+    <h5>🎯 Example:</h5>
+    <p><strong>1. HTML structure (index.html):</strong></p>
+    <pre><code>&lt;body&gt;
+    &lt;div id="root"&gt;&lt;/div&gt;
+    &lt;div id="modal-root"&gt;&lt;/div&gt;
+    &lt;/body&gt;
+    </code></pre>
+    
+    <p><strong>2. React code:</strong></p>
+    <pre><code>
+    import React from "react";
+    import ReactDOM from "react-dom";
+    
+    function Modal({ children }) {
+    return ReactDOM.createPortal(
+    &lt;div className="modal"&gt;{children}&lt;/div&gt;,
+    document.getElementById("modal-root")
+    );
+    }
+    
+    function App() {
+    return (
+    &lt;div&gt;
+    &lt;h1&gt;Main App&lt;/h1&gt;
+    &lt;Modal&gt;
+    &lt;p&gt;This is rendered in a portal!&lt;/p&gt;
+    &lt;/Modal&gt;
+    &lt;/div&gt;
+    );
+    }
+    </code></pre>
+    
+    <h4>🔍 Use Cases:</h4>
+    <ul>
+    <li>Modals and dialogs</li>
+    <li>Tooltips</li>
+    <li>Dropdowns</li>
+    <li>Floating notifications</li>
+    </ul>
+    
+    <h4>🚀 Benefits:</h4>
+    <ul>
+    <li>Bypasses CSS overflow and z-index issues.</li>
+    <li>Makes it easier to manage UI elements that need to be rendered outside of parent containers.</li>
+    </ul>
+    
+    <h4>🧠 Important Notes:</h4>
+    <ul>
+    <li>Although rendered outside the DOM tree, portals still behave as though they are inside the React tree (context and event bubbling still work).</li>
+    </ul>
+    </div>
+    </li>
+    
+    
+    <li data-id="q20">
+    <span class="faq-question">What are render props and how are they different from HOCs?</span>
+    <div class="answer">
+    <h4>📌 Render Props:</h4>
+    <p>
+    A <strong>render prop</strong> is a technique for sharing code between React components using a function prop that tells a component what to render.
+    </p>
+    
+    <h5>✅ Example:</h5>
+    <pre><code>
+    function DataProvider({ render }) {
+    const data = { name: "React" };
+    return render(data);
+    }
+    
+    function App() {
+    return (
+    &lt;DataProvider render={(data) => &lt;h1&gt;Hello {data.name}&lt;/h1&gt;} /&gt;
+    );
+    }
+    </code></pre>
+    
+    <h4>📌 Higher-Order Components (HOCs):</h4>
+    <p>
+    An <strong>HOC</strong> is a function that takes a component and returns a new component with added behavior or props.
+    </p>
+    
+    <h5>✅ Example:</h5>
+    <pre><code>
+    function withUser(WrappedComponent) {
+    return function EnhancedComponent(props) {
+    const user = { name: "React" };
+    return &lt;WrappedComponent user={user} {...props} /&gt;;
+    };
+    }
+    </code></pre>
+    
+    <h4>🔍 Key Differences:</h4>
+    <table border="1" cellpadding="6">
+    <thead>
+    <tr>
+    <th>Feature</th>
+    <th>Render Props</th>
+    <th>HOCs</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>Code Sharing</td>
+    <td>Via function prop</td>
+    <td>Via component wrapping</td>
+    </tr>
+    <tr>
+    <td>Flexibility</td>
+    <td>More flexible control over rendering</td>
+    <td>Less flexible, can cause wrapper nesting</td>
+    </tr>
+    <tr>
+    <td>Component Tree</td>
+    <td>Flatter hierarchy</td>
+    <td>Can lead to wrapper hell</td>
+    </tr>
+    <tr>
+    <td>Performance</td>
+    <td>May cause inline function re-renders</td>
+    <td>Can cause unnecessary re-renders without `React.memo`</td>
+    </tr>
+    </tbody>
+    </table>
+    
+    <h4>🚀 Summary:</h4>
+    <ul>
+    <li><strong>Render props</strong> pass a function to control rendering directly.</li>
+    <li><strong>HOCs</strong> enhance components by wrapping them with extra logic or data.</li>
+    <li>Both help reuse component logic — use whichever fits your use case better.</li>
+    </ul>
+    </div>
+    </li>
+    
+    <li data-id="q19">
+    <span class="faq-question">How does <code>key</code> prop affect reconciliation and re-rendering?</span>
+    <div class="answer">
+    <p>
+    The <strong><code>key</code></strong> prop in React is used to uniquely identify elements in a list. It helps React optimize rendering by efficiently determining which items have changed, been added, or removed during updates.
+    </p>
+    
+    <h4>🔍 Why is <code>key</code> important?</h4>
+    <ul>
+    <li>React compares keys between renders to detect changes.</li>
+    <li>It prevents unnecessary re-renders by tracking which list items are stable.</li>
+    <li>Improves performance during reconciliation (the diffing process).</li>
+    </ul>
+    
+    <h4>✅ Correct Usage:</h4>
+    <pre><code>
+    const users = [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }];
+    
+    {users.map(user => (
+    &lt;div key={user.id}&gt;{user.name}&lt;/div&gt;
+    ))}
+    </code></pre>
+    
+    <h4>⚠️ Avoid using array index as key when:</h4>
+    <ul>
+    <li>The list can change dynamically (add/remove/reorder).</li>
+    <li>Items have unique identifiers (like an <code>id</code>).</li>
+    </ul>
+    
+    <h4>📌 Example: Why a stable key matters</h4>
+    <p>Using an index as a key can cause React to incorrectly reuse DOM elements, leading to UI bugs.</p>
+    
+    <h4>🚀 Summary:</h4>
+    <ul>
+    <li><strong><code>key</code></strong> is critical for efficient diffing in React’s Virtual DOM.</li>
+    <li>It ensures smooth and predictable UI updates.</li>
+    <li>Always use a unique, stable identifier (like database ID).</li>
+    </ul>
+    </div>
+    </li>
+    
+    
+    <li data-id="q18">
+    <span class="faq-question">What is hydration in React and how does it work with SSR?</span>
+    <div class="answer">
+    <p>
+    <strong>Hydration</strong> in React is the process where the React application takes over a server-rendered HTML page and attaches event listeners to make it interactive. It's a crucial step in <strong>Server-Side Rendering (SSR)</strong> where the HTML is first rendered on the server and sent to the client.
+    </p>
+    
+    <h4>🧠 How It Works:</h4>
+    <ol>
+    <li>The server renders the HTML markup using React components.</li>
+    <li>This static HTML is sent to the browser and displayed immediately.</li>
+    <li>React on the client loads and uses the same component tree to "hydrate" or attach event handlers and state to the already-present DOM.</li>
+    </ol>
+    
+    <h4>⚡ Benefits:</h4>
+    <ul>
+    <li>Improves Time to First Paint (TTFP) by showing static content fast.</li>
+    <li>Enables SEO-friendly pages with full interactivity.</li>
+    </ul>
+    
+    <h4>✅ Example using <code>hydrateRoot</code> in React 18+</h4>
+    <pre><code>
+    // index.js
+    import { hydrateRoot } from 'react-dom/client';
+    import App from './App';
+    
+    hydrateRoot(document.getElementById('root'), &lt;App /&gt;);
+    </code></pre>
+    
+    <p>
+    In contrast to <code>createRoot</code> (used for CSR), <code>hydrateRoot</code> is specifically designed for hydrating HTML that was pre-rendered on the server.
+    </p>
+    
+    <h4>📌 Key Point:</h4>
+    <p>
+    For hydration to work correctly, the server-rendered markup must exactly match what the client-side React expects. Mismatches will cause warnings and may break interactivity.
+    </p>
+    </div>
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <li data-id="q1">
+    <span class="faq-question">How do you optimize large lists in React applications?</span>
+    <div class="answer">
+    Rendering large lists in React can lead to performance issues due to the number of DOM nodes and frequent re-renders. Here are some common optimization techniques:
+    <ul>
+    <li><strong>Windowing/Virtualization:</strong> Use libraries like <code>react-window</code> or <code>react-virtualized</code> to render only the visible portion of the list instead of the entire list at once. This reduces DOM nodes and improves performance.</li>
+    <li><strong>Memoization:</strong> Use <code>React.memo</code> or <code>useMemo</code> to avoid unnecessary re-renders of list items when their props haven't changed.</li>
+    <li><strong>Key Prop:</strong> Always provide a stable and unique <code>key</code> prop to list items to help React efficiently reconcile changes.</li>
+    <li><strong>Lazy Loading:</strong> Load list data incrementally or on-demand rather than fetching and rendering all at once.</li>
+    <li><strong>Avoid Inline Functions and Objects:</strong> Define functions and objects outside the render method or use <code>useCallback</code> and <code>useMemo</code> hooks to prevent unnecessary re-renders.</li>
+    <li><strong>Pagination:</strong> Break down the large list into pages and render only the current page.</li>
+    </ul>
+    <p><strong>Example using react-window:</strong></p>
+    <pre><code class="language-jsx">
+    import { FixedSizeList as List } from 'react-window';
+    
+    function Row({ index, style }) {
+    return &lt;div style={style}&gt;Item {index}&lt;/div&gt;;
+    }
+    
+    function MyList({ itemCount }) {
+    return (
+    &lt;List
+    height={500}
+    itemCount={itemCount}
+    itemSize={35}
+    width={300}
+    &gt;
+    {Row}
+    &lt;/List&gt;
+    );
+    }
+    </code></pre>
+    </div>
+    </li>
+    
+    
+    
+    <li data-id="q1"><span class="faq-question">
+    Explain custom hooks: when and how to use them effectively.</span><div class="answer">
+    
+    <p>
+    Custom hooks are JavaScript functions in React that start with the prefix <code>use</code> and can call other hooks (like <code>useState</code>, <code>useEffect</code>, etc.). 
+    They allow you to extract reusable, stateful logic from components so that it can be shared across multiple components easily.
+    </p>
+    
+    <h4>When to use custom hooks:</h4>
+    <ul>
+    <li>To share complex stateful logic between components without repeating code.</li>
+    <li>To abstract side effects such as fetching data, event listeners, or subscriptions.</li>
+    <li>To simplify component code by moving logic out into reusable functions.</li>
+    <li>To improve code organization and readability.</li>
+    </ul>
+    
+    <h4>How to use custom hooks effectively:</h4>
+    <ol>
+    <li>Always name custom hooks with a <code>use</code> prefix to follow React conventions and enable lint rules.</li>
+    <li>Keep hooks focused on a single responsibility or concern (e.g., data fetching, form handling, etc.).</li>
+    <li>Return the minimal state and functions needed for the consuming components.</li>
+    <li>Use built-in hooks inside your custom hook as needed (like <code>useState</code>, <code>useEffect</code>, <code>useRef</code>, etc.).</li>
+    <li>Document what your hook does and what it returns for better maintainability.</li>
+    </ol>
+    
+    <h4>Example of a simple custom hook for window width tracking:</h4>
+    <pre><code class="language-jsx">
+    import { useState, useEffect } from "react";
+    
+    function useWindowWidth() {
+    const [width, setWidth] = useState(window.innerWidth);
+    
+    useEffect(() => {
+    function handleResize() {
+    setWidth(window.innerWidth);
+    }
+    
+    window.addEventListener("resize", handleResize);
+    
+    // Cleanup the listener on unmount
+    return () => {
+    window.removeEventListener("resize", handleResize);
+    };
+    }, []);
+    
+    return width;
+    }
+    
+    // Usage in a component
+    function MyComponent() {
+    const width = useWindowWidth();
+    
+    return &lt;div&gt;Window width is: {width}px&lt;/div&gt;;
+    }
+    </code></pre>
+    </div></li>
+    
+    <li data-id="q1"><span class="faq-question">
+    How does React handle concurrent rendering?</span><div class="answer">
+    <p>
+    Concurrent Rendering is a set of new features in React that allows the library to interrupt and pause rendering work to keep the application responsive. 
+    Traditional React rendering is synchronous and blocking, meaning that once a rendering task starts, it must complete before the browser can perform 
+    other tasks like responding to user inputs or updating the UI.
+    </p>
+    
+    React’s Concurrent Rendering is a set of features that allows React to work on multiple tasks simultaneously by interrupting and pausing rendering work. Instead of blocking the main thread, React can split rendering into small units and spread them out over time, ensuring the app remains responsive to user input and other high-priority tasks.
+    <ol class="subul">
+    <li><strong>Interruptible Rendering:</strong> React can pause rendering work, handle more urgent updates like user input, then resume the rendering later.</li>
+    <li><strong>Prioritization:</strong> React assigns priorities to different updates, so critical updates like animations or typing are handled before less important ones.</li>
+    <li><strong>Smoother UI:</strong> By not blocking the main thread, apps feel faster and more fluid.</li>
+    <li><strong>Concurrent Mode:</strong> Enables React to prepare multiple versions of the UI simultaneously and switch between them seamlessly.</li>
+    </ol>
+    This approach improves performance and user experience, especially in complex applications with heavy rendering.
+    </div>
+    </li>
+    
+    
+    
+    
+    <li data-id="q1"><span class="faq-question">
+    What are Suspense and Concurrent Mode in React?</span><div class="answer">
+    <p>
+    <strong>Suspense:</strong> Used to display a fallback until its children have finished loading. This feature in React makes it easy to manage loading times in your components.
+    <br><em>Source: Angular Minds</em>
+    </p>
+    <p>
+    <strong>Concurrent Mode:</strong> A set of new features in React that allows the library to interrupt and pause rendering work to keep the application responsive.
+    <br><em>Source: Medium</em>
+    </p>
+    
+    <p>
+    <strong>Suspense</strong> lets components "wait" for something before rendering. It is commonly used with lazy loading and data fetching. While waiting, React shows a fallback UI (like a loading spinner).
+    </p>
+    <pre><code>
+    const LazyComponent = React.lazy(() => import('./MyComponent'));
+    
+    function App() {
+    return (
+    &lt;Suspense fallback={'Loading...'}&gt;
+    &lt;LazyComponent /&gt;
+    &lt;/Suspense&gt;
+    );
+    }
+    </code></pre>
+    <p>
+    <strong>Concurrent Mode</strong> is a set of features that allows React to interrupt, pause, and resume rendering. It helps React stay responsive by preparing multiple UI versions in the background.
+    </p>
+    <ul>
+    <li>Improves responsiveness and avoids UI jank.</li>
+    <li>Works well with Suspense for better async rendering.</li>
+    <li>Enabled via frameworks like Next.js or by using <code>createRoot</code> from <code>react-dom</code>.</li>
+    </ul>
+    
+    <strong>Summary:</strong><br />
+    Suspense handles async rendering with fallbacks, and Concurrent Mode ensures rendering stays responsive by breaking work into small, interruptible units.
+    </div>
+    </li>
+    
+    
+    
+    <li data-id="q17">
+    <span class="faq-question">How would you build a hook for form validation?</span>
+    <div class="answer">
+    <p>
+    You can create a custom React hook to encapsulate form validation logic, which makes it reusable and keeps your components clean.
+    </p>
+    
+    <h4>🔧 Step-by-step: useFormValidation Hook</h4>
+    <pre><code>
+    import { useState } from 'react';
+    
+    function useFormValidation(initialValues, validate) {
+    const [values, setValues] = useState(initialValues);
+    const [errors, setErrors] = useState({});
+    
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+    
+    const validationErrors = validate({ ...values, [name]: value });
+    setErrors(validationErrors);
+    };
+    
+    const resetForm = () => {
+    setValues(initialValues);
+    setErrors({});
+    };
+    
+    return {
+    values,
+    errors,
+    handleChange,
+    resetForm
+    };
+    }
+    </code></pre>
+    
+    <h4>✅ Example Usage:</h4>
+    <pre><code>
+    function validate(values) {
+    const errors = {};
+    if (!values.email) {
+    errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = "Email is invalid";
+    }
+    return errors;
+    }
+    
+    function MyForm() {
+    const { values, errors, handleChange, resetForm } =
+    useFormValidation({ email: '' }, validate);
+    
+    const handleSubmit = (e) => {
+    e.preventDefault();
+    if (Object.keys(errors).length === 0) {
+    console.log("Form submitted:", values);
+    resetForm();
+    }
+    };
+    
+    return (
+    &lt;form onSubmit={handleSubmit}&gt;
+    &lt;input
+    type="email"
+    name="email"
+    value={values.email}
+    onChange={handleChange}
+    /&gt;
+    {errors.email &amp;&amp; &lt;p style={{ color: 'red' }}&gt;{errors.email}&lt;/p&gt;}
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+    );
+    }
+    </code></pre>
+    
+    <h4>💡 Benefits:</h4>
+    <ul>
+    <li>Reusable across multiple forms.</li>
+    <li>Keeps component clean and focused on rendering.</li>
+    <li>Flexible validation logic passed as a function.</li>
+    </ul>
+    </div>
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li data-id="q12">
+    <span class="faq-question">Explain React’s Profiler API and how you use it to optimize performance.</span>
+    <div class="answer">
+    <p>
+    The <strong>React Profiler API</strong> is a tool that helps measure how often a component renders and the "cost" of rendering it. It’s useful for identifying performance bottlenecks in your React app.
+    </p>
+    
+    <h4>🧠 Purpose:</h4>
+    <ul>
+    <li>Track component render frequency and duration.</li>
+    <li>Understand which components are re-rendering unnecessarily.</li>
+    <li>Guide optimizations using tools like <code>React.memo</code>, <code>useMemo</code>, and <code>useCallback</code>.</li>
+    </ul>
+    
+    <h4>🧪 Example usage:</h4>
+    <pre><code>
+    import { Profiler } from 'react';
+    
+    function onRenderCallback(
+    id, // the "id" prop of the Profiler tree
+    phase, // "mount" or "update"
+    actualDuration, // time spent rendering
+    baseDuration,
+    startTime,
+    commitTime,
+    interactions
+    ) {
+    console.log({ id, phase, actualDuration });
+    }
+    
+    function App() {
+    return (
+    &lt;Profiler id="MyComponent" onRender={onRenderCallback}&gt;
+    &lt;MyComponent /&gt;
+    &lt;/Profiler&gt;
+    );
+    }
+    </code></pre>
+    
+    <h4>📊 Parameters Explained:</h4>
+    <ul>
+    <li><code>id</code>: Identifier for the profiler.</li>
+    <li><code>phase</code>: Whether it's a mount or update render.</li>
+    <li><code>actualDuration</code>: Time taken to render.</li>
+    <li><code>baseDuration</code>: Estimated time if no memoization is used.</li>
+    <li><code>startTime</code> and <code>commitTime</code>: Timestamps of the render cycle.</li>
+    <li><code>interactions</code>: The set of interactions that triggered the render.</li>
+    </ul>
+    
+    <h4>🚀 How it helps optimization:</h4>
+    <ul>
+    <li>Helps pinpoint expensive renders.</li>
+    <li>Used in combination with DevTools and profiling tools.</li>
+    <li>Use the data to memoize components or split them into smaller parts.</li>
+    </ul>
+    </div>
+    </li>
+    
+    
+    
+    <li data-id="q6">
+    <span class="faq-question">How do you handle server-side rendering (SSR) in React?</span>
+    <div class="answer">
+    <p>
+    <strong>Server-Side Rendering (SSR)</strong> is the technique of rendering a React application on the server and sending the fully rendered HTML to the client. This improves performance and SEO by allowing search engines and users to see content faster.
+    </p>
+    
+    <h4>✅ Common Libraries and Frameworks for SSR:</h4>
+    <ul>
+    <li><strong>Next.js</strong> – Most popular React framework for SSR.</li>
+    <li><code>react-dom/server</code> – Low-level API used to manually implement SSR.</li>
+    </ul>
+    
+    <h4>🛠 Example using <code>react-dom/server</code>:</h4>
+    <pre><code>
+    import React from 'react';
+    import ReactDOMServer from 'react-dom/server';
+    import App from './App';
+    
+    const express = require('express');
+    const app = express();
+    
+    app.get('*', (req, res) => {
+    const html = ReactDOMServer.renderToString(&lt;App /&gt;);
+    res.send(`
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;&lt;title&gt;SSR React&lt;/title&gt;&lt;/head&gt;
+    &lt;body&gt;
+    &lt;div id="root"&gt;${html}&lt;/div&gt;
+    &lt;script src="/bundle.js"&gt;&lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    `);
+    });
+    
+    app.listen(3000);
+    </code></pre>
+    
+    <h4>⚙️ How SSR Works:</h4>
+    <ol>
+    <li>The server renders your React components to HTML.</li>
+    <li>The HTML is sent to the browser and displayed instantly.</li>
+    <li>React hydrates the HTML to make it interactive.</li>
+    </ol>
+    
+    <strong>🔍 Benefits:</strong>
+    <ul>
+    <li>Faster first paint and improved SEO.</li>
+    <li>Better perceived performance on slow networks.</li>
+    </ul>
+    
+    <strong>🚧 Caveats:</strong>
+    <ul>
+    <li>More server load and complexity.</li>
+    <li>Initial setup can be harder than client-side rendering (CSR).</li>
+    </ul>
+    </div>
+    </li>
+    
+    
+    <li data-id="q1"><span class="faq-question">
+    What is hydration in React and how does it work with SSR?</span><div class="answer">
+    <p>
+    Hydration is the process of using client-side JavaScript to add application state and interactivity to server-rendered HTML.
+    </p>
+    <p><em>Sources: DEV Community, Gatsby, workingsoftware.dev</em></p>
+    </div></li>
+    
+    <li data-id="q1"><span class="faq-question">
+    How does React batching work in modern React (18+)?</span><div class="answer">
+    <p>
+    Automatic batching in React means that multiple state updates triggered within the same event loop are batched together into a single render. 
+    In previous versions of React, only state updates within React event handlers were batched. 
+    With React 18, this batching behavior is extended to include all updates within the same event loop, including those from 
+    <code>setTimeout</code>, promises, native event handlers, and more.
+    </p>
+    <p><em>Sources: React, Medium, DEV Community</em></p>
+    </div></li>
+    
+    <li data-id="q1"><span class="faq-question">
+    Explain custom hooks: when and how to use them effectively.</span><div class="answer">
+    <p>
+    Custom hooks are JavaScript functions that start with <code>use</code> and can call other hooks. 
+    They allow you to extract and reuse stateful logic across multiple components.
+    </p>
+    <p><strong>When to use:</strong></p>
+    <ul>
+    <li>To share logic between components (e.g., form handling, fetching data).</li>
+    <li>To abstract complex logic into reusable functions.</li>
+    </ul>
+    <p><strong>How to use:</strong></p>
+    <pre><code class="language-jsx">
+    function useCustomHook() {
+    const [state, setState] = useState(initialValue);
+    // ...additional logic
+    return [state, setState];
+    }
+    </code></pre>
+    </div></li>
+    
+    <li data-id="q1"><span class="faq-question">
+    What is memoization in React and when should you use <code>React.memo</code>?</span><div class="answer">
+    <p>
+    Memoization is an optimization technique to cache the result of expensive function calls. 
+    In React, <code>React.memo</code> is a higher-order component that prevents unnecessary re-renders by memoizing the result.
+    </p>
+    <p><strong>Use <code>React.memo</code> when:</strong></p>
+    <ul>
+    <li>You have functional components that render the same output given the same props.</li>
+    <li>To prevent re-rendering unless props change.</li>
+    </ul>
+    <p><strong>Example:</strong></p>
+    <pre><code class="language-jsx">
+    const MemoizedComponent = React.memo(function MyComponent(props) {
+    // render using props
+    });
+    </code></pre>
+    </div></li>
+    
+    <li data-id="q1"><span class="faq-question">
+    How does <code>key</code> prop affect reconciliation and re-rendering?</span><div class="answer">
+    <p>
+    The <code>key</code> prop helps React identify which items have changed, are added, or are removed. It should be a stable and unique identifier.
+    </p>
+    <p><strong>Effects:</strong></p>
+    <ul>
+    <li>Improves performance by enabling efficient updates.</li>
+    <li>Prevents unnecessary re-renders.</li>
+    </ul>
+    </div></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <li data-id="q11">
+    <span class="faq-question">How does <code>key</code> prop affect reconciliation and re-rendering?</span>
+    <div class="answer">
+    <p>
+    In React, the <code>key</code> prop is a special attribute used to uniquely identify elements in a list. It helps React efficiently update the UI by distinguishing which items have changed, been added, or removed.
+    </p>
+    
+    <h4>🔄 How it affects reconciliation:</h4>
+    <ul>
+    <li>During reconciliation, React compares the new virtual DOM with the previous one.</li>
+    <li>If keys are consistent and unique, React can directly map and update only the changed components.</li>
+    <li>If keys are missing or reused incorrectly (like using array indices), React may unnecessarily re-render or remount items.</li>
+    </ul>
+    
+    <h4>✅ Best practices:</h4>
+    <ul>
+    <li>Use a unique and stable identifier from your data, like an <code>id</code>.</li>
+    <li>Avoid using array indexes as keys unless the list is static and won't change.</li>
+    </ul>
+    
+    <h4>🧪 Example:</h4>
+    <pre><code>
+    const items = [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }];
+    return (
+    &lt;ul&gt;
+    {items.map(item =&gt; (
+    &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;
+    ))}
+    &lt;/ul&gt;
+    );
+    </code></pre>
+    
+    <strong>🚀 Performance Impact:</strong>
+    <ul>
+    <li>Reduces unnecessary re-renders.</li>
+    <li>Improves performance by allowing React to reuse components intelligently.</li>
+    </ul>
+    </div>
+    </li>
+    
+    
+    <li data-id="q_custom_input_middleware">
+        <span class="faq-question">How to create a custom input with middleware-like validation in React?</span>
+        <div class="answer">
+          <p>
+            You can build a custom input component in React that acts like a middleware by intercepting input changes, validating them, and then deciding whether to update the state or not.
+          </p>
+      
+<p>    How It Works:
+    CustomInput takes a middleware prop, a function that transforms or validates the input.
+    
+    On every input change, it applies the middleware to the raw input before calling onChange.
+    
+    In the example, numberOnlyMiddleware strips out all non-numeric characters.
+</p><p>
+    Why Use This Pattern?
+    Reuse input logic like validation, formatting, or sanitization in multiple places.
+    
+    Separate concerns by isolating middleware logic from UI.
+    
+    Create flexible inputs that adapt behavior based on passed middleware.
+
+
+</p>
+
+
+          <h4>Example: Custom Input with Validation Middleware</h4>
+          <pre><code>
+      import React, { useState } from "react";
+      
+      function CustomInput({ value, onChange, validate }) {
+        const handleChange = (e) => {
+          const newValue = e.target.value;
+      
+          // Middleware validation step
+          if (validate(newValue)) {
+            onChange(newValue);
+          } else {
+            console.log("Validation failed:", newValue);
+          }
+        };
+      
+        return (
+          &lt;input
+            type="text"
+            value={value}
+            onChange={handleChange}
+            placeholder="Enter only letters"
+          /&gt;
+        );
+      }
+      
+      function App() {
+        const [text, setText] = useState("");
+      
+        // Validation middleware function: allow only letters
+        const validateInput = (value) => /^[a-zA-Z]*$/.test(value);
+      
+        return (
+          &lt;div&gt;
+            &lt;h3&gt;Custom Input with Validation Middleware&lt;/h3&gt;
+            &lt;CustomInput
+              value={text}
+              onChange={setText}
+              validate={validateInput}
+            /&gt;
+            &lt;p&gt;You typed: {text}&lt;/p&gt;
+          &lt;/div&gt;
+        );
+      }
+      
+      export default App;
+          </code></pre>
+      
+          <h4>Explanation:</h4>
+          <ul>
+            <li><code>CustomInput</code> receives a <code>validate</code> function as a prop.</li>
+            <li>Inside <code>handleChange</code>, it runs the new input value through the validation function before calling <code>onChange</code>.</li>
+            <li>If validation fails, it blocks the update, mimicking middleware behavior.</li>
+            <li>This pattern allows adding validation, transformation, or side-effects before state update.</li>
+          </ul>
+        </div>
+      </li>
+      
+    
+    
+    <li data-id="react-fiber">
+    <span class="faq-question green">How does React Fiber work under the hood?</span>
+    <div class="answer">
+    React Fiber is the complete rewrite of the React core algorithm introduced in React 16. It improves rendering performance, enables features like Suspense, Concurrent Mode, and better error handling.
+    
+    <br /><br />
+    <strong>Key Concepts:</strong>
+    <ul>
+    <li><strong>Fiber Node:</strong> A JavaScript object representing a unit of work (component).</li>
+    <li><strong>Work Loop:</strong> React processes the fiber tree using a loop that can be paused and resumed, unlike the previous stack-based algorithm.</li>
+    <li><strong>Reconciliation:</strong> Fiber allows React to break down the rendering work into units and schedule them during idle time.</li>
+    <li><strong>Double Buffering:</strong> There are two fiber trees — current and work-in-progress — which help in comparing and updating only what's changed.</li>
+    </ul>
+    
+    <strong>How It Works:</strong>
+    <ol>
+    <li>React builds a Fiber tree from the root component.</li>
+    <li>It performs reconciliation to determine changes (diffing).</li>
+    <li>Work is split into units and processed incrementally (time-slicing).</li>
+    <li>React commits the final changes to the DOM in a separate phase.</li>
+    </ol>
+    
+    <strong>Benefits:</strong> Better scheduling, improved responsiveness, support for features like Suspense and Concurrent rendering.
+    
+    <br /><br />
+    React Fiber enables React to handle complex UIs and asynchronous rendering more efficiently.
+    </div>
+    </li>
+    
+    
+    <li data-id="q1"><span class="faq-question">What is the difference between SSR and CSR in React?</span>
+    <div class="answer">
+    <b>SSR (Server-Side Rendering):</b> The HTML is rendered on the server and sent to the client. Faster first load, better SEO.<br />
+    <b>CSR (Client-Side Rendering):</b> The browser downloads JS and renders content dynamically. Faster interactions after load.<br />
+    <b>Example:</b> Next.js supports SSR; CRA (Create React App) uses CSR.
+    </div>
+    </li>
+    
+    <li data-id="q2"><span class="faq-question">React Hooks Rules : eslint-plugin-react-hooks?</span>
+    <div class="answer">
+    <ul>
+    <li>Only call hooks at the top level (not inside loops, conditions).</li>
+    <li>Only call hooks from React function components or custom hooks.</li>
+    <li>eslint-plugin-react-hooks to enforce rules.</li>
+    
+    </ul>
+    </div>
+    </li>
+    
+    
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+<script src="../htmlscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shop - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .shop-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #c33;
+            font-weight: 500;
+        }
+
+        .demo-credentials {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .demo-credentials h3 {
+            color: #28a745;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-credentials p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .locked-message {
+            background: #fff3cd;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="shop-icon">🛒</div>
+            <h1>Online Shop</h1>
+            <p>Welcome! Please login to start shopping</p>
+        </div>
+
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {% if locked %}
+        <div class="locked-message">
+            <strong>Account Locked!</strong> Your account has been locked due to incorrect password attempts.
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/shop_login">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required 
+                       value="{{ request.form.username if request.form.username }}"
+                       placeholder="Enter your username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required
+                       placeholder="Enter your password">
+            </div>
+
+            <button type="submit" class="login-btn">Login to Shop</button>
+        </form>
+
+        {% if locked %}
+        <div class="unlock-info" style="background: #fff3cd; color: #856404; padding: 1rem; margin-top: 1rem; border-radius: 5px; border-left: 4px solid #ffc107;">
+            <h3>🔒 Account Locked</h3>
+            <p>Your account has been locked due to incorrect password attempts.</p>
+            <p><strong>Auto-unlock:</strong> Accounts unlock automatically after 30 seconds</p>
+            <p><strong>Reset Password:</strong> <a href="/reset_password" style="color: #0066cc;">Click here to reset your password</a></p>
+        </div>
+        {% endif %}
+
+        <div class="demo-credentials">
+            <h3>Demo Accounts:</h3>
+            <p><strong>User:</strong> john / 1234 (Balance: $100)</p>
+            <p><strong>Admin:</strong> admin / admin123 (Balance: $1000)</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="/reset_password" style="color: #667eea; text-decoration: none; font-size: 0.9rem;">
+                🔐 Forgot Password / Unlock Account
+            </a>
+        </div>
+    </div>
+</body>
+</html>

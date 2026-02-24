@@ -1,0 +1,34 @@
+<div class="banner-slider">
+    <div class="slider-wrapper">
+        {% for product in products %}
+        <div class="slide">
+            <img src="{{ product.image }}" alt="{{ product.name }}" class="slide-image">
+            <div class="slide-info">
+                <h3>{{ product.name }}</h3>
+                <p>${{ product.price }}</p>
+                <p>{{ product.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <button class="slider-btn prev" onclick="slidePrev()">&#10094;</button>
+    <button class="slider-btn next" onclick="slideNext()">&#10095;</button>
+</div>
+<script>
+let currentSlide = 0;
+function showSlide(idx) {
+    const slides = document.querySelectorAll('.slide');
+    slides.forEach((s, i) => s.style.display = i === idx ? 'flex' : 'none');
+}
+function slidePrev() {
+    const slides = document.querySelectorAll('.slide');
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+}
+function slideNext() {
+    const slides = document.querySelectorAll('.slide');
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+}
+document.addEventListener('DOMContentLoaded', () => showSlide(currentSlide));
+</script>

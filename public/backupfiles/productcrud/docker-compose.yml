@@ -1,0 +1,153 @@
+version: "3.8"
+
+services:
+  nodeapp:
+    build: .
+    container_name: productcrud
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=mydb
+      - DB_HOST=postgres-db   # 👈 container name of your running Postgres
+      - DB_PORT=5432
+    volumes:
+      - .:/app
+      # - /app/node_modules
+    networks:
+      - my-net   # 👈 must match the network your postgres container is in
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://postgres-db:5432/sonarqube
+      - SONARQUBE_JDBC_USERNAME=sonar
+      - SONARQUBE_JDBC_PASSWORD=sonarpass
+    networks:
+      - my-net
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+
+networks:
+  my-net:
+    external: true
+
+volumes:
+  postgres_data:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
+
+
+
+####################################################################3
+# sqp_57f47afbea06ba68044260d91bc7a73b265ce072
+
+
+# version: "3.9"
+
+# services:
+#   # postgres-db:
+#   #   image: postgres:17
+#   #   container_name: postgres-db
+#   #   environment:
+#   #     - POSTGRES_USER=postgres
+#   #     - POSTGRES_PASSWORD=postgres
+#   #   networks:
+#   #     - my-net
+#   #   volumes:
+#   #     - postgres_data:/var/lib/postgresql/data
+
+#   sonarqube:
+#     image: sonarqube:community
+#     container_name: sonarqube
+#     # depends_on:
+#     #   - postgres-db
+#     ports:
+#       - "9000:9000"
+#     environment:
+#       - SONARQUBE_JDBC_URL=jdbc:postgresql://postgres-db:5432/sonarqube
+#       - SONARQUBE_JDBC_USERNAME=postgres
+#       - SONARQUBE_JDBC_PASSWORD=postgres
+#     networks:
+#       - my-net
+
+# networks:
+#   my-net:
+#     driver: bridge
+
+# volumes:
+#   postgres_data:
+#   sonarqube_data:
+#   sonarqube_logs:
+#   sonarqube_extensions:
+
+
+
+
+# docker-compose.yml for Node.js app with SonarQube and Postgres
+
+# version: "3.8"
+
+# services:
+  # sonarqube:
+  #   image: sonarqube:community
+  #   container_name: sonarqube
+  #   ports:
+  #     - "9000:9000"
+  #   environment:
+  #     - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+  #   volumes:
+  #     - sonarqube_data:/opt/sonarqube/data
+  #     - sonarqube_logs:/opt/sonarqube/logs
+  #     - sonarqube_extensions:/opt/sonarqube/extensions
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:9000"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+
+
+
+
+  # nodeapp:
+  #   build: .
+  #   container_name: productcrud
+  #   ports:
+  #     - "3000:3000"
+  #   # depends_on:
+  #   #   sonarqube:
+  #   #     condition: service_healthy
+  #   environment:
+  #     - NODE_ENV=development
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+
+
+
+
+  # sonarscanner:
+  #   image: sonarsource/sonar-scanner-cli
+  #   container_name: sonar-scanner
+  #   depends_on:
+  #     sonarqube:
+  #       condition: service_healthy
+  #     nodeapp:
+  #       condition: service_started
+  #   volumes:
+  #     - .:/usr/src
+  #   working_dir: /usr/src
+  #   command: >
+  #     sonar-scanner
+  #     -Dsonar.projectKey=product-crud
+  #     -Dsonar.sources=.
+  #     -Dsonar.host.url=http://sonarqube:9000
+  #     -Dsonar.login=${SONAR_TOKEN}

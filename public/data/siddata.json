@@ -1,0 +1,928 @@
+[
+  {
+    "iciciCode": "PORTFOLIO",
+    "sid": "PORTFOLIO",
+    "buyAmt": 987005,
+    "sellAmt": 826362,
+    "invtAmt": 160643,
+    "currVal": 234514,
+    "profitAmt": 73871
+  },
+  {
+    "iciciCode": "KOTGOL",
+    "sid": "KTGF",
+    "buyAmt": 118219,
+    "sellAmt": 130851
+  },
+  {
+    "iciciCode": "HDFGOL",
+    "sid": "HDGO",
+    "buyAmt": 166664,
+    "sellAmt": 157373
+  },
+  {
+    "iciciCode": "DABIND",
+    "sid": "DABU",
+    "type": "MIDCAP",
+    "buyAmt": 55999,
+    "sellAmt": 25461
+  },
+  {
+    "iciciCode": "SBISIL",
+    "sid": "SBISI",
+    "buyAmt": 27888,
+    "sellAmt": 30310
+  },
+  {
+    "iciciCode": "ITC",
+    "sid": "ITC",
+    "type": "LARGECAP",
+    "buyAmt": 26729,
+    "sellAmt": 21672
+  },
+  {
+    "iciciCode": "NIPSIL",
+    "sid": "NETFS",
+    "buyAmt": 58240,
+    "sellAmt": 53961
+  },
+  {
+    "iciciCode": "TATCAP",
+    "sid": "TATAC",
+    "type": "LARGECAP",
+    "buyAmt": 14996,
+    "sellAmt": 14096
+  },
+  {
+    "iciciCode": "COLPAL",
+    "sid": "COLG",
+    "type": "MIDCAP",
+    "buyAmt": 11830,
+    "sellAmt": 1644
+  },
+  {
+    "iciciCode": "HERHON",
+    "sid": "HROM",
+    "type": "LARGECAP",
+    "buyAmt": 8471,
+    "sellAmt": 11157
+  },
+  {
+    "iciciCode": "SBICAR",
+    "sid": "SBIC",
+    "type": "MIDCAP",
+    "buyAmt": 10630,
+    "sellAmt": 6217
+  },
+  {
+    "iciciCode": "INDGAS",
+    "sid": "IGAS",
+    "type": "SMALLCAP",
+    "buyAmt": 11572,
+    "sellAmt": 3759
+  },
+  {
+    "iciciCode": "AARIND",
+    "sid": "ARTI",
+    "type": "SMALLCAP",
+    "buyAmt": 10252,
+    "sellAmt": 8931
+  },
+  {
+    "iciciCode": "DHASUG",
+    "sid": "DAMS",
+    "type": "SMALLCAP",
+    "buyAmt": 8741,
+    "sellAmt": 785
+  },
+  {
+    "iciciCode": "ADAGAS",
+    "sid": "ADAG",
+    "type": "MIDCAP",
+    "buyAmt": 7087,
+    "sellAmt": 518
+  },
+  {
+    "iciciCode": "INDBA",
+    "sid": "INBK",
+    "buyAmt": 5297,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "CREGRA",
+    "sid": "CRDE",
+    "buyAmt": 5081,
+    "sellAmt": 5318
+  },
+  {
+    "iciciCode": "ASIPAI",
+    "sid": "ASPN",
+    "type": "LARGECAP",
+    "buyAmt": 7427,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "RAJEXP",
+    "sid": "REXP",
+    "buyAmt": 4636,
+    "sellAmt": 680
+  },
+  {
+    "iciciCode": "CAMACT",
+    "sid": "CAMP",
+    "buyAmt": 17318,
+    "sellAmt": 14870
+  },
+  {
+    "iciciCode": "BHAPET",
+    "sid": "BPCL",
+    "type": "LARGECAP",
+    "buyAmt": 9894,
+    "sellAmt": 9846
+  },
+  {
+    "iciciCode": "IRMENE",
+    "sid": "IRM",
+    "buyAmt": 16449,
+    "sellAmt": 11848
+  },
+  {
+    "iciciCode": "WIPRO",
+    "sid": "WIPR",
+    "buyAmt": 11753,
+    "sellAmt": 6276
+  },
+  {
+    "iciciCode": "ADAENT",
+    "sid": "ADEL",
+    "type": "LARGECAP",
+    "buyAmt": 20682,
+    "sellAmt": 17004
+  },
+  {
+    "iciciCode": "KOTMAH",
+    "sid": "KTKM",
+    "type": "LARGECAP",
+    "buyAmt": 3530,
+    "sellAmt": 3296
+  },
+  {
+    "iciciCode": "INDPES",
+    "sid": "IPL",
+    "buyAmt": 3369,
+    "sellAmt": 145
+  },
+  {
+    "iciciCode": "ADATRA",
+    "sid": "ADAI",
+    "type": "LARGECAP",
+    "buyAmt": 6224,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "FLAWRI",
+    "sid": "FLAI",
+    "buyAmt": 4046,
+    "sellAmt": 4186
+  },
+  {
+    "iciciCode": "CIPLA",
+    "sid": "CIPL",
+    "type": "LARGECAP",
+    "buyAmt": 8470,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "GOPSNA",
+    "sid": "GOPAL",
+    "buyAmt": 3082,
+    "sellAmt": 2840
+  },
+  {
+    "iciciCode": "MOTGTF",
+    "sid": "MOG",
+    "buyAmt": 3417,
+    "sellAmt": 2766
+  },
+  {
+    "iciciCode": "ZEROSE",
+    "sid": "SILVC",
+    "buyAmt": 7869,
+    "sellAmt": 6640
+  },
+  {
+    "iciciCode": "MOTSIL",
+    "sid": "MOSI",
+    "buyAmt": 2448,
+    "sellAmt": 486
+  },
+  {
+    "iciciCode": "VAIGLO",
+    "sid": "VAIB",
+    "buyAmt": 2699,
+    "sellAmt": 319
+  },
+  {
+    "iciciCode": "HDFSIL",
+    "sid": "HDFCS",
+    "buyAmt": 2717,
+    "sellAmt": 2053
+  },
+  {
+    "iciciCode": "ONGC",
+    "sid": "ONGC",
+    "type": "LARGECAP",
+    "buyAmt": 2582,
+    "sellAmt": 2333
+  },
+  {
+    "iciciCode": "JIOFIN",
+    "sid": "JIO",
+    "buyAmt": 3708,
+    "sellAmt": 4071
+  },
+  {
+    "iciciCode": "AKMFIN",
+    "sid": "AFI",
+    "buyAmt": 1920,
+    "sellAmt": 6
+  },
+  {
+    "iciciCode": "INFTEC",
+    "sid": "INFY",
+    "buyAmt": 1742,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "PLAWIR",
+    "sid": "PLA",
+    "buyAmt": 2024,
+    "sellAmt": 92
+  },
+  {
+    "iciciCode": "RELIND",
+    "sid": "RELI",
+    "type": "LARGECAP",
+    "buyAmt": 18033,
+    "sellAmt": 5145
+  },
+  {
+    "iciciCode": "ICINIF",
+    "sid": "ICNI",
+    "buyAmt": 1465,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "NIFBEE",
+    "sid": "NBES",
+    "buyAmt": 16211,
+    "sellAmt": 11837
+  },
+  {
+    "iciciCode": "AETIND",
+    "sid": "AET",
+    "buyAmt": 14766,
+    "sellAmt": 17961
+  },
+  {
+    "iciciCode": "INDREN",
+    "sid": "IRE",
+    "buyAmt": 14720,
+    "sellAmt": 55080
+  },
+  {
+    "iciciCode": "ICIGOL",
+    "sid": "IPEG",
+    "buyAmt": 3068,
+    "sellAmt": 2913
+  },
+  {
+    "iciciCode": "SBIGOL",
+    "sid": "SBIG",
+    "buyAmt": 1167,
+    "sellAmt": 1126
+  },
+  {
+    "iciciCode": "DELCOR",
+    "sid": "DELT",
+    "buyAmt": 1688,
+    "sellAmt": 285
+  },
+  {
+    "iciciCode": "POPVEH",
+    "sid": "PVS",
+    "buyAmt": 1121,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "HINCOP",
+    "sid": "HCPR",
+    "buyAmt": 1035,
+    "sellAmt": 1202
+  },
+  {
+    "iciciCode": "NTPC",
+    "sid": "NTPC",
+    "buyAmt": 972,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "BANBAN",
+    "sid": "BANH",
+    "buyAmt": 1392,
+    "sellAmt": 446
+  },
+  {
+    "iciciCode": "BIOCON",
+    "sid": "BION",
+    "buyAmt": 3003,
+    "sellAmt": 2989
+  },
+  {
+    "iciciCode": "ANUPHA",
+    "sid": "ANUH",
+    "type": "SMALLCAP",
+    "buyAmt": 1050,
+    "sellAmt": 203
+  },
+  {
+    "iciciCode": "RKSWA",
+    "sid": "RKS",
+    "buyAmt": 724,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "TRILTD",
+    "sid": "TRIE",
+    "buyAmt": 720,
+    "sellAmt": 92
+  },
+  {
+    "iciciCode": "HDFSTA",
+    "sid": "HDFL",
+    "buyAmt": 1770,
+    "sellAmt": 1341
+  },
+  {
+    "iciciCode": "POWINF",
+    "sid": "PGIN",
+    "buyAmt": 570,
+    "sellAmt": 458
+  },
+  {
+    "iciciCode": "BODCHE",
+    "sid": "BODA",
+    "buyAmt": 608,
+    "sellAmt": 81
+  },
+  {
+    "iciciCode": "APOTYR",
+    "sid": "APLO",
+    "type": "SMALLCAP",
+    "buyAmt": 1467,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "IDFBAN",
+    "sid": "IDFB",
+    "buyAmt": 663,
+    "sellAmt": 830
+  },
+  {
+    "iciciCode": "BANBEE",
+    "sid": "BBES",
+    "buyAmt": 871,
+    "sellAmt": 487
+  },
+  {
+    "iciciCode": "ADAPOW",
+    "sid": "ADAN",
+    "type": "LARGECAP",
+    "buyAmt": 3140,
+    "sellAmt": 9242
+  },
+  {
+    "iciciCode": "EMBOFF",
+    "sid": "EMBA",
+    "buyAmt": 1228,
+    "sellAmt": 1071
+  },
+  {
+    "iciciCode": "ICI100",
+    "sid": "ICIC",
+    "buyAmt": 296,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "TUTALK",
+    "sid": "TUT",
+    "buyAmt": 328,
+    "sellAmt": 77
+  },
+  {
+    "iciciCode": "SRERAY",
+    "sid": "SREER",
+    "buyAmt": 934,
+    "sellAmt": 817
+  },
+  {
+    "iciciCode": "CITUNI",
+    "sid": "CTBK",
+    "buyAmt": 1220,
+    "sellAmt": 1640
+  },
+  {
+    "iciciCode": "MOTSU",
+    "sid": "MSU",
+    "type": "SMALLCAP",
+    "buyAmt": 288,
+    "sellAmt": 58
+  },
+  {
+    "iciciCode": "TATSTE",
+    "sid": "TISC",
+    "type": "LARGECAP",
+    "buyAmt": 172,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "MADCOP",
+    "sid": "MADC",
+    "buyAmt": 129,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "NBCC",
+    "sid": "NBCC",
+    "buyAmt": 433,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "UDAINF",
+    "sid": "USK",
+    "buyAmt": 298,
+    "sellAmt": 254
+  },
+  {
+    "iciciCode": "PCJEW",
+    "sid": "PCJE",
+    "buyAmt": 293,
+    "sellAmt": 268
+  },
+  {
+    "iciciCode": "PARPHA",
+    "sid": "PARMA",
+    "buyAmt": 242,
+    "sellAmt": 332
+  },
+  {
+    "iciciCode": "AVESUP",
+    "sid": "AVEU",
+    "type": "LARGECAP",
+    "buyAmt": 15248,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "SAIL",
+    "sid": "SAIL",
+    "buyAmt": 1089,
+    "sellAmt": 395
+  },
+  {
+    "iciciCode": "MAHGAS",
+    "sid": "MGAS",
+    "buyAmt": 1081,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "TATMOT",
+    "sid": "TAMO",
+    "type": "LARGECAP",
+    "buyAmt": 3239,
+    "sellAmt": 0
+  },
+  {
+    "iciciCode": "ICIBAN",
+    "sid": "ICBK",
+    "buyAmt": 1227,
+    "sellAmt": 1671
+  },
+  {
+    "sid": "AHL",
+    "iciciCode": "ABAHOL",
+    "buyAmt": 14850,
+    "sellAmt": 12958
+  },
+  {
+    "sid": "APSE",
+    "iciciCode": "ADAPOR",
+    "type": "LARGECAP",
+    "buyAmt": 8955,
+    "sellAmt": 5206
+  },
+  {
+    "sid": "AWL",
+    "iciciCode": "ADAWIL",
+    "buyAmt": 5398,
+    "sellAmt": 15796
+  },
+  {
+    "sid": "AGRP",
+    "iciciCode": "AGRPHO",
+    "buyAmt": 292,
+    "sellAmt": 165
+  },
+  {
+    "sid": "AGS",
+    "iciciCode": "AGSTRA",
+    "buyAmt": 153,
+    "sellAmt": 96
+  },
+  {
+    "sid": "ASOK",
+    "iciciCode": "ASHLEY",
+    "type": "LARGECAP",
+    "buyAmt": 726,
+    "sellAmt": 775
+  },
+  {
+    "sid": "BOI",
+    "iciciCode": "BANIND",
+    "buyAmt": 83,
+    "sellAmt": 112
+  },
+  {
+    "sid": "BHEL",
+    "iciciCode": "BHEL",
+    "type": "MIDCAP",
+    "buyAmt": 141,
+    "sellAmt": 164
+  },
+  {
+    "sid": "BRIT",
+    "iciciCode": "BRIIND",
+    "type": "LARGECAP",
+    "buyAmt": 3640,
+    "sellAmt": 3647
+  },
+  {
+    "sid": "CAST",
+    "iciciCode": "CASIND",
+    "buyAmt": 272,
+    "sellAmt": 345
+  },
+  {
+    "sid": "CESC",
+    "iciciCode": "CESC",
+    "buyAmt": 745,
+    "sellAmt": 877
+  },
+  {
+    "sid": "CROP",
+    "iciciCode": "CROGR",
+    "buyAmt": 515,
+    "sellAmt": 620
+  },
+  {
+    "sid": "DCBA",
+    "iciciCode": "DCB",
+    "buyAmt": 210,
+    "sellAmt": 168
+  },
+  {
+    "sid": "DIVI",
+    "iciciCode": "DIVLAB",
+    "type": "LARGECAP",
+    "buyAmt": 7450,
+    "sellAmt": 7799
+  },
+  {
+    "sid": "DOLA",
+    "iciciCode": "DOLINV",
+    "type": "SMALLCAP",
+    "buyAmt": 387,
+    "sellAmt": 493
+  },
+  {
+    "sid": "ELIN",
+    "iciciCode": "ELIELE",
+    "buyAmt": 288,
+    "sellAmt": 380
+  },
+  {
+    "sid": "ESPL",
+    "iciciCode": "ESSSH",
+    "buyAmt": 1210,
+    "sellAmt": 795
+  },
+  {
+    "sid": "FINX",
+    "iciciCode": "FININD",
+    "buyAmt": 195,
+    "sellAmt": 242
+  },
+  {
+    "sid": "NYK",
+    "iciciCode": "FSNECO",
+    "buyAmt": 139,
+    "sellAmt": 173
+  },
+  {
+    "sid": "FTRE",
+    "iciciCode": "FUTVEN",
+    "buyAmt": 19,
+    "sellAmt": 21
+  },
+  {
+    "sid": "GAIL",
+    "iciciCode": "GAIL",
+    "buyAmt": 123,
+    "sellAmt": 147
+  },
+  {
+    "sid": "GBES",
+    "iciciCode": "GOLDEX",
+    "buyAmt": 42483,
+    "sellAmt": 36915
+  },
+  {
+    "sid": "GSPT",
+    "iciciCode": "GSPL",
+    "buyAmt": 550,
+    "sellAmt": 696
+  },
+  {
+    "sid": "GSPT",
+    "iciciCode": "GSPL",
+    "buyAmt": 550,
+    "sellAmt": 696
+  },
+  {
+    "sid": "GGAS",
+    "iciciCode": "GUJGA",
+    "buyAmt": 846,
+    "sellAmt": 1189
+  },
+  {
+    "sid": "HDBK",
+    "iciciCode": "HDFBAN",
+    "type": "LARGECAP",
+    "buyAmt": 3293,
+    "sellAmt": 1481
+  },
+  {
+    "sid": "HALC",
+    "iciciCode": "HINDAL",
+    "buyAmt": 3312,
+    "sellAmt": 4272
+  },
+  {
+    "sid": "HOEX",
+    "iciciCode": "HINOIL",
+    "buyAmt": 592,
+    "sellAmt": 360
+  },
+  {
+    "sid": "HPCL",
+    "iciciCode": "HINPET",
+    "buyAmt": 1755,
+    "sellAmt": 2052
+  },
+  {
+    "sid": "HUDC",
+    "iciciCode": "HUDCO",
+    "buyAmt": 451,
+    "sellAmt": 529
+  },
+  {
+    "sid": "ICBK",
+    "iciciCode": "ICIBAN",
+    "type": "LARGECAP",
+    "buyAmt": 1227,
+    "sellAmt": 1671
+  },
+  {
+    "sid": "IDBI",
+    "iciciCode": "IDBI",
+    "buyAmt": 194,
+    "sellAmt": 205
+  },
+  {
+    "sid": "IOC",
+    "iciciCode": "INDOIL",
+    "buyAmt": 3038,
+    "sellAmt": 3493
+  },
+  {
+    "sid": "IRF",
+    "iciciCode": "INDR",
+    "buyAmt": 381,
+    "sellAmt": 527
+  },
+  {
+    "sid": "KALYA",
+    "iciciCode": "KALJEW",
+    "buyAmt": 165,
+    "sellAmt": 210
+  },
+  {
+    "sid": "KIRI",
+    "iciciCode": "KIRIDY",
+    "buyAmt": 284,
+    "sellAmt": 398
+  },
+  {
+    "sid": "LIC",
+    "iciciCode": "LIC",
+    "buyAmt": 606,
+    "sellAmt": 682
+  },
+  {
+    "sid": "MALO",
+    "iciciCode": "MAHLO",
+    "buyAmt": 373,
+    "sellAmt": 434
+  },
+  {
+    "sid": "MNFL",
+    "iciciCode": "MANAFI",
+    "type": "SMALLCAP",
+    "buyAmt": 4422,
+    "sellAmt": 5513
+  },
+  {
+    "sid": "MOSS",
+    "iciciCode": "MOTSUM",
+    "buyAmt": 192,
+    "sellAmt": 343
+  },
+  {
+    "sid": "NAVR",
+    "iciciCode": "NAVCOR",
+    "buyAmt": 60,
+    "sellAmt": 82
+  },
+  {
+    "sid": "START",
+    "iciciCode": "NIVMER",
+    "buyAmt": 193,
+    "sellAmt": 125
+  },
+  {
+    "sid": "NSLN",
+    "iciciCode": "NMDSTE",
+    "buyAmt": 41,
+    "sellAmt": 50
+  },
+  {
+    "sid": "NSLN",
+    "iciciCode": "NMDSTE",
+    "buyAmt": 41,
+    "sellAmt": 50
+  },
+  {
+    "sid": "PARAS",
+    "iciciCode": "PARDEF",
+    "type": "SMALLCAP",
+    "buyAmt": 4453,
+    "sellAmt": 2218
+  },
+  {
+    "sid": "PAMF",
+    "iciciCode": "PARMIL",
+    "buyAmt": 87,
+    "sellAmt": 97
+  },
+  {
+    "sid": "PARAD",
+    "iciciCode": "PARPHO",
+    "buyAmt": 55,
+    "sellAmt": 65
+  },
+  {
+    "sid": "PIDI",
+    "iciciCode": "PIDIND",
+    "type": "LARGECAP",
+    "buyAmt": 2021,
+    "sellAmt": 2609
+  },
+  {
+    "sid": "PNBK",
+    "iciciCode": "PUNBAN",
+    "buyAmt": 127,
+    "sellAmt": 175
+  },
+  {
+    "sid": "REFE",
+    "iciciCode": "REFIND",
+    "buyAmt": 299,
+    "sellAmt": 352
+  },
+  {
+    "sid": "NIPF",
+    "iciciCode": "RELNIP",
+    "buyAmt": 1094,
+    "sellAmt": 1511
+  },
+  {
+    "sid": "SHCR",
+    "iciciCode": "SHACRO",
+    "buyAmt": 796,
+    "sellAmt": 1224
+  },
+  {
+    "sid": "SBI",
+    "iciciCode": "STABAN",
+    "type": "LARGECAP",
+    "buyAmt": 2275,
+    "sellAmt": 2868
+  },
+  {
+    "sid": "SULA",
+    "iciciCode": "SULVIN",
+    "buyAmt": 14994,
+    "sellAmt": 14565
+  },
+  {
+    "sid": "TCM",
+    "iciciCode": "TCM",
+    "buyAmt": 73,
+    "sellAmt": 109
+  },
+  {
+    "sid": "JKU",
+    "iciciCode": "UDACEM",
+    "buyAmt": 172,
+    "sellAmt": 204
+  },
+  {
+    "sid": "VDAN",
+    "iciciCode": "VEDLIM",
+    "buyAmt": 988,
+    "sellAmt": 1380
+  },
+  {
+    "sid": "ZOM",
+    "iciciCode": "ZOMLIM",
+    "buyAmt": 1808,
+    "sellAmt": 2023
+  },
+  {
+    "sid": "VRA",
+    "iciciCode": "VRAIRO",
+    "buyAmt": 1896,
+    "sellAmt": 982
+  },
+  {
+    "sid": "KRON",
+    "iciciCode": "KROLAB",
+    "buyAmt": 154,
+    "sellAmt": 192
+  },
+  {
+    "sid": "INDGN",
+    "iciciCode": "INDLTD",
+    "buyAmt": 554,
+    "sellAmt": 675
+  },
+  {
+    "sid": "INGL",
+    "iciciCode": "INTAVI",
+    "type": "LARGECAP",
+    "buyAmt": 9883,
+    "sellAmt": 0
+  },
+  {
+    "sid": "KOTAS",
+    "iciciCode": "KOTSIL",
+    "buyAmt": 3013,
+    "sellAmt": 2050
+  },
+  {
+    "sid": "SUN",
+    "iciciCode": "SUNPHA",
+    "type": "LARGECAP",
+    "buyAmt": 11472,
+    "sellAmt": 0
+  },
+  {
+    "sid": "TITN",
+    "iciciCode": "TITIND",
+    "type": "LARGECAP",
+    "buyAmt": 4021,
+    "sellAmt": 0
+  },
+  {
+    "sid": "JSWE",
+    "iciciCode": "JSWENE",
+    "buyAmt": 442,
+    "sellAmt": 0
+  },
+  {
+    "sid": "BJFN",
+    "iciciCode": "BAJFI",
+    "type": "LARGECAP",
+    "buyAmt": 1817,
+    "sellAmt": 0
+  }
+]

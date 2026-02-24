@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Node.js Cluster and Worker Threads</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      padding: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    h2 {
+      color: #2c3e50;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+    .section {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 25px;
+      border-left: 5px solid #3498db;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .note {
+      background: #e1f5fe;
+      border-left: 5px solid #03a9f4;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🧠 Node.js Cluster vs Worker Threads</h2>
+
+  <div class="section">
+    <h3>🔄 Cluster Module (multi-process)</h3>
+    <p>
+      The <strong>cluster</strong> module allows you to create child processes (workers) that share the same server port. 
+      It's used to take advantage of multi-core systems to handle concurrent requests efficiently.
+    </p>
+    <pre><code>// cluster-example.js
+const cluster = require('cluster');
+const http = require('http');
+const os = require('os');
+
+if (cluster.isMaster) {
+  const numCPUs = os.cpus().length;
+  console.log(`Master ${process.pid} is running`);
+
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Worker ${worker.process.pid} died`);
+  });
+} else {
+  // Workers can share any TCP connection
+  http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end(`Handled by worker ${process.pid}\n`);
+  }).listen(3000);
+
+  console.log(`Worker ${process.pid} started`);
+}
+    </code></pre>
+    <div class="note">
+      💡 <strong>Use Case:</strong> Ideal for scaling web servers (handling more requests).
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🧵 Worker Threads (multi-thread)</h3>
+    <p>
+      The <strong>worker_threads</strong> module allows JavaScript code to run in parallel on multiple threads.
+      Useful for CPU-intensive tasks (like hashing, image processing) without blocking the main event loop.
+    </p>
+    <pre><code>// worker-example.js
+const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
+
+if (isMainThread) {
+  console.log('Main thread:', process.pid);
+
+  new Worker(__filename, {
+    workerData: { value: 5 }
+  });
+
+} else {
+  const result = workerData.value * 10;
+  parentPort.postMessage(`Result from worker ${process.pid}: ${result}`);
+}
+    </code></pre>
+    <div class="note">
+      💡 <strong>Use Case:</strong> Ideal for CPU-bound operations like encryption, compression, or large calculations.
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>⚖️ Comparison Table</h3>
+    <table border="1" cellpadding="10" cellspacing="0">
+      <tr>
+        <th>Feature</th>
+        <th>Cluster</th>
+        <th>Worker Threads</th>
+      </tr>
+      <tr>
+        <td>Type</td>
+        <td>Multi-process</td>
+        <td>Multi-thread</td>
+      </tr>
+      <tr>
+        <td>Memory</td>
+        <td>Each process has its own memory</td>
+        <td>Shared memory possible</td>
+      </tr>
+      <tr>
+        <td>Communication</td>
+        <td>IPC (Inter-Process Communication)</td>
+        <td>parentPort/postMessage</td>
+      </tr>
+      <tr>
+        <td>Best For</td>
+        <td>Scaling HTTP servers</td>
+        <td>CPU-intensive tasks</td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+</html>

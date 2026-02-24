@@ -1,0 +1,13 @@
+# Calculator Application Dependencies
+# This file lists the Python packages required for the calculator application
+
+# Web framework for the login system and web calculator
+Flask==2.3.3
+
+# For security enhancements (optional)
+Werkzeug==2.3.7
+
+# If you want to add advanced features, you might consider:
+# numpy>=1.24.0        # For advanced mathematical operations
+# pytest>=7.0.0        # For unit testing
+# black>=23.0.0        # For code formatting

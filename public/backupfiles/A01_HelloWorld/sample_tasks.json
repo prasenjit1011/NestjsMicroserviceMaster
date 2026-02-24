@@ -1,0 +1,20 @@
+[
+  {
+    "description": "Learn Python programming",
+    "completed": false,
+    "created": "2025-10-18 09:00:00",
+    "completed_date": null
+  },
+  {
+    "description": "Complete to-do list project",
+    "completed": true,
+    "created": "2025-10-18 09:15:00",
+    "completed_date": "2025-10-18 10:30:00"
+  },
+  {
+    "description": "Practice Docker containers",
+    "completed": false,
+    "created": "2025-10-18 09:30:00",
+    "completed_date": null
+  }
+]

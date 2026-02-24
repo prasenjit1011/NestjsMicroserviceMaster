@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ReactJS Frontend UI Developer Interview Questions</title>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+  <link rel="stylesheet" href="styles00.css">
+  <link rel="stylesheet" href="styles01.css">
+  <style>
+    :root {
+
+      --bg-color: #363232;
+      --text-color: #e0e0e0;
+      --link-color: #90caf9;
+    }
+
+    [data-theme="dark"] {
+        --bg-color: #ebece8;
+      --text-color: #2c3e50;
+      --link-color: #007BFF;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 2rem;
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    button#toggleTheme {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--link-color);
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    h1, h2 {
+      color: var(--text-color);
+    }
+
+    code {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+ 
+    .green{
+        background-color: #35be35;
+    }
+  </style>
+</head>
+<body>
+    <a href="/doctor/index.html">Nodejs</a> &nbsp; 
+    <a href="/doctor/react.html">React</a> &nbsp; 
+    <a href="/doctor/react-question.html">React-Question</a> &nbsp; 
+    <a href="/doctor/docker.html">Docker</a> &nbsp; 
+    <a href="https://onecompiler.com/nodejs/43hqq7r87" >Coding</a> &nbsp; 
+    <a href="/doctor/cmd.html">CMD</a> &nbsp; 
+    
+    <button id="toggleTheme">🌙 Night Mode</button>
+
+  </div>
+</li>
+  
+<li data-id="reactui-1" class="yellow">
+  <span class="faq-question">
+    ReactJS Frontend UI Developer Interview Questions
+  </span>
+  <div class="answer">
+
+
+
+  <p>Here’s a curated list of <strong>
+    ReactJS Frontend UI Developer interview questions</strong> 
+    tailored for someone with <strong>4 years of experience</strong>. 
+    These questions range from core concepts to performance optimization and real-world project experience:
+  </p>
+
+  <section>
+    <h2>🧠 Core React Concepts</h2>
+    <ol>
+      <li>What is the Virtual DOM, and how does React use it to improve performance?</li>
+      <li>Explain the React component lifecycle. How has it changed with hooks?</li>
+      <li>What are controlled and uncontrolled components in React?</li>
+      <li>How does the <code>key</code> prop work in lists and why is it important?</li>
+      <li>Difference between <code>props</code> and <code>state</code>?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>⚙️ React Hooks</h2>
+    <ol start="6">
+      <li>How does <code>useEffect</code> work? How do you handle cleanup?</li>
+      <li>What is the difference between <code>useMemo</code> and <code>useCallback</code>?</li>
+      <li>When would you use <code>useRef</code> in a real-world project?</li>
+      <li>How can you mimic <code>componentDidMount</code> behavior using hooks?</li>
+      <li>Explain custom hooks. Have you created any?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🧩 UI & Component Design ****</h2>
+    <ol start="11">
+      <li class="green">How do you design a reusable and customizable button component?</li>
+      <li>What are compound components in React and when should you use them?</li>
+      <li>How do you handle theming in a React application?</li>
+      <li>How do you manage layout structure with Flexbox or Grid in React?</li>
+      <li>What tools or libraries do you use for styling? (e.g., Tailwind, Styled Components, Emotion)</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🌐 Forms & Validation</h2>
+    <ol start="16">
+      <li>How do you handle form validation in React?</li>
+      <li>Compare Formik, React Hook Form, and native form handling.</li>
+      <li>How do you manage dynamic form fields?</li>
+      <li>What’s the best way to prevent unnecessary re-renders in a large form?</li>
+      <li>How would you handle conditional field rendering?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>⚡ Performance Optimization....</h2>
+    <ol start="21">
+      <li>What is reconciliation in React?</li>
+      <li>How do you debug performance issues in a large React app?</li>
+      <li>How do lazy loading and code splitting work in React?</li>
+      <li>How does <code>React.memo</code> work and when would you use it?</li>
+      <li>What are the best practices for optimizing list rendering?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🧪 Testing....</h2>
+    <ol start="26">
+      <li>How do you test a React component?</li>
+      <li>What is the difference between unit, integration, and E2E testing?</li>
+      <li>Which tools do you use for testing React components? (e.g., Jest, React Testing Library)</li>
+      <li>How do you mock API calls in your tests?</li>
+      <li>How do you test hooks?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔌 State Management........</h2>
+    <ol start="31">
+      <li>When do you use Context API vs Redux?</li>
+      <li>How would you structure your Redux store in a medium-scale project?</li>
+      <li>Explain Redux middleware. Have you used Redux Thunk or Redux Saga?</li>
+      <li class="green">What is Zustand, and have you used it?</li>
+      <li>How do you persist state across sessions?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>📦 Build Tools & Ecosystem</h2>
+    <ol start="36">
+      <li>How do you configure Webpack or Vite for a React app?</li>
+      <li>How do you manage environment variables in a frontend project?</li>
+      <li>Have you worked with server-side rendering (SSR)? With frameworks like Next.js?</li>
+      <li>How do you ensure accessibility (a11y) in your UI?</li>
+      <li>What is tree-shaking and how does it relate to bundle size?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>💼 Project & Real-World Experience...</h2>
+    <ol start="41">
+      <li>Describe a complex UI you built and how you approached it.</li>
+      <li>Have you worked with design systems or component libraries like MUI or AntD?</li>
+      <li>How do you handle cross-browser compatibility issues?</li>
+      <li>What’s your strategy for mobile responsiveness?</li>
+      <li>How do you handle dark mode in a React app?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔐 Security & Best Practices.....</h2>
+    <ol start="46">
+      <li>How do you prevent XSS or CSRF in a React frontend?</li>
+      <li>What are some common React anti-patterns you avoid?</li>
+      <li>How do you manage user authentication on the frontend?</li>
+      <li>How do you securely store and use tokens in a React app?</li>
+      <li>What’s your strategy for logging and error tracking in production?</li>
+    </ol>
+  </section>
+
+
+</div>
+</li>
+  
+<li data-id="reactui-1" class="zyellow">
+  <span class="faq-question">
+    ReactJS Frontend UI Developer Interview Questions
+  </span>
+  <div class="answer">
+
+
+
+
+
+  
+    <h1>React Form Handling Interview Q&A</h1>
+  
+    <h2>1. How do you handle form validation in React?</h2>
+    <p>
+      Form validation in React can be handled in several ways:
+    </p>
+    <ul>
+      <li><strong>Manual validation</strong>: Track form inputs using state and validate on events like <code>onBlur</code> or <code>onSubmit</code>.</li>
+      <li><strong>Using libraries</strong>:
+        <ul>
+          <li><strong>React Hook Form</strong>: Minimal re-renders, performance-friendly.</li>
+          <li><strong>Formik</strong>: Declarative and intuitive for complex forms.</li>
+          <li><strong>Yup</strong> or <strong>Zod</strong>: Schema-based validation integration.</li>
+        </ul>
+      </li>
+    </ul>
+  
+    <pre><code>const schema = yup.object({
+    email: yup.string().email().required(),
+  });
+  
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+  });
+  </code></pre>
+  
+    <h2>2. Compare Formik, React Hook Form, and Native Form Handling</h2>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Native HTML Form</th>
+          <th>Formik</th>
+          <th>React Hook Form</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Boilerplate</td>
+          <td>High</td>
+          <td>Medium</td>
+          <td>Low</td>
+        </tr>
+        <tr>
+          <td>Performance</td>
+          <td>Poor</td>
+          <td>OK</td>
+          <td>Excellent</td>
+        </tr>
+        <tr>
+          <td>Learning Curve</td>
+          <td>Low</td>
+          <td>Medium</td>
+          <td>Low</td>
+        </tr>
+        <tr>
+          <td>Schema Validation</td>
+          <td>Manual</td>
+          <td>Yup</td>
+          <td>Yup/Zod</td>
+        </tr>
+        <tr>
+          <td>Typescript Support</td>
+          <td>Manual</td>
+          <td>Good</td>
+          <td>Excellent</td>
+        </tr>
+        <tr>
+          <td>Dynamic Fields</td>
+          <td>Manual</td>
+          <td>Supported</td>
+          <td><code>useFieldArray</code></td>
+        </tr>
+        <tr>
+          <td>Ideal Use Case</td>
+          <td>Simple forms</td>
+          <td>Complex forms</td>
+          <td>Any, especially large forms</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <h2>3. How do you manage dynamic form fields?</h2>
+    <p>
+      Use <strong><code>useFieldArray</code></strong> from React Hook Form:
+    </p>
+  
+    <pre><code>const { control, register } = useForm();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "items"
+  });
+  
+  return (
+    &lt;&gt;
+      {fields.map((item, index) =&gt; (
+        &lt;input {...register(`items.${index}.value`)} /&gt;
+      ))}
+      &lt;button onClick={() =&gt; append({ value: '' })}&gt;Add&lt;/button&gt;
+    &lt;/&gt;
+  );
+  </code></pre>
+  
+    <h2>4. What’s the best way to prevent unnecessary re-renders in a large form?</h2>
+    <ul>
+      <li>Use <strong>React Hook Form</strong> with uncontrolled components.</li>
+      <li>Wrap components in <code>React.memo</code>.</li>
+      <li>Use <code>Controller</code> only for controlled components like Material UI inputs.</li>
+      <li>Avoid form-wide state management unless necessary.</li>
+      <li>Use <code>useWatch</code> to subscribe to only needed fields.</li>
+    </ul>
+  
+    <h2>5. How would you handle conditional field rendering?</h2>
+    <p>
+      Use values from form state and conditionally render based on logic:
+    </p>
+  
+    <pre><code>const watchCountry = watch('country');
+  
+  {watchCountry === 'USA' &amp;&amp; (
+    &lt;input {...register('state')} placeholder="Enter your state" /&gt;
+  )}
+  </code></pre>
+  
+    <p>
+      If conditionally hiding fields, remember to clear their values if they shouldn't be submitted.
+    </p>
+  
+
+  </div>
+</li>
+  
+<li data-id="reactui-1" class="yellow">
+  <span class="faq-question">
+    ReactJS Frontend UI Developer Interview Questions
+  </span>
+  <div class="answer">
+    
+      <h1>React Performance Optimization Interview Q&A</h1>
+    
+      <h2>1. What is reconciliation in React?</h2>
+      <p>
+        Reconciliation is the process React uses to determine how the DOM should change in response to state/prop updates.
+        React maintains a virtual DOM and when updates occur, it compares the new virtual DOM with the previous one (diffing algorithm). Based on this comparison, it updates only the necessary parts of the real DOM for better performance.
+      </p>
+    
+      <h2>2. How do you debug performance issues in a large React app?</h2>
+      <ul>
+        <li>Use the <strong>React DevTools</strong> "Profiler" tab to analyze component render timings and unnecessary renders.</li>
+        <li>Use Chrome DevTools for network, memory, and JS profiling.</li>
+        <li>Identify re-render causes using <code>why-did-you-render</code>.</li>
+        <li>Check dependency arrays in <code>useEffect</code>.</li>
+        <li>Optimize state: avoid lifting state unnecessarily.</li>
+        <li>Split large components and defer loading (lazy loading).</li>
+      </ul>
+    
+      <h2>3. How do lazy loading and code splitting work in React?</h2>
+      <p>
+        Lazy loading defers loading a component until it's needed. Code splitting splits the bundle into smaller chunks, reducing initial load time.
+      </p>
+    
+      <pre><code>import React, { lazy, Suspense } from 'react';
+    
+    const HeavyComponent = lazy(() => import('./HeavyComponent'));
+    
+    function App() {
+      return (
+        &lt;Suspense fallback={"Loading..."}&gt;
+          &lt;HeavyComponent /&gt;
+        &lt;/Suspense&gt;
+      );
+    }</code></pre>
+    
+      <p>
+        React supports code splitting via dynamic <code>import()</code> and tools like Webpack. Libraries like <code>React Router</code> can integrate with lazy loading per route.
+      </p>
+    
+      <h2>4. How does React.memo work and when would you use it?</h2>
+      <p>
+        <code>React.memo</code> is a higher-order component that memoizes a functional component. It prevents re-rendering unless props change.
+      </p>
+    
+      <pre><code>const MyComponent = React.memo(({ value }) => {
+      return &lt;div&gt;{value}&lt;/div&gt;;
+    });</code></pre>
+    
+      <p>
+        Use it for performance optimization when:
+      </p>
+      <ul>
+        <li>The component is pure (same output for same props).</li>
+        <li>It receives frequently unchanged props.</li>
+        <li>Rendering is expensive (e.g., complex UI or large lists).</li>
+      </ul>
+    
+      <h2>5. What are the best practices for optimizing list rendering?</h2>
+      <ul>
+        <li>Always provide a unique <code>key</code> for list items.</li>
+        <li>Use <code>React.memo</code> or <code>PureComponent</code> for list items.</li>
+        <li>Use virtualization for large lists: <strong>react-window</strong>, <strong>react-virtualized</strong>.</li>
+        <li>Avoid inline functions and object/array creations inside map.</li>
+        <li>Only render what's visible – paginate or infinite scroll if needed.</li>
+      </ul>
+
+    </div>
+  </li>
+    
+  <li data-id="reactui-1" class="yellow">
+    <span class="faq-question">
+      ReactJS Frontend UI Developer Interview Questions
+    </span>
+    <div class="answer">
+  <h1>React Security & Best Practices</h1>
+
+  <h2>1. How do you prevent XSS or CSRF in a React frontend?</h2>
+  <ul>
+    <li>Escape all user input and avoid <code>dangerouslySetInnerHTML</code>.</li>
+    <li>Use frameworks like DOMPurify to sanitize HTML when rendering dynamic content.</li>
+    <li>For CSRF:
+      <ul>
+        <li>Use same-site cookies with proper attributes (<code>SameSite=Lax</code> or <code>Strict</code>).</li>
+        <li>Use CSRF tokens if needed with secure HTTP-only cookies.</li>
+        <li>Avoid storing tokens in localStorage/sessionStorage if possible.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>2. What are some common React anti-patterns you avoid?</h2>
+  <ul>
+    <li>Mutating state directly instead of using <code>setState</code> or immutable updates.</li>
+    <li>Overusing context for frequently changing values.</li>
+    <li>Too many unnecessary re-renders due to poor memoization.</li>
+    <li>Large monolithic components instead of modularizing UI.</li>
+    <li>Using index as a key in list rendering.</li>
+    <li>Using <code>useEffect</code> improperly (e.g., missing dependencies).</li>
+  </ul>
+
+  <h2>3. How do you manage user authentication on the frontend?</h2>
+  <ul>
+    <li>On successful login, receive a token from backend (usually JWT).</li>
+    <li>Store the token securely (HTTP-only cookie preferred for security).</li>
+    <li>Use protected routes via route guards or HOCs based on token presence.</li>
+    <li>Use context or global state (e.g., Redux, Zustand) to manage auth status.</li>
+  </ul>
+
+  <h2>4. How do you securely store and use tokens in a React app?</h2>
+  <ul>
+    <li><strong>Prefer HTTP-only cookies</strong> set by the server (not accessible by JS) to prevent XSS.</li>
+    <li>If using localStorage or sessionStorage:
+      <ul>
+        <li>Be aware of XSS vulnerabilities.</li>
+        <li>Clear token on logout or inactivity.</li>
+      </ul>
+    </li>
+    <li>Always use HTTPS to protect tokens in transit.</li>
+    <li>Rotate tokens and implement refresh tokens securely.</li>
+  </ul>
+
+  <h2>5. What’s your strategy for logging and error tracking in production?</h2>
+  <ul>
+    <li>Use error boundaries to catch component-level exceptions.</li>
+    <li>Log errors using services like Sentry, LogRocket, Bugsnag, or custom logging.</li>
+    <li>Redact sensitive user data before sending logs.</li>
+    <li>Use <code>window.onerror</code> and <code>window.onunhandledrejection</code> for global error capturing.</li>
+    <li>Track performance metrics and user behavior if needed (via analytics).</li>
+  </ul>
+
+
+
+</div>
+</li>
+  
+<li data-id="reactui-1" class="yellow">
+  <span class="faq-question">
+    ReactJS Frontend UI Developer Interview Questions
+  </span>
+  <div class="answer">
+
+  <h1>Project & Real-World Experience</h1>
+
+  <h2>1. Describe a complex UI you built and how you approached it.</h2>
+  <ul>
+    <li>Built a real-time dashboard for analytics with filters, charts, and tables.</li>
+    <li>Used component decomposition, state management (Zustand/Redux), and memoization for performance.</li>
+    <li>Incorporated role-based access control (RBAC) and responsive layout.</li>
+    <li>Collaborated closely with design and backend teams for consistency and API integration.</li>
+  </ul>
+
+  <h2>2. Have you worked with design systems or component libraries like MUI or AntD?</h2>
+  <ul>
+    <li>Yes, extensively used MUI and AntD in enterprise-grade dashboards and admin panels.</li>
+    <li>Customized themes and components based on business needs.</li>
+    <li>Also contributed to internal design systems by creating reusable and consistent components.</li>
+  </ul>
+
+  <h2>3. How do you handle cross-browser compatibility issues?</h2>
+  <ul>
+    <li>Use CSS normalization libraries like <code>normalize.css</code> or reset stylesheets.</li>
+    <li>Test on all major browsers including Chrome, Firefox, Safari, and Edge.</li>
+    <li>Leverage tools like BrowserStack for cross-platform testing.</li>
+    <li>Use feature detection via <code>Modernizr</code> or fallback logic for unsupported features.</li>
+  </ul>
+
+  <h2>4. What’s your strategy for mobile responsiveness?</h2>
+  <ul>
+    <li>Mobile-first design using CSS media queries.</li>
+    <li>Use of CSS Flexbox and Grid for responsive layout handling.</li>
+    <li>Leverage component libraries like MUI that have responsive utilities.</li>
+    <li>Thorough testing on various screen sizes and devices (e.g., DevTools, emulators, real devices).</li>
+  </ul>
+
+  <h2>5. How do you handle dark mode in a React app?</h2>
+  <ul>
+    <li>Use CSS custom properties and a theme context/provider to toggle light/dark mode.</li>
+    <li>Persist user preference in <code>localStorage</code> or system setting via <code>prefers-color-scheme</code>.</li>
+    <li>Tailwind CSS or MUI offers built-in dark mode theming features for quick implementation.</li>
+    <li>Wrap logic inside a custom hook like <code>useDarkMode</code> for reusability.</li>
+  </ul>
+
+
+
+</div>
+</li>
+  
+<li data-id="reactui-1" class="yellow">
+  <span class="faq-question">
+    ReactJS Frontend UI Developer Interview Questions
+  </span>
+  <div class="answer">
+  <h1>🧠 State Management</h1>
+
+  <h2>1. When do you use Context API vs Redux?</h2>
+  <ul>
+    <li><strong>Context API:</strong> Ideal for light state sharing like theme, language, or authentication state.</li>
+    <li><strong>Redux:</strong> Best for large-scale applications with complex and deeply nested state management.</li>
+    <li>Context API lacks built-in middleware, debugging tools, and performance optimizations compared to Redux.</li>
+  </ul>
+
+  <h2>2. How would you structure your Redux store in a medium-scale project?</h2>
+  <ul>
+    <li>Organize by feature: <code>/features/users</code>, <code>/features/products</code>.</li>
+    <li>Separate files for <code>actions</code>, <code>reducers</code>, and <code>selectors</code>.</li>
+    <li>Use Redux Toolkit to simplify slice creation and reduce boilerplate.</li>
+    <li>Implement global middleware for logging, error handling, and API interaction.</li>
+  </ul>
+
+  <h2>3. Explain Redux middleware. Have you used Redux Thunk or Redux Saga?</h2>
+  <ul>
+    <li><strong>Redux middleware</strong> allows interception and modification of actions before reaching reducers.</li>
+    <li><strong>Redux Thunk:</strong> Lets you dispatch functions (typically for async logic).</li>
+    <li><strong>Redux Saga:</strong> Uses generator functions to handle complex side effects elegantly.</li>
+    <li>I've used both; Thunk for simple async flows and Saga in enterprise apps with advanced workflows.</li>
+  </ul>
+
+  <h2>4. What is Zustand, and have you used it?</h2>
+  <ul>
+    <li>Zustand is a small, fast, and scalable state management library built on hooks.</li>
+    <li>API is minimal and simple compared to Redux; no reducers or actions required.</li>
+    <li>Yes, used Zustand for smaller apps and isolated logic like modals, sidebars, or settings panels.</li>
+  </ul>
+
+  <h2>5. How do you persist state across sessions?</h2>
+  <ul>
+    <li>Use <code>localStorage</code> or <code>sessionStorage</code> to save parts of the Redux/Context state.</li>
+    <li>With Redux, use <code>redux-persist</code> to automate persistence and rehydration.</li>
+    <li>Encrypt sensitive state data before storage if needed for security.</li>
+    <li>Watch out for circular JSON structures or stale data bugs.</li>
+  </ul>
+
+
+</div>
+</li>
+  
+<li data-id="reactui-1" class="yellow">
+  <span class="faq-question">
+    ReactJS Frontend UI Developer Interview Questions
+  </span>
+  <div class="answer">
+  <h1>🧪 Testing</h1>
+
+  <h2>1. How do you test a React component?</h2>
+  <ul>
+    <li>Render the component using testing utilities like <code>React Testing Library</code>.</li>
+    <li>Simulate user interactions and verify UI updates.</li>
+    <li>Check if component renders expected output based on props/state.</li>
+    <li>Test edge cases and error states.</li>
+  </ul>
+
+  <h2>2. What is the difference between unit, integration, and E2E testing?</h2>
+  <ul>
+    <li><strong>Unit Testing:</strong> Tests individual components or functions in isolation.</li>
+    <li><strong>Integration Testing:</strong> Tests interactions between multiple components or modules.</li>
+    <li><strong>End-to-End (E2E) Testing:</strong> Tests the whole application flow from user perspective using tools like Cypress or Selenium.</li>
+  </ul>
+
+  <h2>3. Which tools do you use for testing React components?</h2>
+  <ul>
+    <li><code>Jest</code> for test runner and assertions.</li>
+    <li><code>React Testing Library</code> for rendering components and querying DOM.</li>
+    <li><code>Enzyme</code> (less common now) for shallow rendering and more detailed React component testing.</li>
+  </ul>
+
+  <h2>4. How do you mock API calls in your tests?</h2>
+  <ul>
+    <li>Use <code>jest.mock()</code> to mock API modules.</li>
+    <li>Use libraries like <code>msw (Mock Service Worker)</code> to intercept HTTP requests.</li>
+    <li>Stub fetch or axios calls using jest spies or mock implementations.</li>
+  </ul>
+
+  <h2>5. How do you test hooks?</h2>
+  <ul>
+    <li>Use utilities like <code>@testing-library/react-hooks</code> to render and test custom hooks.</li>
+    <li>Test hook outputs and side effects directly.</li>
+    <li>Wrap hook usage inside a test component if needed for context or state.</li>
+  </ul>
+
+
+
+</div>
+</li>
+  
+<li data-id="reactui-1" class="yellow">
+  <span class="faq-question">
+    ReactJS Frontend UI Developer Interview Questions
+  </span>
+  <div class="answer">
+  
+    <h1>✅ What is Zustand in React?</h1>
+    <p><strong>Zustand</strong> is a <strong>lightweight</strong>, <strong>fast</strong>, and <strong>scalable</strong> state management library for React. It uses hooks and is ideal for managing global or shared state with minimal boilerplate.</p>
+  
+    <h2>🔍 Why Use Zustand?</h2>
+    <ul>
+      <li>🧠 <strong>Minimal boilerplate</strong> – no reducers or actions required</li>
+      <li>⚡ <strong>High performance</strong> – isolated re-renders</li>
+      <li>🧩 <strong>Middleware support</strong> – like devtools, persist, etc.</li>
+      <li>🧪 Great for isolated state (e.g., modals, themes, auth, UI toggles)</li>
+    </ul>
+  
+    <h2>🧬 Core Concepts</h2>
+  
+    <h3>✅ Creating a Store</h3>
+    <pre><code>import create from 'zustand';
+  
+  const useStore = create((set) => ({
+    count: 0,
+    increase: () => set((state) => ({ count: state.count + 1 })),
+  }));
+  </code></pre>
+  
+    <h3>✅ Using the Store in a Component</h3>
+    <pre><code>function Counter() {
+    const count = useStore((state) => state.count);
+    const increase = useStore((state) => state.increase);
+  
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;{count}&lt;/h2&gt;
+        &lt;button onClick={increase}&gt;Increment&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+  </code></pre>
+  
+    <h2>🔐 Middleware Example: Persist</h2>
+    <pre><code>import { create } from 'zustand';
+  import { persist } from 'zustand/middleware';
+  
+  const useStore = create(
+    persist(
+      (set) => ({
+        theme: 'light',
+        toggleTheme: () =>
+          set((state) => ({
+            theme: state.theme === 'light' ? 'dark' : 'light',
+          })),
+      }),
+      {
+        name: 'theme-storage', // key in localStorage
+      }
+    )
+  );
+  </code></pre>
+  
+    <h2>🛠️ Zustand vs Redux vs Context</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Zustand</th>
+          <th>Redux</th>
+          <th>Context API</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Boilerplate</td>
+          <td>Very Low</td>
+          <td>High</td>
+          <td>Medium</td>
+        </tr>
+        <tr>
+          <td>Devtools Support</td>
+          <td>Yes (middleware)</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Middleware</td>
+          <td>Easy to use</td>
+          <td>Requires setup</td>
+          <td>Not applicable</td>
+        </tr>
+        <tr>
+          <td>Performance</td>
+          <td>Excellent</td>
+          <td>Excellent</td>
+          <td>Lower in deep trees</td>
+        </tr>
+        <tr>
+          <td>Learning Curve</td>
+          <td>Easy</td>
+          <td>Moderate</td>
+          <td>Easy</td>
+        </tr>
+      </tbody>
+    </table>
+  
+
+
+
+
+    
+      <h1>Zustand Example with Middleware</h1>
+    
+      <p>This example demonstrates Zustand with multiple middleware: <strong>devtools</strong>, <strong>persist</strong>, and <strong>immer</strong>.</p>
+    
+      <h2>🧠 Store File (TypeScript)</h2>
+      <pre><code>import { create } from 'zustand';
+    import { devtools, persist } from 'zustand/middleware';
+    import { immer } from 'zustand/middleware/immer';
+    
+    interface AppState {
+      count: number;
+      theme: 'light' | 'dark';
+      increase: () =&gt; void;
+      toggleTheme: () =&gt; void;
+    }
+    
+    export const useAppStore = create&lt;AppState&gt;()(
+      devtools(
+        persist(
+          immer((set) =&gt; ({
+            count: 0,
+            theme: 'light',
+            increase: () =&gt;
+              set((state) =&gt; {
+                state.count += 1;
+              }),
+            toggleTheme: () =&gt;
+              set((state) =&gt; {
+                state.theme = state.theme === 'light' ? 'dark' : 'light';
+              }),
+          })),
+          {
+            name: 'app-storage', // Key in localStorage
+            partialize: (state) =&gt; ({ theme: state.theme }), // Only persist theme
+          }
+        ),
+        { name: 'AppStore' }
+      )
+    );
+    </code></pre>
+    
+      <h2>⚙️ Component Usage</h2>
+      <pre><code>import React from 'react';
+    import { useAppStore } from './store/useAppStore';
+    
+    const Dashboard = () =&gt; {
+      const count = useAppStore((state) =&gt; state.count);
+      const increase = useAppStore((state) =&gt; state.increase);
+      const theme = useAppStore((state) =&gt; state.theme);
+      const toggleTheme = useAppStore((state) =&gt; state.toggleTheme);
+    
+      return (
+        &lt;div style={{ background: theme === 'dark' ? '#222' : '#fff', color: theme === 'dark' ? '#fff' : '#000' }}&gt;
+          &lt;h1&gt;Theme: {theme}&lt;/h1&gt;
+          &lt;button onClick={toggleTheme}&gt;Toggle Theme&lt;/button&gt;
+          &lt;h2&gt;Count: {count}&lt;/h2&gt;
+          &lt;button onClick={increase}&gt;Increment&lt;/button&gt;
+        &lt;/div&gt;
+      );
+    };
+    
+    export default Dashboard;
+    </code></pre>
+    
+      <h2>📦 Install Dependencies</h2>
+      <pre><code>npm install zustand zustand/middleware immer</code></pre>
+
+
+      
+        <h1>🛠️ Zustand <code>devtools</code> Middleware</h1>
+      
+        <p>
+          The <strong>devtools middleware</strong> in Zustand enables integration with the Redux DevTools browser extension,
+          giving you the ability to inspect state updates, time travel, and debug your global state easily.
+        </p>
+      
+        <h2>📦 Installation</h2>
+        <pre><code>npm install zustand</code></pre>
+      
+        <h2>🔧 Store Setup with <code>devtools</code></h2>
+        <pre><code>import { create } from 'zustand';
+      import { devtools } from 'zustand/middleware';
+      
+      interface CounterState {
+        count: number;
+        increase: () =&gt; void;
+        decrease: () =&gt; void;
+      }
+      
+      export const useCounterStore = create&lt;CounterState&gt;()(
+        devtools((set) =&gt; ({
+          count: 0,
+          increase: () =&gt; set((state) =&gt; ({ count: state.count + 1 })),
+          decrease: () =&gt; set((state) =&gt; ({ count: state.count - 1 })),
+        }), { name: 'CounterStore' })
+      );
+      </code></pre>
+      
+        <h2>⚛️ Using the Store in React</h2>
+        <pre><code>import React from 'react';
+      import { useCounterStore } from './store/useCounterStore';
+      
+      const Counter = () =&gt; {
+        const count = useCounterStore((state) =&gt; state.count);
+        const increase = useCounterStore((state) =&gt; state.increase);
+        const decrease = useCounterStore((state) =&gt; state.decrease);
+      
+        return (
+          &lt;div&gt;
+            &lt;h1&gt;Count: {count}&lt;/h1&gt;
+            &lt;button onClick={increase}&gt;+&lt;/button&gt;
+            &lt;button onClick={decrease}&gt;-&lt;/button&gt;
+          &lt;/div&gt;
+        );
+      };
+      
+      export default Counter;
+      </code></pre>
+      
+        <h2>🧪 Debugging with Redux DevTools</h2>
+        <ul>
+          <li>Install the Redux DevTools extension in your browser</li>
+          <li>Open your app and inspect the Zustand store under Redux tab</li>
+          <li>Use time travel, action logs, and state diffs to debug</li>
+        </ul>
+
+      </div>
+    </li>
+      
+
+
+
+
+<script src="script.js"></script>
+
+  <script>
+    const button = document.getElementById('toggleTheme');
+    let darkMode = false;
+
+    button.addEventListener('click', () => {
+      darkMode = !darkMode;
+      document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+      button.textContent = darkMode ? '☀️ Day Mode' : '🌙 Night Mode';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Laravel</title>
+<script src="cdn/jquery-3.6.0.min.js"></script>
+<script src="cdn/js.cookie.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div>
+<a href="/doctor/index.html">Nodejs</a> &nbsp; 
+<a href="/doctor/react.html">React</a> &nbsp; 
+<a href="/doctor/docker.html">Docker</a> &nbsp; 
+<a href="/doctor/cmd.html">CMD</a> &nbsp; 
+<a href="/doctor/kafka.html">Kafka</a> &nbsp; 
+<a href="kafka-interview.html">Kafka Interview</a> &nbsp; 
+<a href="mongodb.html">Mongo DB</a> &nbsp; 
+<a href="DynamoDB.html">Dynamo DB</a> &nbsp; 
+<a href="code.html">Promise</a> &nbsp; 
+<a href="code.html">Code</a> &nbsp; 
+<a href="crud.html">Crud</a> &nbsp; 
+<a href="skill.html">Skill</a> &nbsp; 
+<a href="laravel.html">Laravel</a> &nbsp; 
+<a href="https://onecompiler.com/nodejs/43hqq7r87" >Coding</a> &nbsp; 
+</div>
+
+<ul class="faq">
+
+
+<li data-id="qqq">
+<span class="faq-question">What are the prerequisites to install Laravel 12?</span>
+<div class="answer">
+<pre>
+<a href="AuthController.html">AuthController.html</a>
+composer create-project laravel/laravel myapp
+cd myapp
+composer require laravel/breeze --dev
+php artisan breeze:install
+php artisan key:generate
+php artisan migrate
+
+composer require tymon/jwt-auth
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+php artisan jwt:secret
+php artisan make:controller AuthController
+
+
+php artisan serve --port=8000
+
+
+
+composer create-project laravel/laravel laravel12_react
+cd laravel12_react
+composer require laravel/breeze --dev
+php artisan breeze:install react
+   
+
+
+composer create-project laravel/laravel myapp
+cd myapp
+composer require laravel/breeze --dev
+php artisan breeze:install
+npm install && npm run dev
+php artisan migrate
+php artisan serve
+
+
+
+Run the following in terminal:
+composer global require laravel/installer
+laravel new blog
+
+composer create-project laravel/laravel blog
+cd blog
+<hr />cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+
+composer require laravel/breeze --dev
+php artisan breeze:install
+npm install && npm run dev
+
+php artisan route:list
+php artisan make:controller HomeController
+php artisan make:model Post -m
+php artisan migrate:fresh --seed
+php artisan tinker
+
+Visit <a href="http://localhost:8000" >http://localhost:8000</a> in your browser.
+Then visit <b>/register</b> or <b>/login</b> in the browser.
+Ensure your global Composer `vendor/bin` path is added to your system's PATH variable.
+</pre>
+
+<pre>
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_db
+DB_USERNAME=root
+DB_PASSWORD=your_password
+</pre>
+<pre>
+- PHP 8.2 or higher
+- Composer
+- Node.js & npm (for frontend assets)
+- A database (MySQL, PostgreSQL, SQLite, etc.)
+- Optional: Laravel Installer (via Composer)
+</pre>
+    
+</div>
+</li>
+
+<li data-id="qqq" class="yellow"><span class="faq-question">--------------------------------<br /></span></li>
+
+        <li data-id="qqq">
+          <span class="faq-question">What is Laravel?</span>
+          <div class="answer">
+            Laravel is a free, open-source PHP web framework used to develop web applications following the MVC (Model-View-Controller) pattern. It provides elegant syntax, routing, authentication, caching, and more.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are the features of Laravel?</span>
+          <div class="answer">
+            Key features include:<br>
+            - MVC architecture<br>
+            - Eloquent ORM<br>
+            - Routing<br>
+            - Middleware<br>
+            - Blade templating engine<br>
+            - Artisan CLI<br>
+            - Security (CSRF, XSS protection)<br>
+            - Task scheduling and queues
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is MVC architecture?</span>
+          <div class="answer">
+            MVC stands for Model-View-Controller.<br>
+            - Model: Manages data and business logic<br>
+            - View: Handles presentation<br>
+            - Controller: Handles user input and updates Model/View
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are routes in Laravel?</span>
+          <div class="answer">
+            Routes define the URLs your application should respond to and map them to controllers or closures. They are defined in <code>routes/web.php</code> or <code>routes/api.php</code>.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is the use of Composer in Laravel?</span>
+          <div class="answer">
+            Composer is a dependency manager for PHP. It is used in Laravel to install and manage packages and libraries required by the application.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is a Service Provider in Laravel?</span>
+          <div class="answer">
+            Service Providers are the central place to configure and bootstrap application services. All service providers are registered in <code>config/app.php</code> in the <code>providers</code> array.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is Middleware in Laravel?</span>
+          <div class="answer">
+            Middleware filters HTTP requests entering your application. It is used for tasks like authentication, logging, CORS, etc. You can assign middleware to routes or route groups.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is CSRF protection in Laravel?</span>
+          <div class="answer">
+            CSRF (Cross-Site Request Forgery) protection prevents unauthorized commands from being performed. Laravel includes a CSRF token in every form, which is verified on submission.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is Blade in Laravel?</span>
+          <div class="answer">
+            Blade is Laravel's templating engine. It allows you to use PHP logic in HTML using directives like <code>@if</code>, <code>@foreach</code>, <code>@extends</code>, <code>@section</code>.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to install Laravel?</span>
+          <div class="answer">
+            You can install Laravel using Composer:<br>
+            <pre><code>composer create-project laravel/laravel example-app</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is the use of the .env file?</span>
+          <div class="answer">
+            The <code>.env</code> file stores environment-specific configuration like database credentials, app URL, and keys. It's used by Laravel’s configuration system.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are facades in Laravel?</span>
+          <div class="answer">
+            Facades provide a static interface to classes in the service container. For example, <code>Cache::get()</code> is a facade for the caching system.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you define a controller in Laravel?</span>
+          <div class="answer">
+            Use Artisan command:<br>
+            <pre><code>php artisan make:controller UserController</code></pre>
+            This creates a controller in <code>app/Http/Controllers</code>.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is the difference between web.php and api.php?</span>
+          <div class="answer">
+            - <code>web.php</code>: For web routes using sessions and CSRF protection.<br>
+            - <code>api.php</code>: For stateless API routes using the <code>api</code> middleware group.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is a Request in Laravel?</span>
+          <div class="answer">
+            A Request is an object representing an HTTP request. You can access input data using:<br>
+            <pre><code>$request->input('key')</code></pre>
+            or dependency-inject <code>Illuminate\Http\Request</code>.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you handle errors in Laravel?</span>
+          <div class="answer">
+            Laravel handles errors using the <code>app/Exceptions/Handler.php</code> class. You can render custom error responses or log errors using built-in logging facilities.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is the use of the config directory?</span>
+          <div class="answer">
+            The <code>config</code> directory contains all of your application's configuration files such as <code>app.php</code>, <code>database.php</code>, <code>mail.php</code>, etc.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to use session in Laravel?</span>
+          <div class="answer">
+            Laravel provides multiple session drivers. You can access sessions via:<br>
+            <pre><code>session(['key' => 'value']);<br>session('key');</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is Laravel Mix?</span>
+          <div class="answer">
+            Laravel Mix is a wrapper around Webpack that compiles and optimizes assets like CSS, JS, and SASS. It's configured in <code>webpack.mix.js</code>.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is a Helper function in Laravel?</span>
+          <div class="answer">
+            Helpers are global functions that provide shortcuts for common tasks, e.g., <code>route()</code>, <code>asset()</code>, <code>url()</code>, <code>dd()</code>.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is Eloquent ORM in Laravel?</span>
+          <div class="answer">
+            Eloquent ORM (Object Relational Mapper) is Laravel's built-in ORM that provides a simple ActiveRecord implementation for working with the database using models.<br>
+            Example:<br>
+            <pre><code>$users = User::where('status', 'active')->get();</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are Eloquent relationships?</span>
+          <div class="answer">
+            Eloquent relationships define associations between Eloquent models, such as:<br>
+            - One to One: <code>hasOne</code><br>
+            - One to Many: <code>hasMany</code><br>
+            - Many to Many: <code>belongsToMany</code><br>
+            - Polymorphic: <code>morphTo</code><br>
+            Example:<br>
+            <pre><code>public function posts() {
+          return $this->hasMany(Post::class);
+      }</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you use Laravel migrations?</span>
+          <div class="answer">
+            Migrations are version control for your database schema. Create and run migrations:<br>
+            <pre><code>php artisan make:migration create_users_table
+      php artisan migrate</code></pre>
+            Define schema using Laravel’s fluent schema builder.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are seeders and factories?</span>
+          <div class="answer">
+            - <strong>Seeders</strong> populate test data into the database.<br>
+            - <strong>Factories</strong> define model blueprints for generating fake data.<br>
+            Example:<br>
+            <pre><code>User::factory()->count(5)->create();</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is Laravel Artisan?</span>
+          <div class="answer">
+            Artisan is the command-line interface included with Laravel. It provides commands for generating files and running tasks.<br>
+            Example:<br>
+            <pre><code>php artisan list
+      php artisan make:controller UserController</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you validate form data in Laravel?</span>
+          <div class="answer">
+            You can validate data in controllers using:<br>
+            <pre><code>$request->validate([
+          'name' => 'required|max:255',
+          'email' => 'required|email',
+      ]);</code></pre>
+            Or use Form Request classes with custom rules.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to create and use custom Artisan commands?</span>
+          <div class="answer">
+            Create a custom command using:<br>
+            <pre><code>php artisan make:command CustomCommand</code></pre>
+            Register it in <code>app/Console/Kernel.php</code>, then run it:<br>
+            <pre><code>php artisan custom:command</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to use Eloquent accessors and mutators?</span>
+          <div class="answer">
+            - **Accessors**: Format values when accessing model attributes.<br>
+            - **Mutators**: Modify values before saving to the database.<br>
+            Example:<br>
+            <pre><code>public function getNameAttribute($value) {
+          return ucfirst($value);
+      }</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you use soft deletes in Laravel?</span>
+          <div class="answer">
+            Use <code>SoftDeletes</code> trait in your model:<br>
+            <pre><code>use Illuminate\Database\Eloquent\SoftDeletes;
+      protected $dates = ['deleted_at'];</code></pre>
+            Then run:<br>
+            <pre><code>php artisan make:migration add_deleted_at_to_users_table</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to prevent mass assignment vulnerabilities?</span>
+          <div class="answer">
+            Use <code>$fillable</code> or <code>$guarded</code> properties in Eloquent models:<br>
+            <pre><code>protected $fillable = ['name', 'email'];</code></pre>
+            This ensures only allowed fields can be mass-assigned.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is the difference between authentication and authorization?</span>
+          <div class="answer">
+            - <strong>Authentication</strong> verifies user identity (e.g., login).<br>
+            - <strong>Authorization</strong> determines what actions a user can perform (e.g., admin access).
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How does Laravel handle authentication?</span>
+          <div class="answer">
+            Laravel provides built-in authentication scaffolding using <code>laravel/ui</code> or <code>laravel/breeze</code>.<br>
+            Laravel uses <code>Auth</code> facade and <code>auth</code> middleware for login, registration, and session management.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are guards in Laravel?</span>
+          <div class="answer">
+            Guards define how users are authenticated for each request. Configured in <code>config/auth.php</code>.<br>
+            Common guards: <code>web</code> (session), <code>api</code> (token).
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are providers in Laravel authentication?</span>
+          <div class="answer">
+            Providers define how users are retrieved from storage (usually the database). Defined in <code>config/auth.php</code>.<br>
+            Example: Eloquent or Database provider.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you implement login and registration?</span>
+          <div class="answer">
+            You can use starter kits like <code>laravel/ui</code>, <code>breeze</code>, or <code>jetstream</code>:<br>
+            <pre><code>composer require laravel/breeze --dev
+      php artisan breeze:install
+      php artisan migrate
+      npm install &amp;&amp; npm run dev</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you implement authorization using policies?</span>
+          <div class="answer">
+            Use <code>php artisan make:policy</code> to create a policy and map it to a model in <code>AuthServiceProvider</code>.<br>
+            <pre><code>Gate::authorize('update', $post);</code></pre>
+            In Blade:<br>
+            <pre><code>@can('update', $post) ... @endcan</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are gates in Laravel?</span>
+          <div class="answer">
+            Gates provide a simple closure-based approach to authorization for actions that aren’t related to any model.<br>
+            Example:<br>
+            <pre><code>Gate::define('view-dashboard', function ($user) {
+          return $user->isAdmin();
+      });</code></pre>
+            Usage:<br>
+            <code>Gate::allows('view-dashboard')</code>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you use middleware for authorization?</span>
+          <div class="answer">
+            Laravel provides <code>auth</code> and <code>can</code> middleware:<br>
+            <pre><code>Route::get('/admin', function () {
+          // Only admin
+      })->middleware('can:isAdmin');</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is Laravel Sanctum?</span>
+          <div class="answer">
+            Sanctum provides simple token-based API authentication for SPAs and mobile apps.<br>
+            It supports:<br>
+            - API token authentication<br>
+            - SPA authentication via cookies<br>
+            - Token abilities/scopes<br>
+            Install via:<br>
+            <pre><code>composer require laravel/sanctum
+      php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+      php artisan migrate</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you restrict access to certain routes?</span>
+          <div class="answer">
+            You can use route middleware:<br>
+            <pre><code>Route::middleware(['auth', 'can:isAdmin'])->group(function () {
+          Route::get('/admin', [AdminController::class, 'index']);
+      });</code></pre>
+            Or directly in the controller using:<br>
+            <pre><code>$this->authorize('update', $post);</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you create a REST API in Laravel?</span>
+          <div class="answer">
+            Use Laravel’s resource routes and controllers. Example:<br>
+            <pre><code>php artisan make:controller Api/UserController --api</code></pre>
+            Define routes in <code>routes/api.php</code>:<br>
+            <pre><code>Route::apiResource('users', UserController::class);</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is API Resource in Laravel?</span>
+          <div class="answer">
+            API Resources transform models and collections into JSON responses. Example:<br>
+            <pre><code>php artisan make:resource UserResource</code></pre>
+            Usage:<br>
+            <pre><code>return new UserResource($user);</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to return JSON response in Laravel?</span>
+          <div class="answer">
+            Laravel provides helper methods for JSON responses:<br>
+            <pre><code>return response()->json(['message' => 'Success'], 200);</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are API rate limits?</span>
+          <div class="answer">
+            Rate limiting helps control API abuse. Laravel uses the `ThrottleRequests` middleware.<br>
+            In <code>routes/api.php</code>:<br>
+            <pre><code>Route::middleware('throttle:60,1')->group(function () {
+          Route::get('/user', function () {
+              return auth()->user();
+          });
+      });</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What are API resources and collections?</span>
+          <div class="answer">
+            - API Resources: single model transformation.<br>
+            - API Resource Collections: wrap collections with additional metadata.<br>
+            <pre><code>return UserResource::collection(User::all());</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to implement token-based authentication?</span>
+          <div class="answer">
+            Use Laravel Sanctum or Passport for token-based auth.<br>
+            Sanctum example:<br>
+            <pre><code>$token = $user->createToken('API Token')->plainTextToken;</code></pre>
+            Send it with API calls using headers:<br>
+            <code>Authorization: Bearer &lt;token&gt;</code>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How do you protect API routes?</span>
+          <div class="answer">
+            Use auth middleware in <code>routes/api.php</code>:<br>
+            <pre><code>Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+          return $request->user();
+      });</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to handle API versioning?</span>
+          <div class="answer">
+            Use URL prefixes or subdomains:<br>
+            <pre><code>Route::prefix('v1')->group(function () {
+          Route::apiResource('users', Api\V1\UserController::class);
+      });</code></pre>
+            You can also use route groups for clean separation of versions.
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">How to create custom API exceptions?</span>
+          <div class="answer">
+            Create a custom exception class:<br>
+            <pre><code>php artisan make:exception ApiException</code></pre>
+            Handle in <code>app/Exceptions/Handler.php</code>:<br>
+            <pre><code>if ($exception instanceof ApiException) {
+          return response()->json(['error' => $exception->getMessage()], 400);
+      }</code></pre>
+          </div>
+        </li>
+      
+        <li data-id="qqq">
+          <span class="faq-question">What is the use of api.php and web.php?</span>
+          <div class="answer">
+            - <strong>api.php</strong>: routes for stateless APIs, uses <code>api</code> middleware group.<br>
+            - <strong>web.php</strong>: routes for traditional web apps with session state, CSRF protection.<br>
+            Laravel automatically groups these with appropriate middleware in <code>RouteServiceProvider</code>.
+          </div>
+        </li>
+      
+
+        <li data-id="allqz">
+          <span class="faq-question">What is a service container in Laravel?</span>
+          <div class="answer">The Service Container is Laravel's powerful dependency injection container. It is used to manage class dependencies and perform dependency injection. Example:<br><pre><code>App::bind('App\Contracts\PaymentGateway', 'App\Services\StripePayment');
+      $payment = app('App\Contracts\PaymentGateway');</code></pre></div>
+        </li>
+      
+        <li data-id="allqza">
+          <span class="faq-question">What is dependency injection?</span>
+          <div class="answer">Dependency Injection is a design pattern in which a class receives its dependencies from external sources rather than creating them internally. Laravel supports constructor and method injection.<br><pre><code>public function __construct(PaymentService $payment) {
+          $this->payment = $payment;
+      }</code></pre></div>
+        </li>
+      
+        <li data-id="allsq">
+          <span class="faq-question">What are service providers and how do you register them?</span>
+          <div class="answer">Service providers are the central place in Laravel to configure application services. They are registered in <code>config/app.php</code> under the <code>providers</code> array.<br><pre><code>php artisan make:provider CustomServiceProvider</code></pre></div>
+        </li>
+      
+        <li data-id="allsfdq">
+          <span class="faq-question">What are Laravel macros?</span>
+          <div class="answer">Macros allow you to add custom methods to existing Laravel classes. Example:<br><pre><code>Response::macro('caps', function ($value) {
+          return Response::make(strtoupper($value));
+      });</code></pre></div>
+        </li>
+      
+        <li data-id="alldfq">
+          <span class="faq-question">What is the difference between bind() and singleton()?</span>
+          <div class="answer"><code>bind()</code> creates a new instance every time, while <code>singleton()</code> reuses the same instance.<br><pre><code>App::bind('App\Services\Payment', fn() => new Payment());
+      App::singleton('App\Services\Payment', fn() => new Payment());</code></pre></div>
+        </li>
+      
+        <li data-id="alwwlq">
+          <span class="faq-question">What is the repository pattern?</span>
+          <div class="answer">The Repository Pattern decouples data access logic from business logic, providing a cleaner and more testable structure.<br><pre><code>interface UserRepository {
+          public function all();
+      }
+      class EloquentUserRepository implements UserRepository {
+          public function all() {
+              return User::all();
+          }
+      }</code></pre></div>
+        </li>
+      
+        <li data-id="alddflq">
+          <span class="faq-question">How do you use queues and workers in Laravel?</span>
+          <div class="answer">Queues allow deferred execution of heavy tasks. Use jobs, workers, and queue drivers (like Redis, database).<br><pre><code>php artisan queue:table
+      php artisan migrate
+      php artisan queue:work</code></pre></div>
+        </li>
+      
+        <li data-id="allfgq">
+          <span class="faq-question">What is Laravel broadcasting?</span>
+          <div class="answer">Broadcasting lets you share real-time events using WebSockets. Events implement the <code>ShouldBroadcast</code> interface.<br><pre><code>public function broadcastOn() {
+          return new Channel('chat');
+      }</code></pre></div>
+        </li>
+      
+        <li data-id="alffslq">
+          <span class="faq-question">How to use Laravel with Redis?</span>
+          <div class="answer">Laravel supports Redis for caching, sessions, and queues.<br><pre><code>Redis::set('name', 'Laravel');
+      Redis::get('name');</code></pre>Configure it in <code>config/database.php</code>.</div>
+        </li>
+      
+<li data-id="alsdflq">
+<span class="faq-question">What is Laravel Horizon?</span>
+          <div class="answer">Laravel Horizon provides a dashboard to monitor Redis queues. It includes metrics, failed jobs, and more.<br><pre><code>composer require laravel/horizon
+      php artisan horizon:install
+      php artisan migrate
+      php artisan horizon</code></pre></div>
+        </li>
+      
+
+
+            <li data-id="qqq">
+              <span class="faq-question">What is PHPUnit in Laravel?</span>
+              <div class="answer">
+                PHPUnit is a testing framework integrated with Laravel for unit and feature testing. Laravel provides a <code>phpunit.xml</code> file for configuration and uses the <code>tests</code> directory for organizing test cases.
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">How do you write a test in Laravel?</span>
+              <div class="answer">
+                Use Artisan to generate a test:<br>
+                <pre><code>php artisan make:test ExampleTest</code></pre>
+                Then write test methods using <code>$this-&gt;assertTrue()</code> or <code>$this-&gt;get('/')->assertStatus(200)</code>.
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">What is the difference between Unit and Feature tests?</span>
+              <div class="answer">
+                - **Unit tests** test individual classes/methods in isolation.<br>
+                - **Feature tests** test larger portions of your code, like controllers, middleware, or full HTTP requests.
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">How do you run tests in Laravel?</span>
+              <div class="answer">
+                You can run tests using the Artisan command or PHPUnit:<br>
+                <pre><code>php artisan test</code></pre>
+                or<br>
+                <pre><code>vendor/bin/phpunit</code></pre>
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">What is Laravel Dusk?</span>
+              <div class="answer">
+                Laravel Dusk is a browser automation and testing tool for end-to-end testing using a real browser like Chrome. It allows interaction with UI elements and JS.
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">What is Laravel Telescope?</span>
+              <div class="answer">
+                Laravel Telescope is a debugging assistant for Laravel. It provides insight into requests, exceptions, database queries, queued jobs, and more via a web UI.
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">How do you debug in Laravel?</span>
+              <div class="answer">
+                Use <code>dd()</code> or <code>dump()</code> functions to inspect variables.<br>
+                Laravel also integrates with logging and Laravel Telescope for more advanced debugging.
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">What is the difference between dd() and dump()?</span>
+              <div class="answer">
+                - <code>dd()</code>: Dump and die — stops code execution after printing the variable.<br>
+                - <code>dump()</code>: Prints the variable but continues execution.
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">How to handle exceptions in Laravel?</span>
+              <div class="answer">
+                Use the <code>app/Exceptions/Handler.php</code> to handle global exceptions. You can override the <code>render()</code> or <code>report()</code> methods for custom behavior.
+              </div>
+            </li>
+          
+            <li data-id="qqq">
+              <span class="faq-question">How do you test database interactions in Laravel?</span>
+              <div class="answer">
+                Use Laravel’s testing features like:<br>
+                - <code>use RefreshDatabase;</code> trait<br>
+                - Assertions like <code>assertDatabaseHas()</code> and <code>assertDatabaseMissing()</code><br>
+                Example:<br>
+                <pre><code>$this->assertDatabaseHas('users', ['email' => 'test@example.com']);</code></pre>
+              </div>
+            </li>
+          
+
+
+
+
+                <li data-id="qqq">
+                  <span class="faq-question">What are the steps to deploy a Laravel application?</span>
+                  <div class="answer">
+                    Key steps to deploy a Laravel app:<br>
+                    1. Upload project files to server (e.g., via Git, FTP, etc.)<br>
+                    2. Run <code>composer install</code><br>
+                    3. Configure <code>.env</code> file for production<br>
+                    4. Run <code>php artisan migrate --force</code><br>
+                    5. Set correct folder permissions for <code>storage</code> and <code>bootstrap/cache</code><br>
+                    6. Point web server to <code>public/</code> folder
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">How to configure environment variables for production?</span>
+                  <div class="answer">
+                    Use the <code>.env</code> file for environment-specific configuration.<br>
+                    In production, set:<br>
+                    <pre><code>APP_ENV=production
+              APP_DEBUG=false
+              APP_KEY=your_generated_key</code></pre>
+                    Also configure DB, cache, and mail settings accordingly.
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">How to optimize Laravel for production?</span>
+                  <div class="answer">
+                    Use the following Artisan commands:<br>
+                    <pre><code>php artisan config:cache
+              php artisan route:cache
+              php artisan view:cache</code></pre>
+                    Disable debug mode and enable opcode caching (e.g., with OPcache).
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">How do you improve Laravel application performance?</span>
+                  <div class="answer">
+                    Performance tips:<br>
+                    - Use cache for config, routes, views<br>
+                    - Optimize database queries with indexes and eager loading<br>
+                    - Use queues for time-consuming tasks<br>
+                    - Enable OPcache<br>
+                    - Minimize use of N+1 queries<br>
+                    - Use Laravel Octane or Swoole for high concurrency
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">What is Laravel Octane?</span>
+                  <div class="answer">
+                    Laravel Octane boosts performance by serving Laravel apps using high-performance servers like Swoole or RoadRunner. It allows Laravel to stay in memory between requests, reducing boot time.
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">How does Laravel handle caching?</span>
+                  <div class="answer">
+                    Laravel supports various cache drivers like file, database, Redis, and Memcached.<br>
+                    Example usage:<br>
+                    <pre><code>Cache::put('key', 'value', 600);<br>Cache::get('key');</code></pre>
+                    You can configure the driver in <code>.env</code> via <code>CACHE_DRIVER</code>.
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">How to schedule tasks in Laravel?</span>
+                  <div class="answer">
+                    Use Laravel’s task scheduler in <code>app/Console/Kernel.php</code>:<br>
+                    <pre><code>$schedule->command('emails:send')->daily();</code></pre>
+                    Add a cron entry:<br>
+                    <pre><code>* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1</code></pre>
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">What is Laravel Horizon?</span>
+                  <div class="answer">
+                    Laravel Horizon provides a dashboard and code-driven configuration for managing Redis-based queues. It allows monitoring jobs, metrics, failed jobs, and worker activity.
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">How to handle queue failures in Laravel?</span>
+                  <div class="answer">
+                    Use the <code>failed_jobs</code> table and monitor it.<br>
+                    Run:<br>
+                    <pre><code>php artisan queue:failed</code></pre>
+                    Retry with:<br>
+                    <pre><code>php artisan queue:retry {id}</code></pre>
+                    Laravel also supports automatic job retry and failure callbacks.
+                  </div>
+                </li>
+              
+                <li data-id="qqq">
+                  <span class="faq-question">What are common tools used for Laravel deployment?</span>
+                  <div class="answer">
+                    - **Forge** – Laravel's official server provisioning and deployment tool<br>
+                    - **Envoyer** – Laravel’s zero-downtime deployment tool<br>
+                    - **GitHub Actions / CI pipelines** – for automated deployment<br>
+                    - **Docker / Docker Compose** – for containerized Laravel environments
+                  </div>
+                </li>
+              
+
+
+
+
+                    <li data-id="qqq">
+                      <span class="faq-question">What is the use of service providers in Laravel?</span>
+                      <div class="answer">
+                        Service providers are the central place of all Laravel application bootstrapping. They register bindings in the service container, event listeners, middleware, and even routes. All service providers are listed in <code>config/app.php</code>.
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">How does Laravel's service container work?</span>
+                      <div class="answer">
+                        Laravel's service container is a powerful dependency injection container. It automatically resolves class dependencies and injects them where needed using type hinting or binding classes via closures or singleton patterns.
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">What is a repository pattern in Laravel?</span>
+                      <div class="answer">
+                        The repository pattern abstracts the data layer, allowing you to swap out implementations without changing business logic. Repositories encapsulate database logic and allow for better separation of concerns and testability.
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">What is Laravel Sanctum?</span>
+                      <div class="answer">
+                        Laravel Sanctum provides a lightweight authentication system for SPAs (Single Page Applications), mobile apps, and simple token-based APIs. It supports personal access tokens and cookie-based session authentication.
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">How does Laravel handle CSRF protection?</span>
+                      <div class="answer">
+                        Laravel uses CSRF tokens to prevent cross-site request forgery. A hidden <code>_token</code> input is included in forms, and the <code>VerifyCsrfToken</code> middleware ensures the token is valid on POST, PUT, DELETE requests.
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">What is the difference between soft deletes and force deletes?</span>
+                      <div class="answer">
+                        - **Soft deletes** mark a record as deleted by setting <code>deleted_at</code> timestamp.<br>
+                        - **Force deletes** permanently remove the record from the database.<br>
+                        Soft deletes use the <code>SoftDeletes</code> trait in Eloquent.
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">How to implement event and listener in Laravel?</span>
+                      <div class="answer">
+                        1. Create an event: <code>php artisan make:event UserRegistered</code><br>
+                        2. Create a listener: <code>php artisan make:listener SendWelcomeEmail</code><br>
+                        3. Register in <code>EventServiceProvider</code><br>
+                        4. Dispatch using: <code>event(new UserRegistered($user))</code>
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">What is Laravel Scout?</span>
+                      <div class="answer">
+                        Laravel Scout provides a simple driver-based solution for full-text search. It integrates with search engines like Algolia and Meilisearch, allowing Eloquent models to be indexed and searched easily.
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">How do you create a custom helper in Laravel?</span>
+                      <div class="answer">
+                        1. Create a <code>helpers.php</code> file inside <code>app/Helpers</code><br>
+                        2. Add your functions<br>
+                        3. Include it in <code>composer.json</code> autoload section:<br>
+                        <code>"files": ["app/Helpers/helpers.php"]</code><br>
+                        4. Run <code>composer dump-autoload</code>
+                      </div>
+                    </li>
+                  
+                    <li data-id="qqq">
+                      <span class="faq-question">What are Laravel macros?</span>
+                      <div class="answer">
+                        Macros allow you to add custom functionality to Laravel’s core classes (like Collections, Eloquent, Response, etc.). Use <code>Macroable</code> trait to register custom methods:<br>
+                        <pre><code>Response::macro('caps', function ($value) {
+                      return strtoupper($value);
+                  });</code></pre>
+                      </div>
+                    </li>
+                  
+
+</ul>
+<script src="script.js"></script>
+</body></html>
+  

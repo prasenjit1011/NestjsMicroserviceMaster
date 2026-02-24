@@ -1,0 +1,888 @@
+<html></html>
+<head>
+<title>Ice Cream Shop</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+    }
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #e67e22;
+        padding-bottom: 15px;
+    }
+    h1 {
+        margin: 0;
+        color: #333;
+    }
+    .auth-section {
+        display: flex;
+        gap: 10px;
+    }
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .btn-primary {
+        background-color: #e67e22;
+        color: white;
+    }
+    .btn-primary:hover {
+        background-color: #d35400;
+    }
+    .btn-secondary {
+        background-color: #3498db;
+        color: white;
+    }
+    .btn-secondary:hover {
+        background-color: #2980b9;
+    }
+    .btn-logout {
+        background-color: #e74c3c;
+        color: white;
+    }
+    .btn-logout:hover {
+        background-color: #c0392b;
+    }
+    .user-info {
+        color: #333;
+        font-weight: bold;
+    }
+    .intro {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #666;
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    .product-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        background-color: #fafafa;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .product-name {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin: 10px 0;
+    }
+    .product-description {
+        color: #666;
+        font-size: 14px;
+        margin: 10px 0;
+    }
+    .product-price {
+        font-size: 18px;
+        color: #e67e22;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    .order-btn {
+        background-color: #e67e22;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+    .order-btn:hover {
+        background-color: #d35400;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 400px;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover {
+        color: black;
+    }
+    .form-group {
+        margin: 15px 0;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin-right: 8px;
+    }
+    .payment-options {
+        margin: 15px 0;
+    }
+    .payment-option {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+    }
+    .payment-option:hover {
+        background-color: #f9f9f9;
+    }
+    .submit-btn {
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+        width: 100%;
+    }
+    .submit-btn:hover {
+        background-color: #229954;
+    }
+    .error {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    .success {
+        color: #27ae60;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    .form-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ddd;
+    }
+    .tab-btn {
+        padding: 10px 20px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #666;
+        border-bottom: 3px solid transparent;
+    }
+    .tab-btn.active {
+        color: #e67e22;
+        border-bottom-color: #e67e22;
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    .settings-btn {
+        background-color: #95a5a6;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .settings-btn:hover {
+        background-color: #7f8c8d;
+    }
+    
+    /* Dark Mode Styles */
+    body.dark-mode {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+    }
+    
+    body.dark-mode .container {
+        background-color: #2d2d2d;
+        color: #e0e0e0;
+    }
+    
+    body.dark-mode .header {
+        border-bottom-color: #e67e22;
+    }
+    
+    body.dark-mode h1 {
+        color: #e0e0e0;
+    }
+    
+    body.dark-mode .intro {
+        color: #b0b0b0;
+    }
+    
+    body.dark-mode .product-card {
+        background-color: #3d3d3d;
+        border-color: #555;
+    }
+    
+    body.dark-mode .product-name {
+        color: #e0e0e0;
+    }
+    
+    body.dark-mode .product-description {
+        color: #b0b0b0;
+    }
+    
+    body.dark-mode .product-price {
+        color: #e67e22;
+    }
+    
+    body.dark-mode .modal-content {
+        background-color: #2d2d2d;
+        border-color: #555;
+        color: #e0e0e0;
+    }
+    
+    body.dark-mode .close {
+        color: #b0b0b0;
+    }
+    
+    body.dark-mode label {
+        color: #e0e0e0;
+    }
+    
+    body.dark-mode input[type="text"],
+    body.dark-mode input[type="email"],
+    body.dark-mode input[type="password"],
+    body.dark-mode input[type="number"],
+    body.dark-mode select {
+        background-color: #3d3d3d;
+        border-color: #555;
+        color: #e0e0e0;
+    }
+    
+    body.dark-mode .payment-option {
+        background-color: #3d3d3d;
+        border-color: #555;
+    }
+    
+    body.dark-mode .payment-option:hover {
+        background-color: #4d4d4d;
+    }
+    
+    body.dark-mode .form-tabs {
+        border-bottom-color: #555;
+    }
+    
+    body.dark-mode .tab-btn {
+        color: #b0b0b0;
+    }
+    
+    body.dark-mode .tab-btn.active {
+        color: #e67e22;
+        border-bottom-color: #e67e22;
+    }
+    
+    body.dark-mode .error {
+        color: #ff6b6b;
+    }
+    
+    body.dark-mode .user-info {
+        color: #e0e0e0;
+    }
+    
+    .banner {
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .banner-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .banner-text {
+        font-size: 24px;
+    }
+    
+    .banner-price {
+        background-color: rgba(255,255,255,0.3);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 20px;
+    }
+    
+    body.dark-mode .banner {
+        background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+    }
+    
+    .banner-btn {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-left: 15px;
+    }
+    
+    .banner-btn:hover {
+        background-color: #c0392b;
+    }
+</style>
+</head>
+<body>
+<!-- Rotating Premium Banner -->
+<div class="banner" id="rotatingBanner">
+    <div class="banner-content">
+        <span class="banner-text" id="bannerTitle">🍵 PREMIUM MATCHA ICE CREAM 🍵</span>
+        <span class="banner-price" id="bannerPrice">💰 $15,000</span>
+        <button class="banner-btn" onclick="buyPremiumFlavor()">🛒 Buy Now</button>
+    </div>
+    <p style="margin: 8px 0 0 0; font-size: 14px;" id="bannerDesc">Exclusive luxury flavor - Limited edition! Order now for an unforgettable experience.</p>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h1>🍦 Ice Cream Shop</h1>
+        <div class="auth-section">
+            <button class="btn settings-btn" onclick="showSettingsModal()">⚙️ Settings</button>
+            <div id="authBtns" style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary" onclick="showAuthModal('login')">Login</button>
+                <button class="btn btn-primary" onclick="showAuthModal('register')">Register</button>
+            </div>
+            <div id="userSection" style="display: none; display: flex; gap: 10px; align-items: center;">
+                <span class="user-info" id="userName"></span>
+                <button class="btn btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <p class="intro">We offer a variety of delicious flavors to satisfy your sweet tooth! Browse our products below.</p>
+    
+    <div class="products-grid" id="productsGrid">
+        <!-- Products will be populated here by JavaScript -->
+    </div>
+</div>
+
+<!-- Authentication Modal -->
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAuthModal()">&times;</span>
+        
+        <div class="form-tabs">
+            <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+            <button class="tab-btn" onclick="switchTab('register')">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginTab" class="tab-content active">
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            <div id="loginError" class="error"></div>
+            <button class="submit-btn" onclick="login()">Login</button>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerTab" class="tab-content">
+            <h2>Register</h2>
+            <div class="form-group">
+                <label for="registerName">Full Name:</label>
+                <input type="text" id="registerName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="registerEmail">Email:</label>
+                <input type="email" id="registerEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="registerAddress">Address:</label>
+                <input type="text" id="registerAddress" placeholder="Enter your complete address">
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Password:</label>
+                <input type="password" id="registerPassword" placeholder="Enter your password">
+            </div>
+            <div id="registerError" class="error"></div>
+            <button class="submit-btn" onclick="register()">Register</button>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeSettingsModal()">&times;</span>
+        <h2>⚙️ Settings</h2>
+        
+        <div class="form-group">
+            <label>Theme:</label>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <input type="radio" id="lightMode" name="theme" value="light" checked>
+                    <label for="lightMode" style="margin: 0;">☀️ Light Mode</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="darkMode" name="theme" value="dark">
+                    <label for="darkMode" style="margin: 0;">🌙 Dark Mode</label>
+                </div>
+            </div>
+        </div>
+        
+        <button class="submit-btn" onclick="applyTheme()">Apply Settings</button>
+    </div>
+</div>
+
+<!-- Order Modal -->
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeOrderModal()">&times;</span>
+        <h2 id="modalTitle">Order Ice Cream</h2>
+        <p id="modalDescription"></p>
+        
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" min="1" value="1">
+        </div>
+
+        <div class="form-group">
+            <label>Payment Method:</label>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <input type="radio" id="cod" name="payment" value="Cash on Delivery" checked>
+                    <label for="cod" style="margin: 0;">💵 Cash on Delivery</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="upi" name="payment" value="UPI">
+                    <label for="upi" style="margin: 0;">📱 UPI Payment</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="orderError" class="error"></div>
+        <button class="submit-btn" onclick="submitOrder()">Complete Order</button>
+    </div>
+</div>
+
+<script>
+    const products = [
+        { id: 1, name: 'Vanilla', description: 'Classic vanilla flavor', price: '$3.99' },
+        { id: 2, name: 'Chocolate', description: 'Rich chocolate flavor', price: '$4.49' },
+        { id: 3, name: 'Strawberry', description: 'Sweet strawberry flavor', price: '$4.49' },
+        { id: 4, name: 'Mint Chip', description: 'Refreshing mint with chocolate chips', price: '$4.99' },
+        { id: 5, name: 'Cookie Dough', description: 'Creamy with cookie dough chunks', price: '$5.49' },
+        { id: 6, name: 'Caramel', description: 'Smooth caramel swirl', price: '$4.99' },
+        { id: 7, name: 'Pistachio', description: 'Nutty pistachio delight', price: '$5.99' },
+        { id: 8, name: 'Bubblegum', description: 'Fun and colorful bubblegum flavor', price: '$4.49' },
+        { id: 9, name: 'Salted Caramel', description: 'Sweet and salty perfection', price: '$5.49' },
+        { id: 10, name: 'Rocky Road', description: 'Chocolate with nuts and marshmallows', price: '$5.99' },
+        { id: 11, name: 'Cookies & Cream', description: 'Vanilla with cookie chunks', price: '$5.49' },
+        { id: 12, name: 'Mango Sorbet', description: 'Tropical mango frozen delight', price: '$4.99' },
+        { id: 13, name: 'Coffee', description: 'Rich and smooth coffee flavor', price: '$4.49' },
+        { id: 14, name: 'Butter Pecan', description: 'Creamy butter with pecans', price: '$5.49' },
+        { id: 15, name: 'Cotton Candy', description: 'Sweet pink cotton candy dream', price: '$4.99' },
+        { id: 16, name: 'Brownie Fudge', description: 'Chocolate lovers dream', price: '$5.99' }
+    ];
+    
+    const premiumFlavors = [
+        { 
+            id: 'matcha', 
+            name: 'Premium Matcha', 
+            emoji: '🍵',
+            price: '$15,000',
+            description: 'Exclusive luxury matcha flavor - Limited edition! Order now for an unforgettable experience.'
+        },
+        { 
+            id: 'vanilla-original', 
+            name: 'Original Vanilla', 
+            emoji: '🌾',
+            price: '$14,000',
+            description: 'Luxury original vanilla from premium sources - Limited edition! Order now for an unforgettable experience.'
+        }
+    ];
+
+    let selectedProduct = null;
+    let isLoggedIn = false;
+    let currentBannerIndex = 0;
+    let selectedPremiumFlavor = null;
+
+    // Check login status on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        checkLoginStatus();
+        loadProducts();
+        setupModals();
+        startBannerRotation();
+    });
+    
+    // Start rotating banner every 30 seconds
+    function startBannerRotation() {
+        updateBanner();
+        setInterval(updateBanner, 30000);
+    }
+    
+    // Update banner with next flavor
+    function updateBanner() {
+        const flavor = premiumFlavors[currentBannerIndex];
+        document.getElementById('bannerTitle').textContent = `${flavor.emoji} PREMIUM ${flavor.name.toUpperCase()} ${flavor.emoji}`;
+        document.getElementById('bannerPrice').textContent = `💰 ${flavor.price}`;
+        document.getElementById('bannerDesc').textContent = flavor.description;
+        
+        currentBannerIndex = (currentBannerIndex + 1) % premiumFlavors.length;
+        selectedPremiumFlavor = flavor;
+    }
+    
+    // Buy premium flavor
+    function buyPremiumFlavor() {
+        if (!isLoggedIn) {
+            alert('Please login to purchase premium flavors!');
+            showAuthModal('login');
+            return;
+        }
+        
+        // Open order modal for premium flavor
+        const flavor = premiumFlavors[(currentBannerIndex - 1 + premiumFlavors.length) % premiumFlavors.length];
+        selectedPremiumFlavor = flavor;
+        
+        document.getElementById('modalTitle').textContent = `Order ${flavor.name}`;
+        document.getElementById('modalDescription').textContent = `${flavor.description} - Price: ${flavor.price}`;
+        document.getElementById('quantity').value = 1;
+        document.getElementById('orderError').textContent = '';
+        document.getElementById('orderModal').style.display = 'block';
+    }
+
+    // Check if user is logged in
+    function checkLoginStatus() {
+        fetch('/api/check-login')
+            .then(res => res.json())
+            .then(data => {
+                isLoggedIn = data.isLoggedIn;
+                if (isLoggedIn) {
+                    document.getElementById('authBtns').style.display = 'none';
+                    document.getElementById('userSection').style.display = 'flex';
+                    document.getElementById('userName').textContent = `Welcome, ${data.userName}!`;
+                } else {
+                    document.getElementById('authBtns').style.display = 'flex';
+                    document.getElementById('userSection').style.display = 'none';
+                }
+            });
+    }
+
+    // Load products
+    function loadProducts() {
+        const productsGrid = document.getElementById('productsGrid');
+        productsGrid.innerHTML = '';
+        
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            productCard.innerHTML = `
+                <div class="product-name">${product.name}</div>
+                <div class="product-description">${product.description}</div>
+                <div class="product-price">${product.price}</div>
+                <button class="order-btn" onclick="handleOrderClick(${product.id})">Order Now</button>
+            `;
+            productsGrid.appendChild(productCard);
+        });
+    }
+
+    // Handle order click
+    function handleOrderClick(productId) {
+        if (!isLoggedIn) {
+            alert('Please login to place an order!');
+            showAuthModal('login');
+            return;
+        }
+        openOrderModal(productId);
+    }
+
+    // Open order modal
+    function openOrderModal(productId) {
+        selectedProduct = products.find(p => p.id === productId);
+        document.getElementById('modalTitle').textContent = `Order ${selectedProduct.name}`;
+        document.getElementById('modalDescription').textContent = `${selectedProduct.description} - ${selectedProduct.price}`;
+        document.getElementById('quantity').value = 1;
+        document.getElementById('orderError').textContent = '';
+        document.getElementById('orderModal').style.display = 'block';
+    }
+
+    // Close order modal
+    function closeOrderModal() {
+        document.getElementById('orderModal').style.display = 'none';
+    }
+
+    // Submit order
+    function submitOrder() {
+        const quantity = document.getElementById('quantity').value;
+        const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+        
+        // Determine which product is being ordered
+        const productName = selectedPremiumFlavor ? selectedPremiumFlavor.name : selectedProduct.name;
+        const price = selectedPremiumFlavor ? selectedPremiumFlavor.price : selectedProduct.price;
+        
+        fetch('/api/order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                product: productName,
+                quantity: quantity,
+                paymentMethod: paymentMethod,
+                price: price
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert(`✅ ${data.message}\nOrder ID: ${data.orderId}`);
+                closeOrderModal();
+                selectedPremiumFlavor = null; // Reset premium flavor
+            } else {
+                document.getElementById('orderError').textContent = data.message;
+            }
+        });
+    }
+
+    // Show auth modal
+    function showAuthModal(tab) {
+        document.getElementById('authModal').style.display = 'block';
+        switchTab(tab);
+    }
+
+    // Close auth modal
+    function closeAuthModal() {
+        document.getElementById('authModal').style.display = 'none';
+    }
+
+    // Switch tabs
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabName + 'Tab').classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // Login
+    function login() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        if (!email || !password) {
+            document.getElementById('loginError').textContent = 'Please fill all fields';
+            return;
+        }
+        
+        // Validate Gmail format
+        const gmailRegex = /^[a-zA-Z0-9._-]+@gmail\.com$/;
+        if (!gmailRegex.test(email)) {
+            document.getElementById('loginError').textContent = 'Please enter a valid Gmail address (example@gmail.com)';
+            return;
+        }
+
+        fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                closeAuthModal();
+                checkLoginStatus();
+            } else {
+                document.getElementById('loginError').textContent = data.message;
+            }
+        });
+    }
+
+    // Register
+    function register() {
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const address = document.getElementById('registerAddress').value;
+        const password = document.getElementById('registerPassword').value;
+        
+        // Validate name length (3-20 characters)
+        if (!name || name.length < 3 || name.length > 20) {
+            document.getElementById('registerError').textContent = 'Name must be between 3 and 20 characters';
+            return;
+        }
+        
+        // Validate Gmail format
+        const gmailRegex = /^[a-zA-Z0-9._-]+@gmail\.com$/;
+        if (!email || !gmailRegex.test(email)) {
+            document.getElementById('registerError').textContent = 'Please enter a valid Gmail address (example@gmail.com)';
+            return;
+        }
+        
+        if (!address) {
+            document.getElementById('registerError').textContent = 'Please fill all fields';
+            return;
+        }
+        
+        if (!password) {
+            document.getElementById('registerError').textContent = 'Please enter a password';
+            return;
+        }
+
+        fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, address, password })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                closeAuthModal();
+                checkLoginStatus();
+            } else {
+                document.getElementById('registerError').textContent = data.message;
+            }
+        });
+    }
+
+    // Logout
+    function logout() {
+        fetch('/api/logout', { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                checkLoginStatus();
+                alert('Logged out successfully!');
+            });
+    }
+
+    // Setup modal close handlers
+    function setupModals() {
+        window.onclick = function(event) {
+            const authModal = document.getElementById('authModal');
+            const orderModal = document.getElementById('orderModal');
+            const settingsModal = document.getElementById('settingsModal');
+            
+            if (event.target === authModal) {
+                authModal.style.display = 'none';
+            }
+            if (event.target === orderModal) {
+                orderModal.style.display = 'none';
+            }
+            if (event.target === settingsModal) {
+                settingsModal.style.display = 'none';
+            }
+        }
+    }
+
+    // Settings functions
+    function showSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'block';
+        // Check current theme
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        if (isDarkMode) {
+            document.getElementById('darkMode').checked = true;
+        } else {
+            document.getElementById('lightMode').checked = true;
+        }
+    }
+
+    function closeSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function applyTheme() {
+        const selectedTheme = document.querySelector('input[name="theme"]:checked').value;
+        
+        if (selectedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light');
+        }
+        
+        closeSettingsModal();
+        alert('Theme applied successfully!');
+    }
+
+    // Load theme on page load
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    }
+
+    // Run on page load
+    const originalDOMContentLoaded = document.addEventListener;
+    document.addEventListener('DOMContentLoaded', function(event) {
+        loadTheme();
+        checkLoginStatus();
+        loadProducts();
+        setupModals();
+    });
+</script>
+</body>
+</html>

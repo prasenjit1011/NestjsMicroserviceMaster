@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Shop - Home</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include '_header.html' %}
+    <div class="banner">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="Shop Banner" class="banner-image">
+        <div class="banner-text">Welcome to the Online Shop!</div>
+    </div>
+    <div class="products">
+        {% for product in products %}
+        <div class="product">
+            <a href="/product/{{ product.id }}">
+                <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
+                <h3>{{ product.name }}</h3>
+            </a>
+            <p class="product-price">${{ product.price }}</p>
+            <p class="product-description">{{ product.description }}</p>
+            <a class="details-btn" href="/product/{{ product.id }}">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% include '_banner_slider.html' %}
+    {% set year = 2025 %}
+    {% include '_footer.html' %}
+</body>
+</html>

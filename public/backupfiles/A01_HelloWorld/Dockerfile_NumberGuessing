@@ -1,0 +1,12 @@
+# Use the official Python runtime as a parent image
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the number guessing game files into the container
+COPY number_guessing_game.py number_guessing_simple.py ./
+
+# Run the full number guessing game when the container launches
+# Using -u flag to ensure unbuffered output for interactive input
+CMD ["python", "-u", "number_guessing_game.py"]

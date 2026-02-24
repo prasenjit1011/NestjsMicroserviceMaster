@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="/css/commonstyle.css">
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+  <div class="container">
+    <div class="summary-box">
+      <h2>
+        📊 Dashboard-759
+        <a class="topComp" target="_blank" href="https://www.moneycontrol.com/stocks/marketinfo/marketcap/bse/sbi.html">
+          TopComp
+        </a>
+        <a class="topComp" style="margin-right: 10px;" target="_blank" href="/demat/alltrade">
+          AllTrade
+        </a>
+      </h2>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-label">Holdings</div>
+          <div class="summary-value" id="totalStocks">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Buy Price</div>
+          <div class="summary-value" id="totalValue">₹ -</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Live Price</div>
+          <div class="summary-value" id="totalQty">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Profit/Loss</div>
+          <div class="summary-value" id="ProfitPrice">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Percentage</div>
+          <div class="summary-value" id="percentageData">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Days</div>
+          <div class="summary-value" id="daysData" style="cursor: pointer;" title="Click to toggle">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">🥇 Gold (₹/oz)</div>
+          <div class="summary-value" id="goldPrice">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">💰 Silver (₹/oz)</div>
+          <div class="summary-value" id="silverPrice">-</div>
+        </div>
+      </div>
+      
+      <div class="summary-grid">
+        {{daysData}}
+      </div>
+
+    </div>
+
+    <div class="search-box">
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" placeholder="🔍 Search by stock name or symbol...">
+        <button type="button" class="clear-search" id="clearSearch" title="Clear search">✕</button>
+      </div>
+      <div class="nav-links">
+        <a href="#" class="stock-link" onclick="showHoldings()"><span class="icon">🏠</span><span class="text">Holdings</span></a>
+        <a href="/demat/tradelist" class="stock-link"><span class="icon">🏠</span><span class="text">Trade List</span></a>
+        <a href="/demat/transaction/all" class="stock-link"><span class="icon">🏠</span><span class="text">Transaction</span></a>
+        <a href="/demat/quarterly/ARTI/AARTI%20INDUSTRIES%20LTD" class="stock-link"><span class="icon">🏠</span><span class="text">Analysis</span></a>
+        <a href="https://www.cnbc.com/quotes/@GC.1" class="stock-link external" target="_blank"><span class="icon">🥇</span><span class="text">Gold</span></a>
+        <a href="https://www.cnbc.com/quotes/@SI.1" class="stock-link external" target="_blank"><span class="icon">💰</span><span class="text">Silver</span></a>
+        <a href="https://www.cnbc.com/quotes/@HG.1" class="stock-link external" target="_blank"><span class="icon">🔧</span><span class="text">Copper</span></a>
+      </div>
+    </div>
+
+    <div class="table-wrapper" style="margin-bottom: 30px;">
+      <table id="portfolioTable">
+      <thead>
+        <tr>
+          <th class="sortable" data-column="0">#</th>
+          <th class="sortable" data-column="1">ICICI</th>
+          <th class="sortable" data-column="2">SID</th>
+          <th class="sortable" data-column="3">Stock Name</th>
+          <th class="sortable" data-column="4">Chg(%)</th>
+          <th class="sortable" data-column="5">CSV Price (₹)</th>
+          <th class="sortable" data-column="6">Live Price (₹)</th>
+          <th class="sortable" data-column="7">Qty</th>
+          <th class="sortable" data-column="8">Total (₹)</th>
+          <th class="sortable" data-column="9">Profit (₹)</th>
+          <th class="sortable" data-column="21">Over Price</th>
+          <th class="sortable" data-column="18">2020</th>
+
+          
+          <th class="sortable" data-column="12">2026</th>
+          <th class="sortable" data-column="13">2025</th>
+          <th class="sortable" data-column="14">2024</th>
+          <th class="sortable" data-column="15">2023</th>
+          <th class="sortable" data-column="16">2022</th>
+          <th class="sortable" data-column="17">2021</th>
+          <th class="sortable" data-column="19">2018</th>
+          <th class="sortable" data-column="20">2015</th>
+
+          <th class="sortable" data-column="10">Highest (₹)</th>
+          <th class="sortable" data-column="11">Lowest (₹)</th>
+          <th class="sortable" data-column="22">wk(%)</th>
+          <th class="sortable" data-column="23">mn(%)</th>
+          <th class="sortable" data-column="24">Chg</th>
+          <th class="sortable" data-column="25">CMP (₹)</th>
+          <th class="sortable" data-column="26">Type</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        {{TABLE_ROWS}}
+      </tbody>
+    </table>
+    </div>
+
+
+    <!-- Profit History Table -->
+    <div class="table-wrapper" style="margin-bottom: 30px;">
+      <table style="width: 100%; border-collapse: collapse; background: white;">
+        <thead>
+          <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6a5acd 100%); color: white; padding: 16px 12px; text-align: left; font-weight: 800; border-bottom: 4px solid #764ba2; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8em;">
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📅 Date</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💰 Buy</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💹 Status</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📈 Profit %</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">📊 Days</th>
+            <th style="padding: 16px 12px; border-bottom: 4px solid #764ba2;">💎 Current Amount</th>
+          </tr>
+        </thead>
+        <tbody id="profitHistoryBody">
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 20px; color: #999;">Loading profit history...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="footer">
+      <p><strong>📅 Last Updated:</strong> {{TIMESTAMP}}</p>
+      <p>✅ Data refreshed from Tickertape API | 📈 Portfolio tracked live</p>
+    </div>
+  </div>
+
+  <!-- Go to Top Button -->
+  <button class="goto-top" id="gotoTopBtn" title="Go to top">↑</button>
+  <!-- Go to Bottom Button -->
+  <button class="goto-bottom" id="gotoBottomBtn" title="Go to bottom">↓</button>
+
+  <script>
+    async function showHoldings() {
+      // Display only holdings with Qty > 0
+      const rows = document.querySelectorAll('#tableBody tr');
+      
+      rows.forEach(row => {
+        const cells = row.cells;
+        if (cells.length >= 8) {
+          // Column 7 is the Qty column
+          const qty = parseFloat(cells[7].textContent.replace(/,/g, '')) || 0;
+          // Show row only if Qty > 0
+          row.style.display = qty > 0 ? '' : 'none';
+        }
+      });
+      
+      // Clear search input
+      document.getElementById('searchInput').value = '';
+      
+      // Update summary with filtered data
+      calculateSummary();
+    }
+    // Fetch Gold and Silver prices from API (INR rates)
+    async function fetchMetalPrices() {
+      try {
+        const response = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
+        const data = await response.json();
+        
+        if (data.items && data.items.length > 0) {
+          console.log('Metal Prices Data:', data);
+          // Find INR currency data
+          const inrData = data.items.find(item => item.curr === 'USD');
+          if (inrData) {
+            const goldPrice = inrData.xauPrice;
+            const silverPrice = inrData.xagPrice;
+            
+            document.getElementById('goldPrice').textContent = '₹ ' + goldPrice.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('silverPrice').textContent = '₹ ' + silverPrice.toLocaleString('en-IN', {maximumFractionDigits: 1});
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching metal prices:', error);
+        document.getElementById('goldPrice').textContent = 'N/A';
+        document.getElementById('silverPrice').textContent = 'N/A';
+      }
+    }
+
+    // Fetch profit history from JSON file
+    async function fetchProfitHistory() {
+      try {
+        console.log('Fetching profit history...');
+        let response;
+        let lastError;
+        
+        // Try primary path first
+        try {
+          console.log('Attempting fetch from: /data/profit.json');
+          response = await fetch('/data/profit.json');
+          console.log('Response status from /data/profit.json:', response.status);
+          if (response.ok) {
+            console.log('Successfully fetched from /data/profit.json');
+          }
+        } catch (error) {
+          lastError = error;
+          console.log('Error fetching from /data/profit.json:', error);
+        }
+        
+        // Try alternative path if first failed
+        if (!response || !response.ok) {
+          try {
+            console.log('Attempting fetch from: /public/data/profit.json');
+            response = await fetch('/public/data/profit.json');
+            console.log('Response status from /public/data/profit.json:', response.status);
+          } catch (error) {
+            lastError = error;
+            console.log('Error fetching from /public/data/profit.json:', error);
+          }
+        }
+        
+        // Check if we have a valid response
+        if (!response || !response.ok) {
+          const statusMsg = response ? `HTTP error! status: ${response.status}` : `Fetch failed: ${lastError?.message || 'Unknown error'}`;
+          console.error('Failed to fetch profit.json:', statusMsg);
+          throw new Error(statusMsg);
+        }
+        
+        const profitHistory = await response.json();
+        console.log('Profit history data loaded:', profitHistory.length, 'entries');
+        
+        if (profitHistory && profitHistory.length > 0) {
+          // Get the latest entry for the summary
+          const latestEntry = profitHistory[profitHistory.length - 1];
+          
+          // Format date as DD/MM/YYYY HH:MM
+          const date = new Date(latestEntry.date);
+          const formattedDate = date.toLocaleString('en-IN', { 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          // document.getElementById('historyDate').textContent = formattedDate;
+          // document.getElementById('historyCurrProfit').textContent = '₹ ' + latestEntry.currProfit.toLocaleString('en-IN');
+          // document.getElementById('historyDayProfit').textContent = '₹ ' + latestEntry.dayProfit.toLocaleString('en-IN');
+          
+          // Populate the history table with all entries (in reverse order - newest first)
+          const tableBody = document.getElementById('profitHistoryBody');
+          if (!tableBody) {
+            console.error('profitHistoryBody element not found in DOM');
+            return;
+          }
+          tableBody.innerHTML = '';
+          
+          // Sort by date descending (newest first)
+          const sortedHistory = [...profitHistory].reverse();
+          
+          sortedHistory.forEach((entry, index) => {
+            const entryDate = new Date(entry.date);
+            const formattedEntryDate = entryDate.toLocaleString('en-IN', { 
+              year: 'numeric', 
+              month: '2-digit', 
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+            
+            // Alternate row colors
+            const rowColor = index % 2 === 0 ? '#b8f1db' : '#b2ecce';
+            const profitColor = entry.currProfit >= 0 ? '#10b981' : '#ef4444';
+            const dayProfitColor = entry.dayProfit >= 0 ? '#10b981' : '#ef4444';
+            
+            const row = `
+              <tr style="background-color: ${rowColor}; transition: all 0.25s ease;">
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">${formattedEntryDate}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">₹ ${entry.buyAmount.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: ${profitColor}; font-weight: 600;">₹ ${entry.currProfit.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6; font-weight: 600;">${entry.curPercent}%</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: ${dayProfitColor}; font-weight: 600;">₹ ${entry.dayProfit.toLocaleString('en-IN')}</td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #5568d3; font-size: 0.95em; color: #1b3ca6;">₹ ${entry.curAmount.toLocaleString('en-IN')}</td>
+              </tr>
+            `;
+            tableBody.innerHTML += row;
+          });
+          
+          console.log('Profit history loaded:', profitHistory.length, 'entries');
+        }
+      } catch (error) {
+        console.error('Error fetching profit history:', error);
+        document.getElementById('historyDate').textContent = 'N/A';
+        document.getElementById('historyCurrProfit').textContent = 'N/A';
+        document.getElementById('historyDayProfit').textContent = 'N/A';
+        
+        // Show error in table
+        const tableBody = document.getElementById('profitHistoryBody');
+        tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #999;">Failed to load profit history</td></tr>';
+      }
+    }
+
+    // Calculate portfolio summary (only visible rows)
+    function calculateSummary() {
+      const rows = document.querySelectorAll('#tableBody tr');
+      let totalStocks = 0;
+      let totalValue = 0;
+      let totalQty = 0;
+      let livePrice = 0;
+      let buyPrice = 0;
+      let daysData = 0;
+
+      rows.forEach(row => {
+        // only include visible rows
+        if (row.style.display === 'none') return;
+
+        const cells = row.cells;
+        if (cells.length >= 10) {
+          totalStocks++;
+          const qty = parseFloat(cells[7].textContent.replace(/,/g, '')) || 0;
+          // remove currency symbol and any non-numeric chars
+          const total = parseFloat(cells[8].textContent.replace(/[^0-9.-]+/g, '')) || 0;
+          totalQty += qty;
+          totalValue += total;
+
+          buyPrice  += parseFloat(cells[8].textContent.replace(/[^0-9.-]+/g, '')) || 0;
+          livePrice += qty*parseFloat(cells[6].textContent.replace(/[^0-9.-]+/g, '')) || 0;
+          daysData  += parseFloat(cells[24].textContent.replace(/[^0-9.-]+/g, '')) || 0;
+        }
+      });
+
+      document.getElementById('totalStocks').textContent = totalStocks;
+      document.getElementById('totalValue').textContent = '₹ ' + totalValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalQty').textContent = totalQty.toLocaleString('en-IN');
+      
+      document.getElementById('totalValue').textContent = '₹ ' + buyPrice.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('totalQty').textContent = '₹ ' + livePrice.toLocaleString('en-IN');
+      document.getElementById('ProfitPrice').textContent = '₹ ' + (livePrice - buyPrice).toLocaleString('en-IN', {maximumFractionDigits: 2});
+      document.getElementById('percentageData').textContent = (((livePrice - buyPrice)*100)/buyPrice).toFixed(2) + '%';
+      document.getElementById('daysData').textContent = '₹ ' + daysData.toLocaleString('en-IN', {maximumFractionDigits: 2});
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const rows = document.querySelectorAll('#tableBody tr');
+      
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+      });
+      // update summary when filter changes
+      calculateSummary();
+    });
+
+    // Table sorting
+    let sortDirection = {};
+    document.querySelectorAll('th.sortable').forEach((header, headerIndex) => {
+      header.addEventListener('click', function() {
+        const table = document.getElementById('portfolioTable');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        
+        // Use header's actual position in the table, not data-column value
+        const columnIndex = headerIndex;
+        
+        // Toggle sort direction
+        sortDirection[columnIndex] = sortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
+        
+        // Remove sorted class from all headers
+        document.querySelectorAll('th').forEach(h => {
+          h.classList.remove('sorted-asc', 'sorted-desc');
+        });
+        
+        // Add sorted class to current header
+        this.classList.add(sortDirection[columnIndex] === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        
+        // Sort rows
+        rows.sort((a, b) => {
+          // Use columnIndex to access the actual cell position
+          if (columnIndex >= a.cells.length || columnIndex >= b.cells.length) {
+            return 0; // Skip if cell doesn't exist
+          }
+          
+          let aVal = a.cells[columnIndex].textContent.trim();
+          let bVal = b.cells[columnIndex].textContent.trim();
+          
+          // Handle links - extract text content
+          const aLink = a.cells[columnIndex].querySelector('a');
+          const bLink = b.cells[columnIndex].querySelector('a');
+          if (aLink) aVal = aLink.textContent.trim();
+          if (bLink) bVal = bLink.textContent.trim();
+          
+          // Remove currency symbols, commas, and percentage signs for numeric comparison
+          const aClean = aVal.replace(/[₹,%]/g, '').trim();
+          const bClean = bVal.replace(/[₹,%]/g, '').trim();
+          
+          // Try numeric comparison (handles negative numbers too)
+          const aNum = parseFloat(aClean);
+          const bNum = parseFloat(bClean);
+          
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            return sortDirection[columnIndex] === 'asc' ? aNum - bNum : bNum - aNum;
+          }
+          
+          // String comparison for non-numeric values
+          return sortDirection[columnIndex] === 'asc' 
+            ? aVal.localeCompare(bVal, undefined, {numeric: true, sensitivity: 'base'})
+            : bVal.localeCompare(aVal, undefined, {numeric: true, sensitivity: 'base'});
+        });
+        
+        // Re-append sorted rows
+        rows.forEach(row => tbody.appendChild(row));
+      });
+    });
+
+    // Clear search functionality
+    document.getElementById('clearSearch').addEventListener('click', function() {
+      document.getElementById('searchInput').value = '';
+      const rows = document.querySelectorAll('#tableBody tr');
+      rows.forEach(row => {
+        // Show all rows regardless of Qty when clearing search
+        row.style.display = '';
+      });
+      calculateSummary();
+      document.getElementById('searchInput').focus();
+    });
+
+    // Toggle daysData visibility based on value
+    let daysDataVisible = true;
+    let daysDataValue = '';
+    
+    // Initialize visibility after page load
+    window.addEventListener('load', function() {
+      calculateSummary();
+      fetchMetalPrices();
+      fetchProfitHistory();
+      
+      // Refresh metal prices and profit history every 5 minutes
+      setInterval(fetchMetalPrices, 5 * 60 * 1000);
+      setInterval(fetchProfitHistory, 5 * 60 * 1000);
+      
+      // Set initial visibility based on value
+      setTimeout(function() {
+        const daysDataElement = document.getElementById('daysData');
+        if (daysDataElement) {
+          const valueText = daysDataElement.textContent.trim();
+          const numValue = parseFloat(valueText.replace(/[^0-9.-]+/g, ''));
+          
+          if (numValue < 0) {
+            // Hide by default for negative values
+            daysDataValue = valueText;
+            daysDataElement.textContent = '****';
+            daysDataVisible = false;
+          } else if (numValue > 0) {
+            // Show by default for positive values
+            daysDataValue = valueText;
+            daysDataVisible = true;
+          }
+        }
+      }, 100);
+    });
+    
+    // Toggle on click
+    document.getElementById('daysData').addEventListener('click', function() {
+      if (daysDataVisible) {
+        daysDataValue = this.textContent;
+        this.textContent = '****';
+        daysDataVisible = false;
+      } else {
+        this.textContent = daysDataValue;
+        daysDataVisible = true;
+      }
+    });
+  
+    // Get the buttons
+    const gotoTopBtn = document.getElementById('gotoTopBtn');
+    const gotoBottomBtn = document.getElementById('gotoBottomBtn');
+
+    // Show button when user scrolls down 300px from top
+    window.onscroll = function() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        gotoTopBtn.classList.add('show');
+      } else {
+        gotoTopBtn.classList.remove('show');
+      }
+      
+      // Show bottom button when not at bottom
+      const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      
+      if (scrollTop < docHeight - 300) {
+        gotoBottomBtn.classList.add('show');
+      } else {
+        gotoBottomBtn.classList.remove('show');
+      }
+    };
+
+    // Scroll to top when button is clicked
+    gotoTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Scroll to bottom when button is clicked
+    gotoBottomBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>

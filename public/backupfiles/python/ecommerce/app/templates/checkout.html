@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include '_header.html' %}
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+        <form method="post">
+            <label for="address">Shipping Address:</label><br>
+            <input type="text" id="address" name="address" required><br><br>
+            <button class="details-btn" type="submit">Place Order</button>
+        </form>
+    </div>
+    {% include '_banner_slider.html' %}
+    {% set year = 2025 %}
+    {% include '_footer.html' %}
+</body>
+</html>

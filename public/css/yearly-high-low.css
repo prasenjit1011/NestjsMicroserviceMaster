@@ -1,0 +1,33 @@
+.year-card .price-info {
+            margin: 15px 0;
+        }
+        
+        .year-card .label {
+            font-size: 0.9em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .year-card .value {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .year-card .high {
+            color: #28a745;
+        }
+        
+        .year-card .low {
+            color: #dc3545;
+        }
+        
+        .year-card .range {
+            color: #667eea;
+        }
+        
+        .year-card .percentage {
+            color: #ff9800;
+        }

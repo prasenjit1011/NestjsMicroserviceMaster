@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank Transactions - {{YEAR}}</title>
+  <link rel="stylesheet" href="/css/transaction.css">
+</head>
+<body>
+  <div class="container">
+    <a href="/demat/" class="back-link">← Back to Dashboard</a>
+    
+    <div class="header">
+      <h1>🏦 Transaction History</h1>
+      <p id="yearDisplay" style="display: none;">Year: {{YEAR}}</p>
+      <div class="year-buttons">
+        <button class="year-btn" onclick="navigateToYear('2021')">2021</button>
+        <button class="year-btn" onclick="navigateToYear('2022')">2022</button>
+        <button class="year-btn" onclick="navigateToYear('2023')">2023</button>
+        <button class="year-btn" onclick="navigateToYear('2024')">2024</button>
+        <button class="year-btn" onclick="navigateToYear('2025')">2025</button>
+        <button class="year-btn" onclick="navigateToYear('2026')">2026</button>
+        <button class="year-btn" onclick="navigateToYear('all')">All</button>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <p>Total Transactions</p>
+        <h3 id="dynamicCount">{{TRANSACTION_COUNT}}</h3>
+      </div>
+      <div class="stat-box">
+        <p>Deposit</p>
+        <h3 id="dynamicDeposit">₹{{TOTAL_DEPOSIT}}</h3>
+      </div>
+      <div class="stat-box">
+        <p>Withdrawal</p>
+        <h3 id="dynamicWithdrawal">₹{{TOTAL_WITHDRAWAL}}</h3>
+      </div>
+      <div class="stat-box">
+        <p>Balance</p>
+        <h3 id="dynamicBalance"></h3>
+      </div>
+      <div class="stat-box">
+        <p>Ending Balance</p>
+        <h3 id="dynamicLatestBalance">₹{{LATEST_BALANCE}}</h3>
+      </div>
+    </div>
+
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="search-input" 
+        placeholder="Search by date, remarks, or amount... (e.g., 02/01/2024 or EBA or 194.49)"
+        onkeyup="filterTable()"
+      >
+      <button class="search-button" onclick="resetSearch('')">Clear</button>
+      <button class="search-button" onclick="resetSearch('SALARY')">Salary</button>
+      <button class="search-button" onclick="resetSearch('EBA')">EBA</button>
+    </div>
+
+    <div id="resultsInfo" class="results-info" style="display: none;"></div>
+
+    <div id="tableContainer" class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px; text-align: center;" class="sortable" onclick="sortTable(0)">S No.</th>
+            <th class="sortable" onclick="sortTable(1)">Transaction Date</th>
+            <th class="sortable" onclick="sortTable(2)">Transaction Remarks</th>
+            <th style="text-align: right;" class="sortable" onclick="sortTable(3)">Withdrawal Amount (₹)</th>
+            <th style="text-align: right;" class="sortable" onclick="sortTable(4)">Deposit Amount (₹)</th>
+            <th style="text-align: right;" class="sortable" onclick="sortTable(5)">Balance (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{TABLE_ROWS}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Floating Scroll Buttons -->
+    <div class="floating-scroll-buttons">
+      <button class="floating-scroll-btn" onclick="scrollToTop()" title="Go to Top">↑</button>
+      <button class="floating-scroll-btn" onclick="scrollToBottom()" title="Go to Bottom">↓</button>
+    </div>
+
+    <div class="timestamp">
+      <p>Last updated: {{TIMESTAMP}}</p>
+    </div>
+  </div>
+
+  <script>
+    let allTransactions = [];
+
+    // Format number with commas
+    function formatNumberWithCommas(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // Navigate to selected year
+    function navigateToYear(year) {
+      if (year) {
+        window.location.href = `/demat/transaction/${year}`;
+      }
+    }
+
+    // Set the current year in dropdown and highlight button
+    function setCurrentYearInUI() {
+      const yearDisplay = document.getElementById('yearDisplay');
+      if (!yearDisplay) {
+        console.warn('Year display element not found');
+        return;
+      }
+      
+      const yearText = yearDisplay.textContent;
+      const year = yearText.replace('Year: ', '').trim();
+      
+      // Highlight active year button
+      const yearButtons = document.querySelectorAll('.year-btn');
+      yearButtons.forEach(btn => {
+        if (btn.textContent === year) {
+          btn.classList.add('active');
+        }
+        else if(btn.textContent == 'All' && year == '2021-2026'){
+          btn.classList.add('active');
+        }
+        else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // Parse table data on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set current year in dropdown and highlight button
+      setCurrentYearInUI();
+
+      const table = document.querySelector('table tbody');
+      const rows = table.querySelectorAll('tr');
+      const totalTransactions = rows.length;
+
+      let originalWithdrawal = 0;
+      let originalDeposit = 0;
+      let originalBalance = 0;
+
+      rows.forEach((row, idx) => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length >= 6) {
+          allTransactions.push({
+            sNo: cells[0].textContent.trim(),
+            date: cells[1].textContent.trim(),
+            remarks: cells[2].textContent.trim(),
+            withdrawal: cells[3].textContent.trim(),
+            deposit: cells[4].textContent.trim(),
+            balance: cells[5].textContent.trim(),
+            element: row
+          });
+
+          // Calculate totals and get latest balance
+          const withdrawal = parseFloat(cells[3].textContent.trim().replace(/[₹,]/g, '')) || 0;
+          const deposit = parseFloat(cells[4].textContent.trim().replace(/[₹,]/g, '')) || 0;
+          const balance = parseFloat(cells[5].textContent.trim().replace(/[₹,]/g, '')) || 0;
+          
+          originalWithdrawal += withdrawal;
+          originalDeposit += deposit;
+          originalBalance = balance; // Last row's balance
+        }
+      });
+
+      // Store totals for reference
+      window.totalTransactions = totalTransactions;
+      window.originalWithdrawal = originalWithdrawal.toFixed(0);
+      window.originalDeposit = originalDeposit.toFixed(0);
+      window.originalBalance = originalBalance.toFixed(0);
+
+      // Format and update initial stats display with commas
+      document.getElementById('dynamicCount').textContent = formatNumberWithCommas(totalTransactions);
+      document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal);
+      document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit);
+      
+      // Calculate balance = Deposit - Withdrawal
+      const netBalance = parseFloat(window.originalDeposit) - parseFloat(window.originalWithdrawal);
+      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(netBalance.toFixed(0));
+    });
+
+    function filterTable() {
+      const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
+      const resultsInfo = document.getElementById('resultsInfo');
+      let visibleCount = 0;
+      let totalWithdrawal = 0;
+      let totalDeposit = 0;
+      let latestBalance = 0;
+
+      if (searchValue === '') {
+        // Show all rows
+        allTransactions.forEach(t => {
+          t.element.style.display = '';
+        });
+        resultsInfo.style.display = 'none';
+        // Reset to original stats with comma formatting
+        document.getElementById('dynamicCount').textContent = formatNumberWithCommas(window.totalTransactions);
+        document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(window.originalWithdrawal || '0');
+        document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(window.originalDeposit || '0');
+        
+        // Calculate balance = Deposit - Withdrawal
+        const netBalance = parseFloat(window.originalDeposit) - parseFloat(window.originalWithdrawal);
+        document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(netBalance.toFixed(0));
+        return;
+      }
+
+      // Filter transactions and calculate stats
+      allTransactions.forEach(transaction => {
+        const searchText = (
+          transaction.sNo + ' ' +
+          transaction.date + ' ' +
+          transaction.remarks + ' ' +
+          transaction.withdrawal + ' ' +
+          transaction.deposit + ' ' +
+          transaction.balance
+        ).toLowerCase();
+
+        if (searchText.includes(searchValue)) {
+          transaction.element.style.display = '';
+          visibleCount++;
+          
+          // Parse and accumulate amounts
+          const withdrawal = parseFloat(transaction.withdrawal.replace(/[₹,]/g, '')) || 0;
+          const deposit = parseFloat(transaction.deposit.replace(/[₹,]/g, '')) || 0;
+          const balance = parseFloat(transaction.balance.replace(/[₹,]/g, '')) || 0;
+          
+          totalWithdrawal += withdrawal;
+          totalDeposit += deposit;
+          latestBalance = balance; // Last visible row's balance
+        } else {
+          transaction.element.style.display = 'none';
+        }
+      });
+
+      // Update stats dynamically with comma formatting
+      document.getElementById('dynamicCount').textContent = formatNumberWithCommas(visibleCount);
+      document.getElementById('dynamicWithdrawal').textContent = '₹' + formatNumberWithCommas(totalWithdrawal.toFixed(0));
+      document.getElementById('dynamicDeposit').textContent = '₹' + formatNumberWithCommas(totalDeposit.toFixed(0));
+      
+      // Calculate balance = Deposit - Withdrawal for filtered results
+      const filteredBalance = totalDeposit - totalWithdrawal;
+      document.getElementById('dynamicBalance').textContent = '₹' + formatNumberWithCommas(filteredBalance.toFixed(0));
+
+      // Show results info
+      if (visibleCount === 0) {
+        resultsInfo.innerHTML = `<strong>No transactions found</strong> for "${searchValue}"`;
+      } else {
+        resultsInfo.innerHTML = `<strong>Showing ${visibleCount} of ${window.totalTransactions} transactions</strong>`;
+      }
+      resultsInfo.style.display = 'block';
+    }
+
+    function resetSearch(filterText) {
+      document.getElementById('searchInput').value = filterText;
+      document.getElementById('searchInput').focus();
+      document.getElementById('searchInput').click();
+      filterTable();
+    }
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    function scrollToBottom() {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+
+    // Allow search on Enter key
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            filterTable();
+          }
+        });
+      }
+    });
+
+    // Sorting functionality
+    let currentSortColumn = -1;
+    let sortAscending = true;
+
+    function sortTable(columnIndex) {
+      // Get all rows from tbody
+      const tbody = document.querySelector('table tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      
+      // Filter out hidden rows (from search)
+      const visibleRows = rows.filter(row => row.style.display !== 'none');
+      
+      // If no visible rows or column not sortable, return
+      if (visibleRows.length === 0) return;
+
+      // Toggle sort direction if same column clicked
+      if (currentSortColumn === columnIndex) {
+        sortAscending = !sortAscending;
+      } else {
+        sortAscending = true;
+        currentSortColumn = columnIndex;
+      }
+
+      // Sort rows based on column
+      visibleRows.sort((a, b) => {
+        const aCell = a.querySelectorAll('td')[columnIndex];
+        const bCell = b.querySelectorAll('td')[columnIndex];
+        
+        if (!aCell || !bCell) return 0;
+
+        let aValue = aCell.textContent.trim();
+        let bValue = bCell.textContent.trim();
+
+        // Try to parse as number for numeric columns
+        if (columnIndex >= 3) {
+          const aNum = parseFloat(aValue.replace(/[₹,]/g, ''));
+          const bNum = parseFloat(bValue.replace(/[₹,]/g, ''));
+          
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            return sortAscending ? aNum - bNum : bNum - aNum;
+          }
+        }
+
+        // Handle date column (format: DD/MM/YYYY)
+        if (columnIndex === 1) {
+          const aDate = new Date(aValue.split('/').reverse().join('-'));
+          const bDate = new Date(bValue.split('/').reverse().join('-'));
+          
+          if (!isNaN(aDate.getTime()) && !isNaN(bDate.getTime())) {
+            return sortAscending ? aDate - bDate : bDate - aDate;
+          }
+        }
+
+        // Default string comparison
+        return sortAscending ? 
+          aValue.localeCompare(bValue) : 
+          bValue.localeCompare(aValue);
+      });
+
+      // Update allTransactions order
+      const sortedTransactions = [];
+      visibleRows.forEach(row => {
+        const transaction = allTransactions.find(t => t.element === row);
+        if (transaction) {
+          sortedTransactions.push(transaction);
+        }
+      });
+
+      // Re-append sorted rows to tbody
+      visibleRows.forEach(row => tbody.appendChild(row));
+
+      // Update sort indicator on header
+      updateSortIndicators(columnIndex);
+    }
+
+    function updateSortIndicators(columnIndex) {
+      const headers = document.querySelectorAll('thead th');
+      headers.forEach((th, idx) => {
+        th.classList.remove('sort-asc', 'sort-desc');
+        if (idx === columnIndex) {
+          th.classList.add(sortAscending ? 'sort-asc' : 'sort-desc');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

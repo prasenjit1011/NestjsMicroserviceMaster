@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FAQ</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<a href="/doc-react.html">React</a>
+<ul class="faq">
+<li data-id="q1"><span class="faq-question">
+Node.js?
+</span><div class="answer">
+Node.js is an open-source, cross-platform runtime built on Chrome’s V8 JavaScript engine that allows JavaScript to run outside the browser. It’s designed for building scalable, event-driven, non-blocking I/O applications, commonly used for servers and APIs.
+<br />
+</div></li>
+
+
+
+<li data-id="q_redux_formatted"><span class="faq-question">
+  Redux
+  </span><div class="answer">
+  <strong>Redux</strong> is a state management library often used with React for building user interfaces. It provides a centralized store for managing the application's state, making it predictable and maintainable.
+
+
+  <ol class="subul">
+  <li><strong>Store:</strong> The single source of state data that holds the entire state data of the application.</li>
+  <li><strong>Actions:</strong> Plain JavaScript objects that describe an event that occurred. Every action must have a type field.</li>
+  <li><strong>Reducers:</strong> A pure function that takes the current state and an action, and returns a new state based on the action type.</li>
+  <li><strong>Dispatch:</strong> A method to send actions to the reducer to update the state.</li>
+  <li><strong>Subscription:</strong> Listeners that get called whenever the state changes. </li>
+  </ol>
+
+  <br><strong>React Redux:</strong> is the official React binding for Redux. It allows React components to interact with the Redux store.
+  <ol class="subul">
+  <li><strong>Provider:</strong> Makes the Redux store available to the app.</li>
+  <li><strong>useSelector:</strong> Hook to read data from the store.</li>
+  <li><strong>useDispatch:</strong> Hook to dispatch actions to the store.</li>
+  </ol>
+
+  <br><strong>How It Works:</strong>
+  <ol class="subul">
+  <li>A component dispatches an action.</li>
+  <li>The action is sent to a reducer.</li>
+  <li>The reducer updates the state based on the action.</li>
+  <li>Subscribed components are notified and re-render with new data.</li>
+  </ol>
+
+  <br><strong>Redux Toolkit:</strong>
+  The recommended way to write Redux logic, simplifying store setup, reducers, and immutable updates.
+
+  <br><br><strong>Benefits:</strong>
+  <ul class="subul">
+  <li>Centralized State Management</li>
+  <li>Predictable State Updates</li>
+  <li>Improved Debugging</li>
+  <li>Performance Optimization</li>
+  </ul>
+
+  <br><strong>Use Cases:</strong><br>
+  Redux is best suited for large, complex applications with shared state. For simpler apps, React's Context API may be enough.
+  </div></li>
+  <li data-id="q_redux_example"><span class="faq-question">
+    Redux Example in React
+    </span><div class="answer">
+    Here's a simple example of Redux in a React application:
+    
+    <br><br><strong>1. Install Redux:</strong><br>
+    <code>npm install redux react-redux</code>
+    
+    <br><br><strong>2. Create Action:</strong><br>
+    <pre><code>
+    // actions.js
+    export const increment = () =&gt; ({ type: 'INCREMENT' });
+    </code></pre>
+    
+    <br><strong>3. Create Reducer:</strong><br>
+    <pre><code>
+    // reducer.js
+    const counterReducer = (state = 0, action) =&gt; {
+      switch (action.type) {
+        case 'INCREMENT':
+          return state + 1;
+        default:
+          return state;
+      }
+    };
+    export default counterReducer;
+    </code></pre>
+    
+    <br><strong>4. Create Store:</strong><br>
+    <pre><code>
+    // store.js
+    import { createStore } from 'redux';
+    import counterReducer from './reducer';
+    const store = createStore(counterReducer);
+    export default store;
+    </code></pre>
+    
+    <br><strong>5. Provide Store to React:</strong><br>
+    <pre><code>
+    // index.js
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import { Provider } from 'react-redux';
+    import App from './App';
+    import store from './store';
+    
+    ReactDOM.render(
+      &lt;Provider store={store}&gt;
+        &lt;App /&gt;
+      &lt;/Provider&gt;,
+      document.getElementById('root')
+    );
+    </code></pre>
+    
+    <br><strong>6. Use Redux in Component:</strong><br>
+    <pre><code>
+    // App.js
+    import React from 'react';
+    import { useSelector, useDispatch } from 'react-redux';
+    import { increment } from './actions';
+    
+    function App() {
+      const count = useSelector(state =&gt; state);
+      const dispatch = useDispatch();
+    
+      return (
+        &lt;div&gt;
+          &lt;h1&gt;Count: {count}&lt;/h1&gt;
+          &lt;button onClick={() =&gt; dispatch(increment())}&gt;Increment&lt;/button&gt;
+        &lt;/div&gt;
+      );
+    }
+    export default App;
+    </code></pre>
+    
+    This sets up a working counter app using Redux.
+    </div></li>
+
+    <li data-id="q_redux_middleware"><span class="faq-question">
+      Redux Middleware?
+      </span><div class="answer">
+      Redux middleware is a function that sits between the dispatching of an action and the moment it reaches the reducer. It provides a powerful way to extend Redux with custom functionality such as logging, crash reporting, asynchronous operations (like API calls), etc.
+      
+      <br><br><strong>How Middleware Works:</strong><br>
+      When an action is dispatched, middleware can intercept it, perform tasks (e.g., logging or fetching data), and then pass the action to the reducer.
+      
+      <br><br><strong>Example:</strong><br>
+      <pre><code>
+      const loggerMiddleware = store =&gt; next =&gt; action =&gt; {
+        console.log('Dispatching:', action);
+        return next(action);
+      };
+      </code></pre>
+      
+      <br><strong>Apply Middleware:</strong><br>
+      <pre><code>
+      import { createStore, applyMiddleware } from 'redux';
+      const store = createStore(reducer, applyMiddleware(loggerMiddleware));
+      </code></pre>
+      
+      <br><strong>Common Middleware:</strong><br>
+      <ul>
+        <li><strong>redux-thunk:</strong> For async logic using functions as actions.</li>
+        <li><strong>redux-saga:</strong> For complex async flows using generators.</li>
+        <li><strong>redux-logger:</strong> For logging actions and state.</li>
+      </ul>
+      
+      Middleware enhances Redux functionality while keeping actions and reducers pure and focused.
+      </div></li>
+      
+      <li data-id="q_redux_thunk"><span class="faq-question">
+        Redux-Thunk?
+        </span><div class="answer">
+        <code>redux-thunk</code> is a middleware for Redux that allows you to write action creators that return a function instead of an action. This function can perform asynchronous operations (like API calls) and then dispatch regular actions based on the result.
+        
+        <br><br><strong>Why Use redux-thunk?</strong><br>
+        Redux only supports synchronous data flow by default. To handle async operations like fetching data, you need middleware like <code>redux-thunk</code>.
+        
+        <br><br><strong>Installation:</strong><br>
+        <code>npm install redux-thunk</code>
+        
+        <br><br><strong>Apply Thunk Middleware:</strong><br>
+        <pre><code>
+        import { createStore, applyMiddleware } from 'redux';
+        import thunk from 'redux-thunk';
+        const store = createStore(reducer, applyMiddleware(thunk));
+        </code></pre>
+        
+        <br><strong>Example Usage:</strong><br>
+        <pre><code>
+        const fetchUser = () =&gt; {
+          return dispatch =&gt; {
+            dispatch({ type: 'USER_FETCH_REQUEST' });
+            fetch('/api/user')
+              .then(res =&gt; res.json())
+              .then(data =&gt; dispatch({ type: 'USER_FETCH_SUCCESS', payload: data }))
+              .catch(error =&gt; dispatch({ type: 'USER_FETCH_FAILURE', error }));
+          };
+        };
+        </code></pre>
+        
+        <br>With <code>redux-thunk</code>, you can delay the dispatch of an action or dispatch only if a certain condition is met, enabling more flexible and powerful Redux logic.
+        </div></li>
+        
+        <li data-id="q_redux_saga"><span class="faq-question">
+          Redux-Saga?
+          </span><div class="answer">
+          Redux-Saga is a middleware library for Redux that manages side effects like asynchronous data fetching and impure things (e.g., accessing browser cache). It uses ES6 generator functions to make async flows easier to read, write, and test.
+          
+          <br><br><strong>How Redux-Saga Works:</strong><br>
+          Sagas listen for dispatched actions and run generator functions (“sagas”) that yield effects, such as calling APIs or dispatching other actions.
+          
+          <br><br><strong>Benefits:</strong><br>
+          <ul>
+            <li>Better handling of complex async logic and side effects</li>
+            <li>Easy to test due to generator functions</li>
+            <li>Declarative effects make flow control simpler</li>
+          </ul>
+          
+          <br><strong>Basic Example:</strong><br>
+          <pre><code>
+          import { takeEvery, call, put } from 'redux-saga/effects';
+          
+          function* fetchUser(action) {
+            try {
+              const data = yield call(fetch, '/api/user');
+              const user = yield data.json();
+              yield put({ type: 'USER_FETCH_SUCCESS', payload: user });
+            } catch (e) {
+              yield put({ type: 'USER_FETCH_FAILURE', error: e.message });
+            }
+          }
+          
+          function* watchFetchUser() {
+            yield takeEvery('USER_FETCH_REQUEST', fetchUser);
+          }
+          </code></pre>
+          
+          Redux-Saga offers powerful control over side effects and concurrency in Redux apps.
+          </div></li>
+          
+          <li data-id="q_redux_logger"><span class="faq-question">
+            Redux-Logger?
+            </span><div class="answer">
+            <code>redux-logger</code> is a middleware for Redux that logs actions and state changes to the console. It helps developers debug by showing detailed information about every dispatched action and how the state updates.
+            
+            <br><br><strong>How it works:</strong><br>
+            When an action is dispatched, redux-logger prints the previous state, the action, and the next state in a formatted and readable way.
+            
+            <br><br><strong>Installation:</strong><br>
+            <code>npm install redux-logger</code>
+            
+            <br><br><strong>Setup Example:</strong><br>
+            <pre><code>
+            import { createStore, applyMiddleware } from 'redux';
+            import logger from 'redux-logger';
+            const store = createStore(reducer, applyMiddleware(logger));
+            </code></pre>
+            
+            <br><strong>Benefits:</strong><br>
+            <ul>
+              <li>Helps track dispatched actions in real-time</li>
+              <li>Shows state changes clearly for easier debugging</li>
+              <li>Useful in development but should be disabled in production</li>
+            </ul>
+            </div></li>
+            
+            <li data-id="q_sql_normalization"><span class="faq-question">
+              SQL Normalization?
+              </span><div class="answer">
+              SQL Normalization is a database design technique that organizes tables to reduce data redundancy and improve data integrity. It divides large tables into smaller, related tables and defines relationships between them.
+              
+              <br><br><strong>Normalization Forms:</strong><br>
+              <ol class="subul">
+                <li><strong>1NF (First Normal Form):</strong> Eliminate duplicate columns, ensure atomic values.</li>
+                <li><strong>2NF (Second Normal Form):</strong> Remove partial dependencies on primary key.</li>
+                <li><strong>3NF (Third Normal Form):</strong> Remove transitive dependencies.</li>
+                <li><strong>BCNF (Boyce-Codd Normal Form):</strong> A stricter version of 3NF.</li>
+              </ol>
+              
+              <br><strong>Benefits:</strong><br>
+              - Avoids data duplication<br>
+              - Maintains data consistency<br>
+              - Simplifies data maintenance and updates<br>
+              
+              Normalization helps design efficient, reliable, and scalable relational databases.
+              </div></li>
+              
+              <li data-id="q_redis"><span class="faq-question">
+                Redis DB and What Are Its Uses?
+                </span><div class="answer">
+                <strong>Redis</strong> (Remote Dictionary Server) is an open-source, in-memory data store used as a database, cache, and message broker. It supports various data structures like strings, hashes, lists, sets, and sorted sets.
+                
+                <br><br><strong>Key Features:</strong><br>
+                - Extremely fast (in-memory storage)<br>
+                - Supports persistence (RDB, AOF)<br>
+                - Pub/Sub messaging system<br>
+                - Built-in replication and clustering<br>
+                
+                <br><strong>Common Uses:</strong><br>
+                <ol class="subul">
+                  <li><strong>Caching:</strong> Speeds up web apps by caching frequently accessed data.</li>
+                  <li><strong>Session Store:</strong> Stores user sessions for fast access in scalable applications.</li>
+                  <li><strong>Real-time Analytics:</strong> Useful for counters, leaderboard rankings, etc.</li>
+                  <li><strong>Message Queues:</strong> Implements lightweight queues using lists or Pub/Sub.</li>
+                  <li><strong>Rate Limiting:</strong> Controls API usage with time-based counters.</li>
+                </ol>
+                
+                Redis is widely used for high-performance applications that require low-latency data access.
+                </div></li>
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <li data-id="q3"><span class="faq-question">---------------------------------------</span><br /><span class="faq-question">---------------------------------------</span></li>    
+
+
+<li data-id="q_promise"><span class="faq-question">
+Promise?
+</span><div class="answer">
+A <strong>Promise</strong> is an object representing the eventual completion or failure of an asynchronous operation. <br />
+It has 3 states: <b><code></code>pending</code>, <code>fulfilled</code>, and <code>rejected</code>.</b>
+
+Basic usage:
+<pre><code>
+const promise = new Promise((resolve, reject) => {
+setTimeout(() => resolve("Done!"), 1000);
+});
+
+promise.then(result => console.log(result)).catch(err => console.error(err));
+</code></pre>
+
+<strong>Advanced Promise Topics:</strong><br>
+• <code>Promise.all()</code>: Waits for all promises to resolve or any to reject.<br>
+• <code>Promise.race()</code>: Resolves/rejects as soon as one of the promises does.<br>
+• <code>Promise.allSettled()</code>: Waits for all promises to settle (resolve or reject).<br>
+• <code>Promise.any()</code>: Resolves as soon as one promise fulfills (ignores rejections).<br>
+• <code>Chaining</code>: Linking multiple <code>.then()</code> calls for sequential execution.<br>
+• <code>Error handling</code>: Using <code>.catch()</code> and <code>finally()</code> for robust flows.<br>
+• <code>Async/Await</code>: Syntactic sugar over promises for cleaner asynchronous code.<br><br>
+
+Mastering Promises is essential for handling async operations in modern JavaScript.
+</div></li>
+
+<li data-id="q_hoisting"><span class="faq-question">
+Hoisting?
+</span><div class="answer">
+Hoisting is JavaScript's default behavior of moving declarations to the top of their scope before code execution. It applies to <code>var</code> declarations and function declarations.
+
+Variables declared with <code>var</code> are hoisted and initialized with <code>undefined</code>, whereas <code>let</code> and <code>const</code> are hoisted but not initialized (they are in a "temporal dead zone" until declaration).
+
+Example:
+<pre><code>
+console.log(x); // undefined
+var x = 5;
+
+foo(); // Works
+function foo() {
+console.log("Hello");
+}
+</code></pre>
+Hoisting can lead to unexpected results if not understood properly.
+</div></li>
+
+
+
+<li data-id="q_closure"><span class="faq-question">
+Closure?
+</span><div class="answer">
+A closure in Node.js (and JavaScript) is a function that "remembers" its lexical scope even when executed outside of that scope. It allows inner functions to access variables from their outer function even after the outer function has returned.
+
+Closures are useful for data encapsulation, private variables, and maintaining state between function calls.
+
+Example:
+<pre><code>
+function outer() {
+let count = 0;
+return function inner() {
+count++;
+return count;
+};
+}
+const counter = outer();
+console.log(counter()); // 1
+console.log(counter()); // 2
+</code></pre>
+Here, <code>count</code> persists because of closure.
+</div></li>
+
+
+
+
+<li data-id="q_middleware_interceptor_filter"><span class="faq-question">
+Middleware Vs Interceptor Vs Filter?
+</span><div class="answer">
+<strong>Middleware</strong>, <strong>Interceptor</strong>, and <strong>Filter</strong> are all mechanisms for handling requests/responses, but they differ by context and use-case:
+
+<strong>Middleware (Express.js/Node.js):</strong><br>
+- Functions executed before reaching route handlers.<br>
+- Used for logging, authentication, parsing, etc.<br>
+- Can modify request/response objects.<br>
+- Example:
+<pre><code>
+app.use((req, res, next) => {
+console.log('Middleware');
+next();
+});
+</code></pre>
+
+<strong>Interceptor (NestJS, Angular, etc.):</strong><br>
+- Wraps around method execution (before & after).<br>
+- Often used to modify input/output, add headers, transform responses.<br>
+- Ideal for logging, caching, error handling.<br>
+
+<strong>Filter (NestJS, Java, etc.):</strong><br>
+- Specifically handles exceptions/errors.<br>
+- Catches thrown errors and returns formatted responses.<br>
+- Ideal for global error responses, logging exceptions.
+<br /><br />
+<strong>Summary:</strong><br>
+- <strong>Middleware</strong>: Handles requests early (e.g., auth, body parsing).<br>
+- <strong>Interceptor</strong>: Wraps execution, ideal for transforming results or adding behaviors.<br>
+- <strong>Filter</strong>: Catches and handles exceptions.
+</div></li>
+
+<li data-id="q_guards_vs_auth"><span class="faq-question">
+Guards Vs Authentication?
+</span><div class="answer">
+<strong>Authentication</strong> and <strong>Guards</strong> are both related to security but serve different purposes:
+<Br />
+<strong>Authentication:</strong><br>
+- The process of verifying a user's identity (e.g., via username/password, token).<br>
+- Determines “Who are you?”<br>
+- Implemented using strategies like JWT, OAuth, sessions, etc.<br>
+- Example: Decoding a JWT token to validate a user.
+<Br />
+<strong>Guards (e.g., in NestJS):</strong><br>
+- A mechanism to protect routes based on authentication or authorization logic.<br>
+- Executes before a route is handled.<br>
+- Determines “Are you allowed to access this?”<br>
+- Used to allow/deny access to certain endpoints based on roles, permissions, or login status.
+<Br />
+<strong>Summary:</strong><br>
+- <strong>Authentication</strong> confirms user identity.<br>
+- <strong>Guards</strong> control access after authentication.
+</div></li>
+
+<li data-id="q_dependency_injection"><span class="faq-question">
+Dependency Injection (DI)?
+</span><div class="answer">
+<strong>Dependency Injection (DI)</strong> is a design pattern where an object or function receives its dependencies from an external source rather than creating them internally.
+
+It promotes loose coupling, testability, and better code structure.
+<br /><br />
+In frameworks like <strong>NestJS</strong>, DI is a core feature. Services, repositories, or other providers are injected into classes (like controllers) through constructors.
+
+Example (NestJS):
+<pre><code>
+@Injectable()
+export class UserService {
+constructor(private readonly userRepo: UserRepository) {}
+}
+</code></pre>
+
+Here, <code>UserRepository</code> is automatically injected by NestJS’s DI container.
+
+DI improves modularity, makes mocking easy for testing, and encourages best practices.
+</div></li>
+
+
+<li data-id="q_decorator"><span class="faq-question">
+a Decorator in TypeScript?
+</span><div class="answer">
+A <strong>decorator</strong> is a special kind of declaration in TypeScript that can be attached to classes, methods, properties, or parameters to modify their behavior at runtime.
+
+Decorators are functions prefixed with <code>@</code> and are widely used in frameworks like <strong>NestJS</strong> and <strong>Angular</strong>.
+
+Types of decorators:
+- <strong>Class Decorators</strong>
+- <strong>Method Decorators</strong>
+- <strong>Property Decorators</strong>
+- <strong>Parameter Decorators</strong>
+
+Example:
+<pre><code>
+function Logger(constructor: Function) {
+console.log("Class created:", constructor.name);
+}
+
+@Logger
+class MyClass {}
+</code></pre>
+
+In NestJS:
+<pre><code>
+@Controller('users')
+export class UserController {}
+</code></pre>
+
+Decorators add metadata or change behavior, helping with clean and declarative code.
+</div></li>
+<li data-id="q_get_decorator"><span class="faq-question">
+Is @Get() a decorator in NestJS?
+</span><div class="answer">
+Yes, <code>@Get()</code> is a method decorator in <strong>NestJS</strong> used to define a route handler for HTTP GET requests. It is part of the <code>@nestjs/common</code> package and maps the decorated method to a specific endpoint.
+
+Example:
+<pre><code>
+@Controller('users')
+export class UserController {
+@Get()
+findAll() {
+return ['user1', 'user2'];
+}
+
+@Get(':id')
+findOne(@Param('id') id: string) {
+return `User ${id}`;
+}
+}
+</code></pre>
+
+Here:
+- <code>@Get()</code> maps to <code>/users</code>
+- <code>@Get(':id')</code> maps to <code>/users/:id</code>
+
+These decorators help build clean, declarative REST APIs.
+</div></li>
+
+<li data-id="q_module_decorator"><span class="faq-question">
+Is @Module() a decorator in NestJS?
+</span><div class="answer">
+Yes, <code>@Module()</code> is a class decorator in NestJS. It defines a module, which is a fundamental building block organizing related components like controllers, providers, and imports.
+
+Example:
+<pre><code>
+import { Module } from '@nestjs/common';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+
+@Module({
+controllers: [UsersController],
+providers: [UsersService],
+imports: [],
+})
+export class UsersModule {}
+</code></pre>
+
+The <code>@Module()</code> decorator accepts metadata that tells NestJS how to assemble the module, enabling dependency injection and modular architecture.
+</div></li>
+
+
+
+<li data-id="q_node_event"><span class="faq-question">
+Event?
+</span><div class="answer">
+In Node.js, an event is a signal emitted by objects to indicate that something has happened, such as a user action or system occurrence. Node uses the <code>EventEmitter</code> class to handle events, allowing objects to emit named events and listeners to respond asynchronously. This event-driven architecture enables efficient, non-blocking I/O operations, making Node.js suitable for scalable applications.
+
+Example:
+<pre><code>
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+
+emitter.on('message', (data) =&gt; console.log('Received:', data));
+emitter.emit('message', 'Hello Node.js!');
+</code></pre>
+</div></li>
+
+<li data-id="q_event_driven"><span class="faq-question">
+Event-Driven Programming?
+</span><div class="answer">
+Event-driven programming is a design paradigm where the flow of the program is determined by events like user actions, messages, or I/O operations. In Node.js, this model allows the application to respond asynchronously to events using the <code>EventEmitter</code> class. It enables non-blocking I/O by listening for events and executing callbacks when events occur, improving scalability and performance.
+
+This approach helps Node.js efficiently handle multiple operations concurrently without waiting, making it ideal for real-time apps and servers.
+</div></li>
+
+
+<li data-id="q2"><span class="faq-question">
+Event loop?
+</span><div class="answer">
+The event loop is a mechanism that handles asynchronous callbacks. It allows Node.js to perform non-blocking I/O operations by offloading tasks to the system kernel and executing their callbacks when ready, enabling efficient single-threaded concurrency.
+</div></li>
+
+
+<li data-id="q22"><span class="faq-question">
+Event loop phases?
+</span><div class="answer">
+Phases include:  
+1. timers  
+2. pending callbacks  
+3. idle/prepare  
+4. poll  
+5. check (for `setImmediate`)  
+6. close callbacks  
+Each handles specific queued callbacks.
+</div></li>
+
+<li data-id="q9"><span class="faq-question">
+Handle concurrency if it's single-threaded?
+</span><div class="answer">
+Node.js uses the event loop and asynchronous I/O via the libuv library. Heavy tasks are delegated to worker threads or the OS, enabling multiple tasks to be processed concurrently.
+</div></li>
+
+<li data-id="q5"><span class="faq-question">
+Callback?
+</span><div class="answer">
+A callback is a function passed as an argument to another function. It’s executed after the completion of an asynchronous operation, allowing non-blocking behavior in Node.js.
+</div></li>
+<li data-id="q8"><span class="faq-question">
+Streams?
+</span><div class="answer">
+Streams are objects for reading or writing data continuously. They include readable, writable, duplex, and transform streams. Streams are memory-efficient and used for processing large data like files.
+</div></li>
+
+<li data-id="q13"><span class="faq-question">
+Worker threads?
+</span><div class="answer">
+Worker threads enable running JavaScript in parallel threads. Unlike the main thread, they can handle CPU-intensive tasks without blocking the event loop, improving performance.
+</div>
+<div class="answer">
+Worker threads are a way to run JavaScript code in parallel on multiple threads in Node.js. While Node.js is single-threaded by default (using an event loop), worker threads enable CPU-intensive tasks to be executed without blocking the main event loop, improving performance for compute-heavy operations.
+
+Introduced in Node.js v10.5.0 (stable since v12), the <code>worker_threads</code> module allows you to create and manage threads that run scripts independently. Each worker has its own event loop, memory, and execution context, enabling true parallelism.
+
+Use cases include heavy computations, data processing, or any synchronous tasks that would otherwise block the main thread and degrade app responsiveness.
+
+Communication between the main thread and worker threads happens via messaging using <code>postMessage()</code> and listening to <code>message</code> events. Workers can share memory efficiently using <code>SharedArrayBuffer</code>.
+
+Example usage:
+
+<pre><code>const { Worker } = require('worker_threads');
+const worker = new Worker('./workerScript.js');
+worker.on('message', msg =&gt; console.log('From worker:', msg));
+worker.postMessage('start');
+</code></pre>
+
+Worker threads complement Node.js’s asynchronous model by enabling parallel execution for heavy workloads while maintaining non-blocking I/O in the main thread.
+</div></li>
+<li data-id="q_package_lock"><span class="faq-question">
+Package-lock.json?
+</span><div class="answer">
+<code>package-lock.json</code> is automatically generated by npm when installing dependencies. It locks the exact versions of installed packages and their sub-dependencies to ensure consistency across different environments. While <code>package.json</code> defines dependency ranges (e.g., <code>^1.2.3</code>), <code>package-lock.json</code> stores the exact versions (e.g., <code>1.2.3</code>) used during installation.<br><br>
+
+This ensures that every developer or deployment environment installs the same dependency tree, avoiding bugs caused by version differences. It also improves performance by caching dependency metadata. This file should be committed to version control in most projects.
+</div></li>
+
+<li data-id="q_node_error_handling"><span class="faq-question">
+Error handling?
+</span><div class="answer">
+Error handling in Node.js is critical for building reliable applications. Common strategies include:<br />
+
+<strong>1. Try-Catch:</strong> Used for synchronous code and <code>async/await</code> blocks.
+<pre><code>
+try {
+const data = await getData();
+} catch (err) {
+console.error(err.message);
+}
+</code></pre>
+
+<strong>2. Error-First Callbacks:</strong> Standard Node pattern where the first parameter is an error object.
+<pre><code>
+fs.readFile('file.txt', (err, data) => {
+if (err) return console.error(err);
+console.log(data.toString());
+});
+</code></pre>
+
+<strong>3. Global Error Handling:</strong> Catch unhandled exceptions or promise rejections.
+<pre><code>
+process.on('uncaughtException', (err) => {
+console.error('Unhandled Exception:', err);
+});
+process.on('unhandledRejection', (reason) => {
+console.error('Unhandled Rejection:', reason);
+});
+</code></pre>
+
+<strong>4. Express Middleware:</strong> Use error-handling middleware in Express.
+<pre><code>
+app.use((err, req, res, next) => {
+res.status(500).json({ message: err.message });
+});
+</code></pre>
+
+Proper error handling helps maintain app stability and improves debugging.
+</div></li>
+
+
+
+<li data-id="q14"><span class="faq-question">
+Middleware?
+</span><div class="answer">
+Middleware in Express.js is a function that processes requests and responses during the request-response cycle. It has access to the <code>req</code> and <code>res</code> objects and the next middleware function in the stack via the <code>next()</code> callback.
+Middleware functions can perform tasks like:
+<ul>
+<li>Executing code</li>
+<li>Modifying <code>req</code> and <code>res</code> objects</li>
+<li>Ending the request-response cycle</li>
+<li>Calling the next middleware</li>
+</ul>
+
+Types of middleware include:
+<ul>
+<li><strong>Application-level:</strong> Bound to an Express app using <code>app.use()</code> or route methods.</li>
+<li><strong>Router-level:</strong> Bound to an instance of <code>express.Router()</code>.</li>
+<li><strong>Error-handling:</strong> Special middleware with four arguments <code>(err, req, res, next)</code> to catch errors.</li>
+<li><strong>Built-in:</strong> Provided by Express, e.g., <code>express.json()</code>, <code>express.static()</code>.</li>
+<li><strong>Third-party:</strong> Such as <code>cors</code>, <code>helmet</code>, <code>morgan</code>.</li>
+</ul>
+
+Example:
+
+<pre><code>app.use((req, res, next) =&gt; {
+console.log('Request URL:', req.url);
+next(); // Pass control to next middleware
+});
+</code></pre>
+
+Middleware enables modular, reusable, and organized handling of HTTP requests, essential for building scalable Express.js applications.
+</div></li>
+
+
+<li data-id="q19"><span class="faq-question">
+Clustering?
+</span><div class="answer">
+Clustering enables using multiple CPU cores by spawning worker processes that share the same server port, improving performance and load handling.
+</div>
+<div class="answer">
+Clustering in Node.js is a technique to create multiple child processes (workers) that share the same server port, allowing you to take advantage of multi-core CPU systems. Since Node.js runs on a single thread by default, clustering helps improve performance and reliability by distributing incoming requests across several worker processes.
+
+The core module <code>cluster</code> enables spawning of worker processes. Each worker runs its own event loop and instance of the Node.js runtime, enabling parallel processing of requests.
+
+Key benefits:
+<ul>
+<li><strong>Improved Performance:</strong> Utilizes multiple CPU cores to handle more concurrent connections.</li>
+<li><strong>Fault Tolerance:</strong> If one worker crashes, the master process can spawn a new worker, improving app resilience.</li>
+<li><strong>Load Balancing:</strong> The master process balances incoming requests between workers.</li>
+</ul>
+
+Basic usage example:
+
+<pre><code>const cluster = require('cluster');
+const http = require('http');
+const numCPUs = require('os').cpus().length;
+
+if (cluster.isMaster) {
+for (let i = 0; i < numCPUs; i++) {
+cluster.fork();
+}
+cluster.on('exit', (worker) => {
+console.log(`Worker ${worker.process.pid} died, spawning a new one.`);
+cluster.fork();
+});
+} else {
+http.createServer((req, res) =&gt; {
+res.end('Hello from worker ' + process.pid);
+}).listen(8000);
+}
+</code></pre>
+
+Clustering boosts Node.js scalability but requires careful management of shared resources and state.
+</div>
+
+</li>
+
+
+<li data-id="q28"><span class="faq-question">
+Optimize performance in a large-scale Node.js app?
+</span><div class="answer">
+Use clustering, caching (Redis), async operations, database indexing, code profiling, monitoring (e.g., New Relic), and limit synchronous code. Minimize memory leaks and optimize queries.
+</div>
+<div class="answer">
+Optimizing performance in large-scale Node.js applications involves multiple strategies:
+
+<strong>1. Use Asynchronous Code:</strong> Always prefer non-blocking async operations to avoid blocking the event loop.<br>
+
+<strong>2. Load Balancing & Clustering:</strong> Use the <code>cluster</code> module or external load balancers to utilize multiple CPU cores.<br>
+
+<strong>3. Caching:</strong> Cache frequent data using in-memory stores like Redis or Memcached to reduce database load.<br>
+
+<strong>4. Database Optimization:</strong> Use indexing, connection pooling, and optimized queries to improve database interaction.<br>
+
+<strong>5. Avoid Memory Leaks:</strong> Monitor heap usage, manage object lifecycles carefully, and use profiling tools like Chrome DevTools or Clinic.js.<br>
+
+<strong>6. Use Streams:</strong> Process large data efficiently with streams to minimize memory footprint.<br>
+
+<strong>7. Efficient Logging:</strong> Use asynchronous logging libraries and avoid excessive logging in production.<br>
+
+<strong>8. Minimize Dependencies:</strong> Avoid bloated or unused npm packages to reduce startup time.<br>
+
+<strong>9. Profiling & Monitoring:</strong> Continuously profile your app using tools like New Relic, Datadog, or built-in profilers.<br>
+
+<strong>10. Use CDN & Compression:</strong> Serve static assets via CDN and compress responses with gzip or brotli.<br>
+
+Regular code reviews, performance testing, and keeping dependencies up-to-date help maintain high performance.
+</div>
+
+</li>
+
+<li data-id="q12"><span class="faq-question">
+Difference between process.nextTick() and setImmediate()?
+</span><div class="answer">
+<code>process.nextTick()</code> schedules a callback to execute immediately after the current operation completes, before the event loop continues. It has higher priority and runs before any I/O events or timers.<br><br>
+
+<code>setImmediate()</code> schedules a callback to run on the next iteration (tick) of the event loop, after I/O events callbacks.<br><br>
+
+In short, <code>process.nextTick()</code> runs before any I/O tasks, while <code>setImmediate()</code> runs after I/O events in the event loop. Overusing <code>process.nextTick()</code> can starve I/O, blocking the event loop.
+</div></li>
+
+<li data-id="q24"><span class="faq-question">
+How do you secure a Node.js application?
+</span><div class="answer">
+Securing a Node.js application involves multiple layers of protection:<br />
+
+<strong>1. HTTP Headers:</strong> Use <code>helmet</code> middleware to set secure HTTP headers and prevent common attacks like XSS, clickjacking, and MIME-sniffing.<br>
+
+<strong>2. Rate Limiting:</strong> Implement request throttling using <code>express-rate-limit</code> to protect against brute-force and DDoS attacks.<br>
+
+<strong>3. Input Validation & Sanitization:</strong> Use libraries like <code>express-validator</code> or <code>Zod</code> to validate and sanitize incoming data to avoid injection attacks.<br>
+
+<strong>4. Authentication & Authorization:</strong> Use secure token-based auth like <code>JWT</code>. Never store sensitive info in plain text—always hash passwords with <code>bcrypt</code>.<br>
+
+<strong>5. Use HTTPS:</strong> Encrypt communication using SSL certificates to secure data in transit.<br>
+
+<strong>6. Avoid Eval & Unsafe Code:</strong> Never use <code>eval()</code> or <code>Function()</code> with untrusted data. These can lead to RCE (Remote Code Execution).<br>
+
+<strong>7. Dependency Management:</strong> Use <code>npm audit</code> and tools like <code>snyk</code> to identify and fix vulnerable packages.<br>
+
+<strong>8. Secure Cookies:</strong> Use <code>HttpOnly</code>, <code>Secure</code>, and <code>SameSite</code> flags on cookies.<br>
+
+<strong>9. Environment Variables:</strong> Keep secrets and configs in <code>.env</code> files. Never hard-code credentials.<br>
+
+<strong>10. Logging & Monitoring:</strong> Monitor with tools like <code>Winston</code>, <code>Morgan</code>, or services like Datadog or New Relic.
+
+Regularly update Node.js and dependencies to stay protected.
+</div></li>
+
+
+<li data-id="q20"><span class="faq-question">
+Explain how Buffer works in Node.js.
+</span><div class="answer">
+`Buffer` is a global object used to handle binary data directly. It's useful for working with streams, files, and network protocols without converting to strings.
+</div></li>
+
+
+<li data-id="q_ts"><span class="faq-question">
+TypeScript?
+</span><div class="answer">
+TypeScript is a strongly typed superset of JavaScript developed by Microsoft. It adds static typing, interfaces, enums, and advanced tooling features to JavaScript, helping developers catch errors at compile time instead of runtime. TypeScript code compiles down to plain JavaScript, making it compatible with any environment that runs JS. It improves code quality, readability, and maintainability, especially for large-scale applications. TypeScript integrates well with modern frameworks like Angular, React, and Node.js, and offers excellent support in popular editors like VS Code with features like autocompletion and refactoring.
+</div></li>
+
+<li data-id="q_gql"><span class="faq-question">
+GraphQL?
+</span><div class="answer">
+GraphQL offers several advantages over traditional REST APIs:
+<ul>
+<li><strong>Flexible Queries:</strong> Clients can request exactly the data they need, reducing over-fetching and under-fetching.</li>
+<li><strong>Single Endpoint:</strong> All data queries and mutations happen through one endpoint, simplifying API management.</li>
+<li><strong>Strongly Typed Schema:</strong> The schema defines the types and relationships, enabling better validation and tooling.</li>
+<li><strong>Efficient Data Loading:</strong> Supports batching and caching to minimize redundant data fetching.</li>
+<li><strong>Improved Developer Experience:</strong> Introspection and auto-generated documentation make development faster and easier.</li>
+<li><strong>Real-time Data:</strong> Supports subscriptions for live updates.</li>
+</ul>
+These features make GraphQL ideal for complex, evolving APIs and frontend-driven development.
+</div></li>
+
+<li data-id="q_react_state"><span class="faq-question">
+State in React?
+</span><div class="answer">
+State in React is an object that holds dynamic data for a component. It determines how the component behaves and renders. When the state changes, React automatically re-renders the component to reflect the new data. State is managed within the component (using <code>useState</code> in functional components) and should be updated using the provided setter function to ensure proper reactivity.
+
+</div></li>
+
+<li data-id="q_react_vs_next"><span class="faq-question">
+Difference between React.js and Next.js?
+</span><div class="answer">
+<strong>React.js</strong> is a JavaScript library for building user interfaces, mainly focused on the frontend. It offers a component-based approach and handles client-side rendering but doesn’t include built-in routing or server-side rendering.
+
+<strong>Next.js</strong> is a React framework that extends React by adding powerful features like:
+<ul>
+<li>File-based routing</li>
+<li>Server-side rendering (SSR)</li>
+<li>Static site generation (SSG)</li>
+<li>API routes</li>
+<li>SEO optimization</li>
+</ul>
+While React provides the foundation for UI, Next.js offers a complete solution for building full-stack applications with better performance and scalability.
+</div></li>
+
+<li data-id="q_react_memory_virtualization"><span class="faq-question">
+memory cleanup and virtualization in React.js?
+</span><div class="answer">
+<strong>Memory Cleanup:</strong> In React, memory cleanup is often done using the <code>useEffect</code> hook’s cleanup function. It prevents memory leaks by cleaning up subscriptions, timers, or event listeners when a component unmounts or before re-running the effect.
+
+Example:
+<pre><code>
+useEffect(() => {
+const timer = setInterval(() => console.log('Tick'), 1000);
+return () => clearInterval(timer); // Cleanup
+}, []);
+</code></pre>
+
+<strong>Virtualization:</strong> Virtualization improves performance by rendering only the visible portion of large lists instead of the entire list. Libraries like <code>react-window</code> or <code>react-virtualized</code> help with this.
+
+Example with <code>react-window</code>:
+<pre><code>
+import { FixedSizeList as List } from 'react-window';
+
+&lt;List height={400} itemCount={1000} itemSize={35} width={300}&gt;
+{({ index, style }) =&gt; &lt;div style={style}&gt;Item {index}&lt;/div&gt;}
+&lt;/List&gt;
+</code></pre>
+
+This boosts performance and reduces memory usage in large UIs.
+</div></li>
+<li data-id="q_design_patterns"><span class="faq-question">
+What are design patterns in Node.js?
+</span><div class="answer">
+Design patterns are reusable solutions to common software design problems. In Node.js, popular patterns include:<br />
+
+<strong>1. Singleton:</strong> Ensures a class has only one instance (e.g., database connection).<br>
+<strong>2. Factory:</strong> Creates objects without exposing the instantiation logic.<br>
+<strong>3. Observer:</strong> Implements pub-sub mechanisms (e.g., <code>EventEmitter</code>).<br>
+<strong>4. Middleware:</strong> Common in Express apps for request handling.<br>
+<strong>5. Module Pattern:</strong> Uses closures to encapsulate logic.
+
+Using design patterns improves code organization, reusability, and maintainability in scalable Node.js applications.
+</div></li>
+<li data-id="q_design_patterns_more"><span class="faq-question">
+Explain Singleton, Factory, Observer, Middleware, and Module patterns in Node.js
+</span><div class="answer">
+<strong>Singleton:</strong> Restricts a class to one instance. Useful for shared resources like DB connections. Ensures consistent state across the app.<br><br>
+
+<strong>Factory:</strong> Creates objects without specifying exact classes. It abstracts object creation, allowing flexible and interchangeable products.<br><br>
+
+<strong>Observer:</strong> Implements event-driven communication where objects subscribe to events and get notified on changes. Node’s <code>EventEmitter</code> is a classic example.<br><br>
+
+<strong>Middleware:</strong> Functions that intercept requests in a chain to process or modify them. Common in Express.js for logging, authentication, or error handling.<br><br>
+
+<strong>Module Pattern:</strong> Uses closures to encapsulate private variables and expose a public API. Helps in organizing code into reusable, maintainable parts.<br><br>
+
+These patterns help write modular, scalable, and maintainable Node.js applications.
+</div></li>
+<li data-id="q_solid"><span class="faq-question">
+SOLID in software development?
+</span><div class="answer">
+SOLID is a set of five design principles aimed at making software designs more understandable, flexible, and maintainable:<br><br>
+
+<strong>S</strong> - Single Responsibility Principle: A class should have only one reason to change.<br>
+<strong>O</strong> - Open/Closed Principle: Software entities should be open for extension but closed for modification.<br>
+<strong>L</strong> - Liskov Substitution Principle: Subclasses should be replaceable by their base classes without affecting correctness.<br>
+<strong>I</strong> - Interface Segregation Principle: Clients should not be forced to depend on interfaces they don’t use.<br>
+<strong>D</strong> - Dependency Inversion Principle: High-level modules should not depend on low-level modules but on abstractions.<br><br>
+
+Applying SOLID improves code quality and eases maintenance.
+</div></li>
+
+<li data-id="q_datatypes"><span class="faq-question">
+Data types in JavaScript?
+</span><div class="answer">
+JavaScript has two main types of data types:<br><br>
+
+<strong>1. Primitive Types:</strong><br>
+- <code>String</code>: e.g., "hello"<br>
+- <code>Number</code>: e.g., 123, 3.14<br>
+- <code>Boolean</code>: true or false<br>
+- <code>Undefined</code>: a variable declared but not assigned<br>
+- <code>Null</code>: intentional absence of any value<br>
+- <code>Symbol</code>: unique and immutable value<br>
+- <code>BigInt</code>: for large integers beyond Number limits<br><br>
+
+<strong>2. Non-Primitive (Reference) Types:</strong><br>
+- <code>Object</code>: includes arrays, functions, dates, etc.<br><br>
+
+Primitive types are compared by value, while objects are compared by reference.
+</div></li>
+
+
+
+
+
+
+
+
+<li data-id="q_currying"><span class="faq-question">
+Currying?
+</span><div class="answer">
+Currying is a functional programming technique where a function is transformed into a sequence of functions, each taking a single argument. Instead of taking all arguments at once, a curried function takes them one by one.
+
+It improves code reusability and function composition.
+
+Example:
+<pre><code>
+// Normal function
+function add(a, b) {
+return a + b;
+}
+
+// Curried version
+function curriedAdd(a) {
+return function(b) {
+return a + b;
+};
+}
+
+console.log(curriedAdd(2)(3)); // 5
+</code></pre>
+Currying is useful for creating customizable and reusable function pipelines.
+</div></li>
+
+<li data-id="q_oauth2"><span class="faq-question">
+OAuth 2.0?
+</span><div class="answer">
+OAuth 2.0 is an authorization framework that enables third-party applications to obtain limited access to user resources on a server without exposing user credentials.
+
+It works by issuing access tokens after user consent, which the application uses to access protected resources.
+
+Key roles:
+- <strong>Resource Owner:</strong> User granting access
+- <strong>Client:</strong> Application requesting access
+- <strong>Authorization Server:</strong> Issues tokens
+- <strong>Resource Server:</strong> Hosts protected resources
+
+Common grant types:
+- Authorization Code
+- Implicit
+- Resource Owner Password Credentials
+- Client Credentials
+
+OAuth 2.0 improves security by decoupling authentication and authorization, widely used in APIs and social logins.
+</div></li>
+
+
+<li data-id="q_token_vs_session"><span class="faq-question">
+the difference between Token and Session?
+</span><div class="answer">
+<strong>Session:</strong><br>
+- Server stores user state and session ID.<br>
+- Client holds session ID in cookies.<br>
+- Requires server-side memory or storage.<br>
+- Easier to invalidate on logout.<br>
+
+<strong>Token (e.g., JWT):</strong><br>
+- Self-contained, stateless authentication.<br>
+- Token holds user info, signed by server.<br>
+- Stored client-side (localStorage/cookies).<br>
+- Scales better, no server memory needed.<br>
+
+<strong>Summary:</strong><br>
+Sessions are server-managed; tokens are client-managed. Tokens are popular for APIs and stateless apps; sessions suit traditional web apps.
+</div></li>
+
+<li data-id="q_mysql_acid"><span class="faq-question">
+ACID in MySQL?
+</span><div class="answer">
+ACID stands for Atomicity, Consistency, Isolation, and Durability — key properties that ensure reliable database transactions.
+
+- <strong>Atomicity:</strong> Transactions are all-or-nothing; either fully completed or fully rolled back.<br>
+- <strong>Consistency:</strong> Transactions bring the database from one valid state to another, maintaining data integrity.<br>
+- <strong>Isolation:</strong> Concurrent transactions don’t interfere; intermediate states are hidden.<br>
+- <strong>Durability:</strong> Once committed, changes persist even after crashes.
+
+MySQL’s InnoDB engine supports ACID to guarantee safe and reliable transactions.
+</div></li>
+
+<li data-id="q_aws_api_gateway"><span class="faq-question">
+AWS API Gateway?
+</span><div class="answer">
+AWS API Gateway is a fully managed service that enables developers to create, publish, maintain, monitor, and secure APIs at any scale.
+
+It acts as a front door for applications to access backend services like AWS Lambda, EC2, or external endpoints.
+
+Key features:<br>
+- Supports RESTful and WebSocket APIs.<br>
+- Handles request routing, throttling, authorization, and monitoring.<br>
+- Integrates with AWS services for security (Cognito, IAM).<br>
+- Enables caching to improve performance.<br>
+
+API Gateway simplifies building scalable, secure, and reliable APIs with minimal infrastructure management.
+</div></li>
+
+
+<li data-id="q_virtual_dom"><span class="faq-question">
+Virtual DOM in ReactJS?
+</span><div class="answer">
+The <strong>Virtual DOM</strong> is a lightweight, in-memory representation of the real DOM used by React.
+
+When the state or props of a component change, React creates a new Virtual DOM tree and compares it with the previous one (called "diffing").
+
+Only the differences (minimal changes) are then applied to the actual browser DOM, improving performance by reducing costly DOM manipulations.
+
+This process allows React to update UI efficiently and smoothly without reloading the entire page.
+</div></li>
+
+
+<li data-id="q_useeffect"><span class="faq-question">
+useEffect in ReactJS?
+</span><div class="answer">
+<code>useEffect</code> is a React Hook that lets you perform side effects in functional components, such as data fetching, subscriptions, or manually changing the DOM.
+
+It runs after the component renders and can be configured to run:
+- After every render (no dependencies),
+- Only once on mount (empty dependency array),
+- Or when specific values change (dependencies array).
+
+Example:
+<pre><code>
+useEffect(() => {
+// side effect logic
+}, [dependency]);
+</code></pre>
+
+It replaces lifecycle methods like <code>componentDidMount</code>, <code>componentDidUpdate</code>, and <code>componentWillUnmount</code>.
+</div></li>
+
+<li data-id="q_context_api"><span class="faq-question">
+Context API in React?
+</span><div class="answer">
+The <strong>Context API</strong> in React provides a way to pass data through the component tree without prop drilling (passing props manually at every level).
+
+It allows sharing global data like themes, user info, or settings.
+
+Usage involves three parts:
+- <code>React.createContext()</code> to create context.
+- <code>Context.Provider</code> to provide data.
+- <code>Context.Consumer</code> or <code>useContext()</code> hook to consume data.
+
+Example:
+<pre><code>
+const ThemeContext = React.createContext('light');
+
+function App() {
+return (
+&lt;ThemeContext.Provider value="dark"&gt;
+&lt;Toolbar /&gt;
+&lt;/ThemeContext.Provider&gt;
+);
+}
+</code></pre>
+
+It simplifies state management for global data.
+</div></li>
+
+<li data-id="q_event_bubbling"><span class="faq-question">
+What is Event Bubbling in ReactJS?
+</span><div class="answer">
+  <strong>Event bubbling</strong> in ReactJS is a mechanism where an event triggered on a child element propagates (or "bubbles") up through its parent elements in the DOM tree.
+  
+  For example, clicking a button inside a <code>&lt;div&gt;</code> will first fire the button’s <code>onClick</code> handler, then the <code>&lt;div&gt;</code>'s if one is defined.
+  
+  Example:
+  <pre><code>
+  &lt;div onClick={() =&gt; console.log('Div clicked')}&gt;
+    &lt;button onClick={() =&gt; console.log('Button clicked')}&gt;Click Me&lt;/button&gt;
+  &lt;/div&gt;
+  </code></pre>
+  
+  Clicking the button will log:<br>
+  <code>Button clicked</code><br>
+  <code>Div clicked</code>
+  
+  You can stop bubbling with <code>event.stopPropagation()</code>.
+  </div></li>
+  
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li data-id="q3"><span class="faq-question">---------------------------------------</span><br /><span class="faq-question">---------------------------------------</span></li>    
+<li data-id="q3"><span class="faq-question">
+a == b ?
+</span><div class="answer">
+const a = { name: "Ram" };<br />
+const b = { name: "Ram" };<br />
+console.log(a == b); // false<br />
+JSON.stringify(a) === JSON.stringify(b); // true<br />
+const _ = require('lodash');<br />
+_.isEqual(a, b); // true<br />
+</div></li>
+    
+
+<li data-id="q3"><span class="faq-question">---------------------------------------</span><br /><span class="faq-question">---------------------------------------</span></li>    
+<li data-id="q3"><span class="faq-question">
+What are the key features of Node.js?
+</span><div class="answer">
+Key features include asynchronous and event-driven architecture, single-threaded model, fast execution via V8 engine, non-blocking I/O, npm (Node package manager), and the ability to build scalable network applications.
+</div></li>
+
+<li data-id="q4"><span class="faq-question">
+Difference between require() and import?
+</span><div class="answer">
+`require()` is CommonJS syntax used in Node.js; it loads modules synchronously. `import` is ES6 syntax, used with modules, supports static analysis, and is asynchronous. `import` requires `"type": "module"` in `package.json`.
+</div></li>
+
+
+<li data-id="q6"><span class="faq-question">
+non-blocking I/O?
+</span><div class="answer">
+Non-blocking I/O allows Node.js to continue executing other code while waiting for I/O operations (like reading files or querying databases) to complete, improving efficiency and scalability.
+</div></li>
+
+<li data-id="q7"><span class="faq-question">
+How do you handle asynchronous code in Node.js?
+</span><div class="answer">
+Asynchronous code can be handled using callbacks, Promises, or `async/await`. These techniques prevent blocking the event loop and ensure smooth execution of concurrent tasks.
+</div></li>
+
+
+
+
+<li data-id="q10"><span class="faq-question">
+the purpose of package.json?
+</span><div class="answer">
+`package.json` holds metadata about a Node.js project, including dependencies, scripts, version, main file, and more. It helps manage packages and project configuration.
+</div></li>
+
+<li data-id="q11"><span class="faq-question">
+Explain the EventEmitter in Node.js.
+</span><div class="answer">
+`EventEmitter` is a core Node.js module that facilitates communication via events. You can create custom events using `emit()` and subscribe using `on()` or `once()`.
+</div></li>
+
+
+
+
+
+
+
+<li data-id="q15"><span class="faq-question">
+How do you implement authentication in Node.js (e.g., JWT)?
+</span><div class="answer">
+Use `jsonwebtoken` to issue and verify JWT tokens. On login, generate a token and send it to the client. For protected routes, use middleware to verify the token.
+</div></li>
+
+<li data-id="q16"><span class="faq-question">
+What are memory leaks in Node.js and how can you prevent them?
+</span><div class="answer">
+Memory leaks occur when memory is not released. Common causes include unused references, event listeners, or closures. Use tools like `clinic`, `heapdump`, and `--inspect` to detect and prevent them.
+</div></li>
+
+<li data-id="q17"><span class="faq-question">
+How do you manage environment variables in Node.js?
+</span><div class="answer">
+Use `.env` files with the `dotenv` package. Load variables using `require('dotenv').config()` and access them via `process.env.VARIABLE_NAME`.
+</div></li>
+
+<li data-id="q18"><span class="faq-question">
+the difference between spawn(), exec(), and fork()?
+</span><div class="answer">
+- `spawn()`: launches a new process, streams output.  
+- `exec()`: buffers entire output in memory.  
+- `fork()`: spawns a new Node.js process with IPC for communication.
+</div></li>
+
+
+
+
+<li data-id="q21"><span class="faq-question">
+How does Node.js handle async I/O under the hood (libuv)?
+</span><div class="answer">
+libuv is a C library that manages thread pool and async I/O. It delegates I/O operations to the OS or internal threads and notifies Node.js when operations complete.
+</div></li>
+
+
+
+<li data-id="q23"><span class="faq-question">
+backpressure in Node.js streams and how to handle it?
+</span><div class="answer">
+Backpressure occurs when the writable stream can't handle the data speed of a readable stream. Use `stream.pause()`, `drain` events, and `pipe()` for flow control.
+</div></li>
+
+
+<li data-id="q25"><span class="faq-question">
+Explain process-level error handling (uncaughtException, unhandledRejection).
+</span><div class="answer">
+`process.on('uncaughtException')` and `process.on('unhandledRejection')` catch unhandled errors globally. Prefer local error handling; use these for logging and graceful shutdowns.
+</div></li>
+
+<li data-id="q26"><span class="faq-question">
+How to implement custom events using EventEmitter?
+</span><div class="answer">
+Create an `EventEmitter` instance, emit events using `.emit('eventName', data)`, and listen using `.on('eventName', callback)`. Useful for decoupling logic.
+</div></li>
+
+<li data-id="q27"><span class="faq-question">
+What are the differences between microservices and monoliths in a Node.js context?
+</span><div class="answer">
+Monoliths bundle all logic in one app. Microservices split features into independent services communicating via APIs or messages. Microservices are scalable, but complex to manage.
+</div></li>
+
+
+
+<li data-id="q29"><span class="faq-question">
+Explain the concept of middleware chaining in Express.js.
+</span><div class="answer">
+Middleware chaining lets multiple functions process a request sequentially. Each middleware calls `next()` to pass control. Useful for validations, authentication, and logging.
+</div></li>
+
+<li data-id="q30"><span class="faq-question">
+a memory heap and how do you analyze it in Node.js?
+</span><div class="answer">
+A memory heap is the area where memory is allocated for objects. Analyze it using Chrome DevTools, Node.js `--inspect` flag, or memory profiling tools like `heapdump`.
+</div></li>
+
+
+
+
+<li data-id="q_call_api_after_unmount"><span class="faq-question">
+How to call an API after a React component unmounts?
+</span><div class="answer">
+Calling an API <em>after</em> a component unmounts is generally discouraged because the component no longer exists to handle the response.
+
+However, if needed, you can trigger a side effect in the cleanup function of <code>useEffect</code>:
+
+<pre><code>
+useEffect(() => {
+return () => {
+// Cleanup function called on unmount
+fetch('/api/endpoint', { method: 'POST' })
+.then(res => console.log('API called on unmount'))
+.catch(err => console.error(err));
+};
+}, []);
+</code></pre>
+
+Note: The API call may be canceled if the component unmounts abruptly, so it’s better handled outside React, e.g., in global state or services.
+</div></li>
+
+
+<li data-id="q_call_api_without_useeffect"><span class="faq-question">
+How to call an API without using <code>useEffect</code> in React?
+</span><div class="answer">
+You can call an API without <code>useEffect</code> by triggering the fetch inside event handlers, lifecycle methods (class components), or directly within functions.
+
+Examples:
+
+1. Inside an event handler (e.g., onClick):
+<pre><code>
+function MyComponent() {
+const fetchData = () => {
+fetch('/api/data')
+.then(res => res.json())
+.then(data => console.log(data));
+};
+
+return &lt;button onClick={fetchData}&gt;Fetch Data&lt;/button&gt;;
+}
+</code></pre>
+
+2. In class components, call API in <code>componentDidMount()</code> instead of <code>useEffect</code>.
+
+Direct API calls in render are discouraged to avoid repeated calls on every render.
+</div></li>
+
+
+
+
+
+
+
+</ul>
+<script src="../htmlscript.js"></script>
+
+
+</body>
+</html>

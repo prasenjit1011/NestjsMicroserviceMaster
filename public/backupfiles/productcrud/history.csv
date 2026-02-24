@@ -1,0 +1,8 @@
+#TYPE Microsoft.PowerShell.Commands.HistoryInfo
+"Id","CommandLine","ExecutionStatus","StartExecutionTime","EndExecutionTime"
+"1","cd ../","Completed","14-08-2025 05:31:41","14-08-2025 05:31:41"
+"2","cd ../","Completed","14-08-2025 05:31:45","14-08-2025 05:31:45"
+"3","cd .\myprojects\","Completed","14-08-2025 05:31:48","14-08-2025 05:31:48"
+"4","cd .\github\","Completed","14-08-2025 05:31:52","14-08-2025 05:31:52"
+"5","cd .\productcrud\","Completed","14-08-2025 05:31:57","14-08-2025 05:31:57"
+"6","cls","Completed","14-08-2025 05:32:02","14-08-2025 05:32:02"

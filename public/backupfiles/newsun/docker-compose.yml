@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  hello-world-app:
+    build: .
+    container_name: hello-world-dotnet-web
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080

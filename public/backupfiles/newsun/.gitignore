@@ -1,0 +1,39 @@
+# .NET and Docker ignore patterns
+bin/
+obj/
+out/
+*.user
+*.suo
+*.cache
+*.docstates
+
+# Docker
+.dockerignore
+
+# Visual Studio
+.vs/
+*.vsidx
+*.vspscc
+*.vsscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates

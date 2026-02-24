@@ -1,0 +1,71 @@
+# Ignore profit.json data file
+public/data/profit.json
+# compiled output
+/dist
+/node_modules
+/build
+/.serverless
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# dotenv environment variable files
+# .env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# temp directory
+.temp
+.tmp
+
+# Profit data (user-specific, should not be committed)
+# public/data/profit.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+.serverless/api.zip
+.serverless/cloudformation-template-update-stack.json
+.serverless/serverless-state.json
+.serverless/meta.json
+.serverless/cloudformation-template-update-stack.json
+.serverless/cloudformation-template-update-stack.json
+.serverless/meta.json
+.serverless/cloudformation-template-create-stack.json
