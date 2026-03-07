@@ -38,6 +38,10 @@
 Reactjs : Custom Hook
 </span>
 <div class="answer">
+  <pre>
+   
+
+    
   SELECT deptname, count(employee.id) as cnt FROM `dept` left join `employee` on `dept`.`id` = `employee`.`deptid` group by deptname having cnt = 0;
 
   Outha, dispatch, put, 
@@ -67,11 +71,105 @@ Reactjs : Custom Hook
     return <div>Current Device Width :- {deviceWidth}</div>;
   }
   
+    </pre>
+    
 
 </div>
 </li>
 
+<li data-id="react_custom_hook">
+  <span class="faq-question">What is a Custom Hook in ReactJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
 
+Definition:
+A Custom Hook in React is a reusable JavaScript function that starts with "use"
+and allows sharing stateful logic between multiple components.
+
+Why we use Custom Hooks:
+1. Reuse logic across components
+2. Reduce code duplication
+3. Separate UI and business logic
+4. Improve readability and maintainability
+
+Basic Custom Hook Example:
+
+// useCounter.js
+import { useState } from "react";
+
+function useCounter() {
+  const [count, setCount] = useState(0);
+
+  function increment() {
+    setCount(count + 1);
+  }
+
+  return { count, increment };
+}
+
+export default useCounter;
+
+
+Using Custom Hook in Component:
+
+import React from "react";
+import useCounter from "./useCounter";
+
+function Counter() {
+
+  const { count, increment } = useCounter();
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;{count}&lt;/h2&gt;
+      &lt;button onClick={increment}&gt;Increase&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Counter;
+
+
+Example: Custom Hook for API Fetch
+
+// useFetch.js
+import { useState, useEffect } from "react";
+
+function useFetch(url) {
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =&gt; {
+    fetch(url)
+      .then(res =&gt; res.json())
+      .then(result =&gt; {
+        setData(result);
+        setLoading(false);
+      });
+  }, [url]);
+
+  return { data, loading };
+}
+
+export default useFetch;
+
+
+Rules of Custom Hooks:
+1. Must start with "use"
+2. Only call hooks at the top level
+3. Only call hooks inside React functions
+
+
+Interview Answer (Short):
+Custom Hooks are reusable functions in React that allow developers
+to share stateful logic between multiple components.
+
+      </code>
+    </pre>
+  </div>
+</li>
 
 <li data-id="q_node_event"><span class="faq-question green">
   Event? Event-Driven Programming? EventEmitter
@@ -193,7 +291,10 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
       <table border="1" cellpadding="5">
         <tbody>
           <tr>
-            <td><a href="#nodejs_qlist">Nodejs</a></td>
+            <td>
+              <a href="#nodejs_qlist">Nodejs</a>
+              <a href="#kafka_qlist">Kafka</a>
+            </td>
             <td>
               <a href="#q_ts">TypeScript</a>, &nbsp; 
               <a href="#es6_qlist">ES6</a>
@@ -16158,6 +16259,1380 @@ Difference between Map and Object?
 <li data-id="q3" class="yellow"><span class="faq-question">
   ---------------------------------------------------------------------------------------- 
 </span></li>
+
+<li data-id="nestjs_architecture_detailed">
+  <span class="faq-question">Explain the Architecture of NestJS in detail.</span>
+  <div class="answer">
+    <pre>
+      <code>
+NestJS Architecture Overview
+
+NestJS follows a layered and modular architecture inspired by Angular.
+It is built on top of Node.js and typically uses Express or Fastify as the HTTP platform.
+
+The architecture is designed to build scalable and maintainable backend applications.
+
+--------------------------------------------------
+
+Main Architectural Components
+
+1. Modules
+2. Controllers
+3. Providers (Services)
+4. Middleware
+5. Guards
+6. Pipes
+7. Interceptors
+8. Exception Filters
+
+--------------------------------------------------
+
+1. Modules
+
+Modules are the fundamental building blocks of a NestJS application.
+Every application has at least one module called the Root Module.
+
+Modules organize the application into logical units.
+
+Example:
+
+@Module({
+  imports: [],
+  controllers: [UserController],
+  providers: [UserService]
+})
+export class UserModule {}
+
+Types of Modules:
+
+Root Module
+Feature Modules
+Shared Modules
+Dynamic Modules
+
+Example Root Module:
+
+@Module({
+  imports: [UserModule, AuthModule]
+})
+export class AppModule {}
+
+--------------------------------------------------
+
+2. Controllers
+
+Controllers handle incoming HTTP requests and return responses to the client.
+
+They define API routes and delegate business logic to services.
+
+Example:
+
+@Controller('users')
+export class UserController {
+
+  constructor(private userService: UserService) {}
+
+  @Get()
+  getUsers() {
+    return this.userService.findAll();
+  }
+
+  @Post()
+  createUser() {
+    return this.userService.createUser();
+  }
+}
+
+--------------------------------------------------
+
+3. Providers (Services)
+
+Providers contain business logic.
+
+They are injectable classes managed by NestJS Dependency Injection system.
+
+Example:
+
+@Injectable()
+export class UserService {
+
+  findAll() {
+    return ["User1", "User2"];
+  }
+
+  createUser() {
+    return "User Created";
+  }
+}
+
+Advantages:
+
+Loose coupling
+Easy testing
+Reusable logic
+
+--------------------------------------------------
+
+4. Middleware
+
+Middleware functions execute before the request reaches the controller.
+
+Common use cases:
+
+Logging
+Authentication
+Body parsing
+Request modification
+
+Example:
+
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+
+  use(req: Request, res: Response, next: Function) {
+    console.log("Incoming Request");
+    next();
+  }
+}
+
+--------------------------------------------------
+
+5. Guards
+
+Guards determine whether a request should be handled or rejected.
+
+Used mainly for authentication and authorization.
+
+Example:
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+
+  canActivate(context: ExecutionContext): boolean {
+
+    const request = context.switchToHttp().getRequest();
+
+    return request.headers.authorization === "valid-token";
+  }
+}
+
+Usage:
+
+@UseGuards(AuthGuard)
+@Get()
+getUsers() {
+  return [];
+}
+
+--------------------------------------------------
+
+6. Pipes
+
+Pipes are used for data validation and transformation.
+
+They run before the controller method executes.
+
+Example:
+
+@Get(':id')
+getUser(@Param('id', ParseIntPipe) id: number) {
+  return id;
+}
+
+Custom Pipe Example:
+
+@Injectable()
+export class ValidationPipe implements PipeTransform {
+
+  transform(value: any) {
+
+    if (!value) {
+      throw new BadRequestException("Invalid Input");
+    }
+
+    return value;
+  }
+}
+
+--------------------------------------------------
+
+7. Interceptors
+
+Interceptors allow you to intercept requests and responses.
+
+Common use cases:
+
+Logging
+Response transformation
+Caching
+Performance monitoring
+
+Example:
+
+@Injectable()
+export class LoggingInterceptor implements NestInterceptor {
+
+  intercept(context: ExecutionContext, next: CallHandler) {
+
+    console.log("Before request");
+
+    return next.handle();
+  }
+}
+
+--------------------------------------------------
+
+8. Exception Filters
+
+Exception filters handle errors globally or locally.
+
+They allow developers to customize error responses.
+
+Example:
+
+@Catch(HttpException)
+export class HttpExceptionFilter implements ExceptionFilter {
+
+  catch(exception: HttpException, host: ArgumentsHost) {
+
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse();
+
+    response.status(500).json({
+      message: exception.message
+    });
+  }
+}
+
+--------------------------------------------------
+
+NestJS Request Lifecycle
+
+Client Request
+     ↓
+Middleware
+     ↓
+Guards
+     ↓
+Interceptors (Before)
+     ↓
+Pipes
+     ↓
+Controller
+     ↓
+Service / Provider
+     ↓
+Database
+     ↓
+Interceptors (After)
+     ↓
+Exception Filters
+     ↓
+Response
+
+--------------------------------------------------
+
+Dependency Injection System
+
+NestJS has a powerful Dependency Injection container.
+
+It automatically creates and manages service instances.
+
+Example:
+
+constructor(private userService: UserService) {}
+
+Benefits:
+
+Loose coupling
+Better testing
+Clean architecture
+
+--------------------------------------------------
+
+Platform Layer
+
+NestJS can run on multiple platforms:
+
+Express (default)
+Fastify (high performance)
+
+Example:
+
+const app = await NestFactory.create(AppModule, new FastifyAdapter());
+
+--------------------------------------------------
+
+Database Layer
+
+NestJS integrates easily with databases:
+
+TypeORM
+Mongoose
+Prisma
+Sequelize
+
+Example:
+
+MongooseModule.forRoot("mongodb://localhost:27017/mydb")
+
+--------------------------------------------------
+
+Summary
+
+NestJS architecture follows a modular layered design.
+
+Client Request
+     ↓
+Controller
+     ↓
+Service
+     ↓
+Repository / Database
+
+Supporting layers include:
+
+Middleware
+Guards
+Pipes
+Interceptors
+Exception Filters
+
+This architecture provides:
+
+Scalability
+Maintainability
+Testability
+Clean code structure
+
+--------------------------------------------------
+
+Interview Short Answer (25 LPA)
+
+NestJS follows a modular architecture consisting of Modules, Controllers,
+and Providers. It uses Dependency Injection and separates concerns through
+middleware, guards, pipes, interceptors, and exception filters to build
+scalable and maintainable backend applications.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="nestjs_architecture">
+  <span class="faq-question">Explain the architecture of NestJS.</span>
+  <div class="answer">
+    <pre>
+      <code>
+NestJS Architecture is inspired by Angular and follows a modular architecture.
+
+Core Building Blocks:
+
+1. Module
+- The root structure of a NestJS application.
+- Groups related controllers and providers.
+
+Example:
+@Module({
+  imports: [],
+  controllers: [UserController],
+  providers: [UserService],
+})
+export class UserModule {}
+
+2. Controller
+- Handles incoming HTTP requests.
+- Returns responses to the client.
+
+Example:
+@Controller('users')
+export class UserController {
+  constructor(private userService: UserService) {}
+
+  @Get()
+  getUsers() {
+    return this.userService.findAll();
+  }
+}
+
+3. Provider (Service)
+- Contains business logic.
+- Injectable via Dependency Injection.
+
+@Injectable()
+export class UserService {
+  findAll() {
+    return [];
+  }
+}
+
+Architecture Flow:
+
+Client Request
+      ↓
+Middleware
+      ↓
+Guards
+      ↓
+Interceptors (before)
+      ↓
+Pipes
+      ↓
+Controller
+      ↓
+Service / Provider
+      ↓
+Database
+      ↓
+Interceptors (after)
+      ↓
+Response
+
+Benefits:
+- Dependency Injection
+- Highly scalable
+- Modular structure
+- Easy testing
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_pipes">
+  <span class="faq-question">What are Pipes in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Pipes are used for:
+
+1. Data Transformation
+2. Data Validation
+
+They run before the controller method executes.
+
+Example Built-in Pipes:
+- ValidationPipe
+- ParseIntPipe
+- ParseUUIDPipe
+- DefaultValuePipe
+
+Example:
+
+@Get(':id')
+getUser(@Param('id', ParseIntPipe) id: number) {
+  return id;
+}
+
+Custom Pipe Example:
+
+@Injectable()
+export class CustomValidationPipe implements PipeTransform {
+
+  transform(value: any) {
+
+    if(!value) {
+      throw new BadRequestException("Invalid Data");
+    }
+
+    return value;
+  }
+}
+
+Use Pipe:
+
+@Post()
+createUser(@Body(new CustomValidationPipe()) body) {
+  return body;
+}
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_guards">
+  <span class="faq-question">What are Guards in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Guards are used for Authorization and Authentication.
+
+They determine whether a request should be handled by the route handler.
+
+Example Use Cases:
+- JWT authentication
+- Role based access control
+- API protection
+
+Example Guard:
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+
+  canActivate(context: ExecutionContext): boolean {
+
+    const request = context.switchToHttp().getRequest();
+
+    return request.headers.authorization === "valid-token";
+  }
+}
+
+Apply Guard:
+
+@UseGuards(AuthGuard)
+@Get()
+getUsers() {
+  return "Protected Route";
+}
+
+Execution order:
+
+Request
+ ↓
+Guard checks permission
+ ↓
+If true → controller runs
+If false → request blocked
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_database_connection">
+  <span class="faq-question">How do you connect a database in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+NestJS supports multiple database integrations:
+
+Common options:
+- TypeORM
+- Prisma
+- Sequelize
+- Mongoose (MongoDB)
+
+Example: MongoDB with Mongoose
+
+Install:
+
+npm install @nestjs/mongoose mongoose
+
+AppModule:
+
+import { MongooseModule } from '@nestjs/mongoose';
+
+@Module({
+  imports: [
+    MongooseModule.forRoot(
+      "mongodb://localhost:27017/mydb"
+    )
+  ]
+})
+export class AppModule {}
+
+Schema Example:
+
+import { Schema } from 'mongoose';
+
+export const UserSchema = new Schema({
+  name: String,
+  age: Number
+});
+
+Module Setup:
+
+@Module({
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'User', schema: UserSchema }
+    ])
+  ],
+  providers: [UserService],
+  controllers: [UserController]
+})
+export class UserModule {}
+
+Service Example:
+
+@Injectable()
+export class UserService {
+
+  constructor(
+    @InjectModel('User') private userModel: Model
+  ) {}
+
+  async create(user) {
+    const newUser = new this.userModel(user);
+    return newUser.save();
+  }
+}
+
+Benefits:
+- Dependency Injection
+- Scalable architecture
+- Easy testing
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_interview_question">
+  <span class="faq-question">What is the request lifecycle in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+NestJS Request Lifecycle:
+
+Client Request
+      ↓
+Middleware
+      ↓
+Guards
+      ↓
+Interceptors (before)
+      ↓
+Pipes
+      ↓
+Controller
+      ↓
+Service / Provider
+      ↓
+Database
+      ↓
+Interceptors (after)
+      ↓
+Response
+
+Explanation:
+
+Middleware
+- Runs before route handlers.
+
+Guards
+- Used for authorization.
+
+Pipes
+- Validate and transform input data.
+
+Interceptors
+- Modify request/response and add logging or caching.
+
+Controllers
+- Handle HTTP requests.
+
+Providers (Services)
+- Execute business logic.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="nestjs_interceptors">
+  <span class="faq-question">What are Interceptors in NestJS and where are they used?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Interceptors allow you to intercept and modify requests or responses before
+they reach the controller or before sending the response to the client.
+
+Common Use Cases:
+1. Logging
+2. Response transformation
+3. Caching
+4. Performance monitoring
+5. Error handling
+
+Execution Position:
+
+Request Flow:
+Middleware
+   ↓
+Guards
+   ↓
+Interceptors (before)
+   ↓
+Pipes
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Interceptors (after)
+   ↓
+Response
+
+Example:
+
+@Injectable()
+export class LoggingInterceptor implements NestInterceptor {
+
+  intercept(context: ExecutionContext, next: CallHandler) {
+
+    console.log("Before request");
+
+    return next.handle().pipe(
+      tap(() => console.log("After response"))
+    );
+  }
+}
+
+Apply interceptor:
+
+@UseInterceptors(LoggingInterceptor)
+@Get()
+getUsers() {
+  return [];
+}
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_dependency_injection">
+  <span class="faq-question">How does Dependency Injection work in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Dependency Injection (DI) is a design pattern where dependencies
+are provided automatically rather than created manually.
+
+NestJS has a built-in IoC container.
+
+Example:
+
+@Injectable()
+export class UserService {
+  getUsers() {
+    return [];
+  }
+}
+
+Controller using DI:
+
+@Controller()
+export class UserController {
+
+  constructor(private userService: UserService) {}
+
+  @Get()
+  getUsers() {
+    return this.userService.getUsers();
+  }
+}
+
+Advantages:
+- Loose coupling
+- Easier testing
+- Better maintainability
+- Automatic instance management
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_custom_decorator">
+  <span class="faq-question">What are Custom Decorators in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Custom decorators allow developers to create reusable annotations
+for controllers or methods.
+
+Example Use Cases:
+- Extract user from request
+- Logging
+- Authorization metadata
+
+Example:
+
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+
+export const CurrentUser = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+
+    const request = ctx.switchToHttp().getRequest();
+
+    return request.user;
+  },
+);
+
+Usage:
+
+@Get()
+getProfile(@CurrentUser() user) {
+  return user;
+}
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_exception_filters">
+  <span class="faq-question">What are Exception Filters in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Exception Filters handle errors thrown in the application.
+
+They allow customizing error responses.
+
+Example:
+
+@Catch(HttpException)
+export class HttpExceptionFilter implements ExceptionFilter {
+
+  catch(exception: HttpException, host: ArgumentsHost) {
+
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse();
+
+    const status = exception.getStatus();
+
+    response.status(status).json({
+      statusCode: status,
+      message: exception.message
+    });
+  }
+}
+
+Apply filter:
+
+@UseFilters(HttpExceptionFilter)
+@Get()
+getUsers() {
+  throw new HttpException("Unauthorized", 401);
+}
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_microservices">
+  <span class="faq-question">How does NestJS support Microservices architecture?</span>
+  <div class="answer">
+    <pre>
+      <code>
+NestJS provides built-in support for microservices.
+
+Supported Transport Layers:
+
+1. Kafka
+2. Redis
+3. RabbitMQ
+4. gRPC
+5. TCP
+6. NATS
+
+Example Microservice Setup:
+
+const app = await NestFactory.createMicroservice(AppModule, {
+  transport: Transport.TCP,
+});
+
+app.listen();
+
+Message Handler:
+
+@MessagePattern({ cmd: 'sum' })
+sum(data: number[]) {
+  return data.reduce((a,b) => a + b);
+}
+
+Benefits:
+- Scalable architecture
+- Event-driven systems
+- Decoupled services
+- High performance
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_dynamic_module">
+  <span class="faq-question">What are Dynamic Modules in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Dynamic modules allow modules to be configured dynamically at runtime.
+
+They are commonly used for:
+- Database configuration
+- Third-party libraries
+- Shared modules
+
+Example:
+
+@Module({})
+export class DatabaseModule {
+
+  static forRoot(uri: string): DynamicModule {
+
+    return {
+      module: DatabaseModule,
+      providers: [
+        {
+          provide: 'DB_CONNECTION',
+          useValue: uri,
+        },
+      ],
+      exports: ['DB_CONNECTION']
+    };
+  }
+}
+
+Usage:
+
+@Module({
+  imports: [
+    DatabaseModule.forRoot("mongodb://localhost:27017/test")
+  ]
+})
+export class AppModule {}
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="nestjs_request_scope">
+  <span class="faq-question">What are the different provider scopes in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+NestJS providers can have different lifetimes using scopes.
+
+Types of Scopes:
+
+1. DEFAULT (Singleton)
+- One instance shared across the entire application.
+
+@Injectable()
+export class UserService {}
+
+2. REQUEST Scope
+- A new instance is created for every HTTP request.
+
+@Injectable({ scope: Scope.REQUEST })
+export class RequestService {}
+
+3. TRANSIENT Scope
+- A new instance created every time it is injected.
+
+@Injectable({ scope: Scope.TRANSIENT })
+export class LoggerService {}
+
+Use Case:
+
+Request Scope:
+Used when request-specific data is needed
+(example: authentication user context)
+
+Transient Scope:
+Useful for stateless utilities like logging.
+
+Interview Tip:
+Singleton is fastest because it avoids object creation overhead.
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_execution_context">
+  <span class="faq-question">What is ExecutionContext in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+ExecutionContext is an abstraction used to access request details
+across different platforms (HTTP, WebSocket, Microservices).
+
+It extends ArgumentsHost.
+
+Example:
+
+canActivate(context: ExecutionContext) {
+
+  const request = context
+    .switchToHttp()
+    .getRequest();
+
+  return request.user != null;
+}
+
+Supported Context Types:
+
+1. HTTP
+2. WebSockets
+3. Microservices (RPC)
+
+Purpose:
+
+Allows NestJS to create platform-independent logic
+for guards, interceptors, and filters.
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_forward_ref">
+  <span class="faq-question">How do you resolve circular dependency in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Circular dependency occurs when two services depend on each other.
+
+Example Problem:
+
+UserService → OrderService
+OrderService → UserService
+
+NestJS provides forwardRef() to solve this.
+
+Example:
+
+@Injectable()
+export class UserService {
+
+  constructor(
+    @Inject(forwardRef(() => OrderService))
+    private orderService: OrderService
+  ) {}
+}
+
+@Module({
+  providers: [UserService],
+  imports: [forwardRef(() => OrderModule)]
+})
+export class UserModule {}
+
+Explanation:
+
+forwardRef() delays the resolution of dependency
+until runtime.
+
+Best Practice:
+
+Avoid circular dependencies when possible by
+refactoring business logic into separate services.
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_middleware">
+  <span class="faq-question">What is Middleware in NestJS and how does it differ from Guards?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Middleware runs before the route handler
+and has access to request and response objects.
+
+Example Middleware:
+
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+
+  use(req: Request, res: Response, next: Function) {
+    console.log("Request received");
+    next();
+  }
+}
+
+Register Middleware:
+
+export class AppModule implements NestModule {
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('*');
+  }
+}
+
+Difference Between Middleware and Guards:
+
+Middleware:
+- Runs before guards
+- Cannot access route metadata
+- Used for logging, body parsing
+
+Guards:
+- Used for authorization
+- Can access route metadata
+- Works with decorators like @Roles()
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_performance">
+  <span class="faq-question">How can you improve performance in NestJS applications?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Several strategies improve NestJS performance.
+
+1. Use Fastify Adapter
+
+NestJS supports Express and Fastify.
+
+Fastify is faster.
+
+const app = await NestFactory.create(
+  AppModule,
+  new FastifyAdapter()
+);
+
+2. Enable Caching
+
+Use CacheModule.
+
+CacheModule.register({
+  ttl: 5,
+  max: 100
+});
+
+3. Use Async Providers
+
+Avoid blocking operations.
+
+4. Use Database Indexing
+
+Indexes improve query performance.
+
+5. Use Cluster Mode (Node.js)
+
+Use multiple CPU cores.
+
+6. Use Interceptors for Caching
+
+Example:
+
+@UseInterceptors(CacheInterceptor)
+
+7. Lazy load modules
+
+Load heavy modules only when needed.
+
+Result:
+
+Better scalability
+Lower latency
+Higher throughput
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="nestjs_lifecycle">
+  <span class="faq-question">What are lifecycle events in NestJS?</span>
+  <div class="answer">
+    <pre>
+      <code>
+NestJS provides lifecycle hooks for modules
+and providers.
+
+Common Hooks:
+
+1. OnModuleInit
+Called once module is initialized.
+
+export class UserService implements OnModuleInit {
+
+  onModuleInit() {
+    console.log("Module initialized");
+  }
+}
+
+2. OnApplicationBootstrap
+Called after application fully starts.
+
+3. OnModuleDestroy
+Called before module is destroyed.
+
+4. BeforeApplicationShutdown
+Called when application is shutting down.
+
+Use Cases:
+
+- Database connection initialization
+- Resource cleanup
+- Logging startup events
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="restful_api_definition">
+  <span class="faq-question">What is a RESTful API?</span>
+  <div class="answer">
+    <pre>
+      <code>
+RESTful API stands for Representational State Transfer API.
+
+It is an architectural style used to build web services that communicate
+over HTTP and follow REST principles.
+
+A RESTful API allows clients (frontend, mobile apps) to interact with
+server resources using standard HTTP methods.
+
+Main HTTP Methods:
+
+GET
+Used to retrieve data.
+
+POST
+Used to create new resources.
+
+PUT
+Used to update existing resources.
+
+DELETE
+Used to remove resources.
+
+Example API Endpoints:
+
+GET /users
+Fetch all users.
+
+GET /users/10
+Fetch user with ID 10.
+
+POST /users
+Create a new user.
+
+PUT /users/10
+Update user with ID 10.
+
+DELETE /users/10
+Delete user with ID 10.
+
+REST Principles:
+
+1. Client-Server Architecture
+Frontend and backend are independent.
+
+2. Stateless Communication
+Each request contains all necessary information.
+
+3. Resource-Based
+Everything is treated as a resource (users, products, orders).
+
+4. Uniform Interface
+Standard HTTP methods are used.
+
+Example JSON Response:
+
+{
+  "id": 10,
+  "name": "John",
+  "email": "john@email.com"
+}
+
+Advantages:
+
+- Scalable
+- Easy to understand
+- Platform independent
+- Widely used in web and mobile applications
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="stateful_vs_stateless_api">
+  <span class="faq-question">What is the difference between Stateful API and Stateless API?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Stateful API:
+
+In a stateful API, the server stores information about the client session.
+Each request depends on previous requests.
+
+Example:
+Traditional web applications with sessions.
+
+Flow:
+
+Client Login
+Server stores session
+Client sends session ID
+Server retrieves session data
+
+Example:
+
+User logs in
+Server stores session in memory or Redis
+Next request uses session ID
+
+Problems:
+
+- Hard to scale
+- Server must remember client state
+- Session storage required
+
+
+Stateless API:
+
+In a stateless API, the server does NOT store any client session data.
+
+Each request must contain all necessary information.
+
+Example:
+REST APIs with JWT authentication.
+
+Flow:
+
+Client Login
+Server returns JWT token
+Client sends token in every request
+
+Example Request Header:
+
+Authorization: Bearer token123
+
+Advantages:
+
+- Highly scalable
+- Easy to distribute across servers
+- No session storage needed
+
+
+Comparison:
+
+Stateful API
+
+Server stores session
+Requests depend on previous requests
+Harder to scale
+Example: Traditional session-based apps
+
+
+Stateless API
+
+Server does not store session
+Each request is independent
+Highly scalable
+Example: RESTful APIs
+
+
+Interview One-Line Answer:
+
+Stateful API stores client session data on the server,
+while Stateless API requires each request to contain
+all the information needed to process it.
+      </code>
+    </pre>
+  </div>
+</li>
 <li data-id="nestjs1">
 <span class="faq-question">What is the architecture of NestJS?</span>
 <div class="answer">
@@ -16663,6 +18138,1224 @@ These strategies allow NestJS apps to handle millions of requests.
 </pre>
 </div>
 </li>
+
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ----------------------------------------------------------------------------------</span></li>
+<li data-id="q3" id="kafka_qlist" class="yellow"><span class="faq-question">
+  --------------   Kafka Question  -----------------------</span></li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ---------------------------------------------------------------------------------------- 
+</span></li>
+
+<li data-id="kafka_intro">
+  <span class="faq-question">What is Apache Kafka?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Apache Kafka is a distributed event streaming platform used to handle real-time data feeds.
+
+It works as a high-throughput message broker between services. Applications can publish
+messages to Kafka topics and other applications can consume those messages.
+
+Kafka is widely used in microservices architecture, log aggregation, and real-time
+data processing systems.
+
+Key Features:
+- High throughput
+- Fault tolerant
+- Horizontally scalable
+- Persistent message storage
+
+Example Use Case:
+An e-commerce system where the Order Service publishes an "order-created" event.
+Other services like Shipping Service, Notification Service, and Analytics Service
+consume the same event from Kafka.
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="kafka_components">
+  <span class="faq-question">What are the main components of Kafka?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Kafka architecture includes several core components:
+
+Producer
+Application that sends messages to Kafka.
+
+Broker
+Kafka server that stores messages and handles requests.
+
+Topic
+A category or feed name where messages are stored.
+
+Partition
+Topics are divided into partitions for scalability and parallel processing.
+
+Consumer
+Application that reads messages from Kafka topics.
+
+Consumer Group
+Multiple consumers that work together to process messages in parallel.
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="kafka_flow">
+  <span class="faq-question">Explain Kafka message flow.</span>
+  <div class="answer">
+    <pre>
+      <code>
+Kafka Message Flow:
+
+Producer → Topic → Partition → Broker → Consumer
+
+Step 1:
+Producer sends message to a Kafka topic.
+
+Step 2:
+Topic stores the message in partitions.
+
+Step 3:
+Kafka broker manages the storage and replication.
+
+Step 4:
+Consumers read messages from partitions using offsets.
+
+Example:
+Order Service → sends event → Topic "orders"
+Shipping Service → consumes "orders" topic
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="kafka_nodejs_example">
+  <span class="faq-question">Kafka producer example in Node.js</span>
+  <div class="answer">
+    <pre>
+      <code>
+const { Kafka } = require("kafkajs");
+
+const kafka = new Kafka({
+  clientId: "my-app",
+  brokers: ["localhost:9092"]
+});
+
+const producer = kafka.producer();
+
+async function sendMessage() {
+  await producer.connect();
+
+  await producer.send({
+    topic: "orders",
+    messages: [{ value: "Order Created" }]
+  });
+
+  await producer.disconnect();
+}
+
+sendMessage();
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="kafka_consumer_example">
+  <span class="faq-question">Kafka consumer example in Node.js</span>
+  <div class="answer">
+    <pre>
+      <code>
+const { Kafka } = require("kafkajs");
+
+const kafka = new Kafka({
+  clientId: "my-app",
+  brokers: ["localhost:9092"]
+});
+
+const consumer = kafka.consumer({ groupId: "order-group" });
+
+async function run() {
+  await consumer.connect();
+  await consumer.subscribe({ topic: "orders" });
+
+  await consumer.run({
+    eachMessage: async ({ message }) => {
+      console.log(message.value.toString());
+    }
+  });
+}
+
+run();
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="node_vs_kafka">
+  <span class="faq-question">Node.js vs Kafka – What is the difference?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Node.js and Kafka serve completely different purposes in a system architecture.
+
+Node.js
+-------
+Node.js is a JavaScript runtime built on Chrome's V8 engine.
+It is used to build backend applications, APIs, servers, and microservices.
+
+Common uses:
+- REST APIs
+- Web servers
+- Real-time applications
+- Backend business logic
+
+Example:
+Client → Node.js API → Database
+
+
+Kafka
+-----
+Kafka is a distributed event streaming platform used for handling large volumes
+of messages between services.
+
+It acts as a message broker between producers and consumers.
+
+Example:
+Service A (Producer) → Kafka Topic → Service B (Consumer)
+
+
+Key Difference
+--------------
+Node.js = Application runtime
+Kafka = Messaging/Event streaming system
+
+
+Architecture Example
+--------------------
+Without Kafka
+
+Service A → REST API → Service B
+
+With Kafka
+
+Service A → Kafka Topic → Service B
+Service C → Kafka Topic → Service D
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="why_use_kafka">
+  <span class="faq-question">Why do we use Kafka?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Kafka is used when systems need to process large volumes of real-time data
+reliably and efficiently.
+
+Main Reasons to Use Kafka
+
+1. Decoupling Microservices
+Services do not need direct communication.
+
+Example:
+Order Service → Kafka → Email Service
+
+
+2. High Throughput
+Kafka can handle millions of messages per second.
+
+
+3. Fault Tolerance
+Kafka replicates data across multiple brokers so data is not lost.
+
+
+4. Event Streaming
+Kafka allows systems to process events in real time.
+
+Example:
+User Login → Kafka → Analytics Service
+
+
+5. Message Retention
+Messages are stored for a configurable period even after consumption.
+
+
+6. Scalability
+Kafka can scale horizontally by adding more brokers and partitions.
+
+
+Real World Example
+------------------
+
+E-commerce System
+
+User places order
+        ↓
+Order Service publishes event
+        ↓
+Kafka Topic: order-created
+        ↓
+Multiple consumers process it
+
+Shipping Service
+Payment Service
+Notification Service
+Analytics Service
+
+
+Conclusion
+----------
+
+Use Node.js when building backend applications.
+
+Use Kafka when multiple services need to exchange large volumes of data
+asynchronously and reliably.
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="kafka_architecture">
+  <span class="faq-question">Explain Kafka architecture.</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka architecture consists of several core components:
+
+1. Producer
+Applications that publish messages to Kafka topics.
+
+2. Broker
+Kafka server that stores and manages messages.
+
+3. Topic
+Logical category where messages are stored.
+
+4. Partition
+Topics are divided into partitions for scalability and parallel processing.
+
+5. Consumer
+Applications that read messages from Kafka topics.
+
+6. Consumer Group
+Multiple consumers working together to process messages in parallel.
+
+Example Flow:
+Producer → Topic → Partition → Broker → Consumer
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_offset">
+  <span class="faq-question">What is an Offset in Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Offset is a unique identifier assigned to each message within a partition.
+
+It represents the position of a message in the partition log.
+
+Example:
+
+Partition 0
+
+Offset 0 → message1
+Offset 1 → message2
+Offset 2 → message3
+
+Consumers track offsets to know which messages have already been processed.
+
+Advantages:
+- Enables message replay
+- Allows consumers to resume from last processed position
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_partition">
+  <span class="faq-question">What is a Kafka Partition and why is it important?</span>
+  <div class="answer">
+      <pre>
+        <code>
+A partition is a subset of a Kafka topic that allows parallel processing.
+
+Each topic can have multiple partitions.
+
+Benefits:
+- Scalability
+- Parallel processing
+- High throughput
+
+Example:
+
+Topic: orders
+
+Partition 0
+Partition 1
+Partition 2
+
+Each partition can be consumed by a different consumer
+within the same consumer group.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_consumer_group">
+  <span class="faq-question">What is a Consumer Group in Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+A Consumer Group is a set of consumers that work together
+to consume messages from a topic.
+
+Rules:
+- Each partition is consumed by only one consumer in the group.
+- Multiple consumer groups can read the same topic independently.
+
+Example:
+
+Topic: orders
+Partitions: 3
+
+Consumer Group A
+Consumer1 → Partition 0
+Consumer2 → Partition 1
+Consumer3 → Partition 2
+
+Consumer Group B can also read the same topic separately.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_replication">
+  <span class="faq-question">What is Replication in Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Replication ensures data durability and fault tolerance.
+
+Each partition has a leader and multiple followers.
+
+Leader
+Handles all read and write requests.
+
+Followers
+Replicate data from the leader.
+
+If the leader fails, one follower becomes the new leader.
+
+Example:
+
+Broker1 → Leader
+Broker2 → Follower
+Broker3 → Follower
+
+Benefits:
+- High availability
+- Fault tolerance
+- Data safety
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_exactly_once">
+  <span class="faq-question">What is Exactly Once Semantics in Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Exactly Once Semantics ensures that a message is processed
+only once even if retries happen.
+
+Kafka achieves this using:
+
+- Idempotent Producers
+- Transactions
+- Offset management
+
+Without this feature:
+A message could be processed multiple times.
+
+Use Case:
+Financial transactions
+Payment systems
+Order processing
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_lag">
+  <span class="faq-question">What is Kafka Consumer Lag?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Consumer Lag is the difference between the latest offset
+in a partition and the offset processed by a consumer.
+
+Example:
+
+Latest Offset = 500
+Consumer Offset = 450
+
+Lag = 50
+
+Large lag indicates:
+- Slow consumer
+- Processing bottleneck
+- System overload
+
+Monitoring lag is critical in production systems.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_retention">
+  <span class="faq-question">What is Kafka Retention Policy?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka retention policy defines how long messages are stored
+in a topic.
+
+Messages remain in Kafka even after they are consumed.
+
+Example:
+
+Retention Time: 7 days
+
+Kafka will delete messages older than 7 days.
+
+Types:
+1. Time-based retention
+2. Size-based retention
+
+Benefits:
+- Allows replaying events
+- Useful for analytics
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_vs_rabbitmq">
+  <span class="faq-question">Kafka vs RabbitMQ</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka and RabbitMQ are both messaging systems
+but designed for different use cases.
+
+Kafka
+- Distributed log system
+- Very high throughput
+- Event streaming
+- Used in big data systems
+
+RabbitMQ
+- Traditional message queue
+- Good for task queues
+- Lower throughput compared to Kafka
+
+Kafka stores messages for a long time,
+while RabbitMQ deletes messages after consumption.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_usecases">
+  <span class="faq-question">Real-world use cases of Kafka</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka is widely used in large-scale systems.
+
+Common Use Cases:
+
+1. Microservices communication
+Services communicate asynchronously.
+
+2. Log aggregation
+Collect logs from multiple servers.
+
+3. Real-time analytics
+Streaming user activity to analytics systems.
+
+4. Event sourcing
+Store events instead of state.
+
+5. Data pipelines
+Moving data between systems.
+
+Example Architecture:
+
+User Service → Kafka → Analytics Service
+Order Service → Kafka → Notification Service
+Payment Service → Kafka → Fraud Detection
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_interview_trick">
+  <span class="faq-question">Why is Kafka preferred in microservices architecture?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka provides asynchronous communication between services.
+
+Advantages:
+
+1. Loose coupling
+Services do not depend directly on each other.
+
+2. Scalability
+Consumers can scale independently.
+
+3. Fault tolerance
+Messages remain stored even if a consumer fails.
+
+4. Replay capability
+Events can be replayed from stored logs.
+
+Example:
+
+Order Service → Kafka Topic
+
+Consumers:
+- Email Service
+- Inventory Service
+- Analytics Service
+- Shipping Service
+
+All services can process the same event independently.
+        </code>
+      </pre>
+  </div>
+</li>
+<li data-id="kafka_tutorial_intro">
+  <span class="faq-question">Kafka Tutorial – What is Apache Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Apache Kafka is a distributed event streaming platform used to handle
+real-time data feeds between systems.
+
+It works as a message broker where producers send messages and consumers
+read those messages.
+
+Kafka is designed for:
+- High throughput
+- Fault tolerance
+- Scalability
+- Real-time data streaming
+
+Example:
+Order Service → Kafka → Email Service
+Payment Service → Kafka → Analytics Service
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_components_tutorial">
+  <span class="faq-question">Kafka Core Components</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka architecture includes several important components:
+
+1. Producer
+Application that sends messages to Kafka.
+
+Example:
+Order service sending "order-created" event.
+
+
+2. Broker
+Kafka server that stores messages.
+
+
+3. Topic
+A category or channel where messages are stored.
+
+Example topics:
+- orders
+- payments
+- user-login
+
+
+4. Partition
+Each topic is divided into partitions for scalability.
+
+Example:
+Topic: orders
+Partition 0
+Partition 1
+Partition 2
+
+
+5. Consumer
+Application that reads messages from Kafka.
+
+
+6. Consumer Group
+Group of consumers sharing the work of consuming messages.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_flow_tutorial">
+  <span class="faq-question">Kafka Message Flow</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka Message Flow:
+
+Producer → Topic → Partition → Broker → Consumer
+
+
+Step 1
+Producer sends message to a topic.
+
+
+Step 2
+Kafka stores the message inside partitions.
+
+
+Step 3
+Broker manages partitions and replication.
+
+
+Step 4
+Consumers read messages using offsets.
+
+
+Example:
+
+User places order
+        ↓
+Order Service (Producer)
+        ↓
+Kafka Topic: orders
+        ↓
+Consumers:
+Shipping Service
+Email Service
+Analytics Service
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_installation">
+  <span class="faq-question">How to install and run Kafka locally</span>
+  <div class="answer">
+      <pre>
+        <code>
+Step 1: Download Kafka
+
+Download from:
+https://kafka.apache.org/downloads
+
+
+Step 2: Start Zookeeper
+
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+
+Step 3: Start Kafka Server
+
+bin/kafka-server-start.sh config/server.properties
+
+
+Step 4: Create a Topic
+
+bin/kafka-topics.sh --create \
+--topic test-topic \
+--bootstrap-server localhost:9092 \
+--partitions 3 \
+--replication-factor 1
+
+
+Step 5: Start Producer
+
+bin/kafka-console-producer.sh \
+--topic test-topic \
+--bootstrap-server localhost:9092
+
+
+Step 6: Start Consumer
+
+bin/kafka-console-consumer.sh \
+--topic test-topic \
+--from-beginning \
+--bootstrap-server localhost:9092
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_nodejs_producer">
+  <span class="faq-question">Kafka Producer Example in Node.js</span>
+  <div class="answer">
+      <pre>
+        <code>
+Install library
+
+npm install kafkajs
+
+
+Producer Example
+
+const { Kafka } = require("kafkajs");
+
+const kafka = new Kafka({
+  clientId: "my-app",
+  brokers: ["localhost:9092"]
+});
+
+const producer = kafka.producer();
+
+async function sendMessage() {
+  await producer.connect();
+
+  await producer.send({
+    topic: "orders",
+    messages: [
+      { value: "Order Created" }
+    ]
+  });
+
+  await producer.disconnect();
+}
+
+sendMessage();
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_nodejs_consumer">
+  <span class="faq-question">Kafka Consumer Example in Node.js</span>
+  <div class="answer">
+      <pre>
+        <code>
+const { Kafka } = require("kafkajs");
+
+const kafka = new Kafka({
+  clientId: "my-app",
+  brokers: ["localhost:9092"]
+});
+
+const consumer = kafka.consumer({ groupId: "order-group" });
+
+async function run() {
+
+  await consumer.connect();
+
+  await consumer.subscribe({
+    topic: "orders",
+    fromBeginning: true
+  });
+
+  await consumer.run({
+    eachMessage: async ({ message }) => {
+
+      console.log(
+        message.value.toString()
+      );
+
+    }
+  });
+
+}
+
+run();
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_real_world_architecture">
+  <span class="faq-question">Kafka Real World Architecture Example</span>
+  <div class="answer">
+      <pre>
+        <code>
+Example: E-commerce System
+
+User places order
+        ↓
+Order Service (Producer)
+        ↓
+Kafka Topic: order-created
+        ↓
+Multiple Consumers
+
+Inventory Service
+Email Notification Service
+Shipping Service
+Analytics Service
+
+Benefits:
+- Loose coupling
+- Scalability
+- Fault tolerance
+- Event replay
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_best_usecases">
+  <span class="faq-question">When should we use Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka is useful when systems need to process large volumes
+of events in real time.
+
+Use Kafka for:
+
+1. Microservices communication
+2. Event streaming systems
+3. Log aggregation
+4. Real-time analytics
+5. Data pipelines
+6. Event sourcing architectures
+
+Companies using Kafka:
+Netflix
+Uber
+LinkedIn
+Amazon
+        </code>
+      </pre>
+  </div>
+</li>
+<li data-id="kafka_idempotent_producer">
+  <span class="faq-question">What is an Idempotent Producer in Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+An Idempotent Producer ensures that messages are written to Kafka exactly once,
+even if retries happen due to network failures.
+
+Normally:
+Producer retry → duplicate messages can be produced.
+
+With Idempotent Producer:
+Kafka ensures no duplicate messages are written.
+
+How it works:
+Kafka assigns a Producer ID and sequence number to each message.
+
+Benefit:
+Prevents duplicate data in distributed systems.
+
+Use Case:
+Financial transactions
+Order processing systems
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_rebalance">
+  <span class="faq-question">What is Consumer Rebalancing in Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Consumer Rebalancing happens when the number of consumers
+in a consumer group changes.
+
+Kafka redistributes partitions among consumers.
+
+When does rebalance occur?
+
+1. A new consumer joins the group
+2. A consumer crashes
+3. A consumer leaves the group
+4. Topic partition count changes
+
+Example:
+
+Topic partitions = 4
+
+Consumers = 2
+
+Consumer1 → Partition 0,1
+Consumer2 → Partition 2,3
+
+If Consumer3 joins:
+Kafka rebalances partitions among all consumers.
+
+Problem:
+During rebalance, consumers temporarily stop processing messages.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_offset_commit">
+  <span class="faq-question">What are Offset Commit Strategies in Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Offset commit determines how Kafka tracks message consumption.
+
+Types of offset commits:
+
+1. Auto Commit
+Kafka automatically commits offsets at intervals.
+
+Pros:
+Simple implementation.
+
+Cons:
+Risk of message loss or duplication.
+
+
+2. Manual Commit
+Consumer manually commits offset after processing message.
+
+Pros:
+More control
+Safer processing
+
+Example flow:
+
+Consume message
+Process message
+Commit offset
+
+If processing fails, offset is not committed.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_compaction">
+  <span class="faq-question">What is Log Compaction in Kafka?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Log compaction ensures that Kafka retains only the latest value
+for each message key.
+
+Example:
+
+Key: user1 → value: active
+Key: user1 → value: inactive
+
+After compaction:
+Only the latest message remains.
+
+Result:
+user1 → inactive
+
+Benefits:
+- Saves storage
+- Maintains latest state
+- Useful for event sourcing
+
+Use Cases:
+User profiles
+Configuration data
+State stores
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_transactions">
+  <span class="faq-question">What are Kafka Transactions?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka transactions allow producers to send multiple messages
+atomically.
+
+Meaning:
+Either all messages succeed or none are written.
+
+Example:
+
+Producer sends:
+Order created
+Payment completed
+Inventory updated
+
+If any step fails:
+Transaction is aborted.
+
+Benefits:
+Ensures data consistency across services.
+
+Used with:
+Exactly Once Semantics.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_throughput">
+  <span class="faq-question">Why is Kafka extremely high throughput?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka achieves high throughput due to several design choices.
+
+1. Sequential disk writes
+Messages are written sequentially to disk.
+
+2. Batching
+Multiple messages are sent in batches.
+
+3. Zero-copy transfer
+Kafka avoids unnecessary memory copies.
+
+4. Partition parallelism
+Multiple partitions allow parallel reads/writes.
+
+5. Pull model
+Consumers pull data instead of brokers pushing.
+
+These optimizations allow Kafka to process millions of messages per second.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_scaling">
+  <span class="faq-question">How does Kafka scale horizontally?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka scales by adding more brokers and partitions.
+
+Example:
+
+Initial cluster:
+
+Broker1
+Broker2
+
+Topic partitions:
+Partition0 → Broker1
+Partition1 → Broker2
+
+Scaling:
+
+Add Broker3
+Create more partitions.
+
+Now consumers can process data in parallel across brokers.
+
+Benefits:
+- Increased throughput
+- Improved fault tolerance
+- Better load distribution
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_ordering">
+  <span class="faq-question">Does Kafka guarantee message ordering?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Kafka guarantees ordering only within a partition.
+
+Example:
+
+Partition 0
+Message1
+Message2
+Message3
+
+These messages will be consumed in order.
+
+However, ordering is NOT guaranteed across multiple partitions.
+
+Solution:
+Use message keys so related messages go to the same partition.
+
+Example:
+Key = userID
+All events for that user go to the same partition.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_backpressure">
+  <span class="faq-question">How does Kafka handle backpressure?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Backpressure occurs when producers send messages faster
+than consumers can process them.
+
+Kafka handles this using:
+
+1. Consumer pull model
+Consumers control how fast they read data.
+
+2. Consumer lag monitoring
+Detect slow consumers.
+
+3. Batching and buffering
+Kafka buffers messages before sending.
+
+4. Scalable consumer groups
+Add more consumers to increase processing speed.
+        </code>
+      </pre>
+  </div>
+</li>
+
+<li data-id="kafka_system_design">
+  <span class="faq-question">How is Kafka used in large-scale system design?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Example: Uber-like system
+
+Ride Service → Kafka Topic: ride-request
+        ↓
+Consumers:
+
+Driver Matching Service
+Notification Service
+Pricing Service
+Analytics Service
+
+Benefits:
+
+1. Services are loosely coupled
+2. Each service scales independently
+3. Messages can be replayed
+4. Real-time processing is possible
+
+Kafka acts as the central event streaming backbone.
+        </code>
+      </pre>
+  </div>
+</li>
+
 
 <li data-id="q3" class="yellow"><span class="faq-question">
   ----------------------------------------------------------------------------------</span></li>
