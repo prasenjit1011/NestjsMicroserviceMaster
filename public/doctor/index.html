@@ -294,6 +294,7 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
             <td>
               <a href="#nodejs_qlist">Nodejs</a>
               <a href="#kafka_qlist">Kafka</a>
+              <a href="#eks_qlist">EKS</a>
             </td>
             <td>
               <a href="#q_ts">TypeScript</a>, &nbsp; 
@@ -305,7 +306,11 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
               <a href="#LoopBack_qlist">LoopBack</a> &nbsp;
               <a href="#nestjs_qlist">NestJS</a>
             </td>
-            <td>Coding</td>
+            <td>
+              <a href="#git_qlist">Git / CI/CD</a>
+              Coding
+
+            </td>
           </tr>
           <tr>
             <td><a href="#awslambda">AWS Lambda</a></td>
@@ -330,7 +335,6 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
             <td><a href="#redux_advanced">Advanced</a> &nbsp; 
               <a href="#reduxflux_qlist">Flux</a>
             </td>
-            <td></td>
           </tr>
           <tr>
             <td><a href="#docker_qlist">Docker</a></td>
@@ -392,7 +396,7 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
 <li data-id="python-question" class="zyellow">
 <span class="faq-question">Python</span>
 <div class="answer">
-
+<pre><code>
 Basic Python (1–20)
 
 What is Python?
@@ -620,7 +624,7 @@ If you want, I can also give:
 ✅ Python for backend developer roadmap
 
 Tell me your experience level (Fresher / 2–3 yrs / 5+ yrs) and I’ll customize it for you.
-
+</code></pre>
 </div>
 </li>
 
@@ -16617,6 +16621,7 @@ scalable and maintainable backend applications.
     </pre>
   </div>
 </li>
+
 <li data-id="nestjs_architecture">
   <span class="faq-question">Explain the architecture of NestJS.</span>
   <div class="answer">
@@ -16695,7 +16700,479 @@ Benefits:
     </pre>
   </div>
 </li>
+<li data-id="nestjs_pipes_explained">
+  <span class="faq-question">What are Pipes in NestJS? Explain in detail.</span>
+  <div class="answer">
+    <pre>
+      <code>
+Pipes in NestJS are used to transform or validate incoming data before it reaches
+the controller method.
 
+They operate on the arguments being passed to a route handler and run just before
+the controller logic is executed.
+
+Main Purposes of Pipes:
+
+1. Data Validation
+Check if incoming data is correct.
+
+2. Data Transformation
+Convert incoming data into the required format.
+
+Example:
+Convert string "10" → number 10
+
+--------------------------------------------------
+
+Where Pipes Run in Request Lifecycle
+
+Client Request
+      ↓
+Middleware
+      ↓
+Guards
+      ↓
+Interceptors (before)
+      ↓
+Pipes
+      ↓
+Controller
+      ↓
+Service
+      ↓
+Response
+
+--------------------------------------------------
+
+Built-in Pipes in NestJS
+
+NestJS provides several built-in pipes:
+
+ParseIntPipe
+ParseBoolPipe
+ParseUUIDPipe
+ParseArrayPipe
+ValidationPipe
+DefaultValuePipe
+
+Example:
+
+@Get(':id')
+getUser(@Param('id', ParseIntPipe) id: number) {
+  return id;
+}
+
+Explanation:
+
+If id = "10"
+ParseIntPipe converts it into number 10.
+
+If id = "abc"
+NestJS throws an error automatically.
+
+--------------------------------------------------
+
+Example: ValidationPipe
+
+ValidationPipe is commonly used with class-validator
+to validate request body data.
+
+DTO Example:
+
+export class CreateUserDto {
+  name: string;
+  age: number;
+}
+
+Controller Example:
+
+@Post()
+createUser(@Body(new ValidationPipe()) body: CreateUserDto) {
+  return body;
+}
+
+If invalid data is sent, NestJS automatically throws a validation error.
+
+--------------------------------------------------
+
+Creating Custom Pipe
+
+You can create your own pipe by implementing PipeTransform.
+
+Example:
+
+@Injectable()
+export class PositiveNumberPipe implements PipeTransform {
+
+  transform(value: number) {
+
+    if (value &lt; 0) {
+      throw new BadRequestException("Number must be positive");
+    }
+
+    return value;
+  }
+}
+
+Usage:
+
+@Get(':id')
+getUser(@Param('id', PositiveNumberPipe) id: number) {
+  return id;
+}
+
+--------------------------------------------------
+
+Types of Pipes
+
+Parameter-level Pipe
+Applied to a specific parameter.
+
+@Get(':id')
+getUser(@Param('id', ParseIntPipe) id: number)
+
+Method-level Pipe
+
+@UsePipes(ValidationPipe)
+@Post()
+createUser()
+
+Controller-level Pipe
+
+@UsePipes(ValidationPipe)
+@Controller('users')
+
+Global Pipe
+
+app.useGlobalPipes(new ValidationPipe());
+
+--------------------------------------------------
+
+Why Pipes Are Important
+
+Validate input data
+Transform request data
+Improve security
+Prevent invalid data reaching business logic
+Keep controllers clean
+
+--------------------------------------------------
+
+Interview Short Answer
+
+Pipes in NestJS are used to validate and transform incoming request data before
+it reaches the controller. They help ensure that only valid and properly
+formatted data is processed by the application.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="jwt_token_short">
+  <span class="faq-question">What is JWT Token? (Short Interview Answer)</span>
+  <div class="answer">
+    <pre>
+      <code>
+JWT (JSON Web Token)
+
+JWT is a compact and secure token used for authentication and authorization
+between client and server.
+
+It enables stateless authentication, meaning the server does not store
+session data.
+
+JWT Structure:
+
+Header.Payload.Signature
+
+Header
+Contains token type and signing algorithm.
+
+Payload
+Contains user information (claims).
+
+Signature
+Used to verify that the token has not been modified.
+
+Authentication Flow:
+
+1. User logs in.
+2. Server generates JWT token.
+3. Client stores token.
+4. Client sends token in request header.
+
+Example:
+
+Authorization: Bearer token_here
+
+Server verifies token using secret key.
+
+Interview One-Line Answer:
+
+JWT is a stateless authentication token containing Header, Payload,
+and Signature, used to securely verify user identity in APIs.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="jwt_token_explained">
+  <span class="faq-question">What is a JWT Token? Explain in detail.</span>
+  <div class="answer">
+    <pre>
+      <code>
+JWT (JSON Web Token)
+
+JWT stands for JSON Web Token.  
+It is a compact, secure way to transmit information between two parties as a JSON object.
+
+JWT is commonly used for authentication and authorization in modern APIs.
+
+Example Use Case:
+
+1. User logs in
+2. Server verifies credentials
+3. Server generates JWT token
+4. Client stores token
+5. Client sends token with every request
+
+--------------------------------------------------
+
+JWT Structure
+
+A JWT token has three parts separated by dots:
+
+Header.Payload.Signature
+
+Example:
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+.
+eyJ1c2VySWQiOjEwLCJuYW1lIjoiSm9obiJ9
+.
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+Structure:
+
+HEADER
+PAYLOAD
+SIGNATURE
+
+--------------------------------------------------
+
+1. Header
+
+The header contains metadata about the token.
+
+Example:
+
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+
+Explanation:
+
+alg = Algorithm used to sign the token
+typ = Token type (JWT)
+
+After encoding (Base64):
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+--------------------------------------------------
+
+2. Payload
+
+The payload contains the actual data (claims).
+
+Claims are statements about the user.
+
+Example:
+
+{
+  "userId": 10,
+  "email": "john@email.com",
+  "role": "admin"
+}
+
+Types of Claims:
+
+Registered Claims
+iss (issuer)
+exp (expiration)
+sub (subject)
+aud (audience)
+
+Public Claims
+Custom fields defined by developers.
+
+Private Claims
+Custom claims used between two systems.
+
+Encoded Payload Example:
+
+eyJ1c2VySWQiOjEwLCJuYW1lIjoiSm9obiJ9
+
+Important:
+
+Payload is NOT encrypted.
+It is only Base64 encoded.
+
+--------------------------------------------------
+
+3. Signature
+
+Signature verifies that the token has not been modified.
+
+Signature creation:
+
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret
+)
+
+Example:
+
+signature = HMACSHA256(
+  header + "." + payload,
+  secret_key
+)
+
+This prevents token tampering.
+
+--------------------------------------------------
+
+JWT Authentication Flow
+
+Step 1: User Login
+
+POST /login
+
+User sends:
+
+{
+  "email": "john@email.com",
+  "password": "123456"
+}
+
+--------------------------------------------------
+
+Step 2: Server verifies credentials
+
+If valid → server generates JWT token.
+
+Example:
+
+const token = jwt.sign(
+  { userId: 10 },
+  "secret_key",
+  { expiresIn: "1h" }
+);
+
+--------------------------------------------------
+
+Step 3: Client stores token
+
+Usually stored in:
+
+LocalStorage
+SessionStorage
+HTTP-only Cookie
+
+--------------------------------------------------
+
+Step 4: Client sends token
+
+Every API request includes the token.
+
+Example HTTP Header:
+
+Authorization: Bearer token_here
+
+--------------------------------------------------
+
+Step 5: Server verifies token
+
+Example:
+
+const decoded = jwt.verify(token, "secret_key");
+
+If valid → allow request.
+
+--------------------------------------------------
+
+Advantages of JWT
+
+Stateless authentication
+No session storage required
+Scalable for microservices
+Compact and portable
+Works well with REST APIs
+
+--------------------------------------------------
+
+Disadvantages
+
+Payload is visible (not encrypted)
+Token cannot be revoked easily
+Large payload increases token size
+
+--------------------------------------------------
+
+JWT vs Session Authentication
+
+Session Authentication
+
+Server stores session
+Client sends session ID
+Stateful system
+
+JWT Authentication
+
+Server does not store session
+Client sends token each request
+Stateless system
+
+--------------------------------------------------
+
+JWT Example in Node.js
+
+Install library:
+
+npm install jsonwebtoken
+
+Generate token:
+
+const jwt = require("jsonwebtoken");
+
+const token = jwt.sign(
+  { userId: 1 },
+  "secret_key",
+  { expiresIn: "1h" }
+);
+
+Verify token:
+
+jwt.verify(token, "secret_key", (err, decoded) => {
+  if (err) {
+    console.log("Invalid token");
+  } else {
+    console.log(decoded);
+  }
+});
+
+--------------------------------------------------
+
+Interview Short Answer
+
+JWT is a compact, URL-safe token used for authentication and authorization.
+It consists of three parts: Header, Payload, and Signature. The server
+generates the token after login and the client sends it with each request
+for verification, enabling stateless authentication.
+      </code>
+    </pre>
+  </div>
+</li>
 
 <li data-id="nestjs_pipes">
   <span class="faq-question">What are Pipes in NestJS?</span>
@@ -19359,12 +19836,1860 @@ Kafka acts as the central event streaming backbone.
 
 <li data-id="q3" class="yellow"><span class="faq-question">
   ----------------------------------------------------------------------------------</span></li>
+<li data-id="q3" id="eks_qlist" class="yellow"><span class="faq-question">
+  --------------   EKS Question  -----------------------</span></li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ---------------------------------------------------------------------------------------- 
+</span></li>
+
+
+<li data-id="eks_explanation">
+<span class="faq-question">What is AWS EKS (Elastic Kubernetes Service)?</span>
+<div class="answer">
+<pre>
+<code>
+☸️ EKS (Elastic Kubernetes Service)
+
+Amazon Elastic Kubernetes Service (EKS) is a managed Kubernetes service provided by AWS
+that allows developers to run Kubernetes clusters without managing the control plane.
+
+In simple terms:
+EKS = Kubernetes cluster managed by AWS. </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_kubernetes_question">
+<span class="faq-question">What is Kubernetes?</span>
+<div class="answer">
+<pre>
+<code>
+Kubernetes is a container orchestration platform used to manage:
+
+• container deployment
+• scaling
+• load balancing
+• self-healing
+• rolling updates
+
+Containers are usually created using Docker. </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_problem_without_eks">
+<span class="faq-question">What problems occur without using AWS EKS?</span>
+<div class="answer">
+<pre>
+<code>
+Without EKS, developers must manage Kubernetes infrastructure manually:
+
+• control plane
+• cluster upgrades
+• high availability
+• security patches
+• scaling
+
+Managing these manually becomes complex and time-consuming. </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_solution">
+<span class="faq-question">How does AWS EKS solve Kubernetes infrastructure problems?</span>
+<div class="answer">
+<pre>
+<code>
+AWS EKS manages critical Kubernetes components:
+
+## Component                 Managed by AWS
+
+Kubernetes master node    Yes
+API server                Yes
+etcd database             Yes
+Cluster availability      Yes
+
+Developers only manage:
+
+• Worker nodes
+• Applications
+• Containers </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_architecture">
+<span class="faq-question">What is the architecture of AWS EKS?</span>
+<div class="answer">
+<pre>
+<code>
+Developer
+   |
+Docker Image
+   |
+AWS ECR (Container Registry)
+   |
+EKS Cluster
+   |
+Worker Nodes (EC2)
+   |
+Pods (Application Containers)
+
+Components:
+
+ECR → stores Docker images
+EC2 → worker machines
+Pods → running containers </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_nodejs_deployment">
+<span class="faq-question">How do you deploy a Node.js application on AWS EKS?</span>
+<div class="answer">
+<pre>
+<code>
+Step 1 — Build Docker Image
+
+docker build -t movie-search-api .
+
+Step 2 — Push to AWS ECR
+
+aws ecr create-repository --repository-name movie-search
+
+Step 3 — Kubernetes Deployment Example
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: movie-api
+spec:
+replicas: 3
+selector:
+matchLabels:
+app: movie-api
+template:
+metadata:
+labels:
+app: movie-api
+spec:
+containers:
+- name: movie-api
+image: movie-search-api:latest
+ports:
+- containerPort: 3000 </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_service_exposure">
+<span class="faq-question">How do you expose an application in EKS?</span>
+<div class="answer">
+<pre>
+<code>
+Expose application using Kubernetes Service.
+
+apiVersion: v1
+kind: Service
+metadata:
+name: movie-service
+spec:
+type: LoadBalancer
+selector:
+app: movie-api
+ports:
+
+* port: 80
+  targetPort: 3000
+
+AWS automatically creates an Elastic Load Balancer. </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_features">
+<span class="faq-question">What are the key features of AWS EKS?</span>
+<div class="answer">
+<pre>
+<code>
+Key features include:
+
+• Auto Scaling
+• High Availability across multiple availability zones
+• Security integration with AWS IAM
+• Monitoring using AWS CloudWatch </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_production_architecture">
+<span class="faq-question">What does a typical production architecture using EKS look like?</span>
+<div class="answer">
+<pre>
+<code>
+Users
+   |
+CloudFront CDN
+   |
+API Gateway
+   |
+EKS Cluster
+ |     |     |
+Pod   Pod   Pod
+(Node.js containers)
+   |
+MongoDB / Redis / Kafka
+</code>
+</pre>
+</div>
+</li>
+
+<li data-id="eks_vs_ecs">
+<span class="faq-question">What is the difference between AWS EKS and ECS?</span>
+<div class="answer">
+<pre>
+<code>
+Feature        EKS          ECS
+---------------------------------
+Kubernetes     Yes          No
+AWS Native     No           Yes
+Complexity     High         Low
+Flexibility    Very High    Medium
+</code>
+</pre>
+</div>
+</li>
+
+<li data-id="eks_when_to_use">
+<span class="faq-question">When should you use AWS EKS?</span>
+<div class="answer">
+<pre>
+<code>
+Use EKS when building:
+
+• microservices architectures
+• large-scale distributed systems
+• multi-container applications
+• systems requiring Kubernetes ecosystem tools </code> </pre>
+
+</div>
+</li>
+
+<li data-id="eks_interview_definition">
+<span class="faq-question">How do you define AWS EKS in an interview?</span>
+<div class="answer">
+<pre>
+<code>
+Amazon EKS is a managed Kubernetes service by AWS that allows developers
+to deploy, scale, and manage containerized applications without managing
+the Kubernetes control plane infrastructure.
+</code>
+</pre>
+</div>
+</li>
+
+
+<li data-id="eks_ecs_q1">
+  <span class="faq-question">1. What is Amazon ECS?</span>
+  <div class="answer">
+    <pre><code>
+Amazon ECS (Elastic Container Service) is a fully managed container orchestration
+service that allows you to run Docker containers on AWS without managing Kubernetes.
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q2">
+  <span class="faq-question">2. What is Amazon EKS?</span>
+  <div class="answer">
+    <pre><code>
+Amazon EKS (Elastic Kubernetes Service) is a managed Kubernetes service
+that allows you to run Kubernetes workloads on AWS without managing
+the Kubernetes control plane.
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q3">
+  <span class="faq-question">3. What is the main difference between ECS and EKS?</span>
+  <div class="answer">
+    <pre><code>
+ECS → AWS native container orchestration service.
+
+EKS → Kubernetes-based container orchestration service.
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q4">
+  <span class="faq-question">4. Which one is easier to use?</span>
+  <div class="answer">
+    <pre><code>
+ECS is easier to use because it is tightly integrated with AWS
+and does not require Kubernetes knowledge.
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q5">
+  <span class="faq-question">5. Which service is more flexible?</span>
+  <div class="answer">
+    <pre><code>
+EKS is more flexible because it uses the Kubernetes ecosystem
+and supports many open-source tools.
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q6">
+  <span class="faq-question">6. Which service is cheaper?</span>
+  <div class="answer">
+    <pre><code>
+ECS is usually cheaper.
+
+ECS → No control plane cost
+EKS → Kubernetes control plane cost (~$0.10/hour)
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q7">
+  <span class="faq-question">7. When should you choose ECS?</span>
+  <div class="answer">
+    <pre><code>
+Choose ECS when:
+
+• You want simple container deployment
+• Infrastructure is fully on AWS
+• Small or medium scale applications
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q8">
+  <span class="faq-question">8. When should you choose EKS?</span>
+  <div class="answer">
+    <pre><code>
+Choose EKS when:
+
+• Kubernetes expertise exists
+• Multi-cloud architecture is required
+• Large-scale microservices systems
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q9">
+  <span class="faq-question">9. What is Fargate?</span>
+  <div class="answer">
+    <pre><code>
+AWS Fargate is a serverless compute engine for ECS and EKS
+that allows running containers without managing EC2 servers.
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q10">
+  <span class="faq-question">10. What scheduler does ECS use?</span>
+  <div class="answer">
+    <pre><code>
+ECS uses an AWS proprietary scheduler to place
+containers on EC2 instances or Fargate.
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q11">
+  <span class="faq-question">11. What scheduler does EKS use?</span>
+  <div class="answer">
+    <pre><code>
+EKS uses the Kubernetes scheduler
+to schedule pods across worker nodes.
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q12">
+  <span class="faq-question">12. What are the core components of EKS?</span>
+  <div class="answer">
+    <pre><code>
+• Control Plane
+• Worker Nodes
+• Pods
+• Services
+• Ingress
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q13">
+  <span class="faq-question">13. What are the core components of ECS?</span>
+  <div class="answer">
+    <pre><code>
+• Cluster
+• Task Definition
+• Task
+• Service
+• Container
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q14">
+  <span class="faq-question">14. How does scaling work in ECS?</span>
+  <div class="answer">
+    <pre><code>
+Scaling happens using:
+
+• Service Auto Scaling
+• CloudWatch Metrics
+• Application Load Balancer
+    </code></pre>
+  </div>
+</li>
+
+<li data-id="eks_ecs_q15">
+  <span class="faq-question">15. How does scaling work in EKS?</span>
+  <div class="answer">
+    <pre><code>
+Scaling happens using:
+
+• Horizontal Pod Autoscaler (HPA)
+• Cluster Autoscaler
+• Kubernetes Metrics Server
+    </code></pre>
+  </div>
+</li>
+<li data-id="ecs_q1">
+<span class="faq-question">What is AWS ECS?</span>
+<div class="answer">
+<pre><code>
+Amazon ECS (Elastic Container Service) is a fully managed container orchestration
+service by AWS that allows developers to run and scale Docker containers easily.
+
+Key features:
+• Container orchestration
+• Auto scaling
+• Load balancing
+• High availability
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q2">
+<span class="faq-question">What are the main components of ECS?</span>
+<div class="answer">
+<pre><code>
+Main ECS components:
+
+Cluster
+Group of EC2 instances or Fargate infrastructure where containers run.
+
+Task Definition
+Blueprint that defines container configuration.
+
+Task
+Running instance of a task definition.
+
+Service
+Maintains the number of running tasks.
+
+Container
+Actual application container (Node.js app).
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q3">
+<span class="faq-question">What is a Task Definition in ECS?</span>
+<div class="answer">
+<pre><code>
+Task Definition is a JSON configuration that defines how a container runs.
+
+Example:
+
+{
+ "family": "nodejs-app",
+ "containerDefinitions": [
+  {
+   "name": "node-container",
+   "image": "node-app:latest",
+   "memory": 512,
+   "cpu": 256,
+   "portMappings": [
+    {
+     "containerPort": 3000
+    }
+   ]
+  }
+ ]
+}
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q4">
+<span class="faq-question">What is the difference between ECS EC2 and ECS Fargate?</span>
+<div class="answer">
+<pre><code>
+ECS EC2
+You manage EC2 instances manually.
+
+ECS Fargate
+Serverless container platform where AWS manages infrastructure.
+
+Comparison:
+
+Feature        EC2 Mode       Fargate
+---------------------------------------
+Server Mgmt    Required       Not Required
+Scaling        Manual         Automatic
+Cost           Lower          Higher
+Complexity     Higher         Lower
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q5">
+<span class="faq-question">How do you deploy a Node.js app to ECS?</span>
+<div class="answer">
+<pre><code>
+Deployment Steps:
+
+1 Build Docker image
+2 Push image to AWS ECR
+3 Create ECS cluster
+4 Create Task Definition
+5 Create ECS Service
+6 Attach Load Balancer
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q6">
+<span class="faq-question">Example Dockerfile for Node.js in ECS?</span>
+<div class="answer">
+<pre><code>
+FROM node:18
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["node","app.js"]
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q7">
+<span class="faq-question">How does ECS handle load balancing?</span>
+<div class="answer">
+<pre><code>
+ECS integrates with AWS Application Load Balancer (ALB).
+
+Traffic Flow:
+
+User
+ |
+Load Balancer
+ |
+ECS Service
+ |
+Multiple Containers
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q8">
+<span class="faq-question">How does ECS Auto Scaling work?</span>
+<div class="answer">
+<pre><code>
+ECS auto scaling uses CloudWatch metrics.
+
+Examples:
+
+Scale out when CPU > 70%
+Scale in when CPU < 30%
+
+Scaling can also be based on memory or custom metrics.
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q9">
+<span class="faq-question">How do you manage environment variables in ECS?</span>
+<div class="answer">
+<pre><code>
+Environment variables are defined in Task Definition.
+
+Example:
+
+"environment": [
+ {
+  "name": "DB_HOST",
+  "value": "mongodb.example.com"
+ }
+]
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q10">
+<span class="faq-question">How do you store secrets securely in ECS?</span>
+<div class="answer">
+<pre><code>
+Secrets should be stored in:
+
+• AWS Secrets Manager
+• AWS Parameter Store
+
+Used for:
+
+• database passwords
+• API keys
+• JWT secrets
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q11">
+<span class="faq-question">How do you enable logging for ECS containers?</span>
+<div class="answer">
+<pre><code>
+Use AWS CloudWatch Logs.
+
+Example:
+
+"logConfiguration": {
+ "logDriver": "awslogs",
+ "options": {
+  "awslogs-group": "/ecs/node-app",
+  "awslogs-region": "ap-south-1"
+ }
+}
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q12">
+<span class="faq-question">How do rolling deployments work in ECS?</span>
+<div class="answer">
+<pre><code>
+Rolling deployment process:
+
+1 Start new containers
+2 Route traffic to new containers
+3 Stop old containers
+
+This ensures zero downtime deployment.
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q13">
+<span class="faq-question">How do you implement graceful shutdown in Node.js containers?</span>
+<div class="answer">
+<pre><code>
+Handle SIGTERM signal.
+
+Example:
+
+process.on("SIGTERM", () => {
+ console.log("Graceful shutdown...");
+ server.close(() => {
+  process.exit(0);
+ });
+});
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q14">
+<span class="faq-question">How do you scale ECS services manually?</span>
+<div class="answer">
+<pre><code>
+Use AWS CLI:
+
+aws ecs update-service \
+--cluster my-cluster \
+--service node-service \
+--desired-count 5
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q15">
+<span class="faq-question">How does ECS ensure high availability?</span>
+<div class="answer">
+<pre><code>
+High availability features:
+
+• multiple availability zones
+• load balancer
+• health checks
+• automatic container restart
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q16">
+<span class="faq-question">How do you monitor ECS applications?</span>
+<div class="answer">
+<pre><code>
+Monitoring tools:
+
+• AWS CloudWatch
+• container logs
+• CPU and memory metrics
+• ECS service events
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q17">
+<span class="faq-question">What are common production issues in ECS?</span>
+<div class="answer">
+<pre><code>
+Common problems:
+
+• container crashes
+• memory leaks
+• scaling delays
+• networking issues
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q18">
+<span class="faq-question">How do you debug ECS containers?</span>
+<div class="answer">
+<pre><code>
+Debugging steps:
+
+1 Check CloudWatch logs
+2 Check ECS task events
+3 Use ECS exec command
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q19">
+<span class="faq-question">Explain a typical ECS production architecture.</span>
+<div class="answer">
+<pre><code>
+Users
+ |
+CloudFront CDN
+ |
+Application Load Balancer
+ |
+ECS Cluster
+ |
+Node.js Containers
+ |
+Database (MongoDB / RDS)
+ |
+Cache (Redis)
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_q20">
+<span class="faq-question">Give a short interview definition of AWS ECS.</span>
+<div class="answer">
+<pre><code>
+AWS ECS is a container orchestration service that allows developers
+to deploy and manage Docker containers with automatic scaling,
+load balancing, and high availability.
+</code></pre>
+</div>
+</li>
+<li data-id="ecs_nodejs_adv_q1">
+<span class="faq-question">How do you handle zero downtime deployment in ECS for a Node.js application?</span>
+<div class="answer">
+<pre><code>
+Zero downtime deployments in ECS are handled using rolling updates in ECS Services.
+
+Process:
+
+1. New container tasks are started.
+2. Load balancer gradually shifts traffic to new tasks.
+3. Old tasks are stopped only after new tasks become healthy.
+
+Best practices:
+
+• Use Application Load Balancer (ALB)
+• Configure health checks
+• Set minimum healthy percent = 100
+• Set maximum percent = 200
+
+This ensures users never experience downtime during deployment.
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q2">
+<span class="faq-question">How do you optimize Docker images for Node.js applications in ECS?</span>
+<div class="answer">
+<pre><code>
+Optimizing Docker images improves startup time and reduces storage cost.
+
+Best practices:
+
+1. Use lightweight base image
+
+FROM node:18-alpine
+
+2. Install only production dependencies
+
+RUN npm install --production
+
+3. Use .dockerignore
+
+node_modules
+.git
+logs
+
+4. Multi-stage builds
+
+Reduces final image size significantly.
+
+Benefits:
+
+• faster container startup
+• reduced memory usage
+• faster ECS deployments
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q3">
+<span class="faq-question">How do you handle Node.js memory leaks in ECS containers?</span>
+<div class="answer">
+<pre><code>
+Memory leaks can crash containers if not handled properly.
+
+Solutions:
+
+1. Monitor memory usage with CloudWatch.
+
+2. Set container memory limits in task definition.
+
+Example:
+
+"memory": 512
+
+3. Use Node.js heap debugging tools.
+
+node --inspect app.js
+
+4. Restart unhealthy containers automatically using ECS health checks.
+
+5. Use process managers like PM2 if required.
+
+ECS will automatically replace failed containers.
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q4">
+<span class="faq-question">How do you implement CI/CD for Node.js applications deployed on ECS?</span>
+<div class="answer">
+<pre><code>
+Typical CI/CD pipeline:
+
+Developer pushes code
+        |
+GitHub / GitLab
+        |
+CI pipeline builds Docker image
+        |
+Push image to AWS ECR
+        |
+Trigger ECS deployment
+        |
+New containers start automatically
+
+Common tools:
+
+• GitHub Actions
+• AWS CodePipeline
+• Jenkins
+• GitLab CI
+
+Benefits:
+
+• automated deployments
+• faster releases
+• consistent builds
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q5">
+<span class="faq-question">How do you handle database connections efficiently in ECS Node.js containers?</span>
+<div class="answer">
+<pre><code>
+Database connections should be optimized because multiple containers may run simultaneously.
+
+Best practices:
+
+• Use connection pooling
+• Avoid opening connections per request
+• Use environment variables for DB configuration
+• Implement retry logic
+
+Example using MongoDB:
+
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.DB_URL,{
+  maxPoolSize: 10
+});
+
+Benefits:
+
+• reduced database overload
+• improved performance
+• better scalability
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q6">
+<span class="faq-question">How do you manage configuration across multiple ECS environments (dev, staging, production)?</span>
+<div class="answer">
+<pre><code>
+Configuration management can be handled using:
+
+1. Environment variables in Task Definition.
+
+2. AWS Parameter Store.
+
+3. AWS Secrets Manager.
+
+Example environments:
+
+DEV
+DB_URL=dev-db.example.com
+
+STAGING
+DB_URL=staging-db.example.com
+
+PRODUCTION
+DB_URL=prod-db.example.com
+
+Benefits:
+
+• environment isolation
+• improved security
+• easier configuration management
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q7">
+<span class="faq-question">How do you implement health checks for Node.js services in ECS?</span>
+<div class="answer">
+<pre><code>
+Health checks ensure that only healthy containers receive traffic.
+
+Steps:
+
+1. Create health endpoint in Node.js.
+
+app.get("/health",(req,res)=>{
+ res.status(200).send("OK");
+});
+
+2. Configure ALB health check path.
+
+Health Check Path:
+/health
+
+3. ECS automatically stops unhealthy containers.
+
+Benefits:
+
+• automatic recovery
+• improved reliability
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q8">
+<span class="faq-question">How do you handle high traffic spikes in ECS Node.js applications?</span>
+<div class="answer">
+<pre><code>
+High traffic can be handled using:
+
+1. ECS Auto Scaling.
+
+Scale containers based on CPU or request count.
+
+2. Load balancing with ALB.
+
+3. Caching layer (Redis).
+
+4. CDN (CloudFront) for static assets.
+
+Architecture:
+
+Users
+ |
+CloudFront
+ |
+ALB
+ |
+ECS containers
+ |
+Redis cache
+ |
+Database
+
+This reduces latency and improves scalability.
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q9">
+<span class="faq-question">How do you implement centralized logging for ECS Node.js applications?</span>
+<div class="answer">
+<pre><code>
+Centralized logging helps debug production issues.
+
+Use AWS CloudWatch Logs.
+
+Example task definition config:
+
+"logConfiguration": {
+ "logDriver": "awslogs",
+ "options": {
+  "awslogs-group": "/ecs/node-app",
+  "awslogs-region": "ap-south-1",
+  "awslogs-stream-prefix": "ecs"
+ }
+}
+
+Benefits:
+
+• centralized logs
+• easier debugging
+• real-time monitoring
+</code></pre>
+</div>
+</li>
+
+<li data-id="ecs_nodejs_adv_q10">
+<span class="faq-question">How do you design a highly scalable Node.js microservices architecture using ECS?</span>
+<div class="answer">
+<pre><code>
+Typical architecture:
+
+Users
+ |
+CloudFront
+ |
+Application Load Balancer
+ |
+API Gateway
+ |
+ECS Cluster
+ |        |        |
+Auth     User    Order
+Service  Service  Service
+ |
+Redis Cache
+ |
+Database
+
+Best practices:
+
+• microservices architecture
+• asynchronous communication using queues (SQS / Kafka)
+• caching layer
+• autoscaling services
+• separate databases per service
+
+Benefits:
+
+• independent scaling
+• better fault isolation
+• improved maintainability
+</code></pre>
+</div>
+</li>
+<li data-id="terraform_q1">
+<span class="faq-question">What is Terraform?</span>
+<div class="answer">
+<pre><code>
+Terraform is an Infrastructure as Code (IaC) tool developed by HashiCorp.
+
+It allows developers and DevOps engineers to create, manage, and automate
+cloud infrastructure using code instead of manual configuration.
+
+Terraform can provision infrastructure on multiple cloud platforms
+such as AWS, Azure, and Google Cloud.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q2">
+<span class="faq-question">Why is Terraform used?</span>
+<div class="answer">
+<pre><code>
+Without Terraform infrastructure must be created manually.
+
+Example:
+
+1 Login to AWS Console
+2 Create EC2 instance
+3 Configure security groups
+4 Setup load balancer
+5 Configure database
+
+With Terraform the same infrastructure can be created using code
+and a single command:
+
+terraform apply
+
+Benefits:
+
+• automation
+• faster infrastructure setup
+• reduced manual errors
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q3">
+<span class="faq-question">What is Infrastructure as Code (IaC)?</span>
+<div class="answer">
+<pre><code>
+Infrastructure as Code means managing infrastructure using
+configuration files instead of manual setup.
+
+Examples of infrastructure created using Terraform:
+
+• EC2 instances
+• VPC networks
+• Load balancers
+• ECS clusters
+• Security groups
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q4">
+<span class="faq-question">Explain Terraform architecture.</span>
+<div class="answer">
+<pre><code>
+Terraform architecture flow:
+
+Developer
+   |
+Terraform Code (.tf files)
+   |
+Terraform CLI
+   |
+Cloud Provider API
+   |
+Infrastructure Created
+
+Terraform communicates with cloud providers using providers.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q5">
+<span class="faq-question">What are Terraform providers?</span>
+<div class="answer">
+<pre><code>
+Providers allow Terraform to interact with cloud platforms.
+
+Examples:
+
+• AWS provider
+• Azure provider
+• Google Cloud provider
+
+Providers expose resources that Terraform can manage.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q6">
+<span class="faq-question">What are Terraform resources?</span>
+<div class="answer">
+<pre><code>
+Resources represent actual infrastructure components.
+
+Examples:
+
+aws_instance
+aws_vpc
+aws_s3_bucket
+aws_ecs_cluster
+
+Each resource defines the infrastructure object to create.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q7">
+<span class="faq-question">What are Terraform variables?</span>
+<div class="answer">
+<pre><code>
+Variables allow reusable configuration.
+
+Example:
+
+variable "instance_type" {
+  default = "t2.micro"
+}
+
+Variables help reuse the same code for different environments.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q8">
+<span class="faq-question">What is the Terraform state file?</span>
+<div class="answer">
+<pre><code>
+Terraform stores infrastructure information in a state file.
+
+File name:
+
+terraform.tfstate
+
+The state file tracks:
+
+• existing infrastructure
+• resource dependencies
+• configuration changes
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q9">
+<span class="faq-question">Explain Terraform workflow.</span>
+<div class="answer">
+<pre><code>
+Terraform workflow:
+
+terraform init
+terraform plan
+terraform apply
+terraform destroy
+
+terraform init
+Initializes Terraform project.
+
+terraform plan
+Shows what changes will be applied.
+
+terraform apply
+Creates infrastructure.
+
+terraform destroy
+Deletes infrastructure.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q10">
+<span class="faq-question">Example: Create AWS EC2 using Terraform.</span>
+<div class="answer">
+<pre><code>
+provider "aws" {
+ region = "ap-south-1"
+}
+
+resource "aws_instance" "example" {
+ ami           = "ami-123456"
+ instance_type = "t2.micro"
+
+ tags = {
+  Name = "NodeServer"
+ }
+}
+
+Commands:
+
+terraform init
+terraform apply
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q11">
+<span class="faq-question">Advantages of Terraform.</span>
+<div class="answer">
+<pre><code>
+Major advantages:
+
+• infrastructure automation
+• version control with Git
+• reusable configuration
+• multi-cloud support
+• faster deployments
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q12">
+<span class="faq-question">Terraform vs Manual Infrastructure Setup.</span>
+<div class="answer">
+<pre><code>
+Feature            Manual Setup      Terraform
+------------------------------------------------
+Speed              Slow              Fast
+Automation         No                Yes
+Version Control    No                Yes
+Reproducibility    No                Yes
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_q13">
+<span class="faq-question">Give a simple interview definition of Terraform.</span>
+<div class="answer">
+<pre><code>
+Terraform is an Infrastructure as Code tool that allows developers
+to define and provision cloud infrastructure using configuration
+files instead of manual setup.
+</code></pre>
+</div>
+</li>
+<li data-id="terraform_adv_q1">
+<span class="faq-question">What are Terraform Modules?</span>
+<div class="answer">
+<pre><code>
+Terraform modules are reusable containers for multiple resources.
+
+Modules allow developers to organize infrastructure code into reusable
+and maintainable components.
+
+Example:
+
+module "vpc" {
+ source = "./modules/vpc"
+}
+
+Benefits:
+
+• code reuse
+• cleaner infrastructure structure
+• easier maintenance
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q2">
+<span class="faq-question">What is Terraform Remote State?</span>
+<div class="answer">
+<pre><code>
+Terraform state file stores information about infrastructure.
+
+Remote state means storing the state file in a remote location instead
+of locally.
+
+Common remote state storage:
+
+• AWS S3
+• Terraform Cloud
+• Azure Storage
+
+Benefits:
+
+• team collaboration
+• state locking
+• better security
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q3">
+<span class="faq-question">What is Terraform State Locking?</span>
+<div class="answer">
+<pre><code>
+State locking prevents multiple users from modifying infrastructure
+at the same time.
+
+Example:
+
+User A runs terraform apply
+User B tries to run terraform apply
+
+Terraform will block User B until User A finishes.
+
+State locking is commonly implemented using:
+
+• AWS DynamoDB
+• Terraform Cloud
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q4">
+<span class="faq-question">What are Terraform Workspaces?</span>
+<div class="answer">
+<pre><code>
+Workspaces allow managing multiple environments using the same
+Terraform configuration.
+
+Example environments:
+
+• dev
+• staging
+• production
+
+Commands:
+
+terraform workspace new dev
+terraform workspace select dev
+
+Each workspace maintains a separate state file.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q5">
+<span class="faq-question">What is Terraform Provisioner?</span>
+<div class="answer">
+<pre><code>
+Provisioners are used to execute scripts on resources after they
+are created.
+
+Example:
+
+resource "aws_instance" "example" {
+ provisioner "local-exec" {
+  command = "echo Instance created"
+ }
+}
+
+Provisioners should be used only when necessary.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q6">
+<span class="faq-question">What are Terraform Data Sources?</span>
+<div class="answer">
+<pre><code>
+Data sources allow Terraform to fetch existing infrastructure data
+instead of creating new resources.
+
+Example:
+
+data "aws_ami" "latest" {
+ most_recent = true
+ owners = ["amazon"]
+}
+
+Used when referencing existing resources.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q7">
+<span class="faq-question">What is Terraform Dependency Graph?</span>
+<div class="answer">
+<pre><code>
+Terraform automatically builds a dependency graph of resources.
+
+Example:
+
+VPC → Subnet → EC2 Instance
+
+Terraform ensures resources are created in the correct order.
+
+Command to visualize graph:
+
+terraform graph
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q8">
+<span class="faq-question">What is Terraform Drift?</span>
+<div class="answer">
+<pre><code>
+Terraform drift occurs when infrastructure changes outside Terraform.
+
+Example:
+
+A developer manually changes an EC2 instance from the AWS console.
+
+Terraform state and actual infrastructure become different.
+
+Terraform detects drift during:
+
+terraform plan
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q9">
+<span class="faq-question">How does Terraform handle infrastructure updates?</span>
+<div class="answer">
+<pre><code>
+Terraform compares:
+
+Current state (terraform.tfstate)
+vs
+Desired configuration (.tf files)
+
+Steps:
+
+1 terraform plan identifies changes
+2 terraform apply updates resources
+
+Terraform only modifies the resources that changed.
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q10">
+<span class="faq-question">What is the Terraform Registry?</span>
+<div class="answer">
+<pre><code>
+Terraform Registry is a public repository of reusable Terraform modules
+and providers.
+
+Example modules available:
+
+• VPC module
+• Kubernetes module
+• ECS module
+
+Official registry:
+
+https://registry.terraform.io
+
+Benefits:
+
+• reusable infrastructure
+• faster development
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q11">
+<span class="faq-question">What are Terraform Backend configurations?</span>
+<div class="answer">
+<pre><code>
+Backend configuration defines where Terraform state is stored.
+
+Example using AWS S3:
+
+terraform {
+ backend "s3" {
+  bucket = "terraform-state-bucket"
+  key    = "prod/terraform.tfstate"
+  region = "ap-south-1"
+ }
+}
+
+Backends support:
+
+• remote state storage
+• state locking
+• collaboration
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q12">
+<span class="faq-question">What are Terraform best practices?</span>
+<div class="answer">
+<pre><code>
+Important best practices:
+
+• use modules for reusable infrastructure
+• store state remotely
+• use version control (Git)
+• separate environments (dev, staging, prod)
+• avoid hardcoding values
+• use variables and secrets management
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q13">
+<span class="faq-question">How does Terraform help in DevOps automation?</span>
+<div class="answer">
+<pre><code>
+Terraform automates infrastructure provisioning in CI/CD pipelines.
+
+Example workflow:
+
+Developer pushes code
+ |
+CI pipeline runs Terraform
+ |
+Infrastructure automatically created
+ |
+Application deployed
+
+Benefits:
+
+• faster deployments
+• consistent environments
+• infrastructure automation
+</code></pre>
+</div>
+</li>
+
+<li data-id="terraform_adv_q14">
+<span class="faq-question">Explain a real production architecture using Terraform.</span>
+<div class="answer">
+<pre><code>
+Typical Terraform-managed infrastructure:
+
+Terraform
+   |
+VPC
+   |
+Application Load Balancer
+   |
+ECS Cluster
+   |
+Node.js Containers
+   |
+Redis Cache
+   |
+Database (RDS / MongoDB)
+
+Terraform can provision the entire architecture using code.
+</code></pre>
+</div>
+</li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ----------------------------------------------------------------------------------</span></li>
 <li data-id="q3" id="nodejs_qlist" class="yellow"><span class="faq-question">
   --------------   NodeJS Question  -----------------------</span></li>
 <li data-id="q3" class="yellow"><span class="faq-question">
   ---------------------------------------------------------------------------------------- 
 </span></li>
+<li data-id="settimeout_example">
+  <span class="faq-question">What is setTimeout()? Give example.</span>
+  <div class="answer">
+    <pre>
+      <code>
+setTimeout()
 
+setTimeout() is a JavaScript function used to execute a function
+once after a specified delay (in milliseconds).
+
+Syntax
+
+setTimeout(function, delay)
+
+Example
+
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Hello after 2 seconds");
+}, 2000);
+
+console.log("End");
+
+Output
+
+Start
+End
+Hello after 2 seconds
+
+Explanation
+
+The setTimeout callback runs after the call stack becomes empty
+and the delay time has passed.
+
+--------------------------------------------------
+
+Example 2
+
+function greet() {
+  console.log("Welcome!");
+}
+
+setTimeout(greet, 3000);
+
+This will execute greet() after 3 seconds.
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="setinterval_example">
+  <span class="faq-question">What is setInterval()? Give example.</span>
+  <div class="answer">
+    <pre>
+      <code>
+setInterval()
+
+setInterval() is used to execute a function repeatedly
+at a fixed time interval.
+
+Syntax
+
+setInterval(function, interval)
+
+Example
+
+setInterval(() => {
+  console.log("Running every 2 seconds");
+}, 2000);
+
+Output
+
+Running every 2 seconds
+Running every 2 seconds
+Running every 2 seconds
+...
+
+The function will run continuously every 2 seconds
+until it is stopped.
+
+--------------------------------------------------
+
+Stopping setInterval
+
+Example
+
+const timer = setInterval(() => {
+  console.log("Hello");
+}, 1000);
+
+setTimeout(() => {
+  clearInterval(timer);
+  console.log("Interval stopped");
+}, 5000);
+
+Explanation
+
+The interval runs every 1 second and stops after 5 seconds.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="nodejs_system_level_callbacks">
+  <span class="faq-question">What are System-level Callbacks in Node.js?</span>
+  <div class="answer">
+    <pre>
+      <code>
+System-Level Callbacks in Node.js
+
+System-level callbacks are callbacks triggered by the operating system
+or system resources such as file systems, network operations, or timers.
+
+They occur when Node.js interacts with low-level system APIs through
+the event loop and libuv.
+
+In Node.js, many asynchronous operations rely on system-level callbacks.
+
+Examples
+
+File system operations
+Network requests
+Timers
+DNS lookup
+Database operations
+
+--------------------------------------------------
+
+Example 1: File System Callback
+
+const fs = require("fs");
+
+fs.readFile("data.txt", (err, data) => {
+
+  if (err) {
+    console.log(err);
+    return;
+  }
+
+  console.log(data.toString());
+});
+
+Explanation
+
+The operating system reads the file from disk.
+Once the file is read, the system triggers the callback function.
+
+--------------------------------------------------
+
+Example 2: Network Request
+
+const http = require("http");
+
+http.get("http://example.com", (res) => {
+  console.log("Response received");
+});
+
+Explanation
+
+The OS handles the network connection.
+When data arrives, Node.js executes the callback.
+
+--------------------------------------------------
+
+Example 3: Timer Callback
+
+setTimeout(() => {
+  console.log("Executed after delay");
+}, 2000);
+
+The system timer triggers the callback after the delay.
+
+--------------------------------------------------
+
+How it Works Internally
+
+1. Node.js sends task to OS or libuv
+2. OS processes the task (file read, network request)
+3. When completed, OS notifies Node.js
+4. Node.js pushes callback into event loop queue
+5. Event loop executes callback
+
+--------------------------------------------------
+
+Flow
+
+Application Code
+       ↓
+Node.js API
+       ↓
+libuv
+       ↓
+Operating System
+       ↓
+Callback triggered
+       ↓
+Event Loop executes callback
+
+--------------------------------------------------
+
+Interview Short Answer
+
+System-level callbacks in Node.js are asynchronous callbacks triggered
+by the operating system when system operations like file I/O,
+network requests, or timers are completed.
+      </code>
+    </pre>
+  </div>
+</li>
 <li data-id="node_worker_employee">
 <span class="faq-question">How to read employee data using Worker Threads in Node.js?</span>
 
@@ -20253,6 +22578,944 @@ PayPal
 </div>
 </li>
 
+<li data-id="nodejs_sync_vs_async">
+  <span class="faq-question">What is the difference between Synchronous and Asynchronous in Node.js?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Synchronous vs Asynchronous in Node.js
+
+These two terms describe how tasks are executed in a program.
+
+--------------------------------------------------
+
+Synchronous (Blocking)
+
+In synchronous execution, tasks are performed one after another.
+
+The next task cannot start until the current task finishes.
+
+Flow
+
+Task1 → Task2 → Task3
+
+Example
+
+const fs = require("fs");
+
+console.log("Start");
+
+const data = fs.readFileSync("file.txt", "utf8");
+
+console.log(data);
+
+console.log("End");
+
+Execution
+
+Start
+(file read happens here)
+File content
+End
+
+Explanation
+
+The program waits for the file to be read before continuing.
+
+Problems
+
+Blocking execution
+Slow performance for I/O operations
+Not scalable for servers
+
+--------------------------------------------------
+
+Asynchronous (Non-Blocking)
+
+In asynchronous execution, tasks run independently.
+
+The program does not wait for the operation to finish.
+
+Flow
+
+Task1 → Task3
+     ↘
+      Task2 runs later
+
+Example
+
+const fs = require("fs");
+
+console.log("Start");
+
+fs.readFile("file.txt", "utf8", (err, data) => {
+  console.log(data);
+});
+
+console.log("End");
+
+Execution
+
+Start
+End
+File content
+
+Explanation
+
+Node.js starts reading the file and continues executing other code.
+
+Once the file is read, the callback function runs.
+
+--------------------------------------------------
+
+Why Node.js Uses Asynchronous
+
+Node.js is designed for high-performance I/O operations.
+
+Asynchronous programming allows:
+
+Handling thousands of connections
+Non-blocking execution
+Better scalability
+
+--------------------------------------------------
+
+Comparison
+
+Synchronous
+
+Blocking
+Runs sequentially
+Slower for I/O tasks
+Example: readFileSync()
+
+Asynchronous
+
+Non-blocking
+Runs in background
+Better performance
+Example: readFile()
+
+--------------------------------------------------
+
+Interview Short Answer
+
+Synchronous operations execute sequentially and block the event loop,
+while asynchronous operations execute in a non-blocking way,
+allowing Node.js to handle multiple tasks efficiently.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="nodejs_garbage_collection">
+  <span class="faq-question">What is Garbage Collection in Node.js? Explain the full procedure.</span>
+  <div class="answer">
+    <pre>
+      <code>
+Garbage Collection (GC)
+
+Garbage Collection is the automatic process of freeing memory
+that is no longer used by the application.
+
+In Node.js, memory is managed automatically by the V8 JavaScript engine.
+
+Purpose
+
+Prevent memory leaks
+Free unused memory
+Improve application performance
+
+--------------------------------------------------
+
+Memory Types in V8
+
+V8 divides memory into two main regions.
+
+1. Stack Memory
+2. Heap Memory
+
+Stack
+
+Stores primitive values and function calls.
+
+Example
+
+let a = 10
+let name = "John"
+
+Heap
+
+Stores objects, arrays, and complex data structures.
+
+Example
+
+let user = {
+  name: "John",
+  age: 30
+}
+
+Objects stored in heap are managed by garbage collection.
+
+--------------------------------------------------
+
+Why Garbage Collection is Needed
+
+Example
+
+function createUser() {
+  let user = { name: "John" }
+}
+
+createUser()
+
+Once the function finishes executing,
+the object is no longer referenced.
+
+Garbage collector removes this unused object.
+
+--------------------------------------------------
+
+Garbage Collection Process (Step-by-Step)
+
+1. Memory Allocation
+
+When objects are created, memory is allocated in heap.
+
+Example
+
+let obj = { name: "NodeJS" }
+
+--------------------------------------------------
+
+2. Mark Phase
+
+The garbage collector identifies which objects are still reachable.
+
+Root Objects
+
+Global variables
+Local variables
+Function arguments
+Closures
+
+Example
+
+let user = { name: "Amit" }
+
+user is reachable from global scope,
+so it is marked as "active".
+
+--------------------------------------------------
+
+3. Sweep Phase
+
+Objects that are not marked as reachable are removed from memory.
+
+Example
+
+function test() {
+  let temp = { data: "test" }
+}
+
+After the function finishes,
+temp becomes unreachable.
+
+Garbage collector removes it.
+
+--------------------------------------------------
+
+4. Memory Reclamation
+
+Freed memory is reused for new objects.
+
+--------------------------------------------------
+
+Mark-and-Sweep Algorithm
+
+This is the main garbage collection algorithm used by V8.
+
+Steps
+
+1. Start from root objects
+2. Traverse all reachable objects
+3. Mark reachable objects
+4. Remove unmarked objects
+
+Diagram
+
+Root Object
+     ↓
+ Object A → Object B
+     ↓
+ Object C
+
+Unreachable objects are deleted.
+
+--------------------------------------------------
+
+Generational Garbage Collection
+
+V8 divides heap into two generations.
+
+1. Young Generation
+2. Old Generation
+
+--------------------------------------------------
+
+Young Generation
+
+Stores newly created objects.
+
+Most objects die quickly.
+
+Two spaces
+
+New Space
+Old Space
+
+Algorithm used
+
+Scavenge (Copying Collector)
+
+Process
+
+Objects are copied from one space to another.
+Unused objects are removed quickly.
+
+--------------------------------------------------
+
+Old Generation
+
+Stores long-lived objects.
+
+Example
+
+Cache
+Global variables
+Large objects
+
+Algorithm used
+
+Mark-Sweep
+Mark-Compact
+
+--------------------------------------------------
+
+Mark-Compact Algorithm
+
+Sometimes memory becomes fragmented.
+
+Example
+
+Object A
+Empty Space
+Object B
+
+Mark-Compact moves objects together to reduce fragmentation.
+
+--------------------------------------------------
+
+Types of Garbage Collection in V8
+
+1. Minor GC (Young Generation)
+
+Fast cleanup
+Uses Scavenge algorithm
+
+2. Major GC (Old Generation)
+
+Slower cleanup
+Uses Mark-Sweep and Mark-Compact
+
+--------------------------------------------------
+
+Example of Memory Leak
+
+let arr = []
+
+setInterval(() => {
+  arr.push(new Array(1000000).fill("*"))
+}, 1000)
+
+This continuously stores objects in memory.
+
+Garbage collector cannot remove them
+because they are still referenced.
+
+--------------------------------------------------
+
+How to Avoid Memory Leaks
+
+Avoid global variables
+Remove unused references
+Clear timers
+Close database connections
+Avoid large caches
+
+Example
+
+clearInterval(timer)
+
+--------------------------------------------------
+
+Tools to Monitor Memory
+
+Node.js provides tools for memory analysis.
+
+process.memoryUsage()
+
+Example
+
+console.log(process.memoryUsage())
+
+Output
+
+{
+  rss: 4935680,
+  heapTotal: 1826816,
+  heapUsed: 650472
+}
+
+--------------------------------------------------
+
+Interview Short Answer
+
+Garbage Collection is the automatic memory management process in Node.js
+handled by the V8 engine. It identifies unused objects in heap memory
+using algorithms like Mark-and-Sweep and frees the memory so it can be
+reused, preventing memory leaks and improving performance.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="remove_unused_references_example">
+  <span class="faq-question">What does "Remove Unused References" mean in Garbage Collection? Give example.</span>
+  <div class="answer">
+    <pre>
+      <code>
+Remove Unused References
+
+In JavaScript / Node.js, garbage collection removes objects only when
+there are no references pointing to them.
+
+If a variable still references an object, the garbage collector
+cannot remove it.
+
+Therefore, developers should remove references to objects that are
+no longer needed.
+
+--------------------------------------------------
+
+Example 1: Unused Reference (Memory Not Freed)
+
+let user = {
+  name: "John",
+  age: 30
+}
+
+console.log(user);
+
+Even if we stop using the object,
+the reference still exists in variable "user".
+
+Garbage collector cannot remove it.
+
+--------------------------------------------------
+
+Example 2: Remove Reference Properly
+
+let user = {
+  name: "John",
+  age: 30
+}
+
+console.log(user);
+
+user = null;
+
+Now the object has no reference.
+
+Garbage collector can remove it from memory.
+
+--------------------------------------------------
+
+Example 3: Large Array Memory Leak
+
+let data = new Array(1000000).fill("NodeJS");
+
+console.log(data.length);
+
+If we no longer need the data,
+remove reference.
+
+data = null;
+
+Now memory becomes eligible for garbage collection.
+
+--------------------------------------------------
+
+Example 4: Object Inside Function
+
+function createUser() {
+
+  let user = {
+    name: "Amit"
+  };
+
+}
+
+createUser();
+
+After the function finishes,
+the variable "user" goes out of scope.
+
+No references exist.
+
+Garbage collector removes the object automatically.
+
+--------------------------------------------------
+
+Example 5: Event Listener Memory Leak
+
+let button = document.getElementById("btn");
+
+function handleClick() {
+  console.log("clicked");
+}
+
+button.addEventListener("click", handleClick);
+
+If the button is removed from DOM but the event
+listener still exists, memory leak can occur.
+
+Fix
+
+button.removeEventListener("click", handleClick);
+
+--------------------------------------------------
+
+Best Practices
+
+Set large objects to null when no longer needed
+Remove event listeners
+Clear timers
+Avoid unnecessary global variables
+
+--------------------------------------------------
+
+Interview Short Answer
+
+Removing unused references means clearing variables or references
+to objects that are no longer needed so the garbage collector
+can free the memory.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="node_large_object_reference">
+  <span class="faq-question">Node.js: What is Large Object Reference?</span>
+  <div class="answer">
+      <pre>
+        <code>
+Large Object Reference in Node.js
+
+A large object reference happens when a big object (array, file data, API response, etc.)
+remains referenced in memory even after it is no longer needed.
+
+Because the reference still exists, the V8 Garbage Collector cannot free the memory,
+which may cause memory leaks.
+
+
+1. Large Array Stored Globally
+
+Bad Example:
+
+let users = [];
+
+function loadUsers() {
+    users = new Array(1000000).fill({
+        name: "User",
+        age: 25
+    });
+}
+
+function finishWork() {
+    console.log("Work finished");
+}
+
+Problem:
+The array stays in memory because the variable "users" still references it.
+
+
+Fix:
+
+let users = [];
+
+function loadUsers() {
+    users = new Array(1000000).fill({
+        name: "User",
+        age: 25
+    });
+}
+
+function finishWork() {
+    users = null; // remove reference
+}
+
+
+
+2. Large File Loaded Into Memory
+
+Bad Example:
+
+const fs = require('fs');
+
+let fileData;
+
+function readFile() {
+
+    fileData = fs.readFileSync("bigfile.txt", "utf8");
+
+    console.log(fileData.length);
+}
+
+Problem:
+If the file size is large (500MB+), it occupies memory until the reference is removed.
+
+
+Better Approach (Streaming):
+
+const fs = require('fs');
+
+function readFile() {
+
+    const stream = fs.createReadStream("bigfile.txt");
+
+    stream.on('data', (chunk)=>{
+        console.log(chunk.length);
+    });
+
+}
+
+
+
+3. Cache Growing Without Limit
+
+Bad Example:
+
+const cache = {};
+
+function addUser(id, user) {
+    cache[id] = user;
+}
+
+Problem:
+If millions of users are cached, memory usage grows continuously.
+
+
+Fix:
+
+const cache = new Map();
+
+function addUser(id, user){
+
+    if(cache.size > 1000){
+        const firstKey = cache.keys().next().value;
+        cache.delete(firstKey);
+    }
+
+    cache.set(id, user);
+}
+
+
+
+Interview Short Answer:
+
+A large object reference in Node.js occurs when a big object remains referenced
+even after it is no longer needed, preventing the V8 garbage collector from
+reclaiming memory.
+
+Examples include:
+- Large arrays
+- Large files
+- API responses
+- Global caches
+
+Solution:
+- Remove references (obj = null)
+- Use streams instead of loading large files
+- Limit cache size
+        </code>
+      </pre>
+  </div>
+</li>
+<li data-id="node_gc_appjs">
+      <span class="faq-question">Node.js + Express : Garbage Collection in app.js</span>
+      <div class="answer">
+              <pre>
+                <code>
+
+Node.js Garbage Collection
+
+Node.js uses the V8 JavaScript Engine for automatic memory management.
+Developers normally do not manually manage memory.
+
+However, we can monitor or trigger Garbage Collection for debugging.
+
+------------------------------------
+Step 1 : Start Node with GC Enabled
+------------------------------------
+
+node --expose-gc app.js
+
+
+------------------------------------
+Step 2 : app.js Example
+------------------------------------
+
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+/* Home Route */
+
+app.get('/', (req, res) => {
+    res.send("Node.js Express Server Running");
+});
+
+
+/* Memory Usage Route */
+
+app.get('/memory', (req, res) => {
+
+    const used = process.memoryUsage();
+
+    res.json({
+        rss: used.rss,
+        heapTotal: used.heapTotal,
+        heapUsed: used.heapUsed
+    });
+
+});
+
+
+/* Force Garbage Collection */
+
+app.get('/gc', (req, res) => {
+
+    if (global.gc) {
+        global.gc();
+        res.send("Garbage Collection Triggered");
+    } 
+    else {
+        res.send("Run node with --expose-gc flag");
+    }
+
+});
+
+
+/* Server Start */
+
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
+
+
+------------------------------------
+Step 3 : Automatic GC Monitoring
+------------------------------------
+
+setInterval(() => {
+
+    const memory = process.memoryUsage();
+
+    console.log("Heap Used:", memory.heapUsed / 1024 / 1024, "MB");
+
+    if (global.gc) {
+        global.gc();
+        console.log("Manual GC executed");
+    }
+
+}, 60000);
+
+
+------------------------------------
+Step 4 : Memory Areas in Node.js
+------------------------------------
+
+Stack Memory  → Function calls
+Heap Memory   → Objects / Arrays
+
+
+------------------------------------
+Step 5 : Example of Garbage Collection
+------------------------------------
+
+let user = { name: "Amit" };
+
+user = null;
+
+Now the object has no reference.
+V8 Garbage Collector will remove it automatically.
+
+
+------------------------------------
+Important Interview Point
+------------------------------------
+
+Garbage Collection in Node.js is handled automatically by the V8 engine.
+
+Developers can monitor memory using:
+
+process.memoryUsage()
+
+Manual GC can be triggered only when Node.js is started with:
+
+node --expose-gc app.js
+
+                </code>
+              </pre>
+     </div>
+</li>
+<li data-id="node_expose_gc_vs_normal">
+      <span class="faq-question">Node.js : node app.js vs node --expose-gc app.js</span>
+      <div class="answer">
+              <pre>
+                <code>
+
+Node.js : node app.js vs node --expose-gc app.js
+
+--------------------------------------------
+1. node app.js
+--------------------------------------------
+
+Runs the Node.js application normally.
+
+Garbage Collection is automatically handled by the V8 engine.
+
+global.gc() is NOT available.
+
+Example
+
+node app.js
+
+Example Code
+
+console.log(global.gc);
+
+// Output
+undefined
+
+
+--------------------------------------------
+2. node --expose-gc app.js
+--------------------------------------------
+
+Starts Node.js with manual Garbage Collection enabled.
+
+The function global.gc() becomes available.
+
+Developers can manually trigger Garbage Collection.
+
+Example
+
+node --expose-gc app.js
+
+
+Example Code
+
+if (global.gc) {
+    global.gc();
+    console.log("Garbage Collection executed");
+}
+
+
+--------------------------------------------
+Can we always run node --expose-gc app.js ?
+--------------------------------------------
+
+No. It is NOT recommended for production systems.
+
+Reasons
+
+1. V8 engine already optimizes Garbage Collection automatically.
+
+2. Manual GC can cause performance pauses.
+
+3. Frequent global.gc() calls can reduce server throughput.
+
+4. It breaks V8's smart memory optimization.
+
+
+--------------------------------------------
+When should we use --expose-gc ?
+--------------------------------------------
+
+Use only for:
+
+Memory leak debugging
+Performance testing
+Heap analysis
+Development environment
+
+
+Example Debugging Code
+
+setInterval(() => {
+
+   console.log(process.memoryUsage());
+
+   if(global.gc){
+      global.gc();
+   }
+
+}, 10000);
+
+
+--------------------------------------------
+Production Best Practice
+--------------------------------------------
+
+Run Node normally
+
+node app.js
+
+Instead of manual GC, use monitoring tools.
+
+
+Common Tools
+
+node --inspect
+Chrome DevTools
+clinic.js
+heapdump
+
+
+--------------------------------------------
+Interview Answer
+--------------------------------------------
+
+Garbage Collection in Node.js is automatically handled by the V8 engine.
+
+The --expose-gc flag is mainly used for debugging and memory analysis.
+
+In production systems, manual Garbage Collection is not recommended
+because it can cause performance pauses.
+
+
+--------------------------------------------
+Simple Rule
+--------------------------------------------
+
+node app.js               → Production
+node --expose-gc app.js   → Debugging / Memory Analysis
+
+
+                </code>
+              </pre>
+     </div>
+</li>
 
 <li data-id="2">
 <span class="faq-question">Explain Node.js Event Loop phases in detail.</span>
@@ -22182,7 +25445,330 @@ Why composition is preferred?
 </pre>
 </div>
 </li>
+<li data-id="solid_principles_nodejs">
+      <span class="faq-question">SOLID Principles (Explained for Senior / 25 LPA Level)</span>
+      <div class="answer">
+              <pre>
+                <code>
 
+SOLID Principles
+
+SOLID is a set of five object-oriented design principles that help developers
+build scalable, maintainable and loosely coupled software systems.
+
+These principles are widely used in enterprise applications and large systems.
+
+SOLID =
+
+S → Single Responsibility Principle
+O → Open / Closed Principle
+L → Liskov Substitution Principle
+I → Interface Segregation Principle
+D → Dependency Inversion Principle
+
+
+------------------------------------------------
+1. Single Responsibility Principle (SRP)
+------------------------------------------------
+
+Definition
+
+A class or module should have only ONE reason to change.
+
+Meaning:
+One module should perform only one responsibility.
+
+Bad Example
+
+class UserService {
+
+    createUser(user) {
+        // create user
+    }
+
+    sendEmail(user) {
+        // send email
+    }
+
+    saveLog() {
+        // logging
+    }
+
+}
+
+Problem:
+UserService handles multiple responsibilities.
+
+
+Good Example
+
+class UserService {
+
+    createUser(user) {
+        // create user
+    }
+
+}
+
+class EmailService {
+
+    sendEmail(user) {
+        // send email
+    }
+
+}
+
+class Logger {
+
+    log(message) {
+        console.log(message);
+    }
+
+}
+
+Now each class has a single responsibility.
+
+
+Real World Example
+
+Restaurant
+
+Chef → cooks food
+Cashier → handles payment
+Waiter → serves food
+
+Each person has one responsibility.
+
+
+------------------------------------------------
+2. Open / Closed Principle (OCP)
+------------------------------------------------
+
+Definition
+
+Software entities should be OPEN for extension but CLOSED for modification.
+
+Meaning:
+We should be able to add new functionality without modifying existing code.
+
+
+Bad Example
+
+function getDiscount(type) {
+
+    if(type === "regular") {
+        return 10;
+    }
+
+    if(type === "premium") {
+        return 20;
+    }
+
+}
+
+Problem:
+Every new type requires modifying the function.
+
+
+Good Example
+
+class Discount {
+
+    getDiscount() {}
+
+}
+
+class RegularDiscount extends Discount {
+
+    getDiscount() {
+        return 10;
+    }
+
+}
+
+class PremiumDiscount extends Discount {
+
+    getDiscount() {
+        return 20;
+    }
+
+}
+
+Now we can add new discount types without modifying old code.
+
+
+------------------------------------------------
+3. Liskov Substitution Principle (LSP)
+------------------------------------------------
+
+Definition
+
+Subclasses should be replaceable with their parent class
+without breaking the application.
+
+
+Bad Example
+
+class Bird {
+    fly() {}
+}
+
+class Penguin extends Bird {
+    fly() {
+        throw new Error("Penguins cannot fly");
+    }
+}
+
+Problem:
+Penguin breaks the parent behavior.
+
+
+Good Design
+
+class Bird {}
+
+class FlyingBird extends Bird {
+    fly() {}
+}
+
+class Penguin extends Bird {}
+
+Now the hierarchy is correct.
+
+
+------------------------------------------------
+4. Interface Segregation Principle (ISP)
+------------------------------------------------
+
+Definition
+
+Clients should not be forced to depend on interfaces
+they do not use.
+
+Bad Example
+
+class Machine {
+
+    print() {}
+    scan() {}
+    fax() {}
+
+}
+
+Problem:
+A printer should not implement scan or fax.
+
+
+Good Example
+
+class Printer {
+    print() {}
+}
+
+class Scanner {
+    scan() {}
+}
+
+class FaxMachine {
+    fax() {}
+}
+
+
+Now each class implements only required functionality.
+
+
+------------------------------------------------
+5. Dependency Inversion Principle (DIP)
+------------------------------------------------
+
+Definition
+
+High-level modules should not depend on low-level modules.
+Both should depend on abstractions.
+
+
+Bad Example
+
+class MySQLDatabase {
+    connect() {}
+}
+
+class UserService {
+
+    constructor() {
+        this.db = new MySQLDatabase();
+    }
+
+}
+
+Problem:
+UserService is tightly coupled with MySQL.
+
+
+Good Example
+
+class Database {
+    connect() {}
+}
+
+class MySQLDatabase extends Database {
+    connect() {}
+}
+
+class UserService {
+
+    constructor(db) {
+        this.db = db;
+    }
+
+}
+
+const db = new MySQLDatabase();
+const service = new UserService(db);
+
+
+Now UserService depends on abstraction, not implementation.
+
+
+------------------------------------------------
+Benefits of SOLID Principles
+------------------------------------------------
+
+1. Better code maintainability
+2. Easier testing
+3. Low coupling
+4. High scalability
+5. Easier refactoring
+
+
+------------------------------------------------
+Real Usage in Node.js / Backend Systems
+------------------------------------------------
+
+Used in:
+
+Service Layer
+Repository Pattern
+Microservices
+Clean Architecture
+Domain Driven Design
+
+
+------------------------------------------------
+Best Interview Summary
+------------------------------------------------
+
+SOLID principles help create maintainable, scalable,
+and loosely coupled systems by enforcing separation
+of concerns, abstraction, and modular architecture.
+
+Most enterprise backend frameworks follow SOLID
+to build large production systems.
+
+                </code>
+              </pre>
+     </div>
+</li>
 
 <li data-id="oops5">
 <span class="faq-question">What are SOLID principles?</span>
@@ -24624,7 +28210,564 @@ It adds <span class="green">static typing, interfaces, enums, and advanced tooli
 helping developers catch errors at compile time instead of runtime.</span> 
 TypeScript code compiles down to plain JavaScript, making it compatible with any environment that runs JS. It improves code quality, readability, and maintainability, especially for large-scale applications. TypeScript integrates well with modern frameworks like Angular, React, and Node.js, and offers excellent support in popular editors like VS Code with features like autocompletion and refactoring.
 </div></li>
+<li data-id="typescript_any_vs_unknown">
+      <span class="faq-question">TypeScript : any vs unknown</span>
+      <div class="answer">
+              <pre>
+                <code>
 
+TypeScript : any vs unknown
+
+Both "any" and "unknown" are top-level types in TypeScript.
+They allow variables to hold values of any type.
+
+However, they behave very differently in terms of type safety.
+
+
+------------------------------------------------
+1. any Type
+------------------------------------------------
+
+Definition
+
+The "any" type disables TypeScript type checking.
+
+You can assign any value and perform any operation
+without compiler errors.
+
+Example
+
+let value: any;
+
+value = 10;
+value = "Hello";
+value = true;
+
+console.log(value.toUpperCase());
+console.log(value * 10);
+
+Problem
+
+TypeScript will NOT check for errors.
+This may cause runtime bugs.
+
+
+Example Runtime Error
+
+let value: any = 10;
+
+console.log(value.toUpperCase());
+
+Error occurs at runtime because numbers do not have toUpperCase().
+
+
+------------------------------------------------
+2. unknown Type
+------------------------------------------------
+
+Definition
+
+The "unknown" type is a safer alternative to "any".
+
+It allows any value, but you cannot use the value
+until its type is checked.
+
+Example
+
+let value: unknown;
+
+value = 10;
+value = "Hello";
+
+console.log(value);   // allowed
+
+
+Invalid Example
+
+let value: unknown = "Hello";
+
+console.log(value.toUpperCase());
+
+TypeScript Error:
+Object is of type 'unknown'
+
+
+Correct Example with Type Check
+
+let value: unknown = "Hello";
+
+if (typeof value === "string") {
+    console.log(value.toUpperCase());
+}
+
+
+------------------------------------------------
+3. Key Difference
+------------------------------------------------
+
+any
+- No type checking
+- Dangerous for large applications
+- Can cause runtime errors
+
+unknown
+- Type-safe
+- Requires type checking before usage
+- Prevents runtime bugs
+
+
+------------------------------------------------
+4. Example Comparison
+------------------------------------------------
+
+Using any
+
+function printLength(value: any) {
+    return value.length;
+}
+
+printLength(100); // runtime error
+
+
+Using unknown
+
+function printLength(value: unknown) {
+
+    if (typeof value === "string") {
+        return value.length;
+    }
+
+    return 0;
+}
+
+
+------------------------------------------------
+5. Best Practice
+------------------------------------------------
+
+Avoid using "any" whenever possible.
+
+Use "unknown" when the type is not known yet
+and validate it before using.
+
+
+------------------------------------------------
+6. Interview Answer (Senior Level)
+------------------------------------------------
+
+The "any" type disables all type safety and allows
+any operation on a variable.
+
+The "unknown" type is a safer alternative that requires
+type checking before accessing properties or methods.
+
+In production TypeScript applications, "unknown"
+is preferred because it preserves type safety.
+
+                </code>
+              </pre>
+     </div>
+</li>
+<li data-id="typescript_type_vs_interface">
+      <span class="faq-question">TypeScript : type vs interface</span>
+      <div class="answer">
+              <pre>
+                <code>
+
+TypeScript : type vs interface
+
+Both "type" and "interface" are used to define the structure of objects in TypeScript.
+They help developers enforce type safety and improve code maintainability.
+
+However, they have some important differences.
+
+
+------------------------------------------------
+1. Interface
+------------------------------------------------
+
+Definition
+
+An interface is used to define the structure of an object.
+
+Example
+
+interface User {
+    name: string;
+    age: number;
+}
+
+const user: User = {
+    name: "Amit",
+    age: 30
+};
+
+
+Interface with Function
+
+interface Logger {
+    log(message: string): void;
+}
+
+class ConsoleLogger implements Logger {
+
+    log(message: string) {
+        console.log(message);
+    }
+
+}
+
+
+------------------------------------------------
+2. Type
+------------------------------------------------
+
+Definition
+
+"type" is used to create type aliases.
+It can represent objects, primitives, unions, tuples, and more.
+
+Example
+
+type User = {
+    name: string;
+    age: number;
+};
+
+const user: User = {
+    name: "Amit",
+    age: 30
+};
+
+
+Union Type Example
+
+type Status = "success" | "error" | "loading";
+
+
+Tuple Example
+
+type Coordinates = [number, number];
+
+
+------------------------------------------------
+3. Key Differences
+------------------------------------------------
+
+Interface
+
+- Used mainly for object structures
+- Supports "implements" in classes
+- Can be extended easily
+- Supports declaration merging
+
+Type
+
+- More flexible
+- Can represent unions, tuples, primitives
+- Cannot merge declarations
+- Better for complex types
+
+
+------------------------------------------------
+4. Extending Example
+------------------------------------------------
+
+Interface Extension
+
+interface Person {
+    name: string;
+}
+
+interface Employee extends Person {
+    salary: number;
+}
+
+
+Type Extension
+
+type Person = {
+    name: string;
+};
+
+type Employee = Person & {
+    salary: number;
+};
+
+
+------------------------------------------------
+5. Declaration Merging
+------------------------------------------------
+
+Interfaces support merging.
+
+interface User {
+    name: string;
+}
+
+interface User {
+    age: number;
+}
+
+Result
+
+interface User {
+    name: string;
+    age: number;
+}
+
+
+Type does NOT support merging.
+
+type User = {
+    name: string;
+};
+
+type User = {
+    age: number;
+};
+
+Error will occur.
+
+
+------------------------------------------------
+6. When to Use Interface
+------------------------------------------------
+
+Use interface when:
+
+- Designing object structures
+- Creating class contracts
+- Building large scalable applications
+- Working with OOP patterns
+
+
+------------------------------------------------
+7. When to Use Type
+------------------------------------------------
+
+Use type when:
+
+- Creating union types
+- Creating tuple types
+- Creating complex mapped types
+- Working with primitives
+
+
+------------------------------------------------
+8. Interview Answer (Senior Level)
+
+Interface is mainly used for defining object shapes and works well with OOP features like classes and inheritance.
+
+Type is more flexible and can represent unions, tuples, primitives, and complex type compositions.
+
+In large applications, developers often use interface for object contracts and type for advanced type compositions.
+
+                </code>
+              </pre>
+     </div>
+</li>
+<li data-id="typescript_type_vs_interface">
+      <span class="faq-question">TypeScript : type vs interface</span>
+      <div class="answer">
+              <pre>
+                <code>
+
+TypeScript : type vs interface
+
+Both "type" and "interface" are used to define the structure of data in TypeScript.
+They help enforce type safety and improve code readability.
+
+However, they have several important differences.
+
+
+------------------------------------------------
+1. Interface
+------------------------------------------------
+
+Definition
+
+Interface defines the structure (shape) of an object.
+
+Example
+
+interface User {
+    name: string;
+    age: number;
+}
+
+const user: User = {
+    name: "Amit",
+    age: 30
+};
+
+
+Interface with Class
+
+interface Logger {
+    log(message: string): void;
+}
+
+class ConsoleLogger implements Logger {
+
+    log(message: string) {
+        console.log(message);
+    }
+
+}
+
+
+------------------------------------------------
+2. Type
+------------------------------------------------
+
+Definition
+
+"type" is a type alias that can represent objects, primitives,
+unions, tuples, and more complex types.
+
+Example
+
+type User = {
+    name: string;
+    age: number;
+};
+
+const user: User = {
+    name: "Amit",
+    age: 30
+};
+
+
+Union Example
+
+type Status = "success" | "error" | "loading";
+
+
+Tuple Example
+
+type Point = [number, number];
+
+
+------------------------------------------------
+3. Key Differences
+------------------------------------------------
+
+Interface
+
+- Mainly used for object structure
+- Supports class implementation
+- Supports declaration merging
+- Good for OOP design
+
+
+Type
+
+- More flexible
+- Supports unions, tuples, primitives
+- Cannot be merged
+- Useful for advanced type compositions
+
+
+------------------------------------------------
+4. Extending Example
+------------------------------------------------
+
+Interface Extension
+
+interface Person {
+    name: string;
+}
+
+interface Employee extends Person {
+    salary: number;
+}
+
+
+Type Extension
+
+type Person = {
+    name: string;
+};
+
+type Employee = Person & {
+    salary: number;
+};
+
+
+------------------------------------------------
+5. Declaration Merging
+------------------------------------------------
+
+Interface supports merging.
+
+interface User {
+    name: string;
+}
+
+interface User {
+    age: number;
+}
+
+Result
+
+interface User {
+    name: string;
+    age: number;
+}
+
+
+Type does NOT support merging.
+
+type User = {
+    name: string;
+};
+
+type User = {
+    age: number;
+};
+
+This will produce an error.
+
+
+------------------------------------------------
+6. When to Use Interface
+------------------------------------------------
+
+Use interface when:
+
+- Defining object contracts
+- Working with classes
+- Building large scalable applications
+
+
+------------------------------------------------
+7. When to Use Type
+------------------------------------------------
+
+Use type when:
+
+- Creating union types
+- Creating tuple types
+- Creating complex or advanced types
+
+
+------------------------------------------------
+8. Interview Answer (Senior Level)
+
+Interface is mainly used for defining object structures and
+works well with classes and OOP patterns.
+
+Type is more flexible and can represent unions, tuples,
+primitives, and advanced type compositions.
+
+In large applications, interface is preferred for object contracts,
+while type is used for more complex type definitions.
+
+                </code>
+              </pre>
+     </div>
+</li>
 <li data-id="q_gql" id="graphql_qlist" class="yellow"><span class="faq-question">
 GraphQL ? ****
 </span><div class="answer">
@@ -46722,8 +50865,1087 @@ app.listen(PORT, () => {
 
   </div>
 </li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ----------------------------------------------------------------------------------</span></li>
+<li data-id="q3" id="git_qlist" class="yellow"><span class="faq-question">
+  --------------   Git & CI/CD Question  -----------------------</span></li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ---------------------------------------------------------------------------------------- 
+</span></li><li data-id="github_basic">
+  <span class="faq-question">What is Git and GitHub? What is the difference?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Git
+
+Git is a distributed version control system used to track changes
+in source code during software development.
+
+It allows multiple developers to work on the same project without
+overwriting each other's work.
+
+GitHub
+
+GitHub is a cloud-based platform that hosts Git repositories and
+provides collaboration tools such as pull requests, issues,
+code reviews, and CI/CD integrations.
+
+Difference
+
+Git
+- Version control system
+- Works locally
+- Tracks file changes
+
+GitHub
+- Hosting platform for Git repositories
+- Enables collaboration
+- Provides UI, pull requests, and issue tracking
+
+Interview Short Answer
+
+Git is a version control system, while GitHub is a platform that
+hosts Git repositories and enables team collaboration.
+      </code>
+    </pre>
+  </div>
+</li>
+</div>
+
+<li data-id="github_branching">
+  <span class="faq-question">What is branching in Git and why is it important?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Branching allows developers to work on new features or bug fixes
+without affecting the main codebase.
+
+The main branch is usually called:
+
+main or master
+
+Example:
+
+Create a new branch
+
+git checkout -b feature-login
+
+Workflow
+
+main branch
+     |
+     |--- feature-login
+     |--- feature-payment
+
+After development is completed, the branch is merged back into main.
+
+Benefits
+
+- Parallel development
+- Safe experimentation
+- Better code management
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="github_merge_vs_rebase">
+  <span class="faq-question">What is the difference between Git Merge and Git Rebase?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Git Merge
+
+Merge combines two branches and preserves the commit history.
+
+Example:
+
+git checkout main
+git merge feature-login
+
+Result
+
+Creates a merge commit.
+
+History
+
+A --- B --- C
+       \     /
+        D ---E
+
+Git Rebase
+
+Rebase moves the feature branch commits on top of another branch.
+
+Example
+
+git checkout feature-login
+git rebase main
+
+Result
+
+Cleaner linear history.
+
+History
+
+A --- B --- C --- D --- E
+
+Difference
+
+Merge
+- Keeps history intact
+- Creates merge commit
+
+Rebase
+- Rewrites commit history
+- Creates cleaner timeline
+
+Interview Tip
+
+Use merge for shared branches and rebase for local branches.
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="github_pull_request">
+  <span class="faq-question">What is a Pull Request in GitHub?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Pull Request (PR) is a mechanism used to merge code changes from
+one branch into another branch.
+
+It allows developers to review code before merging.
+
+Workflow
+
+1. Create feature branch
+2. Push branch to GitHub
+3. Create Pull Request
+4. Team reviews code
+5. Approve and merge
+
+Benefits
+
+- Code review
+- Collaboration
+- Maintain code quality
+
+Example
+
+feature-login → main
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="github_conflict">
+  <span class="faq-question">What is a merge conflict and how do you resolve it?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Merge conflict occurs when two branches modify the same file
+or same line of code.
+
+Example conflict markers:
+
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+console.log("version A");
+=======
+console.log("version B");
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-branch
+
+Steps to resolve conflict
+
+1. Open conflicting file
+2. Choose correct code
+3. Remove conflict markers
+4. Stage file
+
+git add filename
+
+5. Commit merge
+
+git commit
+
+Best Practices
+
+- Pull latest changes frequently
+- Keep branches small
+- Communicate with team
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="github_ci_cd">
+  <span class="faq-question">What is CI/CD in GitHub?</span>
+  <div class="answer">
+    <pre>
+      <code>
+CI/CD stands for Continuous Integration and Continuous Deployment.
+
+GitHub provides CI/CD through GitHub Actions.
+
+Continuous Integration (CI)
+
+Automatically build and test code when developers push changes.
+
+Continuous Deployment (CD)
+
+Automatically deploy application after successful tests.
+
+Example Workflow
+
+Developer pushes code → GitHub Actions triggers build → 
+Run tests → Deploy to server.
+
+Example GitHub Actions file
+
+.github/workflows/node.yml
+
+name: Node CI
+
+on: [push]
+
+jobs:
+ build:
+   runs-on: ubuntu-latest
+
+Benefits
+
+- Automated testing
+- Faster delivery
+- Reduced human errors
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="cicd_definition">
+  <span class="faq-question">What is CI/CD?</span>
+  <div class="answer">
+    <pre>
+      <code>
+CI/CD stands for Continuous Integration and Continuous Deployment (or Delivery).
+
+It is a modern DevOps practice used to automate the process of building,
+testing, and deploying software.
+
+CI/CD helps developers deliver code changes faster and more reliably.
+
+CI (Continuous Integration)
+
+Developers frequently push code changes to a shared repository.
+Each change automatically triggers a build and test process.
+
+Goal:
+Detect bugs early and maintain code quality.
+
+CD (Continuous Delivery / Continuous Deployment)
+
+After successful build and tests, the application is automatically
+prepared for deployment or deployed directly to production.
+
+--------------------------------------------------
+
+CI/CD Pipeline Flow
+
+Developer writes code
+        ↓
+Push code to Git repository
+        ↓
+CI server triggers build
+        ↓
+Run automated tests
+        ↓
+Build artifact created
+        ↓
+Deploy to staging / production
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="ci_continuous_integration">
+  <span class="faq-question">What is Continuous Integration?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Continuous Integration (CI) is the practice of automatically
+integrating code changes into a shared repository multiple times a day.
+
+Each integration triggers:
+
+1. Automated build
+2. Automated tests
+3. Code quality checks
+
+Example CI Workflow
+
+Developer pushes code → CI server builds project →
+Tests run automatically → Report generated.
+
+Benefits
+
+- Early bug detection
+- Faster development
+- Improved code quality
+- Team collaboration
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="cd_continuous_deployment">
+  <span class="faq-question">What is Continuous Deployment?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Continuous Deployment automatically releases software to production
+after passing automated tests.
+
+No manual intervention is required.
+
+Flow
+
+Code commit
+      ↓
+Build
+      ↓
+Automated tests
+      ↓
+Automatic deployment to production
+
+Advantages
+
+- Faster release cycles
+- Reduced manual errors
+- Continuous delivery of features
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="cicd_tools">
+  <span class="faq-question">What are common CI/CD tools?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Common CI/CD Tools
+
+Jenkins
+Open-source automation server used for building and deploying applications.
+
+GitHub Actions
+Built-in CI/CD system in GitHub.
+
+GitLab CI/CD
+Integrated pipeline system in GitLab.
+
+CircleCI
+Cloud-based CI/CD automation tool.
+
+Travis CI
+CI tool commonly used for open-source projects.
+
+Benefits of CI/CD tools
+
+- Automated builds
+- Automated testing
+- Faster deployments
+- Improved productivity
+      </code>
+    </pre>
+  </div>
+</li>
+
+<li data-id="ci_cd_vs_traditional">
+  <span class="faq-question">What is the difference between traditional deployment and CI/CD?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Traditional Deployment
+
+Manual build process
+Manual testing
+Manual deployment
+Slow release cycles
+
+CI/CD Deployment
+
+Automated build
+Automated tests
+Automated deployment
+Faster and reliable releases
+
+Example
+
+Traditional
+
+Developer → Manual testing → Deploy manually
+
+CI/CD
+
+Developer → Push code → Build + Test automatically → Deploy automatically
+
+--------------------------------------------------
+
+Interview Short Answer
+
+CI/CD is a DevOps practice that automates software development processes
+such as building, testing, and deployment, allowing teams to release
+applications faster and more reliably.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="cicd_detailed_architecture">
+  <span class="faq-question">Explain CI/CD in detail (25 LPA Interview Level).</span>
+  <div class="answer">
+    <pre>
+      <code>
+CI/CD (Continuous Integration and Continuous Delivery / Deployment)
+
+CI/CD is a DevOps practice that automates the software development lifecycle
+including building, testing, and deploying applications.
+
+The goal is to deliver high-quality software faster and more reliably.
+
+--------------------------------------------------
+
+CI/CD Full Pipeline Architecture
+
+Developer writes code
+        ↓
+Push to Git Repository (GitHub / GitLab)
+        ↓
+CI Pipeline Triggered
+        ↓
+Install Dependencies
+        ↓
+Build Application
+        ↓
+Run Automated Tests
+        ↓
+Static Code Analysis
+        ↓
+Build Artifact (Docker image / package)
+        ↓
+Deploy to Staging Environment
+        ↓
+Run Integration Tests
+        ↓
+Deploy to Production
+
+--------------------------------------------------
+
+1. Continuous Integration (CI)
+
+Continuous Integration means developers frequently merge code
+changes into a shared repository.
+
+Every commit triggers an automated pipeline.
+
+CI Pipeline Steps:
+
+1. Code Checkout
+CI server pulls latest code from repository.
+
+2. Dependency Installation
+
+Example:
+
+npm install
+
+3. Build Application
+
+Example:
+
+npm run build
+
+4. Run Automated Tests
+
+Example:
+
+npm test
+
+5. Static Code Analysis
+
+Example tools:
+
+ESLint
+SonarQube
+
+Goal:
+Detect errors early and ensure code quality.
+
+--------------------------------------------------
+
+2. Continuous Delivery (CD)
+
+Continuous Delivery means the application is always ready
+for deployment.
+
+After passing all tests, the application is deployed to
+staging environments automatically.
+
+Deployment requires manual approval for production.
+
+Example Flow:
+
+Code Commit
+      ↓
+Build
+      ↓
+Automated Testing
+      ↓
+Deploy to Staging
+      ↓
+Manual Approval
+      ↓
+Deploy to Production
+
+--------------------------------------------------
+
+3. Continuous Deployment
+
+Continuous Deployment is an advanced version of Continuous Delivery.
+
+Here deployment to production is fully automated
+after successful tests.
+
+Flow:
+
+Commit
+   ↓
+Build
+   ↓
+Test
+   ↓
+Deploy to Production automatically
+
+No manual approval required.
+
+--------------------------------------------------
+
+Difference
+
+Continuous Delivery
+
+Deployment requires manual approval.
+
+Continuous Deployment
+
+Deployment is fully automated.
+
+--------------------------------------------------
+
+CI/CD Pipeline Components
+
+Source Control
+
+GitHub
+GitLab
+Bitbucket
+
+Build Tools
+
+Maven
+Gradle
+npm
+
+Testing Tools
+
+Jest
+Mocha
+JUnit
+Selenium
+
+CI/CD Tools
+
+Jenkins
+GitHub Actions
+GitLab CI
+CircleCI
+Azure DevOps
+
+Containerization
+
+Docker
+
+Orchestration
+
+Kubernetes
+
+--------------------------------------------------
+
+Example GitHub Actions Pipeline
+
+.github/workflows/node.yml
+
+name: Node CI Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build project
+      run: npm run build
+
+--------------------------------------------------
+
+CI/CD Best Practices
+
+1. Commit code frequently
+2. Keep pipeline fast
+3. Use automated testing
+4. Use containerized environments
+5. Monitor production deployments
+6. Implement rollback strategy
+
+--------------------------------------------------
+
+Advanced CI/CD Concepts
+
+Blue-Green Deployment
+
+Two identical environments exist.
+
+Blue = current production
+Green = new version
+
+Traffic switches after successful deployment.
+
+Canary Deployment
+
+New version released to a small percentage of users
+before full rollout.
+
+Infrastructure as Code (IaC)
+
+Infrastructure defined using code.
+
+Example tools:
+
+Terraform
+AWS CloudFormation
+
+--------------------------------------------------
+
+Benefits of CI/CD
+
+Faster development cycles
+Reduced manual errors
+Higher code quality
+Automated testing
+Rapid feature delivery
+Improved team collaboration
+
+--------------------------------------------------
+
+Interview Short Answer (25 LPA)
+
+CI/CD is a DevOps practice that automates the process of integrating,
+testing, building, and deploying applications. Continuous Integration
+ensures code changes are automatically built and tested, while Continuous
+Delivery and Deployment automate the release process, enabling faster
+and more reliable software delivery.
+      </code>
+    </pre>
+  </div>
+</li>
+<li data-id="cicd_github_actions_step_by_step">
+  <span class="faq-question">Explain CI/CD Step-by-Step using GitHub Actions.</span>
+  <div class="answer">
+    <pre>
+      <code>
+CI/CD Pipeline with GitHub Actions (Step-by-Step)
+
+Step 1: Developer Writes Code
+Developer creates a new feature or bug fix in a separate branch.
+
+Example:
+feature-login
+
+--------------------------------------------------
+
+Step 2: Push Code to GitHub
+
+git add .
+git commit -m "login feature added"
+git push origin feature-login
+
+--------------------------------------------------
+
+Step 3: Create Pull Request
+
+Developer creates a Pull Request (PR):
+
+feature-login → main
+
+Team reviews the code before merging.
+
+--------------------------------------------------
+
+Step 4: CI Pipeline Triggered
+
+GitHub Actions automatically triggers the pipeline
+when code is pushed or PR is created.
+
+Trigger Example:
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+--------------------------------------------------
+
+Step 5: Checkout Code
+
+CI server downloads the code from repository.
+
+- name: Checkout Code
+  uses: actions/checkout@v3
+
+--------------------------------------------------
+
+Step 6: Install Dependencies
+
+Example for Node.js:
+
+- name: Install Dependencies
+  run: npm install
+
+--------------------------------------------------
+
+Step 7: Run Code Quality Checks
+
+Example:
+
+- name: Run Lint
+  run: npm run lint
+
+--------------------------------------------------
+
+Step 8: Run Automated Tests
+
+- name: Run Tests
+  run: npm test
+
+--------------------------------------------------
+
+Step 9: Build Application
+
+- name: Build Project
+  run: npm run build
+
+--------------------------------------------------
+
+Step 10: Build Docker Image (Optional)
+
+docker build -t myapp .
+
+--------------------------------------------------
+
+Step 11: Deploy Application
+
+Deploy to staging or production server.
+
+Example:
+
+- name: Deploy
+  run: ssh user@server "docker pull myapp"
+
+--------------------------------------------------
+
+Full GitHub Actions Example
+
+name: Node CI Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+      </code>
+    </pre>
+  </div>
+</li>
 
 
+<li data-id="git_protected_branch">
+  <span class="faq-question">What is a Protected Branch in Git?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Protected Branch is a Git feature used to prevent direct changes
+to important branches like:
+
+main
+master
+production
+
+Purpose
+
+Ensure code quality
+Prevent accidental commits
+Enforce code review
+
+Protected Branch Rules
+
+1. No direct push allowed
+2. Pull Request required
+3. Code review required
+4. CI checks must pass
+5. No force push allowed
+
+Example Workflow
+
+Developer → Feature Branch
+       ↓
+Create Pull Request
+       ↓
+Code Review
+       ↓
+CI/CD Pipeline Runs
+       ↓
+Merge to Protected Branch
+
+Benefits
+
+Better code quality
+Safer deployments
+Team collaboration
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="git_workflow">
+  <span class="faq-question">Explain Git Workflow used in large projects.</span>
+  <div class="answer">
+    <pre>
+      <code>
+Git Workflow is a strategy used by teams to manage
+code development.
+
+Common Git Workflow (Feature Branch Workflow)
+
+main branch → production code
+
+developer creates feature branch
+
+Example:
+
+main
+ ├── feature-login
+ ├── feature-payment
+ └── bugfix-auth
+
+Steps
+
+1. Create feature branch
+
+git checkout -b feature-login
+
+2. Develop feature
+
+3. Commit code
+
+git commit -m "login feature completed"
+
+4. Push branch
+
+git push origin feature-login
+
+5. Create Pull Request
+
+6. Code Review
+
+7. Merge into main branch
+
+--------------------------------------------------
+
+Another Popular Workflow
+
+GitFlow
+
+Branches:
+
+main → production
+develop → development
+feature → new features
+release → release preparation
+hotfix → production bug fixes
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="code_quality_practices">
+  <span class="faq-question">How do you ensure Code Quality in CI/CD pipeline?</span>
+  <div class="answer">
+    <pre>
+      <code>
+Code Quality ensures that the code is maintainable,
+secure, and follows best practices.
+
+Techniques
+
+1. Code Reviews
+Pull Request review by team members.
+
+2. Static Code Analysis
+Automatically detect code issues.
+
+3. Linting Tools
+
+Examples
+
+ESLint
+TSLint
+Prettier
+
+4. Automated Testing
+
+Unit Tests
+Integration Tests
+E2E Tests
+
+5. Code Coverage
+
+Measure how much code is tested.
+
+Example tool:
+
+Jest coverage
+
+6. Security Scanning
+
+Detect vulnerabilities in dependencies.
+
+Example tools:
+
+Snyk
+OWASP Dependency Check
+      </code>
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="sonarqube_explained">
+  <span class="faq-question">What is SonarQube and how is it used in CI/CD?</span>
+  <div class="answer">
+    <pre>
+      <code>
+SonarQube is a code quality and security analysis tool.
+
+It automatically scans code to detect:
+
+Bugs
+Code smells
+Security vulnerabilities
+Duplicate code
+
+SonarQube Metrics
+
+1. Code Coverage
+2. Code Complexity
+3. Maintainability
+4. Security Issues
+
+--------------------------------------------------
+
+Example CI Pipeline with SonarQube
+
+Step 1: Install Sonar Scanner
+
+npm install sonar-scanner
+
+--------------------------------------------------
+
+Step 2: Configure sonar-project.properties
+
+sonar.projectKey=myproject
+sonar.sources=src
+sonar.host.url=http://localhost:9000
+sonar.login=TOKEN
+
+--------------------------------------------------
+
+Step 3: Run Sonar Scan
+
+sonar-scanner
+
+--------------------------------------------------
+
+Example GitHub Actions Integration
+
+- name: SonarQube Scan
+  run: sonar-scanner
+
+--------------------------------------------------
+
+Quality Gate
+
+SonarQube blocks deployment if code quality fails.
+
+Example Rules
+
+Code coverage must be > 80%
+No critical vulnerabilities
+No duplicated code
+
+--------------------------------------------------
+
+Benefits
+
+Improve code quality
+Detect security issues
+Maintain coding standards
+Prevent technical debt
+      </code>
+    </pre>
+  </div>
+</li>
 
 <li data-id="q32" class="yellow"><span class="faq-question">
   --------------------------------------------------------------
