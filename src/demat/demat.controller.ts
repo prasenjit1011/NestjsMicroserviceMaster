@@ -408,12 +408,12 @@ export class DematController {
       const sid     = sidItem ? sidItem.sid : 'N/A';
       const sidType = sidItem && sidItem.type? sidItem.type : '';
       const apiDataItem = apiData.data && apiData.data.find(data => data.sid === sid);
-      const apiPrice = apiDataItem ? apiDataItem.price.toFixed(0) : 0;
-      const dyChange = apiDataItem ? apiDataItem.dyChange.toFixed(0) : 0;
-      const wkChange = apiDataItem ? apiDataItem.wkChange.toFixed(0) : 0;
-      const mnChange = apiDataItem ? apiDataItem.mnChange.toFixed(0) : 0;
-      const change   = apiDataItem ? parseFloat((apiDataItem.change * item.qty).toFixed(0)) : 0;
-      const stockApiPrice = apiDataItem ? apiDataItem.price.toFixed(4) : 0;
+      const apiPrice = apiDataItem && apiDataItem.price ? parseFloat(apiDataItem.price) : 0;
+      const dyChange = apiDataItem && apiDataItem.dyChange ? apiDataItem.dyChange : 0;
+      const wkChange = apiDataItem && apiDataItem.wkChange ? apiDataItem.wkChange : 0;
+      const mnChange = apiDataItem && apiDataItem.mnChange ? apiDataItem.mnChange : 0;
+      const change   = apiDataItem && apiDataItem.change ? parseFloat((apiDataItem.change * item.qty).toFixed(0)) : 0;
+      const stockApiPrice = apiDataItem && apiDataItem.price ? parseFloat(apiDataItem.price) : 0;
       const profit = Math.trunc(stockApiPrice * item.qty - item.total);
       
       let highestValue = 0;

@@ -7,6 +7,11 @@ body {
   font-size: 1rem; /* Base size: 16px */
 }
 
+.anchor a{
+  color: #13c534;
+  text-decoration: none;
+}
+
 /* === Typography === */
 .title {
   font-size: 1.25rem;
