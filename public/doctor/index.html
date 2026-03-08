@@ -302,7 +302,6 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
                 <li><a href="#koa_qlist">Koa</a></li>
                 <li><a href="#LoopBack_qlist">LoopBack</a></li>
                 <li><a href="#kafka_qlist">Kafka</a></li>
-                <li><a href="#eks_qlist">EKS</a></li>
                 <li><a href="https://onecompiler.com/react/44ejbghbm" target="_blank">Coding</a></li>
               </ol>
             </td>
@@ -341,6 +340,7 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
                 <li><a href="#awsdynamodb">AWS DynamoDB</a></li>
                 <li><a href="#awsec2">Ec2</a></li>
                 <li><a href="#awsamplify">AWS Amplify</a></li>
+                <li><a href="#eks_qlist">EKS / ECS</a></li>                
                 <li>API Gateway</li>
               </ol>
             </td>
@@ -28196,10 +28196,112 @@ Explain how Buffer works in Node.js.
 
 
 
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ----------------------------------------------------------------------------------</span></li>
+<li data-id="q3" id="q_ts" class="yellow"><span class="faq-question">
+  --------------   TypeScript Question  -----------------------</span></li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ---------------------------------------------------------------------------------------- 
+</span></li>
+
+<li data-id="q20"><span class="faq-question">
+Nodejs vs TypeScript in Details***
+</span><div class="answer">
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Feature</th>
+<th>Node.js</th>
+<th>TypeScript</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>Definition</td>
+<td>Node.js is a runtime environment that allows JavaScript to run on the server side.</td>
+<td>TypeScript is a strongly typed superset of JavaScript developed by Microsoft.</td>
+</tr>
+
+<tr>
+<td>Purpose</td>
+<td>Used to build server-side applications and APIs.</td>
+<td>Used to add static typing and better development tools to JavaScript.</td>
+</tr>
+
+<tr>
+<td>Execution</td>
+<td>Runs JavaScript code using the V8 engine.</td>
+<td>Compiles TypeScript code into JavaScript before execution.</td>
+</tr>
+
+<tr>
+<td>Type System</td>
+<td>Dynamically typed.</td>
+<td>Statically typed.</td>
+</tr>
+
+<tr>
+<td>Compilation</td>
+<td>No compilation required.</td>
+<td>Requires compilation using the TypeScript compiler (tsc).</td>
+</tr>
+
+<tr>
+<td>Error Detection</td>
+<td>Errors are mostly detected at runtime.</td>
+<td>Many errors are detected during compile time.</td>
+</tr>
+
+<tr>
+<td>Performance</td>
+<td>High performance due to non-blocking event-driven architecture.</td>
+<td>No runtime performance change (compiles to JavaScript).</td>
+</tr>
+
+<tr>
+<td>Use Case</td>
+<td>Backend APIs, microservices, real-time apps, streaming services.</td>
+<td>Large-scale applications requiring maintainability and type safety.</td>
+</tr>
+
+<tr>
+<td>Example Code</td>
+<td>
+<pre>
+const http = require('http');
+
+http.createServer((req,res)=>{
+res.end("Hello Node");
+}).listen(3000);
+</pre>
+</td>
+
+<td>
+<pre>
+function greet(name: string): string {
+return "Hello " + name;
+}
+</pre>
+</td>
+</tr>
+
+<tr>
+<td>Relationship</td>
+<td>Node.js runs JavaScript.</td>
+<td>TypeScript compiles to JavaScript which can run on Node.js.</td>
+</tr>
+
+</tbody>
+
+</table>
+</div></li>
 
 
-
-<li data-id="q_ts" id="q_ts"><span class="faq-question green">
+<li data-id="q_ts"><span class="faq-question ">
 TypeScript?
 </span><div class="answer">
 <code>
@@ -28210,564 +28312,1897 @@ helping developers catch errors at compile time instead of runtime.
 TypeScript code compiles down to plain JavaScript, making it compatible with any environment that runs JS. It improves code quality, readability, and maintainability, especially for large-scale applications. TypeScript integrates well with modern frameworks like Angular, React, and Node.js, and offers excellent support in popular editors like VS Code with features like autocompletion and refactoring.
 </code>
 </div></li>
-<li data-id="typescript_any_vs_unknown">
-      <span class="faq-question">TypeScript : any vs unknown</span>
-      <div class="answer">
-              <pre>
-                <code>
-
-TypeScript : any vs unknown
-
-Both "any" and "unknown" are top-level types in TypeScript.
-They allow variables to hold values of any type.
-
-However, they behave very differently in terms of type safety.
 
 
-------------------------------------------------
-1. any Type
-------------------------------------------------
+<li data-id="ts1" class="zyellow">
+    <span class="faq-question">
+        What are Conditional Types in TypeScript? How do they work?
+    </span>
+    <div class="answer">
 
-Definition
+        <p><b>Conditional Types</b> allow types to be chosen based on a condition.</p>
 
-The "any" type disables TypeScript type checking.
+        <p>Syntax:</p>
 
-You can assign any value and perform any operation
-without compiler errors.
+        <pre><code>
+T extends U ? X : Y
+        </code></pre>
 
-Example
+        <p>If type <b>T</b> extends <b>U</b>, the result type is <b>X</b>, otherwise <b>Y</b>.</p>
 
-let value: any;
+        <pre><code>
+type IsString&lt;T&gt; = T extends string ? true : false;
 
-value = 10;
-value = "Hello";
-value = true;
+type A = IsString&lt;string&gt;;   // true
+type B = IsString&lt;number&gt;;   // false
+        </code></pre>
 
-console.log(value.toUpperCase());
-console.log(value * 10);
+        <p>Conditional types are heavily used in advanced utility types and generic libraries.</p>
 
-Problem
+    </div>
+</li>
 
-TypeScript will NOT check for errors.
-This may cause runtime bugs.
+<li data-id="ts2" class="zyellow">
+    <span class="faq-question">
+        What is the infer keyword in TypeScript and where is it used?
+    </span>
+    <div class="answer">
 
+        <p><b>infer</b> is used inside conditional types to extract types dynamically.</p>
 
-Example Runtime Error
+        <pre><code>
+type ReturnType&lt;T&gt; =
+    T extends (...args: any[]) => infer R ? R : any;
 
+function sum(a: number, b: number) {
+  return a + b;
+}
+
+type Result = ReturnType&lt;typeof sum&gt;; // number
+        </code></pre>
+
+        <p>It is used internally by many utility types like:</p>
+
+        <ul>
+            <li>ReturnType</li>
+            <li>Parameters</li>
+            <li>ConstructorParameters</li>
+        </ul>
+
+    </div>
+</li>
+
+<li data-id="ts3" class="zyellow">
+    <span class="faq-question">
+        What are Distributive Conditional Types?
+    </span>
+    <div class="answer">
+
+        <p>When conditional types operate on union types, they distribute across each member.</p>
+
+        <pre><code>
+type ToArray&lt;T&gt; = T extends any ? T[] : never;
+
+type Result = ToArray&lt;string | number&gt;;
+        </code></pre>
+
+        <p>Result becomes:</p>
+
+        <pre><code>
+string[] | number[]
+        </code></pre>
+
+        <p>This behavior is called <b>Distributive Conditional Types</b>.</p>
+
+    </div>
+</li>
+
+<li data-id="ts4" class="zyellow">
+    <span class="faq-question">
+        Explain TypeScript Mapped Types with an example.
+    </span>
+    <div class="answer">
+
+        <p><b>Mapped Types</b> allow transforming properties of an existing type.</p>
+
+        <pre><code>
+type User = {
+  id: number;
+  name: string;
+};
+
+type ReadOnlyUser = {
+  readonly [K in keyof User]: User[K];
+};
+        </code></pre>
+
+        <p>Result:</p>
+
+        <pre><code>
+{
+ readonly id: number;
+ readonly name: string;
+}
+        </code></pre>
+
+        <p>Mapped types power utilities like:</p>
+
+        <ul>
+            <li>Partial</li>
+            <li>Readonly</li>
+            <li>Pick</li>
+            <li>Record</li>
+        </ul>
+
+    </div>
+</li>
+
+<li data-id="ts5" class="zyellow">
+    <span class="faq-question">
+        What is the difference between unknown, any, and never?
+    </span>
+    <div class="answer">
+
+        <p><b>any</b></p>
+        <ul>
+            <li>Disables type checking</li>
+            <li>Can access any property</li>
+        </ul>
+
+        <pre><code>
 let value: any = 10;
+value.toUpperCase(); // allowed
+        </code></pre>
 
-console.log(value.toUpperCase());
+        <p><b>unknown</b></p>
+        <ul>
+            <li>Safer alternative to any</li>
+            <li>Must narrow before usage</li>
+        </ul>
 
-Error occurs at runtime because numbers do not have toUpperCase().
-
-
-------------------------------------------------
-2. unknown Type
-------------------------------------------------
-
-Definition
-
-The "unknown" type is a safer alternative to "any".
-
-It allows any value, but you cannot use the value
-until its type is checked.
-
-Example
-
-let value: unknown;
-
-value = 10;
-value = "Hello";
-
-console.log(value);   // allowed
-
-
-Invalid Example
-
-let value: unknown = "Hello";
-
-console.log(value.toUpperCase());
-
-TypeScript Error:
-Object is of type 'unknown'
-
-
-Correct Example with Type Check
-
-let value: unknown = "Hello";
+        <pre><code>
+let value: unknown = "hello";
 
 if (typeof value === "string") {
+  console.log(value.toUpperCase());
+}
+        </code></pre>
+
+        <p><b>never</b></p>
+        <ul>
+            <li>Represents values that never occur</li>
+            <li>Used in exhaustive checks</li>
+        </ul>
+
+    </div>
+</li>
+
+<li data-id="ts6" class="zyellow">
+    <span class="faq-question">
+        What are Template Literal Types?
+    </span>
+    <div class="answer">
+
+        <p>Template literal types allow constructing types using string patterns.</p>
+
+        <pre><code>
+type EventName = "click" | "scroll";
+
+type EventHandler = `on${Capitalize&lt;EventName&gt;}`;
+        </code></pre>
+
+        <p>Result:</p>
+
+        <pre><code>
+"type EventHandler = 'onClick' | 'onScroll'"
+        </code></pre>
+
+        <p>This is widely used in libraries like Redux Toolkit and tRPC.</p>
+
+    </div>
+</li>
+
+<li data-id="ts7" class="zyellow">
+    <span class="faq-question">
+        How does TypeScript type narrowing work?
+    </span>
+    <div class="answer">
+
+        <p>Type narrowing reduces a union type into a more specific type.</p>
+
+        <pre><code>
+function print(value: string | number) {
+  if (typeof value === "string") {
+      console.log(value.toUpperCase());
+  } else {
+      console.log(value.toFixed(2));
+  }
+}
+        </code></pre>
+
+        <p>Narrowing techniques:</p>
+
+        <ul>
+            <li>typeof</li>
+            <li>instanceof</li>
+            <li>in operator</li>
+            <li>custom type guards</li>
+        </ul>
+
+    </div>
+</li>
+
+<li data-id="ts8" class="zyellow">
+    <span class="faq-question">
+        What are Type Guards in TypeScript?
+    </span>
+    <div class="answer">
+
+        <p>Type Guards allow runtime checks to narrow types.</p>
+
+        <pre><code>
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+
+function print(value: unknown) {
+  if (isString(value)) {
     console.log(value.toUpperCase());
+  }
 }
+        </code></pre>
 
+        <p><b>value is string</b> tells TypeScript the narrowed type.</p>
 
-------------------------------------------------
-3. Key Difference
-------------------------------------------------
-
-any
-- No type checking
-- Dangerous for large applications
-- Can cause runtime errors
-
-unknown
-- Type-safe
-- Requires type checking before usage
-- Prevents runtime bugs
-
-
-------------------------------------------------
-4. Example Comparison
-------------------------------------------------
-
-Using any
-
-function printLength(value: any) {
-    return value.length;
-}
-
-printLength(100); // runtime error
-
-
-Using unknown
-
-function printLength(value: unknown) {
-
-    if (typeof value === "string") {
-        return value.length;
-    }
-
-    return 0;
-}
-
-
-------------------------------------------------
-5. Best Practice
-------------------------------------------------
-
-Avoid using "any" whenever possible.
-
-Use "unknown" when the type is not known yet
-and validate it before using.
-
-
-------------------------------------------------
-6. Interview Answer (Senior Level)
-------------------------------------------------
-
-The "any" type disables all type safety and allows
-any operation on a variable.
-
-The "unknown" type is a safer alternative that requires
-type checking before accessing properties or methods.
-
-In production TypeScript applications, "unknown"
-is preferred because it preserves type safety.
-
-                </code>
-              </pre>
-     </div>
+    </div>
 </li>
-<li data-id="typescript_type_vs_interface">
-      <span class="faq-question">TypeScript : type vs interface</span>
-      <div class="answer">
-              <pre>
-                <code>
 
-TypeScript : type vs interface
+<li data-id="ts9" class="zyellow">
+    <span class="faq-question">
+        What are Recursive Types in TypeScript?
+    </span>
+    <div class="answer">
 
-Both "type" and "interface" are used to define the structure of objects in TypeScript.
-They help developers enforce type safety and improve code maintainability.
+        <p>Recursive types reference themselves.</p>
 
-However, they have some important differences.
-
-
-------------------------------------------------
-1. Interface
-------------------------------------------------
-
-Definition
-
-An interface is used to define the structure of an object.
-
-Example
-
-interface User {
-    name: string;
-    age: number;
-}
-
-const user: User = {
-    name: "Amit",
-    age: 30
+        <pre><code>
+type TreeNode = {
+  value: string;
+  children?: TreeNode[];
 };
+        </code></pre>
 
+        <p>Used for:</p>
 
-Interface with Function
+        <ul>
+            <li>Tree structures</li>
+            <li>Graph models</li>
+            <li>Nested JSON</li>
+        </ul>
 
-interface Logger {
-    log(message: string): void;
-}
-
-class ConsoleLogger implements Logger {
-
-    log(message: string) {
-        console.log(message);
-    }
-
-}
-
-
-------------------------------------------------
-2. Type
-------------------------------------------------
-
-Definition
-
-"type" is used to create type aliases.
-It can represent objects, primitives, unions, tuples, and more.
-
-Example
-
-type User = {
-    name: string;
-    age: number;
-};
-
-const user: User = {
-    name: "Amit",
-    age: 30
-};
-
-
-Union Type Example
-
-type Status = "success" | "error" | "loading";
-
-
-Tuple Example
-
-type Coordinates = [number, number];
-
-
-------------------------------------------------
-3. Key Differences
-------------------------------------------------
-
-Interface
-
-- Used mainly for object structures
-- Supports "implements" in classes
-- Can be extended easily
-- Supports declaration merging
-
-Type
-
-- More flexible
-- Can represent unions, tuples, primitives
-- Cannot merge declarations
-- Better for complex types
-
-
-------------------------------------------------
-4. Extending Example
-------------------------------------------------
-
-Interface Extension
-
-interface Person {
-    name: string;
-}
-
-interface Employee extends Person {
-    salary: number;
-}
-
-
-Type Extension
-
-type Person = {
-    name: string;
-};
-
-type Employee = Person & {
-    salary: number;
-};
-
-
-------------------------------------------------
-5. Declaration Merging
-------------------------------------------------
-
-Interfaces support merging.
-
-interface User {
-    name: string;
-}
-
-interface User {
-    age: number;
-}
-
-Result
-
-interface User {
-    name: string;
-    age: number;
-}
-
-
-Type does NOT support merging.
-
-type User = {
-    name: string;
-};
-
-type User = {
-    age: number;
-};
-
-Error will occur.
-
-
-------------------------------------------------
-6. When to Use Interface
-------------------------------------------------
-
-Use interface when:
-
-- Designing object structures
-- Creating class contracts
-- Building large scalable applications
-- Working with OOP patterns
-
-
-------------------------------------------------
-7. When to Use Type
-------------------------------------------------
-
-Use type when:
-
-- Creating union types
-- Creating tuple types
-- Creating complex mapped types
-- Working with primitives
-
-
-------------------------------------------------
-8. Interview Answer (Senior Level)
-
-Interface is mainly used for defining object shapes and works well with OOP features like classes and inheritance.
-
-Type is more flexible and can represent unions, tuples, primitives, and complex type compositions.
-
-In large applications, developers often use interface for object contracts and type for advanced type compositions.
-
-                </code>
-              </pre>
-     </div>
+    </div>
 </li>
-<li data-id="typescript_type_vs_interface">
-      <span class="faq-question">TypeScript : type vs interface</span>
-      <div class="answer">
-              <pre>
-                <code>
 
-TypeScript : type vs interface
+<li data-id="ts10" class="zyellow">
+    <span class="faq-question">
+        How does TypeScript handle type compatibility (structural typing)?
+    </span>
+    <div class="answer">
 
-Both "type" and "interface" are used to define the structure of data in TypeScript.
-They help enforce type safety and improve code readability.
+        <p>TypeScript uses <b>Structural Typing</b> rather than nominal typing.</p>
 
-However, they have several important differences.
+        <pre><code>
+type Point = { x: number; y: number };
 
+function printPoint(p: Point) {}
 
-------------------------------------------------
-1. Interface
-------------------------------------------------
+const obj = { x: 10, y: 20, z: 30 };
 
-Definition
+printPoint(obj); // allowed
+        </code></pre>
 
-Interface defines the structure (shape) of an object.
+        <p>If the structure matches, the type is considered compatible.</p>
 
-Example
-
-interface User {
-    name: string;
-    age: number;
-}
-
-const user: User = {
-    name: "Amit",
-    age: 30
-};
-
-
-Interface with Class
-
-interface Logger {
-    log(message: string): void;
-}
-
-class ConsoleLogger implements Logger {
-
-    log(message: string) {
-        console.log(message);
-    }
-
-}
-
-
-------------------------------------------------
-2. Type
-------------------------------------------------
-
-Definition
-
-"type" is a type alias that can represent objects, primitives,
-unions, tuples, and more complex types.
-
-Example
-
-type User = {
-    name: string;
-    age: number;
-};
-
-const user: User = {
-    name: "Amit",
-    age: 30
-};
-
-
-Union Example
-
-type Status = "success" | "error" | "loading";
-
-
-Tuple Example
-
-type Point = [number, number];
-
-
-------------------------------------------------
-3. Key Differences
-------------------------------------------------
-
-Interface
-
-- Mainly used for object structure
-- Supports class implementation
-- Supports declaration merging
-- Good for OOP design
-
-
-Type
-
-- More flexible
-- Supports unions, tuples, primitives
-- Cannot be merged
-- Useful for advanced type compositions
-
-
-------------------------------------------------
-4. Extending Example
-------------------------------------------------
-
-Interface Extension
-
-interface Person {
-    name: string;
-}
-
-interface Employee extends Person {
-    salary: number;
-}
-
-
-Type Extension
-
-type Person = {
-    name: string;
-};
-
-type Employee = Person & {
-    salary: number;
-};
-
-
-------------------------------------------------
-5. Declaration Merging
-------------------------------------------------
-
-Interface supports merging.
-
-interface User {
-    name: string;
-}
-
-interface User {
-    age: number;
-}
-
-Result
-
-interface User {
-    name: string;
-    age: number;
-}
-
-
-Type does NOT support merging.
-
-type User = {
-    name: string;
-};
-
-type User = {
-    age: number;
-};
-
-This will produce an error.
-
-
-------------------------------------------------
-6. When to Use Interface
-------------------------------------------------
-
-Use interface when:
-
-- Defining object contracts
-- Working with classes
-- Building large scalable applications
-
-
-------------------------------------------------
-7. When to Use Type
-------------------------------------------------
-
-Use type when:
-
-- Creating union types
-- Creating tuple types
-- Creating complex or advanced types
-
-
-------------------------------------------------
-8. Interview Answer (Senior Level)
-
-Interface is mainly used for defining object structures and
-works well with classes and OOP patterns.
-
-Type is more flexible and can represent unions, tuples,
-primitives, and advanced type compositions.
-
-In large applications, interface is preferred for object contracts,
-while type is used for more complex type definitions.
-
-                </code>
-              </pre>
-     </div>
+    </div>
 </li>
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+1. What is TypeScript and why is it used in large scale applications?
+    </span>
+    <div class="answer">
+<p>
+TypeScript is a superset of JavaScript developed by Microsoft that adds static typing,
+interfaces, advanced OOP features and compile-time error checking.
+</p>
+
+<p>
+It compiles into plain JavaScript and can run anywhere JavaScript runs.
+</p>
+
+<b>Benefits:</b>
+
+<ul>
+<li>Static Type Checking</li>
+<li>Better IDE Support (Intellisense)</li>
+<li>Improved Code Maintainability</li>
+<li>Better Refactoring Support</li>
+<li>Early Error Detection</li>
+</ul>
+
+<b>Example:</b>
+
+<pre>
+<code>
+function add(a: number, b: number): number {
+ return a + b;
+}
+
+add(5,10)
+</code>
+</pre>
+</div>
+</li>
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+2. Difference between any, unknown and never
+</span>
+<div class="answer">
+<table border="1">
+
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Use Case</th>
+</tr>
+
+<tr>
+<td>any</td>
+<td>Disables type checking completely</td>
+<td>Legacy migration</td>
+</tr>
+
+<tr>
+<td>unknown</td>
+<td>Safer version of any. Requires type checking before use.</td>
+<td>API responses</td>
+</tr>
+
+<tr>
+<td>never</td>
+<td>Represents value that never occurs</td>
+<td>Functions that throw error or infinite loops</td>
+</tr>
+
+</table>
+
+<b>Example:</b>
+
+<pre>
+<code>
+function fail(): never {
+ throw new Error("Error occurred");
+}
+</code>
+</pre>
+</div>
+</li>
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+3. What is Type Narrowing?
+    </span>
+    <div class="answer">
+<p>
+Type narrowing means reducing a variable's type to a more specific type
+using conditions like typeof, instanceof, or custom guards.
+</p>
+
+<pre>
+<code>
+function printValue(value: string | number) {
+
+ if(typeof value === "string"){
+     console.log(value.toUpperCase())
+ }
+
+ else{
+     console.log(value.toFixed(2))
+ }
+
+}
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+4. What are Generics in TypeScript?
+    </span>
+    <div class="answer">
+<p>
+Generics allow writing reusable components that work with multiple data types
+while maintaining type safety.
+</p>
+
+<pre>
+<code>
+function identity&lt;T&gt;(value:T):T{
+ return value
+}
+
+identity&lt;string&gt;("hello")
+identity&lt;number&gt;(100)
+</code>
+</pre>
+
+<b>Benefits</b>
+
+<ul>
+<li>Code Reusability</li>
+<li>Type Safety</li>
+<li>Flexible APIs</li>
+</ul>
+
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+5. What is the infer keyword?
+</span>
+    <div class="answer">
+
+<p>
+The infer keyword is used inside conditional types to infer types dynamically.
+</p>
+
+<pre>
+<code>
+type ReturnType&lt;T&gt; =
+T extends (...args:any[]) =&gt; infer R
+? R
+: never
+</code>
+</pre>
+    </div>
+</li>
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+6. Difference between readonly and const
+    </span>
+    <div class="answer">
+<table border="1">
+
+<tr>
+<th>Feature</th>
+<th>const</th>
+<th>readonly</th>
+</tr>
+
+<tr>
+<td>Scope</td>
+<td>Variable</td>
+<td>Object property</td>
+</tr>
+
+<tr>
+<td>Reassignment</td>
+<td>Not allowed</td>
+<td>Property cannot change</td>
+</tr>
+
+<tr>
+<td>Runtime</td>
+<td>Yes</td>
+<td>Compile-time only</td>
+</tr>
+
+</table>
+
+<pre>
+<code>
+const x = 10
+
+interface User{
+ readonly id:number
+}
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+7. Explain Utility Types (Record, Pick, Omit)
+</span>
+<div class="answer">
+<p>
+Utility types help manipulate existing types.
+</p>
+
+<b>Record</b>
+
+<pre>
+<code>
+type User = Record&lt;string, string&gt;
+
+const data:User = {
+ name:"Dev",
+ city:"Delhi"
+}
+</code>
+</pre>
+
+<b>Pick</b>
+
+<pre>
+<code>
+interface User{
+ id:number
+ name:string
+ email:string
+}
+
+type UserName = Pick&lt;User,"name"&gt;
+</code>
+</pre>
+
+<b>Omit</b>
+
+<pre>
+<code>
+type UserWithoutEmail = Omit&lt;User,"email"&gt;
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+8. What is Declaration Merging?
+</span>
+<div class="answer">
+<p>
+TypeScript allows multiple declarations with the same name
+to merge into one definition.
+</p>
+
+<pre>
+<code>
+interface User{
+ name:string
+}
+
+interface User{
+ age:number
+}
+
+const user:User={
+ name:"Dev",
+ age:25
+}
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+9. What are Conditional Types?
+</span>
+<div class="answer">
+<p>
+Conditional types allow types to depend on conditions.
+</p>
+
+<pre>
+<code>
+type IsString&lt;T&gt; = T extends string ? true : false
+
+type A = IsString&lt;"hello"&gt;
+type B = IsString&lt;100&gt;
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+10. What are Mapped Types?
+</span>
+<div class="answer">
+<p>
+Mapped types allow transforming properties of an existing type.
+</p>
+
+<pre>
+<code>
+type ReadOnlyUser&lt;T&gt; = {
+ readonly [K in keyof T]: T[K]
+}
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+11. Difference between Interface and Type
+</span>
+    <div class="answer">
+<table border="1">
+
+<tr>
+<th>Feature</th>
+<th>Interface</th>
+<th>Type</th>
+</tr>
+
+<tr>
+<td>Declaration merging</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+
+<tr>
+<td>Union types</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>Extend</td>
+<td>Extends keyword</td>
+<td>Intersection (&)</td>
+</tr>
+
+</table>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+12. What is keyof operator?
+</span>
+    <div class="answer">
+<p>
+keyof returns union of keys of a type.
+</p>
+
+<pre>
+<code>
+interface User{
+ id:number
+ name:string
+}
+
+type Keys = keyof User
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+13. What are Type Guards?
+</span>
+    <div class="answer">
+<p>
+Type guards are techniques used to narrow down types.
+</p>
+
+<pre>
+<code>
+function isString(value:any):value is string{
+ return typeof value === "string"
+}
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+14. What are Decorators?
+</span>
+<div class="answer">
+<p>
+Decorators are special functions used to modify classes, methods,
+or properties.
+</p>
+
+<pre>
+<code>
+function Log(target:any){
+ console.log("Class Created")
+}
+
+@Log
+class User{}
+</code>
+</pre>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+15. Difference between Union and Intersection Types
+</span>
+<div class="answer">
+<table border="1">
+
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Union (|)</td>
+<td>Value can be one of multiple types</td>
+</tr>
+
+<tr>
+<td>Intersection (&)</td>
+<td>Combines multiple types into one</td>
+</tr>
+
+</table>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+16. What is Module Resolution?
+</span>
+<div class="answer">
+<p>
+Module resolution determines how TypeScript finds modules when importing.
+</p>
+
+Types:
+
+<ul>
+<li>Classic</li>
+<li>Node</li>
+</ul>
+</div>
+
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+17. What is the difference between import and require?
+</span>
+<div class="answer">
+<table border="1">
+
+<tr>
+<th>import</th>
+<th>require</th>
+</tr>
+
+<tr>
+<td>ES Module</td>
+<td>CommonJS</td>
+</tr>
+
+<tr>
+<td>Static</td>
+<td>Dynamic</td>
+</tr>
+
+<tr>
+<td>Tree shaking supported</td>
+<td>No tree shaking</td>
+</tr>
+
+</table>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+18. What is tsconfig.json?
+</span>
+<div class="answer">
+<p>
+tsconfig.json configures the TypeScript compiler behavior.
+</p>
+
+<pre>
+<code>
+{
+ "compilerOptions":{
+  "target":"ES2020",
+  "module":"commonjs",
+  "strict":true
+ }
+}
+</code>
+</pre>
+</div>
+
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+19. What is Strict Mode in TypeScript?
+</span>
+<div class="answer">
+<p>
+Strict mode enables a set of strict type checking options.
+</p>
+
+Examples:
+
+<ul>
+<li>strictNullChecks</li>
+<li>noImplicitAny</li>
+<li>strictFunctionTypes</li>
+</ul>
+</div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+
+20. What is Structural Typing?
+</span>
+<div class="answer">
+<p>
+TypeScript uses structural typing, meaning compatibility is determined
+by structure rather than explicit declarations.
+</p>
+
+<pre>
+<code>
+interface User{
+ name:string
+}
+
+const obj = {name:"Dev"}
+
+let user:User = obj
+</code>
+</pre>
+</div>
+</li>
+
+<li data-id="q35562" class="yellow">
+    <span class="faq-question">
+        What is TypeScript? Explain its core concepts with examples.
+    </span>
+
+    <div class="answer">
+
+        <p><b>TypeScript</b> is a strongly typed superset of JavaScript developed by Microsoft. 
+        It adds static typing, modern features, and better tooling on top of JavaScript.</p>
+
+        <p>TypeScript code is compiled into JavaScript using the <b>TypeScript compiler (tsc)</b>.</p>
+
+        <h4>Key Benefits</h4>
+
+        <table border="1" cellpadding="8">
+            <tr>
+                <th>Feature</th>
+                <th>Description</th>
+            </tr>
+
+            <tr>
+                <td>Static Typing</td>
+                <td>Detects errors at compile time instead of runtime.</td>
+            </tr>
+
+            <tr>
+                <td>Better Code Maintainability</td>
+                <td>Large applications become easier to manage.</td>
+            </tr>
+
+            <tr>
+                <td>Improved Developer Experience</td>
+                <td>Provides IntelliSense, autocompletion, and better IDE support.</td>
+            </tr>
+
+            <tr>
+                <td>Scalability</td>
+                <td>Ideal for large applications and enterprise systems.</td>
+            </tr>
+        </table>
+
+        <br>
+
+        <h4>Common TypeScript Types</h4>
+
+        <table border="1" cellpadding="8">
+            <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Example</th>
+            </tr>
+
+            <tr>
+                <td>string</td>
+                <td>Represents text values.</td>
+                <td><code>let name:string = "Dev";</code></td>
+            </tr>
+
+            <tr>
+                <td>number</td>
+                <td>Represents numeric values.</td>
+                <td><code>let age:number = 30;</code></td>
+            </tr>
+
+            <tr>
+                <td>boolean</td>
+                <td>True or false values.</td>
+                <td><code>let active:boolean = true;</code></td>
+            </tr>
+
+            <tr>
+                <td>array</td>
+                <td>Collection of values.</td>
+                <td><code>let nums:number[] = [1,2,3];</code></td>
+            </tr>
+
+            <tr>
+                <td>tuple</td>
+                <td>Array with fixed types and length.</td>
+                <td><code>let user:[string,number] = ["Dev",30];</code></td>
+            </tr>
+
+            <tr>
+                <td>enum</td>
+                <td>Defines named constants.</td>
+                <td><code>enum Role {Admin,User}</code></td>
+            </tr>
+        </table>
+
+        <br>
+
+        <h4>Example TypeScript Code</h4>
+
+        <pre>
+<code>
+function greet(name: string): string {
+    return "Hello " + name;
+}
+
+let message = greet("Dev");
+console.log(message);
+</code>
+        </pre>
+
+        <p>
+        In the above example, the function <b>greet</b> accepts a parameter of type <b>string</b> 
+        and returns a <b>string</b>. If another type is passed, TypeScript will generate a compile-time error.
+        </p>
+
+        <h4>TypeScript Compilation</h4>
+
+        <pre>
+<code>
+tsc app.ts
+</code>
+        </pre>
+
+        <p>This command compiles the TypeScript file into JavaScript.</p>
+
+    </div>
+</li>
+<li data-id="q35562" class="yellow">
+<span class="faq-question">
+What is TypeScript?
+</span>
+
+<div class="answer">
+
+<p><b>TypeScript</b> is a strongly typed programming language built on top of JavaScript.</p>
+
+<p>It adds:</p>
+
+<ul>
+<li>Static typing</li>
+<li>Better tooling and IntelliSense</li>
+<li>Compile-time error checking</li>
+<li>Modern JavaScript features</li>
+</ul>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Feature</th>
+<th>JavaScript</th>
+<th>TypeScript</th>
+</tr>
+
+<tr>
+<td>Typing</td>
+<td>Dynamic</td>
+<td>Static</td>
+</tr>
+
+<tr>
+<td>Error Detection</td>
+<td>Runtime</td>
+<td>Compile time</td>
+</tr>
+
+<tr>
+<td>Scalability</td>
+<td>Hard for large apps</td>
+<td>Better maintainability</td>
+</tr>
+
+</table>
+
+<pre>
+<code>
+let name:string = "Dev"
+let age:number = 30
+</code>
+</pre>
+
+</div>
+</li>
+<li data-id="q35563" class="yellow">
+<span class="faq-question">
+What are basic types in TypeScript?
+</span>
+
+<div class="answer">
+
+<p>TypeScript provides several built-in types.</p>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>string</td>
+<td>Text values</td>
+<td><code>let name:string="Dev"</code></td>
+</tr>
+
+<tr>
+<td>number</td>
+<td>Numeric values</td>
+<td><code>let age:number=30</code></td>
+</tr>
+
+<tr>
+<td>boolean</td>
+<td>true or false</td>
+<td><code>let isAdmin:boolean=true</code></td>
+</tr>
+
+<tr>
+<td>array</td>
+<td>List of values</td>
+<td><code>let nums:number[]=[1,2,3]</code></td>
+</tr>
+
+<tr>
+<td>tuple</td>
+<td>Fixed type array</td>
+<td><code>let user:[string,number]</code></td>
+</tr>
+
+<tr>
+<td>enum</td>
+<td>Named constants</td>
+<td><code>enum Role{Admin,User}</code></td>
+</tr>
+
+</table>
+
+</div>
+</li>
+<li data-id="q35564" class="yellow">
+<span class="faq-question">
+What is the any type in TypeScript?
+</span>
+
+<div class="answer">
+
+<p>The <b>any</b> type disables TypeScript type checking.</p>
+
+<p>It allows any value and operation.</p>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Flexibility</td>
+<td>Accepts any data type</td>
+</tr>
+
+<tr>
+<td>Type Safety</td>
+<td>No compile-time checks</td>
+</tr>
+
+<tr>
+<td>Risk</td>
+<td>May cause runtime errors</td>
+</tr>
+
+</table>
+
+<pre>
+<code>
+let value:any = 10
+
+value = "Hello"
+
+value.toUpperCase()
+</code>
+</pre>
+
+</div>
+</li>
+<li data-id="q35565" class="yellow">
+<span class="faq-question">
+What is unknown type in TypeScript?
+</span>
+
+<div class="answer">
+
+<p>The <b>unknown</b> type is a safer alternative to <b>any</b>.</p>
+
+<p>You must check the type before using it.</p>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Safety</td>
+<td>Type checking required</td>
+</tr>
+
+<tr>
+<td>Usage</td>
+<td>Use when type is unknown</td>
+</tr>
+
+<tr>
+<td>Benefit</td>
+<td>Prevents runtime errors</td>
+</tr>
+
+</table>
+
+<pre>
+<code>
+let value:unknown = "hello"
+
+if(typeof value === "string"){
+ console.log(value.toUpperCase())
+}
+</code>
+</pre>
+
+</div>
+</li>
+<li data-id="q35566" class="yellow">
+<span class="faq-question">
+What is never type in TypeScript?
+</span>
+
+<div class="answer">
+
+<p>The <b>never</b> type represents values that never occur.</p>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Use Case</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Error functions</td>
+<td>Functions that throw exceptions</td>
+</tr>
+
+<tr>
+<td>Infinite loops</td>
+<td>Functions that never finish execution</td>
+</tr>
+
+</table>
+
+<pre>
+<code>
+function fail():never{
+ throw new Error("error")
+}
+</code>
+</pre>
+
+</div>
+</li>
+<li data-id="q35567" class="yellow">
+<span class="faq-question">
+What is void type in TypeScript?
+</span>
+
+<div class="answer">
+
+<p>The <b>void</b> type represents functions that return nothing.</p>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Return Value</td>
+<td>No return value</td>
+</tr>
+
+<tr>
+<td>Usage</td>
+<td>Logging or side effects</td>
+</tr>
+
+</table>
+
+<pre>
+<code>
+function logMessage():void{
+ console.log("Hello")
+}
+</code>
+</pre>
+
+</div>
+</li>
+<li data-id="q35568" class="yellow">
+<span class="faq-question">
+What are Generics in TypeScript?
+</span>
+
+<div class="answer">
+
+<p>Generics allow creating reusable components with type safety.</p>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Benefit</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Reusability</td>
+<td>Works with multiple types</td>
+</tr>
+
+<tr>
+<td>Type Safety</td>
+<td>Maintains type information</td>
+</tr>
+
+</table>
+
+<pre>
+<code>
+function identity&lt;T&gt;(value:T):T{
+ return value
+}
+
+identity&lt;number&gt;(10)
+identity&lt;string&gt;("hello")
+</code>
+</pre>
+
+</div>
+</li>
+
+
+
+
+<li data-id="q35569" class="yellow">
+<span class="faq-question">
+What is Type Narrowing in TypeScript?
+</span>
+
+<div class="answer">
+
+<p>Type narrowing reduces a union type into a more specific type.</p>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Method</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>typeof</td>
+<td><code>typeof x === "string"</code></td>
+</tr>
+
+<tr>
+<td>instanceof</td>
+<td><code>x instanceof Date</code></td>
+</tr>
+
+<tr>
+<td>in operator</td>
+<td><code>"name" in user</code></td>
+</tr>
+
+</table>
+
+<pre>
+<code>
+function print(x:string | number){
+
+ if(typeof x === "string"){
+   console.log(x.toUpperCase())
+ }
+
+}
+</code>
+</pre>
+
+</div>
+</li>
+
+<li data-id="q35570" class="yellow">
+<span class="faq-question">
+What are Record, Pick, and Omit in TypeScript?
+</span>
+
+<div class="answer">
+
+<p>These are built-in utility types.</p>
+
+<table border="1" cellpadding="8">
+
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>Record</td>
+<td>Create object type</td>
+<td><code>Record&lt;string,number&gt;</code></td>
+</tr>
+
+<tr>
+<td>Pick</td>
+<td>Select specific properties</td>
+<td><code>Pick&lt;User,"name"&gt;</code></td>
+</tr>
+
+<tr>
+<td>Omit</td>
+<td>Remove properties</td>
+<td><code>Omit&lt;User,"password"&gt;</code></td>
+</tr>
+
+</table>
+
+</div>
+</li>
+
+
+<li data-id="tsa1" class="yellow">
+    <span class="faq-question">
+        How would you design a large-scale Node.js application architecture using TypeScript?
+    </span>
+
+    <div class="answer">
+
+        <p>A large-scale TypeScript backend should follow a layered architecture for maintainability and scalability.</p>
+
+        <p><b>Typical Architecture Layers:</b></p>
+
+<pre><code>
+src
+ ├── controllers
+ ├── services
+ ├── repositories
+ ├── models
+ ├── interfaces
+ ├── middleware
+ ├── utils
+ ├── config
+ └── app.ts
+</code></pre>
+
+        <p><b>Responsibilities:</b></p>
+
+        <ul>
+            <li><b>Controllers</b> → Handle HTTP requests</li>
+            <li><b>Services</b> → Business logic</li>
+            <li><b>Repositories</b> → Database access</li>
+            <li><b>Interfaces</b> → Shared TypeScript contracts</li>
+        </ul>
+
+        <p><b>Benefits:</b></p>
+
+        <ul>
+            <li>Clear separation of concerns</li>
+            <li>Strong typing across layers</li>
+            <li>Easy testing</li>
+            <li>Scalable microservice ready</li>
+        </ul>
+
+    </div>
+</li>
+
+
+<li data-id="tsa2" class="yellow">
+    <span class="faq-question">
+        How do you enforce type safety across microservices using TypeScript?
+    </span>
+
+    <div class="answer">
+
+        <p>In microservices architecture, maintaining type safety between services is critical.</p>
+
+        <p><b>Approaches:</b></p>
+
+        <ul>
+            <li>Shared TypeScript types package</li>
+            <li>API schema contracts</li>
+            <li>Code generation from OpenAPI</li>
+            <li>tRPC or GraphQL schema</li>
+        </ul>
+
+        <p><b>Example Shared Package:</b></p>
+
+<pre><code>
+packages/shared-types
+
+export interface User {
+  id: string
+  email: string
+}
+</code></pre>
+
+        <p>Each microservice imports the same contract ensuring consistency.</p>
+
+<pre><code>
+import { User } from "@company/shared-types"
+</code></pre>
+
+    </div>
+</li>
+
+
+<li data-id="tsa3" class="yellow">
+    <span class="faq-question">
+        How would you implement a type-safe EventEmitter in TypeScript?
+    </span>
+
+    <div class="answer">
+
+        <p>Default Node.js EventEmitter is not type-safe.</p>
+
+        <p>A typed version ensures event names and payloads are validated.</p>
+
+<pre><code>
+type Events = {
+  userCreated: { id: string }
+  orderPlaced: { orderId: number }
+}
+
+class TypedEmitter {
+
+  emit&lt;K extends keyof Events&gt;(event: K, payload: Events[K]) {}
+
+  on&lt;K extends keyof Events&gt;(event: K, handler: (data: Events[K]) => void) {}
+
+}
+</code></pre>
+
+        <p><b>Usage:</b></p>
+
+<pre><code>
+emitter.emit("userCreated", { id: "101" })   // correct
+emitter.emit("userCreated", { name: "x" })   // error
+</code></pre>
+
+    </div>
+</li>
+
+
+<li data-id="tsa4" class="yellow">
+    <span class="faq-question">
+        How do you manage dependency injection in TypeScript applications?
+    </span>
+
+    <div class="answer">
+
+        <p>Dependency Injection improves modularity and testability.</p>
+
+        <p><b>Popular DI libraries:</b></p>
+
+        <ul>
+            <li>InversifyJS</li>
+            <li>TSyringe</li>
+            <li>NestJS built-in DI</li>
+        </ul>
+
+        <p><b>Example using TSyringe:</b></p>
+
+<pre><code>
+import { injectable } from "tsyringe";
+
+@injectable()
+class UserService {
+
+  getUser() {
+    return "user";
+  }
+
+}
+</code></pre>
+
+        <p>Benefits:</p>
+
+        <ul>
+            <li>Loose coupling</li>
+            <li>Easier testing</li>
+            <li>Better architecture</li>
+        </ul>
+
+    </div>
+</li>
+
+
+<li data-id="tsa5" class="yellow">
+    <span class="faq-question">
+        How do you implement Domain Driven Design (DDD) using TypeScript?
+    </span>
+
+    <div class="answer">
+
+        <p>DDD organizes code around business domains instead of technical layers.</p>
+
+        <p><b>Example Structure:</b></p>
+
+<pre><code>
+src
+ ├── domain
+ │    ├── entities
+ │    ├── valueObjects
+ │    ├── repositories
+ │
+ ├── application
+ │    ├── useCases
+ │
+ ├── infrastructure
+ │    ├── database
+ │    ├── api
+</code></pre>
+
+        <p><b>Example Entity:</b></p>
+
+<pre><code>
+class User {
+
+ constructor(
+   public id: string,
+   public email: string
+ ) {}
+
+}
+</code></pre>
+
+        <p>This keeps business logic isolated from frameworks.</p>
+
+    </div>
+</li>
+
+
+<li data-id="tsa6" class="yellow">
+    <span class="faq-question">
+        How would you design a type-safe API response structure in TypeScript?
+    </span>
+
+    <div class="answer">
+
+        <p>A common API response wrapper ensures consistent responses.</p>
+
+<pre><code>
+type ApiResponse&lt;T&gt; = {
+  success: boolean
+  data?: T
+  error?: string
+}
+</code></pre>
+
+        <p><b>Example:</b></p>
+
+<pre><code>
+const response: ApiResponse&lt;User&gt; = {
+  success: true,
+  data: { id: "1", email: "test@test.com" }
+}
+</code></pre>
+
+        <p>This pattern ensures API responses remain predictable and type-safe.</p>
+
+    </div>
+</li>
+
+
+<li data-id="tsa7" class="yellow">
+    <span class="faq-question">
+        How do you manage environment configuration safely in TypeScript?
+    </span>
+
+    <div class="answer">
+
+        <p>Environment variables should be validated at startup.</p>
+
+<pre><code>
+type EnvConfig = {
+  PORT: number
+  DB_URL: string
+}
+</code></pre>
+
+<pre><code>
+const config: EnvConfig = {
+  PORT: Number(process.env.PORT),
+  DB_URL: process.env.DB_URL!
+}
+</code></pre>
+
+        <p>Libraries like:</p>
+
+        <ul>
+            <li>zod</li>
+            <li>envsafe</li>
+            <li>joi</li>
+        </ul>
+
+        <p>can validate env variables automatically.</p>
+
+    </div>
+</li>
+
+
+<li data-id="tsa8" class="yellow">
+    <span class="faq-question">
+        How would you design a reusable generic repository pattern in TypeScript?
+    </span>
+
+    <div class="answer">
+
+        <p>A generic repository can work for multiple entities.</p>
+
+<pre><code>
+interface Repository&lt;T&gt; {
+
+  findById(id: string): Promise&lt;T | null&gt;
+
+  create(data: T): Promise&lt;T&gt;
+
+  update(id: string, data: Partial&lt;T&gt;): Promise&lt;T&gt;
+
+}
+</code></pre>
+
+        <p><b>Example:</b></p>
+
+<pre><code>
+class UserRepository implements Repository&lt;User&gt; {
+
+  async findById(id: string) {}
+
+  async create(data: User) {}
+
+  async update(id: string, data: Partial&lt;User&gt;) {}
+
+}
+</code></pre>
+
+        <p>This pattern improves reusability and reduces duplication.</p>
+
+    </div>
+</li>
+
+
+<li data-id="typescript_any_vs_unknown_table">
+  <span class="faq-question">TypeScript : any vs unknown111</span>
+  <div class="answer">
+
+    <table border="1" cellpadding="10" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>any</th>
+          <th>unknown</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Definition</td>
+          <td>Disables TypeScript type checking</td>
+          <td>Safer top-level type</td>
+        </tr>
+        <tr>
+          <td>Type Safety</td>
+          <td>No type safety</td>
+          <td>Requires type checking</td>
+        </tr>
+        <tr>
+          <td>Allowed Operations</td>
+          <td>Any operation allowed</td>
+          <td>Cannot use value without checking type</td>
+        </tr>
+        <tr>
+          <td>Compiler Behavior</td>
+          <td>No compile-time errors</td>
+          <td>Compiler enforces validation</td>
+        </tr>
+        <tr>
+          <td>Runtime Risk</td>
+          <td>High (runtime errors possible)</td>
+          <td>Low</td>
+        </tr>
+        <tr>
+          <td>Example</td>
+          <td><code>let v:any = 10; v.toUpperCase();</code></td>
+          <td><code>if(typeof v==="string"){ v.toUpperCase(); }</code></td>
+        </tr>
+        <tr>
+          <td>Best Practice</td>
+          <td>Avoid in production</td>
+          <td>Preferred when type is unknown</td>
+        </tr>
+        <tr>
+          <td>Interview Summary</td>
+          <td>Removes type safety</td>
+          <td>Forces validation before usage</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</li>
+
+
+<li data-id="typescript_type_vs_interface_table">
+  <span class="faq-question">TypeScript : type vs interface</span>
+  <div class="answer">
+
+    <table border="1" cellpadding="10" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>interface</th>
+          <th>type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Purpose</td>
+          <td>Defines object structure</td>
+          <td>Creates type aliases</td>
+        </tr>
+        <tr>
+          <td>Flexibility</td>
+          <td>Mainly object shapes</td>
+          <td>Supports primitives, unions, tuples</td>
+        </tr>
+        <tr>
+          <td>Class Support</td>
+          <td>Classes can implement interfaces</td>
+          <td>Cannot be implemented directly</td>
+        </tr>
+        <tr>
+          <td>Declaration Merging</td>
+          <td>Supported</td>
+          <td>Not supported</td>
+        </tr>
+        <tr>
+          <td>Extension</td>
+          <td><code>extends</code></td>
+          <td><code>&amp;</code> intersection</td>
+        </tr>
+        <tr>
+          <td>Advanced Types</td>
+          <td>Limited</td>
+          <td>Supports union, tuple, mapped types</td>
+        </tr>
+        <tr>
+          <td>Usage</td>
+          <td>OOP design</td>
+          <td>Advanced type composition</td>
+        </tr>
+        <tr>
+          <td>Preferred For</td>
+          <td>Large scalable applications</td>
+          <td>Utility and complex typing</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</li>
+
+
 <li data-id="q_gql" id="graphql_qlist" class="yellow"><span class="faq-question">
 GraphQL ? ****
 </span><div class="answer">
