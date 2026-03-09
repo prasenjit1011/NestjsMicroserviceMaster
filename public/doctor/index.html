@@ -136,6 +136,37 @@ Example: Custom Hook for API Fetch
 // useFetch.js
 import { useState, useEffect } from "react";
 
+useEffect(() => {
+
+  const controller = new AbortController();
+
+  async function fetchData() {
+
+    try {
+      const res = await fetch(url, {
+        signal: controller.signal
+      });
+
+      const result = await res.json();
+      setData(result);
+      setLoading(false);
+
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        console.error(err);
+      }
+    }
+
+  }
+
+  fetchData();
+
+  return () => controller.abort();
+
+}, [url]);
+
+
+
 function useFetch(url) {
 
   const [data, setData] = useState(null);
@@ -296,7 +327,10 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
                 <li><a href="#nodejs_qlist">Nodejs</a></li>
                 <li><a href="#q_ts">TypeScript</a></li> 
                 <li><a href="#es6_qlist">ES6</a></li>
-                <li><a href="#nestjs_qlist">NestJS</a></li>                
+                <li><a href="#nestjs_qlist">NestJS</a></li>
+                <li><a href="#strapi_qlist">Strapi</a></li>
+                <li><a href="#python_qlist">Python</a></li>
+                <li><a href="#java_qlist">Java Springboot</a></li>
                 <li><a href="#fastify_qlist">Fastify</a></li>
                 <li><a href="#koa_qlist">Koa</a></li>
                 <li><a href="#LoopBack_qlist">LoopBack</a></li>
@@ -330,7 +364,6 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
                 <li><a href="#elasticsearch">Elasticsearch</a></li>
                 <li><a href="#zod">Zod</a></li>
                 <li><a href="#jest_qlist">Jest</a></li>
-                <li><a href="#java_qlist">Java Springboot</a></li>
                 </ol>
             </td>
             <td style="vertical-align: top;">
@@ -390,7 +423,7 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
     </div></li>
     
 
-<li data-id="python-question" class="zyellow">
+<li data-id="python-question" id="python_qlist" class="zyellow">
 <span class="faq-question">Python</span>
 <div class="answer">
 <pre><code>
@@ -6276,6 +6309,333 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
   --------------   ReactJS  -------------------</span></li>
 <li data-id="q3" class="yellow"><span class="faq-question">
   ---------------------------------------------</span></li>
+  <li data-id="rtk1" class="zyellow">
+    <span class="faq-question">
+        What is Redux Toolkit and why was it introduced?
+    </span>
+    <div class="answer">
+        <p><b>Redux Toolkit (RTK)</b> is the official recommended way to write Redux logic. 
+        It simplifies Redux development by reducing boilerplate and providing useful utilities.</p>
+
+        <p><b>Problems in Traditional Redux:</b></p>
+        <ul>
+            <li>Too much boilerplate code</li>
+            <li>Complex store configuration</li>
+            <li>Manual immutable updates</li>
+            <li>Difficult async handling</li>
+        </ul>
+
+        <p><b>Main Features of Redux Toolkit:</b></p>
+        <ul>
+            <li>configureStore</li>
+            <li>createSlice</li>
+            <li>createAsyncThunk</li>
+            <li>createEntityAdapter</li>
+            <li>RTK Query</li>
+        </ul>
+
+<pre><code>
+import { configureStore } from '@reduxjs/toolkit'
+import counterReducer from './counterSlice'
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer
+  }
+})
+</code></pre>
+    </div>
+</li>
+
+
+<li data-id="rtk2" class="zyellow">
+    <span class="faq-question">
+        What problems does createSlice solve in Redux Toolkit?
+    </span>
+    <div class="answer">
+
+        <p><b>createSlice</b> combines action creators and reducers in one place.</p>
+
+        <p>In traditional Redux we write:</p>
+        <ul>
+            <li>Action Types</li>
+            <li>Action Creators</li>
+            <li>Reducers</li>
+        </ul>
+
+        <p>Redux Toolkit simplifies this using <b>createSlice</b>.</p>
+
+<pre><code>
+import { createSlice } from '@reduxjs/toolkit'
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { count: 0 },
+  reducers: {
+    increment(state){
+      state.count++
+    }
+  }
+})
+
+export const { increment } = counterSlice.actions
+export default counterSlice.reducer
+</code></pre>
+
+        <p><b>Advantages:</b></p>
+        <ul>
+            <li>No action type constants</li>
+            <li>Automatic action creators</li>
+            <li>Cleaner architecture</li>
+        </ul>
+
+    </div>
+</li>
+
+
+<li data-id="rtk3" class="zyellow">
+    <span class="faq-question">
+        How does Redux Toolkit handle immutability internally?
+    </span>
+    <div class="answer">
+
+        <p>Redux Toolkit uses <b>Immer.js</b> internally to manage immutable state updates.</p>
+
+        <p>Developers can write code that appears mutable, but Immer converts it into immutable updates.</p>
+
+        <p><b>Example:</b></p>
+
+<pre><code>
+state.count++
+</code></pre>
+
+        <p>Internally it becomes:</p>
+
+<pre><code>
+return {
+  ...state,
+  count: state.count + 1
+}
+</code></pre>
+
+        <p>This makes reducer logic simpler and prevents accidental state mutations.</p>
+
+    </div>
+</li>
+
+
+<li data-id="rtk4" class="zyellow">
+    <span class="faq-question">
+        What is createAsyncThunk and how does it work?
+    </span>
+    <div class="answer">
+
+        <p><b>createAsyncThunk</b> is used to handle asynchronous operations such as API calls.</p>
+
+        <p>It automatically generates three lifecycle actions:</p>
+
+        <ul>
+            <li>pending</li>
+            <li>fulfilled</li>
+            <li>rejected</li>
+        </ul>
+
+<pre><code>
+import { createAsyncThunk } from '@reduxjs/toolkit'
+
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async () => {
+    const res = await fetch('/api/users')
+    return res.json()
+  }
+)
+</code></pre>
+
+        <p>Handling in reducer:</p>
+
+<pre><code>
+extraReducers: (builder) => {
+  builder
+    .addCase(fetchUsers.pending, (state) => {
+      state.loading = true
+    })
+    .addCase(fetchUsers.fulfilled, (state, action) => {
+      state.loading = false
+      state.users = action.payload
+    })
+    .addCase(fetchUsers.rejected, (state) => {
+      state.loading = false
+      state.error = true
+    })
+}
+</code></pre>
+
+    </div>
+</li>
+
+
+<li data-id="rtk5" class="zyellow">
+    <span class="faq-question">
+        What is RTK Query and why is it powerful?
+    </span>
+    <div class="answer">
+
+        <p><b>RTK Query</b> is a powerful data fetching and caching tool built into Redux Toolkit.</p>
+
+        <p>It eliminates the need for manual API handling and caching logic.</p>
+
+<pre><code>
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+export const api = createApi({
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  endpoints: (builder) => ({
+    getUsers: builder.query({
+      query: () => '/users'
+    })
+  })
+})
+
+export const { useGetUsersQuery } = api
+</code></pre>
+
+        <p>Usage inside React component:</p>
+
+<pre><code>
+const { data, error, isLoading } = useGetUsersQuery()
+</code></pre>
+
+        <p><b>Benefits:</b></p>
+
+        <ul>
+            <li>Automatic caching</li>
+            <li>Automatic refetching</li>
+            <li>Request deduplication</li>
+            <li>Built-in loading state</li>
+        </ul>
+
+    </div>
+</li>
+
+
+<li data-id="rtk6" class="zyellow">
+    <span class="faq-question">
+        What is createEntityAdapter in Redux Toolkit?
+    </span>
+    <div class="answer">
+
+        <p><b>createEntityAdapter</b> helps manage normalized data inside Redux store.</p>
+
+        <p>Normalized state improves performance and lookup speed.</p>
+
+<pre><code>
+{
+  ids: [1,2],
+  entities: {
+    1:{id:1,name:"A"},
+    2:{id:2,name:"B"}
+  }
+}
+</code></pre>
+
+        <p>Example:</p>
+
+<pre><code>
+import { createEntityAdapter } from '@reduxjs/toolkit'
+
+const usersAdapter = createEntityAdapter()
+
+const initialState = usersAdapter.getInitialState()
+
+const usersSlice = createSlice({
+  name: 'users',
+  initialState,
+  reducers: {
+    addUser: usersAdapter.addOne,
+    addUsers: usersAdapter.addMany
+  }
+})
+</code></pre>
+
+    </div>
+</li>
+
+
+<li data-id="rtk7" class="zyellow">
+    <span class="faq-question">
+        What middleware does Redux Toolkit include by default?
+    </span>
+    <div class="answer">
+
+        <p>Redux Toolkit automatically includes useful middleware when using <b>configureStore</b>.</p>
+
+        <p><b>Default Middleware:</b></p>
+
+        <ul>
+            <li>Redux Thunk</li>
+            <li>Serializable State Middleware</li>
+            <li>Immutable State Middleware</li>
+        </ul>
+
+<pre><code>
+const store = configureStore({
+  reducer: rootReducer
+})
+</code></pre>
+
+        <p>Internally it uses:</p>
+
+<pre><code>
+getDefaultMiddleware()
+</code></pre>
+
+    </div>
+</li>
+
+
+<li data-id="rtk8" class="zyellow">
+    <span class="faq-question">
+        What is the difference between Redux Toolkit and Traditional Redux?
+    </span>
+    <div class="answer">
+
+        <table border="1">
+            <tr>
+                <th>Feature</th>
+                <th>Traditional Redux</th>
+                <th>Redux Toolkit</th>
+            </tr>
+            <tr>
+                <td>Boilerplate</td>
+                <td>High</td>
+                <td>Low</td>
+            </tr>
+            <tr>
+                <td>Reducers</td>
+                <td>Manual</td>
+                <td>createSlice</td>
+            </tr>
+            <tr>
+                <td>Async Handling</td>
+                <td>redux-thunk</td>
+                <td>createAsyncThunk</td>
+            </tr>
+            <tr>
+                <td>Store Setup</td>
+                <td>Complex</td>
+                <td>configureStore</td>
+            </tr>
+            <tr>
+                <td>Immutability</td>
+                <td>Manual</td>
+                <td>Immer</td>
+            </tr>
+        </table>
+
+    </div>
+</li>
   <li data-id="react_" class="zyellow">
     <span class="faq-question">What is basic testing in ReactJS?</span>
     <div class="answer">
@@ -21472,6 +21832,398 @@ Terraform can provision the entire architecture using code.
 </li>
 <li data-id="q3" class="yellow"><span class="faq-question">
   ----------------------------------------------------------------------------------</span></li>
+<li data-id="q3" id="strapi_qlist" class="yellow"><span class="faq-question">
+  --------------   Strapi Question  -----------------------</span></li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ---------------------------------------------------------------------------------------- 
+</span></li>
+<li data-id="strapi_nodejs_explanation">
+  <span class="faq-question">What is Strapi in Node.js?</span>
+  <div class="answer">
+    <pre>
+<strong>Strapi</strong> is an open-source Headless CMS built using Node.js.  
+It allows developers to quickly create APIs without writing a large amount of backend code.
+
+Strapi automatically generates REST and GraphQL APIs for your application.
+
+--------------------------------------------------
+
+<strong>1. What is a Headless CMS?</strong>
+
+A Headless CMS means the backend (content management system) is separated
+from the frontend.
+
+Example Architecture:
+
+Frontend (React / Next.js / Angular)
+          ↓
+      API Request
+          ↓
+        Strapi
+          ↓
+      Database
+
+Strapi only provides APIs and admin panel, not the frontend UI.
+
+--------------------------------------------------
+
+<strong>2. Why Developers Use Strapi?</strong>
+
+Benefits:
+
+• Fast backend development  
+• Auto-generated REST APIs  
+• GraphQL support  
+• Admin dashboard for managing content  
+• Authentication and roles  
+• File upload support  
+• Works with multiple databases  
+
+Supported Databases:
+
+• PostgreSQL  
+• MySQL  
+• SQLite  
+• MongoDB (older versions)
+
+--------------------------------------------------
+
+<strong>3. Example Use Case</strong>
+
+Suppose you are building a Movie Website.
+
+Without Strapi:
+
+Node.js + Express
+Write models
+Write controllers
+Write routes
+Write admin panel
+Write authentication
+
+With Strapi:
+
+Install Strapi
+Create "Movie" content type
+Strapi automatically creates:
+
+GET /movies
+POST /movies
+PUT /movies/:id
+DELETE /movies/:id
+
+Admin panel to manage movies.
+
+--------------------------------------------------
+
+<strong>4. Install Strapi</strong>
+
+Requirements:
+Node.js v18+
+
+Command:
+
+npx create-strapi-app@latest my-project --quickstart
+
+This command will:
+
+• Create a Strapi project
+• Install dependencies
+• Setup database
+• Start admin panel
+
+Admin Panel URL:
+
+http://localhost:1337/admin
+
+--------------------------------------------------
+
+<strong>5. Example API Response</strong>
+
+GET /api/movies
+
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "The Dark Knight",
+      "rating": 9.0
+    }
+  ]
+}
+
+--------------------------------------------------
+
+<strong>6. When Should You Use Strapi?</strong>
+
+Strapi is good for:
+
+• CMS websites
+• Blogs
+• E-commerce backend
+• Mobile app APIs
+• Content management systems
+• Rapid backend development
+
+--------------------------------------------------
+
+<strong>7. When NOT to Use Strapi?</strong>
+
+Avoid Strapi when:
+
+• You need highly complex backend logic
+• You need ultra-high performance microservices
+• You want full control over backend architecture
+
+In those cases use:
+
+Node.js + Express / NestJS
+
+--------------------------------------------------
+
+<strong>Conclusion</strong>
+
+Strapi is a powerful Node.js headless CMS that helps developers
+quickly build APIs and manage content without writing large
+amounts of backend code..
+    </pre>
+  </div>
+</li>
+<li data-id="strapi_q1">
+  <span class="faq-question">1. What is Strapi?</span>
+  <div class="answer">
+    <pre>
+Strapi is an open-source Headless CMS built on Node.js that allows developers
+to quickly create APIs and manage content through an admin panel.
+
+It automatically generates REST and GraphQL APIs for content types created
+in the system.
+
+Key Features:
+- Headless CMS
+- Auto-generated APIs
+- Role-based authentication
+- Admin dashboard
+- Database support (PostgreSQL, MySQL, SQLite)
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q2">
+  <span class="faq-question">2. What is a Headless CMS?</span>
+  <div class="answer">
+    <pre>
+A Headless CMS separates the backend content management system from the frontend.
+
+The CMS only provides APIs while the frontend can be built using any technology.
+
+Example Architecture:
+
+Frontend (React / Angular / Next.js)
+            ↓
+          API
+            ↓
+         Strapi
+            ↓
+        Database
+
+This allows developers to build websites, mobile apps, and APIs using the
+same backend.
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q3">
+  <span class="faq-question">3. What databases does Strapi support?</span>
+  <div class="answer">
+    <pre>
+Strapi supports multiple relational databases:
+
+- PostgreSQL
+- MySQL
+- MariaDB
+- SQLite
+
+SQLite is used by default for development environments.
+PostgreSQL is recommended for production applications.
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q4">
+  <span class="faq-question">4. How does Strapi generate APIs?</span>
+  <div class="answer">
+    <pre>
+Strapi automatically generates REST APIs when a content type is created.
+
+Example:
+
+Content Type: Movie
+
+Automatically Generated APIs:
+
+GET    /api/movies
+GET    /api/movies/:id
+POST   /api/movies
+PUT    /api/movies/:id
+DELETE /api/movies/:id
+
+These APIs are instantly available without writing backend code.
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q5">
+  <span class="faq-question">5. What is a Content Type in Strapi?</span>
+  <div class="answer">
+    <pre>
+Content Type defines the structure of data stored in Strapi.
+
+Example: Blog Content Type
+
+Fields:
+- title
+- description
+- author
+- publishDate
+- image
+
+Once created, Strapi automatically creates database tables and APIs.
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q6">
+  <span class="faq-question">6. What are the two types of Content Types in Strapi?</span>
+  <div class="answer">
+    <pre>
+Strapi provides two types of content types:
+
+1. Collection Type
+   Used for multiple records.
+
+Example:
+- Blogs
+- Movies
+- Products
+
+2. Single Type
+   Used for single records.
+
+Example:
+- Homepage settings
+- Website configuration
+- About page
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q7">
+  <span class="faq-question">7. How does authentication work in Strapi?</span>
+  <div class="answer">
+    <pre>
+Strapi provides built-in authentication using JWT (JSON Web Token).
+
+Features:
+- User registration
+- Login API
+- Role-based access control
+- Permission management
+
+Example Login API:
+
+POST /api/auth/local
+
+Response:
+
+{
+  "jwt": "token",
+  "user": {
+    "id": 1,
+    "username": "admin"
+  }
+}
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q8">
+  <span class="faq-question">8. Can Strapi support GraphQL?</span>
+  <div class="answer">
+    <pre>
+Yes.
+
+Strapi supports GraphQL using a plugin.
+
+Install command:
+
+npm install @strapi/plugin-graphql
+
+After installation, GraphQL endpoint becomes available.
+
+Example endpoint:
+
+/graphql
+
+This allows flexible querying of content.
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q9">
+  <span class="faq-question">9. How can you customize APIs in Strapi?</span>
+  <div class="answer">
+    <pre>
+Strapi allows developers to customize APIs using:
+
+- Controllers
+- Services
+- Middleware
+- Policies
+
+Example:
+
+Custom Controller:
+
+async customMovies(ctx) {
+  const data = await strapi.service("api::movie.movie").find();
+  ctx.send(data);
+}
+
+This allows custom business logic beyond auto-generated APIs.
+    </pre>
+  </div>
+</li>
+
+<li data-id="strapi_q10">
+  <span class="faq-question">10. What are the advantages of using Strapi?</span>
+  <div class="answer">
+    <pre>
+Advantages:
+
+- Rapid backend development
+- Auto-generated APIs
+- Admin dashboard
+- Role-based permissions
+- GraphQL support
+- Flexible database support
+- Customizable backend
+
+It is widely used for:
+
+- Blogs
+- Mobile app backends
+- E-commerce APIs
+- Content-driven websites
+    </pre>
+  </div>
+</li>
+
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ------------------- Strapi_End ---------------------------------------------------------------</span></li>
+
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ----------------------------------------------------------------------------------</span></li>
 <li data-id="q3" id="nodejs_qlist" class="yellow"><span class="faq-question">
   --------------   NodeJS Question  -----------------------</span></li>
 <li data-id="q3" class="yellow"><span class="faq-question">
@@ -23955,7 +24707,444 @@ Middleware pattern
 </pre>
 </div>
 </li>
+<li data-id="node_arch_1">
+  <span class="faq-question">1. How does the Node.js Event Loop work internally?</span>
+  <div class="answer">
+    <pre><code>
+Node.js is single-threaded but uses an asynchronous, non-blocking I/O model.
 
+Event Loop Phases:
+1. Timers
+2. Pending Callbacks
+3. Idle / Prepare
+4. Poll
+5. Check
+6. Close Callbacks
+
+Example:
+
+console.log("Start");
+
+setTimeout(()=>{
+  console.log("Timeout");
+},0);
+
+Promise.resolve().then(()=>{
+  console.log("Promise");
+});
+
+console.log("End");
+
+Output:
+Start
+End
+Promise
+Timeout
+
+Reason:
+Promises execute in Microtask Queue before Callback Queue.
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_2">
+  <span class="faq-question">2. What are Worker Threads in Node.js?</span>
+  <div class="answer">
+    <pre><code>
+Worker Threads allow Node.js to run CPU intensive tasks in parallel threads.
+
+Example:
+
+const { Worker } = require('worker_threads');
+
+const worker = new Worker('./worker.js');
+
+worker.postMessage(1000000);
+
+Use cases:
+- Image processing
+- Video encoding
+- Encryption
+- Heavy computations
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_3">
+  <span class="faq-question">3. Difference between Cluster and Worker Threads?</span>
+  <div class="answer">
+    <pre><code>
+Cluster:
+- Creates multiple Node.js processes
+- Each process has separate memory
+- Used for scaling HTTP servers
+
+Worker Threads:
+- Multiple threads inside one process
+- Share memory
+- Used for CPU heavy tasks
+
+Cluster Example:
+
+const cluster = require('cluster');
+const os = require('os');
+
+if(cluster.isMaster){
+  for(let i=0;i<os.cpus().length;i++){
+    cluster.fork();
+  }
+}else{
+  require('./server');
+}
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_4">
+  <span class="faq-question">4. How do you scale a Node.js application?</span>
+  <div class="answer">
+    <pre><code>
+Methods to scale Node.js:
+
+1. Horizontal scaling
+2. Cluster module
+3. Load balancer
+
+Architecture:
+
+Client
+  ↓
+Load Balancer (Nginx)
+  ↓
+Multiple Node.js Instances
+  ↓
+Redis Cache
+  ↓
+Database
+
+Technologies used:
+- Nginx
+- Redis
+- Docker
+- Kubernetes
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_5">
+  <span class="faq-question">5. How do you detect and fix memory leaks in Node.js?</span>
+  <div class="answer">
+    <pre><code>
+Tools used:
+- heapdump
+- clinic.js
+- Chrome DevTools
+
+Common causes:
+1. Global variables
+2. Unremoved event listeners
+3. Large cache objects
+4. Closures holding references
+
+Example Memory Leak:
+
+let cache = [];
+
+app.get("/data",(req,res)=>{
+  cache.push(req.query);
+  res.send("stored");
+});
+
+Solution:
+Use LRU Cache or Redis instead of storing unlimited data in memory.
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_6">
+  <span class="faq-question">6. How do you monitor Node.js applications in production?</span>
+  <div class="answer">
+    <pre><code>
+Monitoring Tools:
+
+- Prometheus
+- Grafana
+- Datadog
+- New Relic
+
+Metrics to monitor:
+
+- CPU usage
+- Memory usage
+- Event loop delay
+- API response time
+- Error rates
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_7">
+  <span class="faq-question">7. How would you design Node.js microservices architecture?</span>
+  <div class="answer">
+    <pre><code>
+Typical Architecture:
+
+API Gateway
+     ↓
+Auth Service
+User Service
+Movie Service
+Payment Service
+     ↓
+Message Queue
+     ↓
+Database
+
+Technologies:
+
+- Kafka
+- RabbitMQ
+- Redis
+- Docker
+- Kubernetes
+
+Benefits:
+
+- Independent deployment
+- Scalability
+- Fault isolation
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_8">
+  <span class="faq-question">8. What is an API Gateway?</span>
+  <div class="answer">
+    <pre><code>
+API Gateway acts as a single entry point for all APIs.
+
+Responsibilities:
+
+- Authentication
+- Rate limiting
+- Request routing
+- Logging
+- Monitoring
+
+Popular API Gateways:
+
+- Kong
+- AWS API Gateway
+- Nginx
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_9">
+  <span class="faq-question">9. When should you use SQL vs NoSQL databases?</span>
+  <div class="answer">
+    <pre><code>
+SQL Databases:
+
+Examples:
+- PostgreSQL
+- MySQL
+
+Use when:
+- Strong consistency required
+- Transactions needed
+- Structured data
+
+NoSQL Databases:
+
+Examples:
+- MongoDB
+- Cassandra
+
+Use when:
+- Large scale systems
+- Flexible schema
+- High write throughput
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_10">
+  <span class="faq-question">10. How do you implement caching in Node.js?</span>
+  <div class="answer">
+    <pre><code>
+Caching Layers:
+
+Browser Cache
+     ↓
+CDN
+     ↓
+Redis Cache
+     ↓
+Database
+
+Example:
+
+const redis = require("redis");
+const client = redis.createClient();
+
+app.get("/movie/:id", async(req,res)=>{
+
+  const cached = await client.get(req.params.id);
+
+  if(cached){
+    return res.json(JSON.parse(cached));
+  }
+
+  const data = await Movie.findById(req.params.id);
+
+  client.setEx(req.params.id,3600,JSON.stringify(data));
+
+  res.json(data);
+});
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_11">
+  <span class="faq-question">11. How do you deploy Node.js using Docker?</span>
+  <div class="answer">
+    <pre><code>
+Dockerfile Example:
+
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+CMD ["node","app.js"]
+
+Build Image:
+
+docker build -t nodeapp .
+
+Run Container:
+
+docker run -p 3000:3000 nodeapp
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_12">
+  <span class="faq-question">12. What is the difference between ECS and EKS?</span>
+  <div class="answer">
+    <pre><code>
+ECS:
+- AWS container service
+- Simpler to use
+- Managed by AWS
+
+EKS:
+- Kubernetes service by AWS
+- More flexible
+- Used for large microservices architecture
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_13">
+  <span class="faq-question">13. Design Netflix movie search system.</span>
+  <div class="answer">
+    <pre><code>
+Architecture:
+
+User
+ ↓
+API Gateway
+ ↓
+Node.js Search Service
+ ↓
+Elasticsearch
+ ↓
+Movie Database
+
+Technologies used:
+
+- Elasticsearch
+- Redis
+- Kafka
+- Node.js
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_14">
+  <span class="faq-question">14. How do you implement rate limiting?</span>
+  <div class="answer">
+    <pre><code>
+Rate limiting prevents abuse of APIs.
+
+Techniques:
+
+1. Token bucket
+2. Leaky bucket
+3. Redis-based limiter
+
+Example:
+
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+
+app.use(limiter);
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="node_arch_15">
+  <span class="faq-question">15. How would you design Uber backend architecture?</span>
+  <div class="answer">
+    <pre><code>
+Architecture Components:
+
+API Gateway
+ ↓
+Ride Service
+Driver Service
+Location Service
+Payment Service
+ ↓
+Kafka Message Queue
+ ↓
+Database
+
+Technologies:
+
+- Kafka
+- Redis
+- PostgreSQL
+- Kubernetes
+- Node.js
+    </code></pre>
+  </div>
+</li>
 <li data-id="q301">
 <span class="faq-question green">1. How would you debug a Node.js production server that suddenly becomes slow?</span>
 <div class="answer">
@@ -48751,6 +49940,1241 @@ Client → Mongos → Shard 1 (part of data)
   
 </pre>
 </div></li>
+
+
+<li data-id="k8s_q1">
+  <span class="faq-question">1. What is Kubernetes and why is it used?</span>
+  <div class="answer">
+    <pre><code>
+Kubernetes is an open-source container orchestration platform used to automate
+deployment, scaling, and management of containerized applications.
+
+Features:
+- Automatic scaling
+- Self-healing containers
+- Load balancing
+- Service discovery
+- Rolling deployments
+
+Example workflow:
+
+Developer → Docker Container → Kubernetes Cluster → Auto Scaling → Production
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q2">
+  <span class="faq-question">2. What are the main components of Kubernetes architecture?</span>
+  <div class="answer">
+    <pre><code>
+Kubernetes has two main parts:
+
+1. Control Plane
+2. Worker Nodes
+
+Control Plane Components:
+- API Server
+- Scheduler
+- Controller Manager
+- etcd (cluster database)
+
+Worker Node Components:
+- Kubelet
+- Container Runtime
+- Kube Proxy
+
+Architecture:
+
+Client
+  ↓
+API Server
+  ↓
+Scheduler
+  ↓
+Worker Nodes
+  ↓
+Pods
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q3">
+  <span class="faq-question">3. What is a Pod in Kubernetes?</span>
+  <div class="answer">
+    <pre><code>
+Pod is the smallest deployable unit in Kubernetes.
+
+A Pod can contain:
+- One container
+- Multiple containers sharing network and storage
+
+Example Pod YAML:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-app
+spec:
+  containers:
+  - name: node-container
+    image: node:18
+    ports:
+      - containerPort: 3000
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q4">
+  <span class="faq-question">4. What is the difference between Deployment and StatefulSet?</span>
+  <div class="answer">
+    <pre><code>
+Deployment:
+- Used for stateless applications
+- Pods are interchangeable
+- Example: Node.js API server
+
+StatefulSet:
+- Used for stateful applications
+- Stable network identity
+- Persistent storage
+
+Example:
+Database applications like MongoDB or PostgreSQL use StatefulSet.
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q5">
+  <span class="faq-question">5. What is Kubernetes Service?</span>
+  <div class="answer">
+    <pre><code>
+Service exposes Pods as network services.
+
+Types of Services:
+
+1. ClusterIP
+2. NodePort
+3. LoadBalancer
+4. ExternalName
+
+Example Service YAML:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-service
+spec:
+  type: NodePort
+  selector:
+    app: node-app
+  ports:
+  - port: 80
+    targetPort: 3000
+    nodePort: 30007
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q6">
+  <span class="faq-question">6. What is Horizontal Pod Autoscaler (HPA)?</span>
+  <div class="answer">
+    <pre><code>
+Horizontal Pod Autoscaler automatically scales pods based on metrics like CPU usage.
+
+Example:
+
+kubectl autoscale deployment node-app \
+  --cpu-percent=50 \
+  --min=2 \
+  --max=10
+
+Meaning:
+If CPU usage goes above 50%, Kubernetes will create more pods automatically.
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q7">
+  <span class="faq-question">7. What is the difference between Docker and Kubernetes?</span>
+  <div class="answer">
+    <pre><code>
+Docker:
+- Container runtime
+- Builds and runs containers
+
+Kubernetes:
+- Orchestrates containers
+- Manages scaling, networking, and deployment
+
+Example:
+
+Docker → Create container
+Kubernetes → Manage thousands of containers
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q8">
+  <span class="faq-question">8. What is Ingress in Kubernetes?</span>
+  <div class="answer">
+    <pre><code>
+Ingress manages external HTTP/HTTPS access to services inside the cluster.
+
+Example:
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: node-ingress
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: node-service
+            port:
+              number: 80
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q9">
+  <span class="faq-question">9. What is ConfigMap and Secret?</span>
+  <div class="answer">
+    <pre><code>
+ConfigMap:
+Used to store configuration data.
+
+Example:
+DATABASE_URL
+API_URL
+
+Secret:
+Used to store sensitive data.
+
+Example:
+- Passwords
+- API Keys
+- Tokens
+
+Secrets are base64 encoded.
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q10">
+  <span class="faq-question">10. How do you deploy a Node.js application in Kubernetes?</span>
+  <div class="answer">
+    <pre><code>
+Steps:
+
+1. Build Docker Image
+
+docker build -t node-app .
+
+2. Push to Docker registry
+
+docker push node-app
+
+3. Create Deployment YAML
+
+kubectl apply -f deployment.yaml
+
+4. Create Service
+
+kubectl apply -f service.yaml
+
+5. Access via LoadBalancer or Ingress
+
+Architecture:
+
+User
+ ↓
+Ingress
+ ↓
+Service
+ ↓
+Pods (Node.js containers)
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q11">
+  <span class="faq-question">11. What is rolling deployment?</span>
+  <div class="answer">
+    <pre><code>
+Rolling deployment updates application without downtime.
+
+Steps:
+
+Old Pod v1
+↓
+New Pod v2 created
+↓
+Traffic gradually shifts
+↓
+Old Pod removed
+
+Command:
+
+kubectl rollout restart deployment node-app
+    </code></pre>
+  </div>
+</li>
+
+
+<li data-id="k8s_q12">
+  <span class="faq-question">12. What is etcd in Kubernetes?</span>
+  <div class="answer">
+    <pre><code>
+etcd is the distributed key-value database used by Kubernetes.
+
+It stores:
+- Cluster configuration
+- Pod state
+- Secrets
+- Service information
+
+All Kubernetes cluster data is stored in etcd.
+    </code></pre>
+  </div>
+</li>
+<li data-id="node_terraform_step1">
+  <span class="faq-question">1. What tools are required for Node.js + AWS Terraform setup?</span>
+  <div class="answer">
+    <pre>
+Tools Required:
+
+1. Node.js
+2. Terraform
+3. AWS CLI
+
+Check installation:
+
+node -v
+terraform -v
+aws --version
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step2">
+  <span class="faq-question">2. How to create a basic Node.js application?</span>
+  <div class="answer">
+    <pre>
+Create project folder
+
+mkdir node-terraform-app
+cd node-terraform-app
+
+Initialize project
+
+npm init -y
+npm install express
+
+Create app.js
+
+const express = require('express');
+const app = express();
+
+app.get('/', (req,res)=>{
+   res.send("Node.js App Running on AWS EC2 via Terraform");
+});
+
+app.listen(3000,()=>{
+   console.log("Server running on port 3000");
+});
+
+Run application
+
+node app.js
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step3">
+  <span class="faq-question">3. How to configure AWS credentials?</span>
+  <div class="answer">
+    <pre>
+Configure AWS CLI
+
+aws configure
+
+Provide:
+
+AWS Access Key
+AWS Secret Key
+Region (example: ap-south-1)
+Output format: json
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step4">
+  <span class="faq-question">4. What is the Terraform project structure?</span>
+  <div class="answer">
+    <pre>
+terraform-nodejs
+│
+├── main.tf
+├── variables.tf
+├── outputs.tf
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step5">
+  <span class="faq-question">5. How to configure AWS provider in Terraform?</span>
+  <div class="answer">
+    <pre>
+Create main.tf
+
+provider "aws" {
+  region = "ap-south-1"
+}
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step6">
+  <span class="faq-question">6. How to create an EC2 instance using Terraform?</span>
+  <div class="answer">
+    <pre>
+resource "aws_instance" "node_server" {
+
+  ami           = "ami-0f5ee92e2d63afc18"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "NodeTerraformServer"
+  }
+
+}
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step7">
+  <span class="faq-question">7. How to initialize Terraform?</span>
+  <div class="answer">
+    <pre>
+Run the command
+
+terraform init
+
+This downloads AWS provider plugins.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step8">
+  <span class="faq-question">8. How to check Terraform execution plan?</span>
+  <div class="answer">
+    <pre>
+Run
+
+terraform plan
+
+This shows resources that Terraform will create.
+Example output:
+
++ aws_instance.node_server
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step9">
+  <span class="faq-question">9. How to create infrastructure using Terraform?</span>
+  <div class="answer">
+    <pre>
+Run command
+
+terraform apply
+
+Confirm with:
+
+yes
+
+Terraform will create the EC2 server automatically.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step10">
+  <span class="faq-question">10. How to connect to the EC2 server?</span>
+  <div class="answer">
+    <pre>
+SSH into the instance
+
+ssh -i key.pem ec2-user@PUBLIC-IP
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step11">
+  <span class="faq-question">11. How to install Node.js inside EC2?</span>
+  <div class="answer">
+    <pre>
+Update packages
+
+sudo yum update -y
+
+Install Node.js
+
+sudo yum install nodejs -y
+
+Verify installation
+
+node -v
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step12">
+  <span class="faq-question">12. How to upload Node.js application to EC2?</span>
+  <div class="answer">
+    <pre>
+Copy file to EC2
+
+scp -i key.pem app.js ec2-user@PUBLIC-IP:/home/ec2-user
+
+Run application
+
+node app.js
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step13">
+  <span class="faq-question">13. How to access the Node.js application?</span>
+  <div class="answer">
+    <pre>
+Open port 3000 in AWS Security Group
+
+Access application
+
+http://PUBLIC-IP:3000
+
+Output:
+
+Node.js App Running on AWS EC2 via Terraform
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_step14">
+  <span class="faq-question">14. How to destroy Terraform infrastructure?</span>
+  <div class="answer">
+    <pre>
+Run command
+
+terraform destroy
+
+Terraform will remove all created resources.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_terraform_architecture">
+  <span class="faq-question">15. What is the real production architecture for Node.js with Terraform?</span>
+  <div class="answer">
+    <pre>
+Production Architecture
+
+Developer
+   ↓
+Terraform
+   ↓
+AWS VPC
+   ↓
+Load Balancer
+   ↓
+Auto Scaling Group
+   ↓
+EC2 Instances
+   ↓
+Node.js Application
+   ↓
+Database (RDS / DynamoDB)
+
+Often integrated with:
+
+Docker
+Kubernetes
+EKS
+ECS
+Jenkins CI/CD
+    </pre>
+  </div>
+</li>
+<li data-id="ecs_node_step1">
+  <span class="faq-question">1. What is the architecture for Node.js + Terraform + Docker + AWS ECS?</span>
+  <div class="answer">
+    <pre>
+Production Architecture
+
+Developer
+   ↓
+Docker Image Build
+   ↓
+Push Image to ECR
+   ↓
+Terraform
+   ↓
+Create ECS Cluster
+   ↓
+Task Definition
+   ↓
+ECS Service
+   ↓
+Application Load Balancer
+   ↓
+Node.js Application Running in Containers
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step2">
+  <span class="faq-question">2. How to create the Node.js application?</span>
+  <div class="answer">
+    <pre>
+Create project
+
+mkdir node-ecs-app
+cd node-ecs-app
+
+npm init -y
+npm install express
+
+Create app.js
+
+const express = require("express");
+const app = express();
+
+app.get("/", (req,res)=>{
+ res.send("Node.js running inside Docker on AWS ECS");
+});
+
+app.listen(3000, ()=>{
+ console.log("Server running on port 3000");
+});
+
+Run locally
+
+node app.js
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step3">
+  <span class="faq-question">3. How to create a Dockerfile for the Node.js application?</span>
+  <div class="answer">
+    <pre>
+Create Dockerfile
+
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["node","app.js"]
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step4">
+  <span class="faq-question">4. How to build the Docker image?</span>
+  <div class="answer">
+    <pre>
+Build Docker Image
+
+docker build -t node-ecs-app .
+
+Check images
+
+docker images
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step5">
+  <span class="faq-question">5. How to create an AWS ECR repository?</span>
+  <div class="answer">
+    <pre>
+Create repository
+
+aws ecr create-repository \
+--repository-name node-ecs-app
+
+Repository URL example
+
+123456789.dkr.ecr.ap-south-1.amazonaws.com/node-ecs-app
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step6">
+  <span class="faq-question">6. How to push Docker image to AWS ECR?</span>
+  <div class="answer">
+    <pre>
+Login to ECR
+
+aws ecr get-login-password \
+--region ap-south-1 | docker login \
+--username AWS \
+--password-stdin ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com
+
+Tag image
+
+docker tag node-ecs-app:latest \
+ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/node-ecs-app:latest
+
+Push image
+
+docker push ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/node-ecs-app:latest
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step7">
+  <span class="faq-question">7. How to create Terraform project structure?</span>
+  <div class="answer">
+    <pre>
+terraform-ecs-node
+│
+├── main.tf
+├── variables.tf
+├── outputs.tf
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step8">
+  <span class="faq-question">8. How to configure AWS provider in Terraform?</span>
+  <div class="answer">
+    <pre>
+provider "aws" {
+ region = "ap-south-1"
+}
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step9">
+  <span class="faq-question">9. How to create ECS Cluster using Terraform?</span>
+  <div class="answer">
+    <pre>
+resource "aws_ecs_cluster" "node_cluster" {
+ name = "node-ecs-cluster"
+}
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step10">
+  <span class="faq-question">10. How to create ECS Task Definition?</span>
+  <div class="answer">
+    <pre>
+resource "aws_ecs_task_definition" "node_task" {
+
+ family                   = "node-task"
+ requires_compatibilities = ["FARGATE"]
+ network_mode             = "awsvpc"
+ cpu                      = "256"
+ memory                   = "512"
+
+ container_definitions = jsonencode([
+ {
+   name  = "node-container"
+   image = "ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/node-ecs-app:latest"
+
+   portMappings = [
+     {
+       containerPort = 3000
+       hostPort      = 3000
+     }
+   ]
+ }
+ ])
+}
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step11">
+  <span class="faq-question">11. How to create ECS Service?</span>
+  <div class="answer">
+    <pre>
+resource "aws_ecs_service" "node_service" {
+
+ name            = "node-service"
+ cluster         = aws_ecs_cluster.node_cluster.id
+ task_definition = aws_ecs_task_definition.node_task.arn
+ desired_count   = 2
+ launch_type     = "FARGATE"
+
+ network_configuration {
+   subnets = ["subnet-xxxxx"]
+   assign_public_ip = true
+ }
+
+}
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step12">
+  <span class="faq-question">12. How to initialize Terraform?</span>
+  <div class="answer">
+    <pre>
+terraform init
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step13">
+  <span class="faq-question">13. How to check Terraform execution plan?</span>
+  <div class="answer">
+    <pre>
+terraform plan
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step14">
+  <span class="faq-question">14. How to deploy infrastructure?</span>
+  <div class="answer">
+    <pre>
+terraform apply
+
+Type:
+
+yes
+
+Terraform will create
+
+ECR
+ECS Cluster
+Task Definition
+ECS Service
+Networking
+    </pre>
+  </div>
+</li>
+
+<li data-id="ecs_node_step15">
+  <span class="faq-question">15. How does the application run in production?</span>
+  <div class="answer">
+    <pre>
+Process Flow
+
+Developer pushes code
+   ↓
+Docker image build
+   ↓
+Image pushed to ECR
+   ↓
+Terraform deploys infrastructure
+   ↓
+ECS pulls Docker image
+   ↓
+Containers start automatically
+   ↓
+Load balancer routes traffic
+   ↓
+Node.js application serves requests
+    </pre>
+  </div>
+</li>
+<li data-id="node_ecs_q1">
+  <span class="faq-question">1. What is the purpose of using Docker with Node.js?</span>
+  <div class="answer">
+    <pre>
+Docker is used to containerize the Node.js application.
+
+Benefits:
+
+1. Same environment in development and production
+2. Easy deployment
+3. Lightweight containers
+4. Faster scaling
+5. Dependency isolation
+
+Example:
+
+Docker runs the Node.js application inside a container with all required libraries.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q2">
+  <span class="faq-question">2. Why do we use Terraform in AWS infrastructure?</span>
+  <div class="answer">
+    <pre>
+Terraform is Infrastructure as Code (IaC).
+
+Advantages:
+
+1. Infrastructure automation
+2. Version control
+3. Repeatable deployments
+4. Multi-environment support
+5. Faster provisioning
+
+Example:
+
+Instead of manually creating ECS cluster, Terraform creates it automatically.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q3">
+  <span class="faq-question">3. What is AWS ECS?</span>
+  <div class="answer">
+    <pre>
+ECS stands for Elastic Container Service.
+
+It is a container orchestration service provided by AWS.
+
+Responsibilities:
+
+1. Run Docker containers
+2. Manage container clusters
+3. Auto scaling
+4. Load balancing
+5. High availability
+
+Example:
+
+Node.js Docker containers run inside ECS tasks.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q4">
+  <span class="faq-question">4. What is an ECS Cluster?</span>
+  <div class="answer">
+    <pre>
+ECS Cluster is a logical group of compute resources.
+
+It manages:
+
+1. ECS tasks
+2. ECS services
+3. Container instances
+
+Example:
+
+Cluster name: node-production-cluster
+
+All Node.js containers run inside this cluster.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q5">
+  <span class="faq-question">5. What is an ECS Task Definition?</span>
+  <div class="answer">
+    <pre>
+Task Definition is a blueprint for running containers.
+
+It defines:
+
+1. Docker image
+2. CPU allocation
+3. Memory
+4. Ports
+5. Environment variables
+
+Example:
+
+Node container definition
+
+image: node-ecs-app
+port: 3000
+cpu: 256
+memory: 512
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q6">
+  <span class="faq-question">6. What is ECS Service?</span>
+  <div class="answer">
+    <pre>
+ECS Service manages running containers continuously.
+
+Responsibilities:
+
+1. Maintain desired number of tasks
+2. Auto restart failed containers
+3. Load balancing
+4. Rolling updates
+
+Example:
+
+If desired count = 2
+ECS ensures 2 Node.js containers always run.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q7">
+  <span class="faq-question">7. What is AWS ECR?</span>
+  <div class="answer">
+    <pre>
+ECR stands for Elastic Container Registry.
+
+It stores Docker images.
+
+Workflow:
+
+Docker build image
+   ↓
+Push image to ECR
+   ↓
+ECS pulls image from ECR
+   ↓
+Container starts
+
+Example:
+
+node-ecs-app:latest stored in ECR.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q8">
+  <span class="faq-question">8. What is the difference between ECS EC2 and ECS Fargate?</span>
+  <div class="answer">
+    <pre>
+ECS EC2
+
+You manage EC2 servers.
+
+Responsibilities:
+Server patching
+Scaling
+Infrastructure maintenance
+
+ECS Fargate
+
+Serverless container service.
+
+Advantages:
+
+No server management
+Auto scaling
+Pay only for used resources
+
+Most modern applications use Fargate.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q9">
+  <span class="faq-question">9. How does Terraform deploy ECS infrastructure?</span>
+  <div class="answer">
+    <pre>
+Terraform creates AWS resources automatically.
+
+Steps:
+
+1. Create VPC
+2. Create ECS Cluster
+3. Create Task Definition
+4. Create ECS Service
+5. Configure networking
+
+Command flow:
+
+terraform init
+terraform plan
+terraform apply
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q10">
+  <span class="faq-question">10. How does the complete deployment flow work?</span>
+  <div class="answer">
+    <pre>
+Production Deployment Flow
+
+Developer writes Node.js code
+       ↓
+Docker image build
+       ↓
+Image pushed to ECR
+       ↓
+Terraform deploys infrastructure
+       ↓
+ECS pulls Docker image
+       ↓
+Containers start
+       ↓
+Load balancer sends traffic
+       ↓
+Node.js application handles requests
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q11">
+  <span class="faq-question">11. What is the role of Load Balancer in ECS?</span>
+  <div class="answer">
+    <pre>
+Load balancer distributes traffic across containers.
+
+Benefits:
+
+1. High availability
+2. Fault tolerance
+3. Traffic distribution
+4. Health checks
+
+Example:
+
+Application Load Balancer routes traffic to Node.js containers.
+    </pre>
+  </div>
+</li>
+
+<li data-id="node_ecs_q12">
+  <span class="faq-question">12. What is auto scaling in ECS?</span>
+  <div class="answer">
+    <pre>
+Auto scaling automatically adjusts the number of running containers.
+
+Example:
+
+Low traffic → 2 containers
+High traffic → 10 containers
+
+Benefits:
+
+Better performance
+Cost optimization
+Automatic scaling
+    </pre>
+  </div>
+</li>
+<li data-id="eks_vs_terraform_learning_order">
+  <span class="faq-question">Which should be learned first: Terraform or EKS?</span>
+  <div class="answer">
+    <pre>
+<strong>Short Answer:</strong>
+Learn Terraform first, then EKS.
+
+Terraform is used to create infrastructure, while EKS is used to run Kubernetes
+applications on AWS. In most real-world production systems, Terraform is used
+to create the EKS cluster itself.
+
+--------------------------------------------------
+
+<strong>1. What is Terraform?</strong>
+
+Terraform is an Infrastructure as Code (IaC) tool used to automatically
+create and manage cloud resources.
+
+Example resources Terraform can create in AWS:
+
+- VPC (Virtual Private Cloud)
+- EC2 Instances
+- Security Groups
+- Load Balancers
+- RDS Databases
+- EKS Kubernetes Cluster
+
+Example Terraform Flow:
+
+Terraform Script
+      ↓
+Create AWS Infrastructure
+      ↓
+Create EKS Cluster
+      ↓
+Deploy Applications
+
+--------------------------------------------------
+
+<strong>2. What is EKS?</strong>
+
+EKS (Elastic Kubernetes Service) is a managed Kubernetes service in AWS.
+
+It allows developers to run containerized applications using Kubernetes
+without managing the control plane.
+
+Example applications running on EKS:
+
+- Node.js APIs
+- React Frontend
+- Python ML Services
+- Microservices Architecture
+- Background Workers
+
+--------------------------------------------------
+
+<strong>3. Real Production Architecture</strong>
+
+Terraform
+   ↓
+Create VPC + Subnets + Security Groups
+   ↓
+Create EKS Cluster
+   ↓
+Build Docker Image of Node.js App
+   ↓
+Push Image to Container Registry
+   ↓
+Deploy to Kubernetes Pods in EKS
+   ↓
+Expose via Load Balancer
+
+--------------------------------------------------
+
+<strong>4. Recommended Learning Order (High Salary DevOps Roles)</strong>
+
+Step 1: Docker
+Step 2: Kubernetes Basics
+Step 3: Terraform (Infrastructure Automation)
+Step 4: AWS EKS
+Step 5: CI/CD (Jenkins / GitHub Actions)
+
+--------------------------------------------------
+
+<strong>Conclusion</strong>
+
+Terraform should be learned first because it is used to provision
+infrastructure, including the EKS cluster itself.
+
+After understanding Terraform, learning EKS becomes much easier
+because you already know how the infrastructure is created.
+
+    </pre>
+  </div>
+</li>
 
 
 <li data-id="q_node_event2222"><span class="faq-question">
