@@ -58098,6 +58098,772 @@ Uber
   --------------   Difference  -----------------------</span></li>
 
 
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        Event-Driven Architecture: Node.js vs Kafka (with examples and architecture diagram)
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Node.js Event-Driven Architecture</th>
+<th>Apache Kafka Event Streaming</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Definition</b></td>
+<td>
+Node.js uses an <b>event-driven, non-blocking I/O model</b> where events trigger callbacks or listeners.
+</td>
+<td>
+Kafka is a <b>distributed event streaming platform</b> used for building real-time data pipelines and event-driven systems.
+</td>
+</tr>
+
+<tr>
+<td><b>Scope</b></td>
+<td>
+Works inside a <b>single Node.js application</b>.
+</td>
+<td>
+Works across <b>multiple distributed systems and microservices</b>.
+</td>
+</tr>
+
+<tr>
+<td><b>Architecture Type</b></td>
+<td>
+In-process event system using <b>EventEmitter</b>.
+</td>
+<td>
+Distributed <b>publish-subscribe messaging system</b>.
+</td>
+</tr>
+
+<tr>
+<td><b>Data Persistence</b></td>
+<td>
+Events exist only in memory unless explicitly stored.
+</td>
+<td>
+Events are <b>persisted in Kafka topics</b> and stored on disk.
+</td>
+</tr>
+
+<tr>
+<td><b>Scalability</b></td>
+<td>
+Limited to the Node.js application instance.
+</td>
+<td>
+Highly scalable across <b>clusters and partitions</b>.
+</td>
+</tr>
+
+<tr>
+<td><b>Reliability</b></td>
+<td>
+No built-in fault tolerance.
+</td>
+<td>
+Provides <b>replication, durability, and fault tolerance</b>.
+</td>
+</tr>
+
+<tr>
+<td><b>Use Case</b></td>
+<td>
+Handling async operations like HTTP requests, file I/O, streams.
+</td>
+<td>
+Real-time analytics, event sourcing, microservice communication.
+</td>
+</tr>
+
+<tr>
+<td><b>Latency</b></td>
+<td>
+Very low latency within the same process.
+</td>
+<td>
+Low latency but involves network communication.
+</td>
+</tr>
+
+<tr>
+<td><b>Typical Use</b></td>
+<td>
+Backend server logic inside a Node application.
+</td>
+<td>
+Event backbone between services (microservices architecture).
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<br>
+
+<h3>Node.js Event Driven Example</h3>
+
+<pre>
+<code>
+const EventEmitter = require('events');
+
+const eventEmitter = new EventEmitter();
+
+// Listener
+eventEmitter.on('orderCreated', (order) => {
+    console.log('Order received:', order);
+});
+
+// Emit Event
+eventEmitter.emit('orderCreated', {
+    id: 101,
+    product: 'Laptop'
+});
+</code>
+</pre>
+
+
+<br>
+
+<h3>Kafka Example with Node.js</h3>
+
+<pre>
+<code>
+const { Kafka } = require('kafkajs');
+
+const kafka = new Kafka({
+  clientId: 'order-service',
+  brokers: ['localhost:9092']
+});
+
+const producer = kafka.producer();
+
+async function sendMessage() {
+  await producer.connect();
+
+  await producer.send({
+    topic: 'orders',
+    messages: [
+      { value: JSON.stringify({ id: 101, product: "Laptop" }) }
+    ]
+  });
+
+  await producer.disconnect();
+}
+
+sendMessage();
+</code>
+</pre>
+
+
+<br>
+
+<h3>Architecture Example</h3>
+
+<pre>
+<code>
+Node.js Event Driven (Single App)
+
+User Request
+     │
+     ▼
+Node Server
+     │
+ EventEmitter
+     │
+     ▼
+Event Listener
+
+
+Kafka Event Streaming (Distributed)
+
+Service A (Producer)
+        │
+        ▼
+      Kafka
+   (Topic / Partition)
+        │
+        ▼
+Service B (Consumer)
+
+Service C (Consumer)
+</code>
+</pre>
+
+
+✅ **Interview Summary**
+
+- **Node.js event-driven** → best for **internal async operations**.  
+- **Kafka** → best for **distributed event streaming between microservices**.
+
+---
+
+If you want, I can also give a **“System Design Interview Explanation: Node.js + Kafka Architecture (used in Netflix / Uber)”** which is often asked for **20–30 LPA backend roles**.
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+    what is a callback function in Node.js and how does it work?
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Topic</th>
+<th>Explanation</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Definition</b></td>
+<td>
+A <b>callback function</b> is a function passed as an argument to another function and executed later.
+</td>
+</tr>
+
+<tr>
+<td><b>Purpose</b></td>
+<td>
+Callbacks allow asynchronous operations like file reading, API calls, or timers to run after a task completes.
+</td>
+</tr>
+
+<tr>
+<td><b>Common Usage</b></td>
+<td>
+Used in <b>Node.js asynchronous programming</b> such as events, timers, API responses, and file operations.
+</td>
+</tr>
+
+<tr>
+<td><b>Execution</b></td>
+<td>
+The parent function decides <b>when the callback will run</b>.
+</td>
+</tr>
+
+<tr>
+<td><b>Modern Alternatives</b></td>
+<td>
+Promises and <code>async/await</code> are modern replacements for callback-based code.
+</td>
+</tr>
+
+</tbody>
+</table>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+What is CORS and why is it needed?    
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Topic</th>
+<th>Explanation</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Definition</b></td>
+<td>
+<b>CORS (Cross-Origin Resource Sharing)</b> is a browser security feature that controls how web pages from one domain can request resources from another domain.
+</td>
+</tr>
+
+<tr>
+<td><b>Origin</b></td>
+<td>
+An <b>origin</b> consists of <b>protocol + domain + port</b>.
+</td>
+</tr>
+
+<tr>
+<td><b>Example</b></td>
+<td>
+Frontend: <code>http://localhost:3000</code><br>
+Backend: <code>http://localhost:5000</code><br>
+These are different origins → CORS required.
+</td>
+</tr>
+
+<tr>
+<td><b>Purpose</b></td>
+<td>
+Prevents malicious websites from accessing resources on another domain.
+</td>
+</tr>
+
+<tr>
+<td><b>Where enforced</b></td>
+<td>
+CORS is enforced by the <b>browser</b>, not by the server.
+</td>
+</tr>
+
+</tbody>
+</table>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+What are the SOLID principles in software development?    
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Letter</th>
+<th>Principle</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>S</b></td>
+<td>Single Responsibility Principle (SRP)</td>
+<td>A class or module should have only one reason to change.</td>
+</tr>
+
+<tr>
+<td><b>O</b></td>
+<td>Open/Closed Principle (OCP)</td>
+<td>Software entities should be open for extension but closed for modification.</td>
+</tr>
+
+<tr>
+<td><b>L</b></td>
+<td>Liskov Substitution Principle (LSP)</td>
+<td>Child classes should be able to replace parent classes without breaking the program.</td>
+</tr>
+
+<tr>
+<td><b>I</b></td>
+<td>Interface Segregation Principle (ISP)</td>
+<td>Clients should not be forced to depend on interfaces they do not use.</td>
+</tr>
+
+<tr>
+<td><b>D</b></td>
+<td>Dependency Inversion Principle (DIP)</td>
+<td>High-level modules should depend on abstractions, not concrete implementations.</td>
+</tr>
+
+</tbody>
+</table>
+    </div>
+</li> 
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Solid Principles in Software Development    
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Principle</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>S - Single Responsibility Principle</b></td>
+<td>
+A class or module should have only <b>one responsibility</b>.
+</td>
+<td>
+
+<pre>
+<code>
+// Bad: Two responsibilities
+class UserService {
+  createUser(user) {}
+  sendEmail(user) {}
+}
+
+// Good: Separate classes
+class UserService {
+  createUser(user) {}
+}
+
+class EmailService {
+  sendEmail(user) {}
+}
+</code>
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>O - Open Closed Principle</b></td>
+<td>
+Code should be <b>open for extension but closed for modification</b>.
+</td>
+<td>
+
+<pre>
+<code>
+// Base class
+class Payment {
+  pay() {}
+}
+
+// Extended classes
+class CreditCardPayment extends Payment {
+  pay() {
+    console.log("Credit Card Payment");
+  }
+}
+
+class PaypalPayment extends Payment {
+  pay() {
+    console.log("Paypal Payment");
+  }
+}
+</code>
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>L - Liskov Substitution Principle</b></td>
+<td>
+Child classes should replace parent classes <b>without breaking behavior</b>.
+</td>
+<td>
+
+<pre>
+<code>
+class Bird {
+  move() {
+    console.log("Bird moving");
+  }
+}
+
+class Sparrow extends Bird {}
+
+const bird = new Sparrow();
+bird.move();
+</code>
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>I - Interface Segregation Principle</b></td>
+<td>
+Clients should not depend on methods they do not use.
+</td>
+<td>
+
+<pre>
+<code>
+// Instead of one big interface
+
+class Workable {
+  work() {}
+}
+
+class Eatable {
+  eat() {}
+}
+
+class Human extends Workable {
+  work() {}
+  eat() {}
+}
+</code>
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>D - Dependency Inversion Principle</b></td>
+<td>
+High-level modules should depend on <b>abstractions</b>, not concrete implementations.
+</td>
+<td>
+
+<pre>
+<code>
+class Database {
+  connect() {
+    console.log("DB Connected");
+  }
+}
+
+class UserService {
+  constructor(database) {
+    this.database = database;
+  }
+
+  getUsers() {
+    this.database.connect();
+  }
+}
+
+const db = new Database();
+const userService = new UserService(db);
+</code>
+</pre>
+
+</td>
+</tr>
+
+</tbody>
+</table>
+    </div>
+</li> 
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Solid Principles with Real Examples    
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Principle</th>
+<th>Meaning</th>
+<th>Real Example</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>S - Single Responsibility Principle</b></td>
+<td>
+Each class should have only one responsibility.
+</td>
+<td>
+
+<pre>
+<code>
+// Handles payment only
+class PaymentService {
+  processPayment(amount) {
+    console.log("Processing payment:", amount);
+  }
+}
+
+// Handles email only
+class EmailService {
+  sendReceipt(email) {
+    console.log("Receipt sent to:", email);
+  }
+}
+</code>
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>O - Open Closed Principle</b></td>
+<td>
+You should add new features without modifying existing code.
+</td>
+<td>
+
+<pre>
+<code>
+class PaymentMethod {
+  pay(amount) {}
+}
+
+class CreditCardPayment extends PaymentMethod {
+  pay(amount) {
+    console.log("Paid with Credit Card:", amount);
+  }
+}
+
+class PaypalPayment extends PaymentMethod {
+  pay(amount) {
+    console.log("Paid with PayPal:", amount);
+  }
+}
+
+// Add new payment method without changing old code
+class UpiPayment extends PaymentMethod {
+  pay(amount) {
+    console.log("Paid using UPI:", amount);
+  }
+}
+</code>
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>L - Liskov Substitution Principle</b></td>
+<td>
+Child classes must behave like their parent class.
+</td>
+<td>
+
+<pre>
+<code>
+function makePayment(paymentMethod) {
+  paymentMethod.pay(500);
+}
+
+const payment = new CreditCardPayment();
+makePayment(payment);
+</code>
+</pre>
+
+Here any payment type works.
+
+</td>
+</tr>
+
+<tr>
+<td><b>I - Interface Segregation Principle</b></td>
+<td>
+Do not force classes to implement methods they don't need.
+</td>
+<td>
+
+<pre>
+<code>
+// Separate interfaces
+
+class Payment {
+  pay() {}
+}
+
+class Refund {
+  refund() {}
+}
+
+class OnlinePayment extends Payment {
+  pay() {
+    console.log("Online payment");
+  }
+}
+
+class RefundService extends Refund {
+  refund() {
+    console.log("Refund processed");
+  }
+}
+</code>
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>D - Dependency Inversion Principle</b></td>
+<td>
+High level modules depend on abstraction.
+</td>
+<td>
+
+<pre>
+<code>
+class PaymentProcessor {
+  constructor(paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
+  process(amount) {
+    this.paymentMethod.pay(amount);
+  }
+}
+
+const payment = new PaypalPayment();
+const processor = new PaymentProcessor(payment);
+
+processor.process(1000);
+</code>
+</pre>
+
+</td>
+</tr>
+
+</tbody>
+</table>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+    what is an arrow function in JavaScript and how does it differ from a regular function?
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Topic</th>
+<th>Explanation</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Definition</b></td>
+<td>
+An <b>Arrow Function</b> is a shorter syntax for writing functions in JavaScript introduced in <b>ES6</b>.  
+It uses the <code>=></code> syntax instead of the traditional <code>function</code> keyword.
+</td>
+</tr>
+
+<tr>
+<td><b>Main Benefit</b></td>
+<td>
+Provides cleaner and shorter code.
+</td>
+</tr>
+
+<tr>
+<td><b>this Behavior</b></td>
+<td>
+Arrow functions <b>do not have their own <code>this</code></b>.  
+They inherit <code>this</code> from the surrounding scope.
+</td>
+</tr>
+
+<tr>
+<td><b>Common Usage</b></td>
+<td>
+Used in callbacks, array functions, promises, and asynchronous code.
+</td>
+</tr>
+
+</tbody>
+</table>
+    </div>
+</li> 
 <li data-id="pwa_usecases" class="zyellow">
   <span class="faq-question">
     Java Spring Boot vs Python **
