@@ -331,6 +331,7 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
                 <li><a href="#strapi_qlist">Strapi</a></li>
                 <li><a href="#python_qlist">Python</a></li>
                 <li><a href="#java_qlist">Java Springboot</a></li>
+                <li><a href="#difference_qlist">Difference**</a></li>
                 <li><a href="#fastify_qlist">Fastify</a></li>
                 <li><a href="#koa_qlist">Koa</a></li>
                 <li><a href="#LoopBack_qlist">LoopBack</a></li>
@@ -6309,6 +6310,165 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
   --------------   ReactJS  -------------------</span></li>
 <li data-id="q3" class="yellow"><span class="faq-question">
   ---------------------------------------------</span></li>
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+      ReactJS Phone Book Application with Form Validation and Table Display
+    </span>
+    <div class="answer">
+import React, { useState, useCallback, useMemo } from "react";
+
+/* FORM COMPONENT */
+
+function PhoneBookForm({ onAddUser }) {
+
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    phone: ""
+  });
+
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const validate = () => {
+
+    if (!form.firstName || !form.lastName || !form.phone) {
+      return "All fields are required";
+    }
+
+    if (!/^[0-9]{10}$/.test(form.phone)) {
+      return "Phone must be 10 digits";
+    }
+
+    return "";
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const validationError = validate();
+
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    onAddUser(form);
+
+    setForm({
+      firstName: "",
+      lastName: "",
+      phone: ""
+    });
+
+    setError("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+
+      <input
+        name="firstName"
+        value={form.firstName}
+        onChange={handleChange}
+        placeholder="First Name"
+      />
+
+      <input
+        name="lastName"
+        value={form.lastName}
+        onChange={handleChange}
+        placeholder="Last Name"
+      />
+
+      <input
+        name="phone"
+        value={form.phone}
+        onChange={handleChange}
+        placeholder="Phone"
+      />
+
+      <button type="submit">Add User</button>
+
+      {error && <p style={{color:"red"}}>{error}</p>}
+
+    </form>
+  );
+}
+
+/* TABLE COMPONENT */
+
+const InformationTable = React.memo(({ users }) => {
+
+  return (
+    <table border="1">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Phone</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {users.map((user, index) => (
+          <tr key={index}>
+            <td>{user.firstName}</td>
+            <td>{user.lastName}</td>
+            <td>{user.phone}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+});
+
+/* MAIN APPLICATION */
+
+export default function Application() {
+
+  const [users, setUsers] = useState([]);
+
+  const addUser = useCallback((user) => {
+
+    setUsers(prev => [...prev, user]);
+
+  }, []);
+
+  const sortedUsers = useMemo(() => {
+
+    return [...users].sort((a, b) =>
+      a.lastName.localeCompare(b.lastName)
+    );
+
+  }, [users]);
+
+  return (
+    <div>
+
+      <PhoneBookForm onAddUser={addUser} />
+
+      <br/>
+
+      <InformationTable users={sortedUsers} />
+
+    </div>
+  );
+}
+    </div>
+</li> 
+
+
+
   <li data-id="rtk1" class="zyellow">
     <span class="faq-question">
         What is Redux Toolkit and why was it introduced?
@@ -20189,7 +20349,248 @@ Kafka acts as the central event streaming backbone.
       </pre>
   </div>
 </li>
+<li data-id="kafka_q1" class="zyellow">
+  <span class="faq-question">
+    What is Apache Kafka?
+  </span>
+  <div class="answer">
+    <p>
+      Apache Kafka is a distributed event streaming platform used for building real-time data pipelines and streaming applications.
+      It allows producers to publish messages to topics and consumers to read those messages.
+    </p>
 
+    <p><b>Key features:</b></p>
+    <ul>
+      <li>High throughput</li>
+      <li>Fault tolerance</li>
+      <li>Horizontal scalability</li>
+      <li>Real-time event streaming</li>
+    </ul>
+  </div>
+</li>
+
+
+<li data-id="kafka_q2" class="zyellow">
+  <span class="faq-question">
+    What are the core components of Kafka?
+  </span>
+  <div class="answer">
+    <ul>
+      <li><b>Producer</b> – sends messages to Kafka topics</li>
+      <li><b>Consumer</b> – reads messages from topics</li>
+      <li><b>Broker</b> – Kafka server that stores data</li>
+      <li><b>Topic</b> – logical channel where messages are stored</li>
+      <li><b>Partition</b> – splits topic for parallel processing</li>
+      <li><b>Zookeeper / KRaft</b> – manages cluster metadata</li>
+    </ul>
+  </div>
+</li>
+
+
+<li data-id="kafka_q3" class="zyellow">
+  <span class="faq-question">
+    What is a Kafka Topic?
+  </span>
+  <div class="answer">
+    <p>
+      A topic is a logical category where messages are stored.
+      Producers write data to topics and consumers read from topics.
+    </p>
+
+<pre>
+Example
+
+Topic: order-events
+
+Messages:
+order1
+order2
+order3
+</pre>
+  </div>
+</li>
+
+
+<li data-id="kafka_q4" class="zyellow">
+  <span class="faq-question">
+    What is a Partition in Kafka?
+  </span>
+  <div class="answer">
+    <p>
+      A partition is a unit of parallelism in Kafka.
+      Each topic is divided into multiple partitions so that messages
+      can be processed concurrently by consumers.
+    </p>
+
+<pre>
+Topic: orders
+
+Partition 0
+Partition 1
+Partition 2
+</pre>
+
+    <p>
+      This allows high scalability and distributed processing.
+    </p>
+  </div>
+</li>
+
+
+<li data-id="kafka_q5" class="zyellow">
+  <span class="faq-question">
+    What is a Kafka Consumer Group?
+  </span>
+  <div class="answer">
+    <p>
+      A consumer group is a group of consumers working together
+      to consume messages from a topic.
+    </p>
+
+    <p>
+      Kafka distributes partitions among consumers in the group
+      so each partition is processed by only one consumer.
+    </p>
+
+<pre>
+Topic partitions = 3
+Consumers = 3
+
+Consumer1 → Partition0
+Consumer2 → Partition1
+Consumer3 → Partition2
+</pre>
+  </div>
+</li>
+
+
+<li data-id="kafka_q6" class="zyellow">
+  <span class="faq-question">
+    What is Kafka Offset?
+  </span>
+  <div class="answer">
+    <p>
+      Offset is the unique identifier for each message within a partition.
+      It represents the position of a message in the log.
+    </p>
+
+<pre>
+Partition 0
+
+Offset 0 → msg1
+Offset 1 → msg2
+Offset 2 → msg3
+</pre>
+
+    <p>
+      Consumers track offsets to know which messages are already processed.
+    </p>
+  </div>
+</li>
+
+
+<li data-id="kafka_q7" class="zyellow">
+  <span class="faq-question">
+    What is replication in Kafka?
+  </span>
+  <div class="answer">
+    <p>
+      Replication means copying partitions across multiple brokers
+      to provide fault tolerance.
+    </p>
+
+<pre>
+Replication Factor = 3
+
+Broker1 → Leader
+Broker2 → Follower
+Broker3 → Follower
+</pre>
+
+    <p>
+      If the leader broker fails, a follower automatically becomes the leader.
+    </p>
+  </div>
+</li>
+
+
+<li data-id="kafka_q8" class="zyellow">
+  <span class="faq-question">
+    What is the difference between Kafka Producer and Consumer?
+  </span>
+  <div class="answer">
+
+<table border="1" cellpadding="6">
+<tr>
+<th>Producer</th>
+<th>Consumer</th>
+</tr>
+
+<tr>
+<td>Sends messages to Kafka</td>
+<td>Reads messages from Kafka</td>
+</tr>
+
+<tr>
+<td>Writes to topic</td>
+<td>Subscribes to topic</td>
+</tr>
+
+<tr>
+<td>Push data</td>
+<td>Pull data</td>
+</tr>
+
+</table>
+
+  </div>
+</li>
+
+
+<li data-id="kafka_q9" class="zyellow">
+  <span class="faq-question">
+    How does Kafka ensure fault tolerance?
+  </span>
+  <div class="answer">
+    <p>Kafka ensures fault tolerance using:</p>
+
+    <ul>
+      <li>Partition replication</li>
+      <li>Leader and follower brokers</li>
+      <li>Automatic leader election</li>
+      <li>Consumer offset tracking</li>
+    </ul>
+
+    <p>
+      Even if a broker fails, data is still available on replica brokers.
+    </p>
+  </div>
+</li>
+
+
+<li data-id="kafka_q10" class="zyellow">
+  <span class="faq-question">
+    When should Kafka be used in microservices?
+  </span>
+  <div class="answer">
+
+    <p>Kafka is useful when:</p>
+
+    <ul>
+      <li>services need asynchronous communication</li>
+      <li>systems require event-driven architecture</li>
+      <li>large scale real-time data processing is needed</li>
+      <li>decoupling between services is required</li>
+    </ul>
+
+<pre>
+Example Microservice Flow
+
+Order Service → Kafka Topic → Payment Service → Notification Service
+</pre>
+
+  </div>
+</li>
 
 <li data-id="q3" class="yellow"><span class="faq-question">
   ----------------------------------------------------------------------------------</span></li>
@@ -22216,8 +22617,459 @@ It is widely used for:
 - E-commerce APIs
 - Content-driven websites
     </pre>
+
+<table border="1" cellpadding="10" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>NestJS</th>
+      <th>Strapi</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>Type</td>
+      <td>Backend Framework for building scalable Node.js applications</td>
+      <td>Headless CMS built on Node.js</td>
+    </tr>
+
+    <tr>
+      <td>Main Purpose</td>
+      <td>Build APIs, microservices, enterprise backend systems</td>
+      <td>Content management system with auto API generation</td>
+    </tr>
+
+    <tr>
+      <td>Architecture</td>
+      <td>Modular architecture inspired by Angular</td>
+      <td>Plugin-based CMS architecture</td>
+    </tr>
+
+    <tr>
+      <td>Language Support</td>
+      <td>TypeScript (default) and JavaScript</td>
+      <td>JavaScript (TypeScript support improving)</td>
+    </tr>
+
+    <tr>
+      <td>Learning Curve</td>
+      <td>Medium to Hard</td>
+      <td>Easy</td>
+    </tr>
+
+    <tr>
+      <td>API Creation</td>
+      <td>Manual API creation using controllers and services</td>
+      <td>Auto-generates REST and GraphQL APIs</td>
+    </tr>
+
+    <tr>
+      <td>Admin Panel</td>
+      <td>No built-in admin panel</td>
+      <td>Built-in powerful admin dashboard</td>
+    </tr>
+
+    <tr>
+      <td>Best Use Case</td>
+      <td>Enterprise applications, microservices, scalable backend</td>
+      <td>CMS, blog, content platform, headless CMS backend</td>
+    </tr>
+
+    <tr>
+      <td>Database Support</td>
+      <td>PostgreSQL, MySQL, MongoDB, Redis via ORM</td>
+      <td>PostgreSQL, MySQL, SQLite, MongoDB</td>
+    </tr>
+
+    <tr>
+      <td>Authentication</td>
+      <td>Custom implementation (JWT, OAuth, Passport)</td>
+      <td>Built-in authentication system</td>
+    </tr>
+
+    <tr>
+      <td>Customization</td>
+      <td>Very high (full backend control)</td>
+      <td>Moderate (CMS oriented)</td>
+    </tr>
+
+    <tr>
+      <td>Performance</td>
+      <td>High performance, suitable for large scale systems</td>
+      <td>Good for CMS-based workloads</td>
+    </tr>
+
+    <tr>
+      <td>Real-world Example</td>
+      <td>Enterprise APIs, fintech backend, microservices</td>
+      <td>Blog CMS, eCommerce content backend</td>
+    </tr>
+
+    <tr>
+      <td>Developer Control</td>
+      <td>Full backend control</td>
+      <td>Limited compared to full framework</td>
+    </tr>
+
+    <tr>
+      <td>Use with Frontend</td>
+      <td>React, Angular, Vue, Mobile apps</td>
+      <td>React, Next.js, Gatsby, Mobile apps</td>
+    </tr>
+
+  </tbody>
+</table>
   </div>
 </li>
+
+<li data-id="strapi_q1" class="zyellow">
+    <span class="faq-question">
+        What is Strapi?
+    </span>
+    <div class="answer">
+        Strapi is an open-source headless CMS built with Node.js that allows developers to create APIs quickly. 
+        It provides a powerful admin panel to manage content and automatically generates REST and GraphQL APIs.
+        Strapi is commonly used as a backend for web, mobile, and frontend frameworks like React or Next.js.
+    </div>
+</li>
+
+<li data-id="strapi_q2" class="zyellow">
+    <span class="faq-question">
+        What is a Headless CMS?
+    </span>
+    <div class="answer">
+        A headless CMS is a content management system that separates the backend (content management) 
+        from the frontend (presentation layer). It provides APIs to deliver content to different platforms 
+        such as websites, mobile apps, and IoT devices.
+    </div>
+</li>
+
+<li data-id="strapi_q3" class="zyellow">
+    <span class="faq-question">
+        What are the main features of Strapi?
+    </span>
+    <div class="answer">
+        Main features include:
+        - Auto-generated REST and GraphQL APIs
+        - Customizable content types
+        - Built-in admin dashboard
+        - Authentication and role-based permissions
+        - Plugin system
+        - Media library for file uploads
+    </div>
+</li>
+
+<li data-id="strapi_q4" class="zyellow">
+    <span class="faq-question">
+        Which databases are supported by Strapi?
+    </span>
+    <div class="answer">
+        Strapi supports multiple databases such as:
+        - PostgreSQL
+        - MySQL
+        - MariaDB
+        - SQLite
+        - MongoDB (supported in older versions)
+    </div>
+</li>
+
+<li data-id="strapi_q5" class="zyellow">
+    <span class="faq-question">
+        What is a Content Type in Strapi?
+    </span>
+    <div class="answer">
+        A Content Type defines the structure of the data stored in Strapi. 
+        It includes fields such as text, number, date, media, relation, etc. 
+        Content types allow developers to model the data for applications.
+    </div>
+</li>
+
+<li data-id="strapi_q6" class="zyellow">
+    <span class="faq-question">
+        What are Collection Types and Single Types in Strapi?
+    </span>
+    <div class="answer">
+        Collection Types store multiple entries like blogs, products, or users.
+        Single Types store a single entry like homepage settings or site configuration.
+    </div>
+</li>
+
+<li data-id="strapi_q7" class="zyellow">
+    <span class="faq-question">
+        How does authentication work in Strapi?
+    </span>
+    <div class="answer">
+        Strapi uses JWT-based authentication. 
+        Users can register and login through API endpoints, and the server returns a JWT token 
+        which is used to access protected APIs.
+    </div>
+</li>
+
+<li data-id="strapi_q8" class="zyellow">
+    <span class="faq-question">
+        What are Strapi roles and permissions?
+    </span>
+    <div class="answer">
+        Strapi provides role-based access control (RBAC). 
+        Administrators can define which roles can access specific APIs such as create, read, update, or delete content.
+    </div>
+</li>
+
+<li data-id="strapi_q9" class="zyellow">
+    <span class="faq-question">
+        What is the Strapi plugin system?
+    </span>
+    <div class="answer">
+        Strapi allows developers to extend functionality using plugins. 
+        Plugins can add new features like authentication providers, email services, or custom APIs.
+    </div>
+</li>
+
+<li data-id="strapi_q10" class="zyellow">
+    <span class="faq-question">
+        How do you create a custom API in Strapi?
+    </span>
+    <div class="answer">
+        Developers can create custom APIs by generating controllers, services, and routes 
+        using the Strapi CLI or manually inside the API folder structure.
+    </div>
+</li>
+
+<li data-id="strapi_q11" class="zyellow">
+    <span class="faq-question">
+        What is the Strapi admin panel?
+    </span>
+    <div class="answer">
+        The admin panel is a web interface provided by Strapi that allows users to manage content, 
+        users, roles, permissions, and plugins without writing code.
+    </div>
+</li>
+
+<li data-id="strapi_q12" class="zyellow">
+    <span class="faq-question">
+        Can Strapi be used with GraphQL?
+    </span>
+    <div class="answer">
+        Yes, Strapi supports GraphQL through a plugin. 
+        Once installed, developers can query data using GraphQL instead of REST APIs.
+    </div>
+</li>
+
+<li data-id="strapi_q13" class="zyellow">
+    <span class="faq-question">
+        How does Strapi handle file uploads?
+    </span>
+    <div class="answer">
+        Strapi provides a built-in media library. 
+        Files can be uploaded and stored locally or on cloud services like AWS S3, Cloudinary, or Azure.
+    </div>
+</li>
+
+<li data-id="strapi_q14" class="zyellow">
+    <span class="faq-question">
+        How can Strapi be deployed?
+    </span>
+    <div class="answer">
+        Strapi can be deployed on platforms like Docker containers, AWS, DigitalOcean, Heroku, or Kubernetes clusters.
+    </div>
+</li>
+
+<li data-id="strapi_q15" class="zyellow">
+    <span class="faq-question">
+        What are the advantages of Strapi?
+    </span>
+    <div class="answer">
+        Advantages include:
+        - Quick API development
+        - Built-in admin panel
+        - Headless architecture
+        - Customizable backend
+        - Open-source and extensible
+    </div>
+</li>
+<li data-id="strapi_arch_q1" class="zyellow">
+    <span class="faq-question">
+        What is the architecture of Strapi?
+    </span>
+    <div class="answer">
+        Strapi follows a layered architecture consisting of:
+        1. Admin Panel (React-based UI for managing content)
+        2. API Layer (REST / GraphQL endpoints)
+        3. Controller Layer (handles request and response)
+        4. Service Layer (business logic)
+        5. Data Access Layer (ORM using database connectors)
+        6. Database (PostgreSQL, MySQL, SQLite etc.)
+
+        This architecture helps maintain separation of concerns and improves scalability.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q2" class="zyellow">
+    <span class="faq-question">
+        What are the main core layers in Strapi architecture?
+    </span>
+    <div class="answer">
+        The main layers include:
+        - Router Layer (defines API routes)
+        - Controller Layer (handles HTTP requests)
+        - Service Layer (business logic)
+        - Model Layer (data schema)
+        - Database Layer (stores data)
+    </div>
+</li>
+
+<li data-id="strapi_arch_q3" class="zyellow">
+    <span class="faq-question">
+        How does Strapi generate APIs automatically?
+    </span>
+    <div class="answer">
+        When a developer creates a content type, Strapi automatically generates:
+        - REST endpoints
+        - Database schema
+        - Controllers
+        - Services
+
+        This automation reduces development time and allows rapid API creation.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q4" class="zyellow">
+    <span class="faq-question">
+        What is the role of controllers in Strapi?
+    </span>
+    <div class="answer">
+        Controllers handle incoming HTTP requests, process the request, 
+        call the service layer for business logic, and return responses to clients.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q5" class="zyellow">
+    <span class="faq-question">
+        What is the role of services in Strapi architecture?
+    </span>
+    <div class="answer">
+        Services contain the core business logic of the application.
+        Controllers call services to perform operations like fetching data,
+        applying validation, or executing business rules.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q6" class="zyellow">
+    <span class="faq-question">
+        What ORM does Strapi use?
+    </span>
+    <div class="answer">
+        Strapi uses a database abstraction layer built on top of an ORM 
+        that interacts with SQL databases like PostgreSQL and MySQL. 
+        This allows developers to interact with the database using JavaScript.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q7" class="zyellow">
+    <span class="faq-question">
+        How does Strapi handle scalability?
+    </span>
+    <div class="answer">
+        Strapi can scale using:
+        - Load balancers
+        - Containerization (Docker)
+        - Horizontal scaling with Kubernetes
+        - External database systems like PostgreSQL
+        - CDN for media delivery
+    </div>
+</li>
+
+<li data-id="strapi_arch_q8" class="zyellow">
+    <span class="faq-question">
+        What is the plugin architecture in Strapi?
+    </span>
+    <div class="answer">
+        Strapi has a plugin-based architecture that allows developers to extend 
+        functionality by adding new modules such as authentication providers, 
+        GraphQL support, email services, or custom APIs.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q9" class="zyellow">
+    <span class="faq-question">
+        How does Strapi manage content relationships?
+    </span>
+    <div class="answer">
+        Strapi supports relational data models such as:
+        - One-to-One
+        - One-to-Many
+        - Many-to-Many
+
+        These relationships help structure complex data models for applications.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q10" class="zyellow">
+    <span class="faq-question">
+        How can Strapi integrate with frontend applications?
+    </span>
+    <div class="answer">
+        Strapi provides REST and GraphQL APIs which can be consumed by frontend frameworks 
+        like React, Angular, Vue, or mobile applications.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q11" class="zyellow">
+    <span class="faq-question">
+        What are lifecycle hooks in Strapi?
+    </span>
+    <div class="answer">
+        Lifecycle hooks allow developers to execute custom logic during database operations 
+        such as beforeCreate, afterCreate, beforeUpdate, and afterDelete.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q12" class="zyellow">
+    <span class="faq-question">
+        How does Strapi handle authentication and authorization?
+    </span>
+    <div class="answer">
+        Strapi uses JWT authentication and role-based access control (RBAC). 
+        Roles define permissions for accessing APIs and managing content.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q13" class="zyellow">
+    <span class="faq-question">
+        How does Strapi manage file storage?
+    </span>
+    <div class="answer">
+        Strapi uses a media library that can store files locally or integrate 
+        with cloud storage providers like AWS S3 or Cloudinary.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q14" class="zyellow">
+    <span class="faq-question">
+        How can you customize APIs in Strapi?
+    </span>
+    <div class="answer">
+        APIs can be customized by modifying:
+        - Controllers
+        - Services
+        - Routes
+        - Middleware
+
+        This allows developers to implement custom business logic.
+    </div>
+</li>
+
+<li data-id="strapi_arch_q15" class="zyellow">
+    <span class="faq-question">
+        How does Strapi support microservices architecture?
+    </span>
+    <div class="answer">
+        Strapi can be used as a content service in a microservices architecture. 
+        It exposes APIs that other services or applications can consume.
+    </div>
+</li>
+
 
 <li data-id="q3" class="yellow"><span class="faq-question">
   ------------------- Strapi_End ---------------------------------------------------------------</span></li>
@@ -22774,47 +23626,59 @@ Explanation:
 <li data-id="4">
 <span class="faq-question">Difference between setTimeout() and setImmediate() in Event Loop.</span>
 <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Feature</th>
+<th>setTimeout()</th>
+<th>setImmediate()</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Purpose</b></td>
+<td>Schedules a callback after a minimum delay</td>
+<td>Schedules a callback to run immediately after the poll phase</td>
+</tr>
+
+<tr>
+<td><b>Event Loop Phase</b></td>
+<td>Timers Phase</td>
+<td>Check Phase</td>
+</tr>
+
+<tr>
+<td><b>Example</b></td>
+<td>
 <pre>
-Both schedule asynchronous callbacks but in different phases.
-
-setTimeout()
-------------
-
-Runs in:
-
-Timers Phase
-
-Example:
-
 setTimeout(()=>{
  console.log("timeout");
 },0)
+</pre>
+</td>
 
-
-setImmediate()
---------------
-
-Runs in:
-
-Check Phase
-
-Example:
-
+<td>
+<pre>
 setImmediate(()=>{
  console.log("immediate");
 })
+</pre>
+</td>
+</tr>
 
+<tr>
+<td><b>Execution Order (Main Module)</b></td>
+<td colspan="2">
+Order may vary depending on system performance and Node.js event loop scheduling.
+</td>
+</tr>
 
-Execution Order
-
-If called from main module:
-
-Order may vary depending on system performance.
-
-But inside I/O callback:
-
-Example:
-
+<tr>
+<td><b>Execution Order Inside I/O Callback</b></td>
+<td colspan="2">
+<pre>
 fs.readFile("file.txt",()=>{
 
  setTimeout(()=>{
@@ -22826,16 +23690,30 @@ fs.readFile("file.txt",()=>{
  })
 
 })
+</pre>
+</td>
+</tr>
 
-Output:
-
+<tr>
+<td><b>Output</b></td>
+<td colspan="2">
+<pre>
 immediate
 timeout
-
-Reason:
-
-After Poll phase → Check phase runs first
 </pre>
+</td>
+</tr>
+
+<tr>
+<td><b>Reason</b></td>
+<td colspan="2">
+After the Poll phase finishes, Node.js moves to the <b>Check Phase</b> first where
+<code>setImmediate()</code> runs before returning to the <b>Timers Phase</b>.
+</td>
+</tr>
+
+</tbody>
+</table>
 </div>
 </li>
 
@@ -22893,13 +23771,149 @@ This allows event loop to move to next phases.
 </pre>
 </div>
 </li>
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Feature</th>
+<th>process.nextTick()</th>
+<th>Promise.then()</th>
+<th>setTimeout()</th>
+<th>setImmediate()</th>
+</tr>
+</thead>
 
+<tbody>
+
+<tr>
+<td><b>Type</b></td>
+<td>Next Tick Queue</td>
+<td>Microtask Queue</td>
+<td>Macrotask</td>
+<td>Macrotask</td>
+</tr>
+
+<tr>
+<td><b>Event Loop Phase</b></td>
+<td>Executed immediately after current operation before event loop continues</td>
+<td>Executed after nextTick queue but before macrotasks</td>
+<td>Timers Phase</td>
+<td>Check Phase</td>
+</tr>
+
+<tr>
+<td><b>Priority</b></td>
+<td>Highest Priority</td>
+<td>High Priority</td>
+<td>Lower Priority</td>
+<td>Lower Priority</td>
+</tr>
+
+<tr>
+<td><b>Execution Order</b></td>
+<td>Runs before Promise</td>
+<td>Runs after nextTick but before timers</td>
+<td>Runs after microtasks</td>
+<td>Runs after Poll phase</td>
+</tr>
+
+<tr>
+<td><b>Example</b></td>
+<td>
+<pre>
+process.nextTick(()=>{
+ console.log("nextTick");
+})
+</pre>
+</td>
+
+<td>
+<pre>
+Promise.resolve().then(()=>{
+ console.log("promise");
+})
+</pre>
+</td>
+
+<td>
+<pre>
+setTimeout(()=>{
+ console.log("timeout");
+},0)
+</pre>
+</td>
+
+<td>
+<pre>
+setImmediate(()=>{
+ console.log("immediate");
+})
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>Typical Use</b></td>
+<td>Execute callback before event loop continues</td>
+<td>Async chaining / microtasks</td>
+<td>Delay execution</td>
+<td>Execute after I/O operations</td>
+</tr>
+
+<tr>
+<td><b>Order Example</b></td>
+<td colspan="4">
+<pre>
+console.log("start");
+
+process.nextTick(()=>{
+ console.log("nextTick");
+});
+
+Promise.resolve().then(()=>{
+ console.log("promise");
+});
+
+setTimeout(()=>{
+ console.log("timeout");
+},0);
+
+setImmediate(()=>{
+ console.log("immediate");
+});
+
+console.log("end");
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>Possible Output</b></td>
+<td colspan="4">
+<pre>
+start
+end
+nextTick
+promise
+timeout
+immediate
+</pre>
+</td>
+</tr>
+
+</tbody>
+</table>
 
 <li data-id="6">
 <span class="faq-question">Explain Node.js Event Loop execution order with example.</span>
 <div class="answer">
 <pre>
 Example Code:
+
+NextTick
+Promise
+Timeout
+Immediate
+
 
 console.log("Start");
 
@@ -24775,17 +25789,51 @@ Use cases:
 <li data-id="node_arch_3">
   <span class="faq-question">3. Difference between Cluster and Worker Threads?</span>
   <div class="answer">
-    <pre><code>
-Cluster:
-- Creates multiple Node.js processes
-- Each process has separate memory
-- Used for scaling HTTP servers
+<table border="1" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Cluster</th>
+<th>Worker Threads</th>
+</tr>
+</thead>
 
-Worker Threads:
-- Multiple threads inside one process
-- Share memory
-- Used for CPU heavy tasks
+<tbody>
 
+<tr>
+<td><b>Concept</b></td>
+<td>Creates multiple Node.js processes</td>
+<td>Creates multiple threads inside a single process</td>
+</tr>
+
+<tr>
+<td><b>Memory</b></td>
+<td>Each process has separate memory</td>
+<td>Threads share the same memory</td>
+</tr>
+
+<tr>
+<td><b>Purpose</b></td>
+<td>Scaling HTTP servers and handling more requests</td>
+<td>Handling CPU-intensive tasks</td>
+</tr>
+
+<tr>
+<td><b>Communication</b></td>
+<td>Inter-process communication (IPC)</td>
+<td>Shared memory / Message passing</td>
+</tr>
+
+<tr>
+<td><b>Performance Focus</b></td>
+<td>Improves concurrency for I/O operations</td>
+<td>Improves performance for CPU-heavy work</td>
+</tr>
+
+<tr>
+<td><b>Example</b></td>
+<td colspan="2">
+<pre>
 Cluster Example:
 
 const cluster = require('cluster');
@@ -24798,7 +25846,12 @@ if(cluster.isMaster){
 }else{
   require('./server');
 }
-    </code></pre>
+</pre>
+</td>
+</tr>
+
+</tbody>
+</table>
   </div>
 </li>
 
@@ -24976,6 +26029,730 @@ Use when:
     </code></pre>
   </div>
 </li>
+<ul>
+
+<li data-id="micro_concept_1" class="zyellow">
+<span class="faq-question">
+What is the Circuit Breaker Pattern in Microservices?
+</span>
+<div class="answer">
+
+<p>
+Circuit Breaker Pattern is a fault-tolerance pattern used in microservices to prevent a service from repeatedly calling a failing service.
+If a service keeps failing, the circuit breaker "opens" and stops further requests for a period of time.
+</p>
+
+<p><b>States of Circuit Breaker:</b></p>
+
+<ul>
+<li><b>Closed</b> – Requests are allowed normally.</li>
+<li><b>Open</b> – Requests are blocked because the service is failing.</li>
+<li><b>Half-Open</b> – A few test requests are allowed to check if the service has recovered.</li>
+</ul>
+
+<pre>
+User Service → Order Service → Payment Service
+
+If Payment Service fails repeatedly
+Circuit Breaker opens
+Requests stop temporarily
+</pre>
+
+<p><b>Benefits:</b></p>
+<ul>
+<li>Prevents cascading failures</li>
+<li>Improves system stability</li>
+<li>Reduces load on failing services</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="micro_concept_2" class="zyellow">
+<span class="faq-question">
+What is the Saga Pattern in Microservices?
+</span>
+<div class="answer">
+
+<p>
+Saga Pattern manages distributed transactions across multiple microservices.
+Instead of one large transaction, the system performs a sequence of local transactions.
+If one step fails, compensating transactions rollback previous steps.
+</p>
+
+<p><b>Example E-commerce Flow:</b></p>
+
+<pre>
+Order Service
+     ↓
+Payment Service
+     ↓
+Inventory Service
+     ↓
+Shipping Service
+</pre>
+
+<p>If payment fails:</p>
+
+<pre>
+Cancel Order
+Restore Inventory
+</pre>
+
+<p><b>Types of Saga:</b></p>
+
+<ul>
+<li>Choreography Saga (event-based communication)</li>
+<li>Orchestration Saga (central controller service)</li>
+</ul>
+
+<p><b>Benefits:</b></p>
+
+<ul>
+<li>Supports distributed transactions</li>
+<li>Improves microservice scalability</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="micro_concept_3" class="zyellow">
+<span class="faq-question">
+What are Distributed Transactions in Microservices?
+</span>
+<div class="answer">
+
+<p>
+Distributed transactions occur when multiple services or databases must complete a transaction together.
+All services must either succeed or fail together to maintain data consistency.
+</p>
+
+<p><b>Example:</b></p>
+
+<pre>
+User places order
+
+Order Service → Create order
+Payment Service → Process payment
+Inventory Service → Deduct stock
+</pre>
+
+<p>If one service fails, the system must rollback other operations.</p>
+
+<p><b>Challenges:</b></p>
+
+<ul>
+<li>Network failures</li>
+<li>Service downtime</li>
+<li>Data inconsistency</li>
+</ul>
+
+<p>Common solutions:</p>
+
+<ul>
+<li>Saga Pattern</li>
+<li>Two Phase Commit (2PC)</li>
+<li>Event-driven architecture</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="micro_concept_4" class="zyellow">
+<span class="faq-question">
+What is Idempotency in APIs?
+</span>
+<div class="answer">
+
+<p>
+Idempotency means that performing the same operation multiple times produces the same result.
+This is important in distributed systems where requests may be retried due to network failures.
+</p>
+
+<p><b>Example:</b></p>
+
+<pre>
+POST /payment
+
+If client retries request
+System should not charge customer twice
+</pre>
+
+<p><b>Solution:</b></p>
+
+<ul>
+<li>Use idempotency keys</li>
+<li>Store request IDs in database</li>
+</ul>
+
+<p><b>Example Flow:</b></p>
+
+<pre>
+Client sends request with Idempotency-Key
+
+Server checks:
+If key exists → return previous result
+Else → process payment
+</pre>
+
+<p><b>Benefits:</b></p>
+
+<ul>
+<li>Prevents duplicate transactions</li>
+<li>Improves reliability</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="micro_concept_5" class="zyellow">
+<span class="faq-question">
+What is API Versioning?
+</span>
+<div class="answer">
+
+<p>
+API Versioning allows developers to update APIs without breaking existing clients.
+Different versions of an API can run simultaneously.
+</p>
+
+<p><b>Example:</b></p>
+
+<pre>
+/api/v1/products
+/api/v2/products
+</pre>
+
+<p><b>Types of API Versioning:</b></p>
+
+<ul>
+<li>URL Versioning</li>
+<li>Header Versioning</li>
+<li>Query Parameter Versioning</li>
+</ul>
+
+<p><b>Example:</b></p>
+
+<pre>
+GET /api/v1/products
+GET /api/v2/products
+</pre>
+
+<p><b>Benefits:</b></p>
+
+<ul>
+<li>Backward compatibility</li>
+<li>Gradual feature upgrades</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="micro_concept_6" class="zyellow">
+<span class="faq-question">
+What is Service Discovery in Microservices?
+</span>
+<div class="answer">
+
+<p>
+Service Discovery allows microservices to dynamically find and communicate with each other without hardcoding service addresses.
+</p>
+
+<p><b>Example:</b></p>
+
+<pre>
+Order Service needs Payment Service
+
+Instead of calling fixed IP
+It queries Service Registry
+</pre>
+
+<p><b>Architecture:</b></p>
+
+<pre>
+Service Registry
+      ↑
+Register Services
+      ↓
+Other services discover them
+</pre>
+
+<p><b>Tools:</b></p>
+
+<ul>
+<li>Consul</li>
+<li>Eureka</li>
+<li>Kubernetes DNS</li>
+</ul>
+
+<p><b>Benefits:</b></p>
+
+<ul>
+<li>Dynamic scaling</li>
+<li>Better service communication</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="micro_concept_7" class="zyellow">
+<span class="faq-question">
+What is Rate Limiting in API Systems?
+</span>
+<div class="answer">
+
+<p>
+Rate limiting restricts the number of API requests a client can make in a specific time period.
+It protects the system from abuse and overload.
+</p>
+
+<p><b>Example:</b></p>
+
+<pre>
+User can make only 100 requests per minute
+</pre>
+
+<p><b>Common Strategies:</b></p>
+
+<ul>
+<li>Token Bucket</li>
+<li>Leaky Bucket</li>
+<li>Fixed Window</li>
+<li>Sliding Window</li>
+</ul>
+
+<p><b>Example Flow:</b></p>
+
+<pre>
+Client Request → API Gateway
+      ↓
+Check Rate Limit
+      ↓
+Allowed → Process request
+Blocked → Return 429 Too Many Requests
+</pre>
+
+<p><b>Benefits:</b></p>
+
+<ul>
+<li>Prevents DDoS attacks</li>
+<li>Improves system stability</li>
+<li>Controls API usage</li>
+</ul>
+
+</div>
+</li>
+
+</ul>
+<li data-id="node_micro_1" class="zyellow">
+<span class="faq-question">
+What is a Node.js Microservice Architecture for an E-commerce System?
+</span>
+<div class="answer">
+<p>
+A microservice architecture breaks a large e-commerce system into small independent services. Each service handles a specific business capability like user management, product catalog, orders, and payments.
+</p>
+
+<p>Typical services:</p>
+
+<pre>
+Client (Web / Mobile)
+        │
+        ▼
+API Gateway
+        │
+ ┌───────────────┬───────────────┬───────────────┬───────────────┐
+ │               │               │               │               │
+User Service   Product Service  Cart Service   Order Service   Payment Service
+</pre>
+
+<p>Benefits:</p>
+
+<ul>
+<li>Independent deployment</li>
+<li>Scalable architecture</li>
+<li>Fault isolation</li>
+<li>Better team ownership</li>
+</ul>
+</div>
+</li>
+
+
+<li data-id="node_micro_2" class="zyellow">
+<span class="faq-question">
+What are the core microservices in an E-commerce architecture?
+</span>
+<div class="answer">
+
+<ul>
+<li>User Service</li>
+<li>Product Service</li>
+<li>Cart Service</li>
+<li>Order Service</li>
+<li>Payment Service</li>
+<li>Inventory Service</li>
+<li>Notification Service</li>
+</ul>
+
+<p>Each service has its own database and API.</p>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_3" class="zyellow">
+<span class="faq-question">
+What is the role of API Gateway in microservices?
+</span>
+<div class="answer">
+
+<p>
+API Gateway acts as the single entry point for all client requests.
+</p>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>Authentication</li>
+<li>Request routing</li>
+<li>Rate limiting</li>
+<li>Load balancing</li>
+<li>Response aggregation</li>
+</ul>
+
+<pre>
+Client → API Gateway → Microservices
+</pre>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_4" class="zyellow">
+<span class="faq-question">
+How does User Service work in a Node.js e-commerce system?
+</span>
+<div class="answer">
+
+<p>User service handles user authentication and profile management.</p>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>User registration</li>
+<li>Login authentication</li>
+<li>JWT token generation</li>
+<li>User profile management</li>
+<li>Address management</li>
+</ul>
+
+<p>Example APIs:</p>
+
+<pre>
+POST /users/register
+POST /users/login
+GET  /users/profile
+</pre>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_5" class="zyellow">
+<span class="faq-question">
+What does Product Service do in an e-commerce microservice architecture?
+</span>
+<div class="answer">
+
+<p>Product service manages the product catalog.</p>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>Product listing</li>
+<li>Product search</li>
+<li>Product details</li>
+<li>Category management</li>
+</ul>
+
+<p>Example APIs:</p>
+
+<pre>
+GET /products
+GET /products/:id
+POST /products
+</pre>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_6" class="zyellow">
+<span class="faq-question">
+How does Cart Service work in an e-commerce system?
+</span>
+<div class="answer">
+
+<p>Cart service manages temporary shopping cart data.</p>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>Add item to cart</li>
+<li>Remove item from cart</li>
+<li>Update quantity</li>
+<li>View cart</li>
+</ul>
+
+<p>Example APIs:</p>
+
+<pre>
+POST /cart/add
+DELETE /cart/remove
+GET /cart
+</pre>
+
+<p>Cart data is usually stored in Redis for fast access.</p>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_7" class="zyellow">
+<span class="faq-question">
+How does Order Service work in microservice architecture?
+</span>
+<div class="answer">
+
+<p>Order service handles order creation and order tracking.</p>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>Create order</li>
+<li>Order history</li>
+<li>Order status tracking</li>
+</ul>
+
+<p>Example flow:</p>
+
+<pre>
+User Checkout
+     │
+Create Order
+     │
+Publish Event → ORDER_CREATED
+</pre>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_8" class="zyellow">
+<span class="faq-question">
+How does Payment Service work?
+</span>
+<div class="answer">
+
+<p>Payment service handles payment processing and verification.</p>
+
+<p>Flow:</p>
+
+<pre>
+Order Created Event
+       │
+Payment Service
+       │
+Payment Success Event
+</pre>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>Payment processing</li>
+<li>Payment validation</li>
+<li>Payment status update</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_9" class="zyellow">
+<span class="faq-question">
+What is Event-Driven Communication in microservices?
+</span>
+<div class="answer">
+
+<p>
+Services communicate using events instead of direct API calls.
+</p>
+
+<p>Example using Kafka or RabbitMQ:</p>
+
+<pre>
+Order Service
+      │
+ORDER_CREATED event
+      │
+Message Broker
+      │
+Payment Service
+</pre>
+
+<p>Advantages:</p>
+
+<ul>
+<li>Loose coupling</li>
+<li>Better scalability</li>
+<li>Fault tolerance</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_10" class="zyellow">
+<span class="faq-question">
+Why use database per service pattern?
+</span>
+<div class="answer">
+
+<p>
+Each microservice should manage its own database to avoid tight coupling.
+</p>
+
+<table border="1" cellpadding="8">
+<tr>
+<th>Service</th>
+<th>Database</th>
+</tr>
+
+<tr>
+<td>User Service</td>
+<td>MongoDB</td>
+</tr>
+
+<tr>
+<td>Product Service</td>
+<td>MongoDB</td>
+</tr>
+
+<tr>
+<td>Cart Service</td>
+<td>Redis</td>
+</tr>
+
+<tr>
+<td>Order Service</td>
+<td>PostgreSQL</td>
+</tr>
+
+<tr>
+<td>Payment Service</td>
+<td>MySQL</td>
+</tr>
+
+</table>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_11" class="zyellow">
+<span class="faq-question">
+How is microservice architecture deployed in production?
+</span>
+<div class="answer">
+
+<p>Microservices are deployed using container technology.</p>
+
+<pre>
+Kubernetes Cluster
+        │
+   API Gateway
+        │
+ ┌─────────────┬─────────────┬─────────────┐
+ │ UserSvc     │ ProductSvc  │ OrderSvc    │
+ └─────────────┴─────────────┴─────────────┘
+</pre>
+
+<p>Deployment tools:</p>
+
+<ul>
+<li>Docker</li>
+<li>Kubernetes</li>
+<li>AWS ECS / EKS</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_12" class="zyellow">
+<span class="faq-question">
+What monitoring tools are used in production microservices?
+</span>
+<div class="answer">
+
+<p>Monitoring and logging tools are essential for microservices.</p>
+
+<ul>
+<li>Prometheus → Metrics collection</li>
+<li>Grafana → Visualization dashboards</li>
+<li>ELK Stack → Centralized logging</li>
+</ul>
+
+<p>Metrics monitored:</p>
+
+<ul>
+<li>Request latency</li>
+<li>Error rate</li>
+<li>CPU usage</li>
+<li>Memory usage</li>
+</ul>
+
+</div>
+</li>
+
+
+<li data-id="node_micro_13" class="zyellow">
+<span class="faq-question">
+What advanced microservice concepts are asked in 25-35 LPA interviews?
+</span>
+<div class="answer">
+
+<ul>
+<li>Saga Pattern</li>
+<li>Circuit Breaker Pattern</li>
+<li>Service Discovery</li>
+<li>Distributed Transactions</li>
+<li>Idempotency</li>
+<li>Rate Limiting</li>
+<li>API Versioning</li>
+</ul>
+
+<p>Example Saga Flow:</p>
+
+<pre>
+Order Service
+     │
+Payment Service
+     │
+Inventory Service
+     │
+Notification Service
+</pre>
+
+</div>
+</li>
+
 
 
 <li data-id="node_arch_10">
@@ -54351,6 +56128,297 @@ app.listen(PORT, () => {
 ------------------------- Java Spring Boot -------------------------------------
 </span></li>
 
+<li data-id="sb001" class="zyellow">
+    <span class="faq-question">
+        What is Spring Boot and how is it different from Spring Framework?
+    </span>
+    <div class="answer">
+        <p>
+        Spring Boot is an extension of the Spring Framework that simplifies application development by providing 
+        auto-configuration, embedded servers, and production-ready features.
+        </p>
+
+        <p><b>Key Advantages:</b></p>
+        <ul>
+            <li>No XML configuration required</li>
+            <li>Embedded Tomcat/Jetty server</li>
+            <li>Auto dependency configuration</li>
+        </ul>
+
+<pre>
+@SpringBootApplication
+public class App {
+   public static void main(String[] args){
+      SpringApplication.run(App.class, args);
+   }
+}
+</pre>
+    </div>
+</li>
+
+
+<li data-id="sb002" class="zyellow">
+    <span class="faq-question">
+        What is @SpringBootApplication annotation?
+    </span>
+    <div class="answer">
+        <p>
+        It is a combination of three annotations:
+        </p>
+
+        <ul>
+            <li>@Configuration</li>
+            <li>@EnableAutoConfiguration</li>
+            <li>@ComponentScan</li>
+        </ul>
+
+<pre>
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+</pre>
+    </div>
+</li>
+
+
+<li data-id="sb003" class="zyellow">
+    <span class="faq-question">
+        What is Dependency Injection in Spring Boot?
+    </span>
+    <div class="answer">
+        <p>
+        Dependency Injection is a design pattern where objects receive their dependencies 
+        instead of creating them manually.
+        </p>
+
+<pre>
+@Service
+class UserService {
+   public String getUser(){
+      return "User Found";
+   }
+}
+
+@RestController
+class UserController {
+
+   @Autowired
+   UserService service;
+
+   @GetMapping("/user")
+   public String getUser(){
+       return service.getUser();
+   }
+}
+</pre>
+    </div>
+</li>
+
+
+<li data-id="sb004" class="zyellow">
+    <span class="faq-question">
+        What is the difference between @Component, @Service, and @Repository?
+    </span>
+    <div class="answer">
+        <p>
+        These are stereotype annotations used for Spring Bean creation.
+        </p>
+
+        <ul>
+            <li>@Component → Generic Spring Bean</li>
+            <li>@Service → Business logic layer</li>
+            <li>@Repository → Data access layer</li>
+        </ul>
+
+<pre>
+@Component
+class A {}
+
+@Service
+class B {}
+
+@Repository
+class C {}
+</pre>
+    </div>
+</li>
+
+
+<li data-id="sb005" class="zyellow">
+    <span class="faq-question">
+        How does Spring Boot Auto Configuration work?
+    </span>
+    <div class="answer">
+        <p>
+        Spring Boot automatically configures beans based on the dependencies present in the classpath.
+        </p>
+
+        <p>
+        Example: If Spring Data JPA dependency is present, Spring Boot automatically configures
+        datasource and JPA repository.
+        </p>
+
+<pre>
+spring.datasource.url=jdbc:mysql://localhost:3306/test
+spring.datasource.username=root
+spring.datasource.password=root
+</pre>
+    </div>
+</li>
+
+
+<li data-id="sb006" class="zyellow">
+    <span class="faq-question">
+        Write a simple REST API in Spring Boot.
+    </span>
+    <div class="answer">
+
+<pre>
+@RestController
+@RequestMapping("/api")
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String hello(){
+        return "Hello Spring Boot";
+    }
+
+}
+</pre>
+
+<p>API Test:</p>
+
+<pre>
+GET http://localhost:8080/api/hello
+</pre>
+
+    </div>
+</li>
+
+
+<li data-id="sb007" class="zyellow">
+    <span class="faq-question">
+        What is Spring Boot Actuator?
+    </span>
+    <div class="answer">
+        <p>
+        Spring Boot Actuator provides production-ready endpoints to monitor and manage the application.
+        </p>
+
+        <ul>
+            <li>/actuator/health</li>
+            <li>/actuator/metrics</li>
+            <li>/actuator/info</li>
+        </ul>
+
+<pre>
+dependency:
+spring-boot-starter-actuator
+</pre>
+
+<p>API Example:</p>
+
+<pre>
+GET /actuator/health
+</pre>
+
+    </div>
+</li>
+
+
+<li data-id="sb008" class="zyellow">
+    <span class="faq-question">
+        What is Spring Boot Starter Dependency?
+    </span>
+    <div class="answer">
+        <p>
+        Starter dependencies simplify dependency management by grouping commonly used libraries.
+        </p>
+
+<pre>
+<!-- Web Starter -->
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+</pre>
+
+<p>
+This automatically includes:
+</p>
+
+<ul>
+<li>Spring MVC</li>
+<li>Jackson</li>
+<li>Tomcat</li>
+</ul>
+
+    </div>
+</li>
+
+
+<li data-id="sb009" class="zyellow">
+    <span class="faq-question">
+        How do you connect Spring Boot with a database?
+    </span>
+    <div class="answer">
+
+<pre>
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+spring.datasource.username=root
+spring.datasource.password=root
+
+spring.jpa.hibernate.ddl-auto=update
+</pre>
+
+<p>Entity Example:</p>
+
+<pre>
+@Entity
+class User {
+
+   @Id
+   @GeneratedValue
+   private Long id;
+
+   private String name;
+
+}
+</pre>
+
+    </div>
+</li>
+
+
+<li data-id="sb010" class="zyellow">
+    <span class="faq-question">
+        Write a Spring Boot Repository using Spring Data JPA.
+    </span>
+    <div class="answer">
+
+<pre>
+@Repository
+public interface UserRepository 
+        extends JpaRepository&lt;User, Long&gt; {
+
+   List&lt;User&gt; findByName(String name);
+
+}
+</pre>
+
+<p>Test Query:</p>
+
+<pre>
+GET /users?name=John
+</pre>
+
+    </div>
+</li>
+
+
 <li data-id="springboot_1" class="zyellow">
   <span class="faq-question">What is Spring Boot?</span>
   <div class="answer">
@@ -55806,9 +57874,310 @@ Prevent technical debt
   </div>
 </li>
 
-<li data-id="q32" class="yellow"><span class="faq-question">
-  --------------------------------------------------------------
-  </span></li>
+<li data-id="pwa_intro" class="zyellow">
+  <span class="faq-question">
+    What is a Progressive Web Application (PWA)?
+  </span>
+  <div class="answer">
+    <p>
+      A <b>Progressive Web Application (PWA)</b> is a web application that uses modern web technologies to provide an experience similar to a native mobile application. PWAs run in a browser but can be installed on a device, work offline, and send push notifications.
+    </p>
+
+    <p><b>Key Idea:</b></p>
+    <ul>
+      <li>Works like a website</li>
+      <li>Feels like a mobile app</li>
+      <li>Fast, reliable, and installable</li>
+    </ul>
+
+    <pre>
+Example:
+Twitter Lite
+Pinterest PWA
+Starbucks PWA
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="pwa_features" class="zyellow">
+  <span class="faq-question">
+    What are the main features of Progressive Web Applications?
+  </span>
+  <div class="answer">
+    <ul>
+      <li><b>Responsive</b> – Works on desktop, tablet, and mobile.</li>
+      <li><b>Offline Support</b> – Uses Service Workers to work without internet.</li>
+      <li><b>Installable</b> – Users can install the app on their device.</li>
+      <li><b>Fast Loading</b> – Uses caching to load quickly.</li>
+      <li><b>Push Notifications</b> – Can send notifications to users.</li>
+      <li><b>Secure</b> – Must run over HTTPS.</li>
+    </ul>
+  </div>
+</li>
+
+
+<li data-id="pwa_architecture" class="zyellow">
+  <span class="faq-question">
+    What are the core components of PWA architecture?
+  </span>
+  <div class="answer">
+    <p>Progressive Web Applications mainly consist of three core components:</p>
+
+    <ol>
+      <li><b>Web App Manifest</b></li>
+      <li><b>Service Worker</b></li>
+      <li><b>HTTPS</b></li>
+    </ol>
+
+    <pre>
+PWA Architecture
+
+User
+  |
+Browser
+  |
+Service Worker
+  |
+Cache Storage
+  |
+Server (API / Backend)
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="service_worker" class="zyellow">
+  <span class="faq-question">
+    What is a Service Worker in PWA?
+  </span>
+  <div class="answer">
+    <p>
+      A <b>Service Worker</b> is a background JavaScript file that runs separately from the web page and enables features like offline support, caching, and push notifications.
+    </p>
+
+    <p><b>Main Responsibilities:</b></p>
+    <ul>
+      <li>Cache assets</li>
+      <li>Enable offline functionality</li>
+      <li>Handle network requests</li>
+      <li>Enable push notifications</li>
+    </ul>
+
+    <pre>
+Example: Register Service Worker
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(() => console.log("Service Worker Registered"));
+}
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="manifest_file" class="zyellow">
+  <span class="faq-question">
+    What is a Web App Manifest in PWA?
+  </span>
+  <div class="answer">
+    <p>
+      The <b>Web App Manifest</b> is a JSON file that provides information about the application such as name, icons, theme color, and display mode. It allows the app to be installed on a device.
+    </p>
+
+    <pre>
+Example: manifest.json
+
+{
+  "name": "My PWA App",
+  "short_name": "PWAApp",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="pwa_advantages" class="zyellow">
+  <span class="faq-question">
+    What are the advantages of Progressive Web Applications?
+  </span>
+  <div class="answer">
+    <ul>
+      <li>Works offline</li>
+      <li>Fast performance</li>
+      <li>No need to install from app store</li>
+      <li>Lower development cost</li>
+      <li>Cross-platform support</li>
+      <li>Push notification capability</li>
+    </ul>
+  </div>
+</li>
+
+
+<li data-id="pwa_vs_native" class="zyellow">
+  <span class="faq-question">
+    What is the difference between PWA and Native Applications?
+  </span>
+  <div class="answer">
+    <table border="1" cellpadding="6">
+      <tr>
+        <th>Feature</th>
+        <th>PWA</th>
+        <th>Native App</th>
+      </tr>
+      <tr>
+        <td>Installation</td>
+        <td>Installed via browser</td>
+        <td>Installed via app store</td>
+      </tr>
+      <tr>
+        <td>Development</td>
+        <td>HTML, CSS, JavaScript</td>
+        <td>Java, Swift, Kotlin</td>
+      </tr>
+      <tr>
+        <td>Offline Support</td>
+        <td>Yes (Service Worker)</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Updates</td>
+        <td>Automatic</td>
+        <td>Requires app store update</td>
+      </tr>
+      <tr>
+        <td>Cost</td>
+        <td>Lower</td>
+        <td>Higher</td>
+      </tr>
+    </table>
+  </div>
+</li>
+
+
+<li data-id="pwa_usecases" class="zyellow">
+  <span class="faq-question">
+    When should we use Progressive Web Applications?
+  </span>
+  <div class="answer">
+    <p>PWA is useful in the following scenarios:</p>
+
+    <ul>
+      <li>E-commerce websites</li>
+      <li>News websites</li>
+      <li>Social media platforms</li>
+      <li>Content platforms</li>
+      <li>Low network connectivity regions</li>
+    </ul>
+
+    <pre>
+Real Companies Using PWA:
+
+Twitter Lite
+Pinterest
+Starbucks
+Uber
+    </pre>
+  </div>
+</li>
+
+
+
+<li data-id="q3" id="difference_qlist" class="yellow"><span class="faq-question">
+  --------------   Difference  -----------------------</span></li>
+
+
+<li data-id="pwa_usecases" class="zyellow">
+  <span class="faq-question">
+    Java Spring Boot vs Python **
+  </span>
+  <div class="answer">
+<table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Feature</th>
+            <th>Java Spring Boot</th>
+            <th>Python</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Language Type</td>
+            <td>Statically typed programming language</td>
+            <td>Dynamically typed programming language</td>
+        </tr>
+        <tr>
+            <td>Framework</td>
+            <td>Spring Boot is a powerful enterprise framework for building microservices and web applications</td>
+            <td>Popular frameworks include Django, Flask, and FastAPI</td>
+        </tr>
+        <tr>
+            <td>Performance</td>
+            <td>Generally faster due to JVM optimization and compiled bytecode</td>
+            <td>Slower compared to Java because it is interpreted</td>
+        </tr>
+        <tr>
+            <td>Learning Curve</td>
+            <td>Steeper learning curve due to complex architecture and configuration</td>
+            <td>Easier to learn because of simple syntax</td>
+        </tr>
+        <tr>
+            <td>Use Cases</td>
+            <td>Enterprise applications, banking systems, large-scale microservices</td>
+            <td>AI/ML, data science, scripting, automation, APIs</td>
+        </tr>
+        <tr>
+            <td>Microservices Support</td>
+            <td>Excellent support with Spring Cloud ecosystem</td>
+            <td>Supported using FastAPI, Flask, and Django</td>
+        </tr>
+        <tr>
+            <td>Development Speed</td>
+            <td>Moderate development speed</td>
+            <td>Very fast development</td>
+        </tr>
+        <tr>
+            <td>Memory Usage</td>
+            <td>Higher memory usage due to JVM</td>
+            <td>Lower memory usage but depends on workload</td>
+        </tr>
+        <tr>
+            <td>Community & Ecosystem</td>
+            <td>Very strong enterprise ecosystem</td>
+            <td>Huge community especially in AI, ML, and automation</td>
+        </tr>
+        <tr>
+            <td>Best For</td>
+            <td>Enterprise backend systems and high-performance APIs</td>
+            <td>Rapid development, data science, AI, automation</td>
+        </tr>
+        <tr>
+            <td>Job Market</td>
+            <td>High demand in enterprise companies and banking sectors</td>
+            <td>High demand in AI, startups, automation, and data science</td>
+        </tr>
+
+    </tbody>
+</table>
+  </div>
+  </li>
+
+
+<li data-id="q3" class="yellow"><span class="faq-question">
+---------- Difference_End -----------------</span></li>
+
+
   <li data-id="q32" ><span class="faq-question">
   ------------------------------ Others -------------------
   
