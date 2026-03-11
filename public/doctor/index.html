@@ -23312,7 +23312,7 @@ This will execute greet() after 3 seconds.
         How does the Node.js event loop work internally?
     </span>
     <div class="answer">
-      <code>
+      <code><pre>
         Node.js uses a single-threaded, non-blocking, event-driven architecture powered by the V8 JavaScript engine and libuv library.
 
         The event loop allows Node.js to handle many concurrent operations without creating multiple threads for each request.
@@ -23343,7 +23343,7 @@ This will execute greet() after 3 seconds.
         Node.js processes these tasks asynchronously via the event loop while delegating heavy I/O operations to the libuv thread pool.
 
         This architecture allows Node.js to efficiently handle thousands of concurrent connections.
-      </code>
+      </pre></code>
     </div>
 </li>
 <li data-id="q35563" class="zyellow">
@@ -23351,7 +23351,7 @@ This will execute greet() after 3 seconds.
         How do you scale Node.js applications for high traffic systems?
     </span>
     <div class="answer">
-      <code>
+      <code><pre>
         Node.js applications can be scaled using both vertical and horizontal scaling strategies.
 
         1. Node.js Cluster Module
@@ -23386,7 +23386,7 @@ This will execute greet() after 3 seconds.
         Use Redis or CDN to reduce database load.
 
         These strategies allow Node.js systems to handle millions of users.
-        </code>
+        </pre></code>
     </div>
 </li>
 <li data-id="q35564" class="zyellow">
@@ -23394,7 +23394,7 @@ This will execute greet() after 3 seconds.
         Node.js vs Java for microservices architecture?
     </span>
     <div class="answer">
-      <code>
+      <code><pre>
         Both Node.js and Java are widely used for microservices but have different strengths.
 
         Node.js Advantages:
@@ -23432,7 +23432,7 @@ This will execute greet() after 3 seconds.
         - Banking systems
         - Complex enterprise applications
         - Heavy data processing services
-      </code>
+      </pre></code>
     </div>
 </li>
 <li data-id="q35565" class="zyellow">
@@ -23440,7 +23440,7 @@ This will execute greet() after 3 seconds.
         How do you design a high-performance Node.js API?
     </span>
     <div class="answer">
-      <code>
+      <code><pre>
         Designing a high-performance Node.js API involves several architectural and coding practices.
 
         1. Use Asynchronous Programming
@@ -23474,7 +23474,7 @@ This will execute greet() after 3 seconds.
         Implement centralized authentication and routing.
 
         These strategies significantly improve performance and scalability.
-      </code>
+      </pre></code>
     </div>
 </li>
 <li data-id="q35566" class="zyellow">
@@ -23482,7 +23482,7 @@ This will execute greet() after 3 seconds.
         When should you use message queues like Kafka or RabbitMQ?
     </span>
     <div class="answer">
-      <code>
+      <code><pre>
         Message queues are used when systems need asynchronous communication between services.
 
         Use Cases:
@@ -23517,7 +23517,7 @@ This will execute greet() after 3 seconds.
         - Reliable message delivery
 
         Message queues improve scalability, reliability, and system decoupling.
-      </code>
+      </pre></code>
     </div>
 </li>
 <li data-id="q35567" class="zyellow">
@@ -23525,7 +23525,7 @@ This will execute greet() after 3 seconds.
         How would you handle millions of concurrent users in Node.js?
     </span>
     <div class="answer">
-      <code>
+      <code><pre>
         Handling millions of concurrent users requires distributed architecture and optimized infrastructure.
 
         1. Horizontal Scaling
@@ -23560,7 +23560,7 @@ This will execute greet() after 3 seconds.
         Client → CDN → Load Balancer → Node.js Cluster → Redis Cache → Database Cluster
 
         This distributed architecture can support millions of concurrent users with low latency.
-      </code>
+      </pre></code>
     </div>
 </li>
 
@@ -24466,7 +24466,368 @@ connection management, and fault tolerance.
         </pre></code>
     </div>
 </li>
+<li data-id="q35601" class="zyellow">
+    <span class="faq-question">
+        What is WebSocket and how is it different from HTTP in Node.js?
+    </span>
+    <div class="answer">
+        <code><pre>
+WebSocket is a communication protocol that provides full-duplex 
+communication channels over a single TCP connection.
 
+Unlike HTTP, WebSocket keeps the connection open so the server 
+can send data to the client anytime.
+
+HTTP Communication
+------------------
+
+Client → Request
+Server → Response
+Connection Closed
+
+WebSocket Communication
+-----------------------
+
+Client ↔ Persistent Connection ↔ Server
+
+Advantages
+----------
+
+• Real-time communication
+• Low latency
+• Reduced network overhead
+• Server can push messages
+
+Node.js WebSocket Example
+-------------------------
+
+const WebSocket = require("ws");
+
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on("connection", function connection(ws) {
+
+    console.log("Client connected");
+
+    ws.on("message", function incoming(message) {
+        console.log("Received:", message);
+    });
+
+    ws.send("Welcome Client");
+
+});
+
+Use Cases
+---------
+
+• Chat applications
+• Live trading dashboards
+• Multiplayer games
+• Real-time notifications
+        </pre></code>
+    </div>
+</li>
+
+<li data-id="q35602" class="zyellow">
+    <span class="faq-question">
+        How do you scale WebSocket servers in Node.js?
+    </span>
+    <div class="answer">
+        <code><pre>
+Scaling WebSocket servers is challenging because connections 
+must stay persistent.
+
+Problem
+-------
+
+One Node.js instance cannot handle millions of connections.
+
+Solution Architecture
+---------------------
+
+Clients
+   |
+Load Balancer
+   |
+Multiple Node.js WebSocket Servers
+   |
+Redis Pub/Sub
+   |
+Message Broadcast
+
+Redis allows servers to share messages.
+
+Example
+
+Server A receives message
+↓
+Redis publishes event
+↓
+Server B broadcasts to its connected clients
+
+Socket.io Redis Adapter
+-----------------------
+
+const io = require("socket.io")(server);
+const redisAdapter = require("socket.io-redis");
+
+io.adapter(redisAdapter({
+  host: "localhost",
+  port: 6379
+}));
+
+Best Practices
+--------------
+
+• Use horizontal scaling
+• Use Redis pub/sub
+• Use sticky sessions
+• Monitor connection counts
+        </pre></code>
+    </div>
+</li>
+
+<li data-id="q35603" class="zyellow">
+    <span class="faq-question">
+        What are sticky sessions and why are they required in WebSocket architecture?
+    </span>
+    <div class="answer">
+        <code><pre>
+Sticky sessions ensure that a user's requests are always routed 
+to the same server instance.
+
+Why Needed
+----------
+
+WebSocket connections are stateful.
+
+If a load balancer redirects traffic to another server,
+the connection breaks.
+
+Example Architecture
+--------------------
+
+Client
+  |
+Load Balancer
+  |
+Server A (maintains WebSocket connection)
+
+Sticky sessions bind the client to Server A.
+
+Implementation Methods
+----------------------
+
+1. NGINX IP Hash
+2. AWS Application Load Balancer
+3. Session cookies
+
+NGINX Example
+-------------
+
+upstream websocket_servers {
+    ip_hash;
+    server server1:3000;
+    server server2:3000;
+}
+
+Architect Insight
+-----------------
+
+Sticky sessions maintain connection stability in distributed
+WebSocket environments.
+        </pre></code>
+    </div>
+</li>
+
+<li data-id="q35604" class="zyellow">
+    <span class="faq-question">
+        How do you design a scalable real-time chat system using Node.js and WebSockets?
+    </span>
+    <div class="answer">
+        <code><pre>
+A real-time chat system requires low-latency message delivery.
+
+High Level Architecture
+-----------------------
+
+Clients
+  |
+CDN
+  |
+Load Balancer
+  |
+WebSocket Gateway (Node.js)
+  |
+Redis Pub/Sub
+  |
+Chat Service
+  |
+Database
+
+Message Flow
+------------
+
+User A sends message
+↓
+WebSocket Server receives message
+↓
+Redis publishes message
+↓
+All servers broadcast message
+↓
+User B receives message instantly
+
+Example Socket.io Chat Code
+---------------------------
+
+io.on("connection", (socket) => {
+
+    socket.on("chat message", (msg) => {
+        io.emit("chat message", msg);
+    });
+
+});
+
+Database Storage
+----------------
+
+Messages stored asynchronously in database
+to avoid blocking WebSocket processing.
+
+Architect Considerations
+------------------------
+
+• message delivery guarantees
+• user presence tracking
+• message ordering
+• offline message storage
+        </pre></code>
+    </div>
+</li>
+
+<li data-id="q35605" class="zyellow">
+    <span class="faq-question">
+        What are common challenges when building WebSocket systems in Node.js?
+    </span>
+    <div class="answer">
+        <code><pre>
+WebSocket systems introduce unique architectural challenges.
+
+1. Connection Management
+------------------------
+
+Thousands of open connections must be maintained.
+
+2. Horizontal Scaling
+---------------------
+
+Multiple servers must synchronize events.
+
+Solution: Redis Pub/Sub
+
+3. Message Ordering
+-------------------
+
+Messages must be delivered in correct sequence.
+
+4. Fault Tolerance
+------------------
+
+If a server crashes, connections are lost.
+
+Solution: reconnect logic in clients.
+
+Example Client Reconnect
+------------------------
+
+socket.on("disconnect", () => {
+    setTimeout(connect, 2000);
+});
+
+5. Security
+-----------
+
+WebSocket endpoints must be protected using:
+
+• JWT authentication
+• Rate limiting
+• TLS encryption
+
+Architect Insight
+-----------------
+
+Real-time architectures must prioritize:
+
+• scalability
+• connection stability
+• fault tolerance
+• low latency
+        </pre></code>
+    </div>
+</li>
+
+<li data-id="q35606" class="zyellow">
+    <span class="faq-question">
+        How can Node.js handle millions of WebSocket connections?
+    </span>
+    <div class="answer">
+        <code><pre>
+Handling millions of connections requires distributed architecture.
+
+Large Scale Architecture
+------------------------
+
+Clients
+   |
+Global CDN
+   |
+Load Balancer
+   |
+WebSocket Gateway Cluster
+   |
+Kafka / Redis
+   |
+Microservices
+
+Key Techniques
+--------------
+
+1. Horizontal Scaling
+Run multiple WebSocket servers.
+
+2. Lightweight Protocols
+Use efficient message formats (JSON or binary).
+
+3. Event Streaming
+Use Kafka for message distribution.
+
+4. Efficient Memory Usage
+Limit per-connection memory footprint.
+
+5. Connection Monitoring
+Track connection health.
+
+Example Node.js Cluster
+
+const cluster = require("cluster");
+const os = require("os");
+
+if (cluster.isMaster) {
+    os.cpus().forEach(() => cluster.fork());
+}
+
+Architect Insight
+-----------------
+
+Large-scale real-time systems often separate:
+
+WebSocket Gateway
+Message Broker
+Application Services
+        </pre></code>
+    </div>
+</li>
 <li data-id="setinterval_example">
   <span class="faq-question">What is setInterval()? Give example.</span>
   <div class="answer">
