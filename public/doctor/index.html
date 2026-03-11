@@ -6313,6 +6313,746 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
 
 <li data-id="q35562" class="zyellow">
     <span class="faq-question">
+React Fiber Architecture    
+    </span>
+    <div class="answer">
+
+
+React Fiber is the new reconciliation engine introduced in React 16. 
+It improves how React handles rendering by breaking work into small units
+and prioritizing updates for better performance.
+
+
+Definition
+
+<p>
+<b>React Fiber</b> is a reimplementation of React’s core algorithm that enables 
+incremental rendering, allowing React to pause, resume, and prioritize rendering tasks.
+</p>
+
+
+<h3>Why React Fiber Was Introduced</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Problem (Old React Stack Reconciler)</th>
+<th>Solution (React Fiber)</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>Rendering was synchronous and blocking.</td>
+<td>Rendering became asynchronous and interruptible.</td>
+</tr>
+
+<tr>
+<td>Large UI updates could freeze the UI.</td>
+<td>React can split work into smaller units.</td>
+</tr>
+
+<tr>
+<td>No priority management for updates.</td>
+<td>Supports priority-based scheduling.</td>
+</tr>
+
+<tr>
+<td>No pause or resume rendering.</td>
+<td>Rendering can pause, resume, or abort.</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h3>Key Concepts of React Fiber</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Fiber Node</b></td>
+<td>A unit of work representing a component in the React tree.</td>
+</tr>
+
+<tr>
+<td><b>Incremental Rendering</b></td>
+<td>Breaks rendering work into smaller chunks.</td>
+</tr>
+
+<tr>
+<td><b>Scheduling</b></td>
+<td>React prioritizes important updates like user interactions.</td>
+</tr>
+
+<tr>
+<td><b>Pause & Resume</b></td>
+<td>Rendering can be paused to avoid blocking the main thread.</td>
+</tr>
+
+<tr>
+<td><b>Priority Levels</b></td>
+<td>Different updates have different priorities.</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h3>Fiber Rendering Phases</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Phase</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Render Phase</b></td>
+<td>
+React calculates changes by building a new Fiber tree.
+This phase can be paused or interrupted.
+</td>
+</tr>
+
+<tr>
+<td><b>Commit Phase</b></td>
+<td>
+React applies the changes to the real DOM.
+This phase is synchronous.
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h3>Fiber Tree Structure</h3>
+
+<pre>
+App
+ │
+ ├── Header
+ │
+ ├── Sidebar
+ │
+ └── Content
+       │
+       ├── Article
+       └── Comments
+</pre>
+
+
+<h3>React Fiber Workflow</h3>
+
+<pre>
+User Action / setState()
+          ↓
+Update Scheduled
+          ↓
+Fiber Tree Created
+          ↓
+Work Split into Small Tasks
+          ↓
+Scheduler Prioritizes Tasks
+          ↓
+Render Phase (Diffing)
+          ↓
+Commit Phase (Update DOM)
+</pre>
+
+
+<h3>Example Priority Scheduling</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Update Type</th>
+<th>Priority</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>User Input (typing, clicking)</td>
+<td>High Priority</td>
+</tr>
+
+<tr>
+<td>Animations</td>
+<td>Medium Priority</td>
+</tr>
+
+<tr>
+<td>Background Data Fetch</td>
+<td>Low Priority</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h3>Benefits of React Fiber</h3>
+
+<ul>
+<li>Smoother UI updates</li>
+<li>Better performance</li>
+<li>Non-blocking rendering</li>
+<li>Improved user experience</li>
+<li>Supports concurrent rendering</li>
+</ul>
+        
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+React Application Architecture Design    
+    </span>
+    <div class="answer">
+High Level Architecture
+
+<pre>
+                Browser
+                   │
+                   ▼
+               React App
+                   │
+        ┌──────────┼───────────┐
+        ▼          ▼           ▼
+    Components   State      Services
+        │          │           │
+        ▼          ▼           ▼
+    UI Layer   Global State   API Layer
+        │          │           │
+        └──────────┼───────────┘
+                   ▼
+               Backend APIs
+</pre>
+
+
+<h3>React Architecture Layers</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Layer</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>UI Components</b></td>
+<td>Reusable UI elements</td>
+<td>Button, Card, Modal</td>
+</tr>
+
+<tr>
+<td><b>Pages</b></td>
+<td>Page-level components</td>
+<td>HomePage, ProductPage</td>
+</tr>
+
+<tr>
+<td><b>State Management</b></td>
+<td>Global state management</td>
+<td>Redux, Context API, Zustand</td>
+</tr>
+
+<tr>
+<td><b>Hooks Layer</b></td>
+<td>Reusable logic</td>
+<td>useAuth, useFetch</td>
+</tr>
+
+<tr>
+<td><b>Services / API</b></td>
+<td>API communication layer</td>
+<td>Axios API calls</td>
+</tr>
+
+<tr>
+<td><b>Utils</b></td>
+<td>Helper functions</td>
+<td>formatDate, validation</td>
+</tr>
+
+<tr>
+<td><b>Routing</b></td>
+<td>Navigation management</td>
+<td>React Router</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<h3>Recommended Folder Structure</h3>
+
+<pre>
+src
+│
+├── components
+│     ├── Button
+│     ├── Card
+│     └── Modal
+│
+├── pages
+│     ├── Home
+│     ├── Dashboard
+│     └── Login
+│
+├── hooks
+│     ├── useAuth.js
+│     └── useFetch.js
+│
+├── context
+│     └── AuthContext.js
+│
+├── services
+│     └── api.js
+│
+├── utils
+│     └── helpers.js
+│
+├── routes
+│     └── AppRoutes.js
+│
+└── App.js
+</pre>
+
+
+
+<h3>Data Flow in React Architecture</h3>
+
+<pre>
+User Interaction
+       │
+       ▼
+Component Event
+       │
+       ▼
+Custom Hook / State Update
+       │
+       ▼
+Service Layer (API Call)
+       │
+       ▼
+Backend Response
+       │
+       ▼
+State Update
+       │
+       ▼
+UI Re-render
+</pre>
+
+
+
+<h3>Example Service Layer</h3>
+
+<pre>
+import axios from "axios";
+
+export const getUsers = async () => {
+  const res = await axios.get("/api/users");
+  return res.data;
+};
+</pre>
+
+
+
+<h3>Example Custom Hook</h3>
+
+<pre>
+import { useEffect, useState } from "react";
+import { getUsers } from "../services/api";
+
+export function useUsers(){
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    getUsers().then(setUsers);
+  }, []);
+
+  return users;
+}
+</pre>
+
+
+
+<h3>Example Component</h3>
+
+<pre>
+function UserList(){
+  const users = useUsers();
+
+  return (
+    &lt;div&gt;
+      {users.map(u => (
+        &lt;p key={u.id}&gt;{u.name}&lt;/p&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+</pre>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+    What Happens When setState() is Called in React?
+    </span>
+    <div class="answer">
+        <code><pre>
+When <code>setState()</code> is called in a React component, it triggers a series of steps that lead to the component being re-rendered with the updated state. Here's a detailed breakdown of what happens:
+
+<ol>
+<li><b>State Update Request</b><br>
+When <code>setState()</code> is called, React does not immediately update the state.
+Instead, it schedules an update.</li>
+
+<li><b>Update is Queued</b><br>
+React adds the state update to an internal update queue.
+Multiple updates may be batched together for performance.</li>
+
+<li><b>Component Marked for Re-render</b><br>
+React marks the component as needing an update.</li>
+
+<li><b>Virtual DOM Re-render</b><br>
+React calls the component's <code>render()</code> method again and creates a new Virtual DOM tree.</li>
+
+<li><b>Diffing Algorithm</b><br>
+React compares the new Virtual DOM with the previous Virtual DOM to find differences.</li>
+
+<li><b>Reconciliation</b><br>
+React determines the minimal number of changes needed in the Real DOM.</li>
+
+<li><b>Real DOM Update</b><br>
+Only the changed nodes are updated in the browser DOM.</li>
+
+<li><b>UI Updated</b><br>
+The browser repaints the updated UI.</li>
+</ol>
+
+
+<h2>React Rendering Process</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+<thead>
+<tr>
+<th>Step</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>1. Event Trigger</td>
+<td>User action, API response, or state change occurs.</td>
+</tr>
+
+<tr>
+<td>2. setState() Called</td>
+<td>React schedules a state update.</td>
+</tr>
+
+<tr>
+<td>3. Re-render Component</td>
+<td>React calls the component's render method again.</td>
+</tr>
+
+<tr>
+<td>4. Virtual DOM Created</td>
+<td>A new Virtual DOM tree is generated.</td>
+</tr>
+
+<tr>
+<td>5. Diffing</td>
+<td>React compares the old and new Virtual DOM.</td>
+</tr>
+
+<tr>
+<td>6. Reconciliation</td>
+<td>React calculates the minimal DOM operations required.</td>
+</tr>
+
+<tr>
+<td>7. Real DOM Update</td>
+<td>Only changed nodes are updated in the browser.</td>
+</tr>
+
+<tr>
+<td>8. Browser Paint</td>
+<td>The browser updates the visible UI.</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<h2>Example</h2>
+
+<pre>
+import React, { Component } from "react";
+
+class Counter extends Component {
+  state = { count: 0 };
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;Count: {this.state.count}&lt;/h2&gt;
+        &lt;button onClick={this.increment}&gt;Increase&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</pre>
+
+
+<h2>React Rendering Flow (Simplified)</h2>
+
+<pre>
+User Action
+     ↓
+setState()
+     ↓
+State Update Queued
+     ↓
+Component Re-render
+     ↓
+New Virtual DOM Created
+     ↓
+Diffing Algorithm
+     ↓
+Reconciliation
+     ↓
+Update Real DOM
+     ↓
+Browser Repaint
+</pre>
+        </pre></code>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+    React Reconciliation Algorithm
+    </span>
+    <div class="answer">
+        <code><pre>
+
+<p>
+Reconciliation is the process React uses to update the DOM efficiently when the state or props of a component change.
+Instead of updating the entire DOM, React compares the previous Virtual DOM with the new Virtual DOM and updates only the changed parts.
+</p>
+
+<h3>Definition</h3>
+
+<p>
+The <b>Reconciliation Algorithm</b> is the process React uses to determine what changes need to be made to the Real DOM
+by comparing two Virtual DOM trees.
+</p>
+
+
+<h3>Steps in Reconciliation</h3>
+
+<ol>
+
+<li>
+<b>State or Props Change</b><br>
+A component update is triggered using <code>setState()</code> or new props.
+</li>
+
+<li>
+<b>New Virtual DOM Created</b><br>
+React calls the component render method and generates a new Virtual DOM tree.
+</li>
+
+<li>
+<b>Diffing Algorithm</b><br>
+React compares the new Virtual DOM with the previous Virtual DOM.
+</li>
+
+<li>
+<b>Find Differences</b><br>
+React identifies which elements have changed, been added, or removed.
+</li>
+
+<li>
+<b>Update Real DOM</b><br>
+React updates only the changed nodes in the Real DOM.
+</li>
+
+</ol>
+
+
+<h3>React Diffing Rules (Core Algorithm)</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Rule</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>1. Different Element Types</b></td>
+<td>If two elements have different types, React destroys the old DOM and builds a new one.</td>
+</tr>
+
+<tr>
+<td><b>2. Same Element Type</b></td>
+<td>If elements are the same type, React updates only the changed attributes.</td>
+</tr>
+
+<tr>
+<td><b>3. Component Elements</b></td>
+<td>If the component type is the same, React updates props and re-renders the component.</td>
+</tr>
+
+<tr>
+<td><b>4. List Elements (Keys)</b></td>
+<td>React uses keys to identify which items changed in a list.</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h3>Example Without Keys (Inefficient)</h3>
+
+<pre>
+&lt;ul&gt;
+  &lt;li&gt;A&lt;/li&gt;
+  &lt;li&gt;B&lt;/li&gt;
+&lt;/ul&gt;
+
+After update:
+
+&lt;ul&gt;
+  &lt;li&gt;X&lt;/li&gt;
+  &lt;li&gt;A&lt;/li&gt;
+  &lt;li&gt;B&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+
+<p>
+Without keys, React may re-render all list elements.
+</p>
+
+
+<h3>Example With Keys (Efficient)</h3>
+
+<pre>
+&lt;ul&gt;
+  {items.map(item => (
+    &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;
+  ))}
+&lt;/ul&gt;
+</pre>
+
+<p>
+Using keys allows React to identify exactly which elements changed.
+</p>
+
+
+<h3>Reconciliation Flow</h3>
+
+<pre>
+State/Props Change
+        ↓
+New Virtual DOM
+        ↓
+Compare with Old Virtual DOM
+        ↓
+Diffing Algorithm
+        ↓
+Calculate Minimal Changes
+        ↓
+Update Real DOM
+        ↓
+Browser Repaint
+</pre>
+
+
+<h3>Time Complexity</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Complexity</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Traditional Tree Diff</td>
+<td>O(n³)</td>
+</tr>
+
+<tr>
+<td>React Diffing Algorithm</td>
+<td>O(n)</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<h3>Key Assumptions React Makes</h3>
+
+<ul>
+<li>Different element types produce different trees.</li>
+<li>Keys help React identify stable elements.</li>
+</ul>
+        </pre></code>
+    </div>
+</li> 
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
       ReactJS Phone Book Application with Form Validation and Table Display
     </span>
     <div class="answer">
@@ -10064,11 +10804,45 @@ setImmediate callback
 <li data-id="hoc2" class="zyellow">
 
 <span class="faq-question">
-What is a Higher Order Component (HOC) in React? Give a simple example.
+Higher Order Component (HOC) in React simple example****
 </span>
 
 <div class="answer">
+<pre>
+  <code>
+function CompA(){
+  return <>Component AA+1</>;
+}
 
+function CompB(){
+  return <>Component BB+2</>;
+}
+
+function CompHOC(Component){
+  return function NewComponent(myprops){
+    return (
+      &lt;&gt;
+        &lt;h5&gt;Hello {myprops.title}&lt;/h5
+        &lt;Component /&gt;
+      &lt;/&gt;
+    );
+  }
+}
+
+function App(){
+  const ComA = CompHOC(CompA);
+  const ComB = CompHOC(CompB);
+
+  return (
+    &lt;&gt;
+      &lt;ComA title="Dummy" />
+      &lt;ComB title="Demo" />
+    &lt;/&gt;
+  )
+}
+
+  </code>
+</pre>
 <p>
 A <b>Higher Order Component (HOC)</b> is a function that takes a component and returns a new component with additional functionality.
 </p>
@@ -10292,6 +11066,219 @@ function useAuth() {
     <li><b>Unmounting</b> (Component is removed from the DOM</li>
     </ol>
     <br />
+    <div class="section">
+
+<h2>1. Lifecycle Phases</h2>
+
+<table>
+<tr>
+<th>Phase</th>
+<th>Description</th>
+<th>Important Methods</th>
+</tr>
+
+<tr>
+<td>Mounting</td>
+<td>Component is created and inserted into the DOM.</td>
+<td>constructor, render, componentDidMount</td>
+</tr>
+
+<tr>
+<td>Updating</td>
+<td>Occurs when state or props change.</td>
+<td>shouldComponentUpdate, render, componentDidUpdate</td>
+</tr>
+
+<tr>
+<td>Unmounting</td>
+<td>Component is removed from DOM.</td>
+<td>componentWillUnmount</td>
+</tr>
+
+<tr>
+<td>Error Handling</td>
+<td>Used to catch runtime errors in child components.</td>
+<td>componentDidCatch, getDerivedStateFromError</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="section">
+
+<h2>2. Lifecycle Flow</h2>
+
+<pre>
+Mounting
+constructor()
+render()
+componentDidMount()
+
+Updating
+shouldComponentUpdate()
+render()
+componentDidUpdate()
+
+Unmounting
+componentWillUnmount()
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>3. Mounting Example</h2>
+
+<pre>
+class User extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.state = { users: [] }
+  }
+
+  componentDidMount(){
+    fetch("/api/users")
+      .then(res => res.json())
+      .then(data => this.setState({users:data}))
+  }
+
+  render(){
+    return (
+      &lt;div&gt;
+        {this.state.users.map(u => &lt;p&gt;{u.name}&lt;/p&gt;)}
+      &lt;/div&gt;
+    )
+  }
+
+}
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>4. Updating Example</h2>
+
+<pre>
+shouldComponentUpdate(nextProps,nextState){
+
+  if(nextState.count !== this.state.count){
+    return true
+  }
+
+  return false
+
+}
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>5. Unmounting Example</h2>
+
+<pre>
+componentWillUnmount(){
+  clearInterval(this.timer)
+}
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>6. Hooks Lifecycle Equivalent</h2>
+
+<table>
+
+<tr>
+<th>Class Lifecycle</th>
+<th>Hooks Equivalent</th>
+</tr>
+
+<tr>
+<td>componentDidMount</td>
+<td>useEffect(() => {}, [])</td>
+</tr>
+
+<tr>
+<td>componentDidUpdate</td>
+<td>useEffect(() => {}, [state])</td>
+</tr>
+
+<tr>
+<td>componentWillUnmount</td>
+<td>return cleanup in useEffect</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="section">
+
+<h2>7. Hooks Example</h2>
+
+<pre>
+import { useEffect } from "react"
+
+function App(){
+
+  useEffect(()=>{
+
+    console.log("Component Mounted")
+
+    return ()=>{
+      console.log("Component Unmounted")
+    }
+
+  },[])
+
+  return &lt;h1&gt;Hello React&lt;/h1&gt;
+
+}
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>8. useEffect Dependency Behavior</h2>
+
+<table>
+
+<tr>
+<th>Dependency</th>
+<th>Behaviour</th>
+</tr>
+
+<tr>
+<td>[]</td>
+<td>Runs only once (component mount)</td>
+</tr>
+
+<tr>
+<td>[state]</td>
+<td>Runs when state changes</td>
+</tr>
+
+<tr>
+<td>No dependency</td>
+<td>Runs every render</td>
+</tr>
+
+</table>
+
+</div>
     </div></li>
     
     <li data-id="q_react_vs_reactdom"><span class="faq-question">
@@ -10477,10 +11464,15 @@ function useAuth() {
     <li data-id="q_useCallback"><span class="faq-question">
     useCallback() help performance?
     </span><div class="answer">
-    <x>useCallback()</x> is a React hook that memoizes a function, preventing it from being re-created on every render unless its dependencies change. This improves performance, especially when passing callback functions to memoized child components, because it avoids unnecessary re-renders.
+    <code><pre>
+    <x>useCallback()</x> is a React hook that memoizes a function, 
+    preventing it from being re-created on every render unless its dependencies change. 
+    This improves performance, especially when passing callback functions to memoized child components, 
+    because it avoids unnecessary re-renders.
     <br />
-    <b>Use Case:</b> When a child component receives a function as a prop and is wrapped with <x>React.memo</x>, using <x>useCallback</x> ensures that the function reference remains stable.
-    
+    <b>Use Case:</b> When a child component receives a function as a prop and is wrapped with <x>React.memo</x>, 
+    using <x>useCallback</x> ensures that the function reference remains stable.
+    </pre></code>
     <b>Example:</b>
     <pre><code>
     const handleClick = useCallback(() =&gt; {
@@ -59792,6 +60784,476 @@ Uber
 <li data-id="q3" id="difference_qlist" class="yellow"><span class="faq-question">
   --------------   Difference  -----------------------</span></li>
 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Difference Between useMemo, useCallback, and React.memo    
+    </span>
+    <div class="answer">
+        <code><pre>
+<h2>Difference Between useMemo, useCallback, and React.memo</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Feature</th>
+<th>useMemo</th>
+<th>useCallback</th>
+<th>React.memo</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Definition</b></td>
+<td>Memoizes the result of a function.</td>
+<td>Memoizes a function instance.</td>
+<td>Prevents unnecessary re-render of a component.</td>
+</tr>
+
+<tr>
+<td><b>Purpose</b></td>
+<td>Avoid expensive calculations on every render.</td>
+<td>Avoid recreating functions on every render.</td>
+<td>Avoid re-rendering child components when props haven't changed.</td>
+</tr>
+
+<tr>
+<td><b>Returns</b></td>
+<td>Memoized value.</td>
+<td>Memoized function.</td>
+<td>Memoized component.</td>
+</tr>
+
+<tr>
+<td><b>Used For</b></td>
+<td>Performance optimization for heavy computations.</td>
+<td>Stable function reference for child components.</td>
+<td>Optimizing functional components.</td>
+</tr>
+
+<tr>
+<td><b>Common Scenario</b></td>
+<td>Sorting large lists or expensive calculations.</td>
+<td>Passing callbacks to child components.</td>
+<td>Preventing unnecessary child component renders.</td>
+</tr>
+
+<tr>
+<td><b>Dependency Array</b></td>
+<td>Recalculates value when dependencies change.</td>
+<td>Recreates function when dependencies change.</td>
+<td>Re-renders component when props change.</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<h2>Real Example: useMemo</h2>
+
+<p>Used when a heavy calculation should not run on every render.</p>
+
+<pre>
+const expensiveCalculation = (num) => {
+  console.log("Calculating...");
+  return num * 1000;
+};
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const result = useMemo(() => {
+    return expensiveCalculation(count);
+  }, [count]);
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Result: {result}&lt;/h2&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increase&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</pre>
+
+
+
+<h2>Real Example: useCallback</h2>
+
+<p>Used when passing a function to a child component.</p>
+
+<pre>
+const Child = ({ handleClick }) => {
+  console.log("Child Rendered");
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+};
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log("Button clicked");
+  }, []);
+
+  return (
+    &lt;div&gt;
+      &lt;Child handleClick={handleClick} /&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increase&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</pre>
+
+
+
+<h2>Real Example: React.memo</h2>
+
+<p>Used to prevent unnecessary child component re-renders.</p>
+
+<pre>
+const Child = React.memo(({ name }) => {
+  console.log("Child Rendered");
+  return &lt;h2&gt;Hello {name}&lt;/h2&gt;;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;div&gt;
+      &lt;Child name="React" /&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increase&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</pre>
+
+
+
+<h2>Quick Summary</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+<thead>
+<tr>
+<th>Hook</th>
+<th>What It Memoizes</th>
+<th>Best Use Case</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>useMemo</b></td>
+<td>Value</td>
+<td>Expensive calculations</td>
+</tr>
+
+<tr>
+<td><b>useCallback</b></td>
+<td>Function</td>
+<td>Passing callbacks to child components</td>
+</tr>
+
+<tr>
+<td><b>React.memo</b></td>
+<td>Component</td>
+<td>Prevent unnecessary component re-renders</td>
+</tr>
+
+</tbody>
+
+</table>
+        </pre></code>
+    </div>
+</li> 
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Real DOM vs Virtual DOM: What are the key differences and advantages of each in web development?    
+    </span>
+    <div class="answer">
+        <code><pre>
+<table border="1" cellpadding="8" cellspacing="0">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Real DOM</th>
+<th>Virtual DOM</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>Definition</b></td>
+<td>The actual DOM structure created by the browser to represent the webpage.</td>
+<td>A lightweight JavaScript representation of the Real DOM.</td>
+</tr>
+
+<tr>
+<td><b>Used By</b></td>
+<td>Traditional JavaScript frameworks and direct DOM manipulation.</td>
+<td>Used by libraries like <b>React.js</b>.</td>
+</tr>
+
+<tr>
+<td><b>Update Process</b></td>
+<td>Every change directly updates the DOM tree.</td>
+<td>Changes are first made in Virtual DOM, then compared with the previous version (Diffing).</td>
+</tr>
+
+<tr>
+<td><b>Performance</b></td>
+<td>Slow for frequent updates because the entire DOM may re-render.</td>
+<td>Faster because only changed elements are updated in the Real DOM.</td>
+</tr>
+
+<tr>
+<td><b>Memory Usage</b></td>
+<td>Higher because it manipulates the full DOM structure.</td>
+<td>Lower because updates happen in memory before affecting the Real DOM.</td>
+</tr>
+
+<tr>
+<td><b>DOM Manipulation</b></td>
+<td>Direct DOM manipulation.</td>
+<td>Indirect DOM manipulation through Virtual DOM.</td>
+</tr>
+
+<tr>
+<td><b>Rendering</b></td>
+<td>Every update triggers layout recalculation and repaint.</td>
+<td>Batch updates reduce unnecessary rendering.</td>
+</tr>
+
+<tr>
+<td><b>Efficiency</b></td>
+<td>Less efficient for dynamic UI.</td>
+<td>More efficient for dynamic UI applications.</td>
+</tr>
+
+<tr>
+<td><b>Example</b></td>
+<td>
+<pre>
+document.getElementById("title").innerText = "Hello";
+</pre>
+</td>
+<td>
+<pre>
+setState({ title: "Hello" });
+</pre>
+</td>
+</tr>
+
+</tbody>
+</table>
+        </pre></code>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+    Difference between Stateful, Stateless, Pure, Controlled, Uncontrolled, HOC, Render Props, Memo, Fragments, Lazy Loading in React (with examples)
+    </span>
+    <div class="answer">
+
+<table>
+
+<thead>
+<tr>
+<th width="18%">Concept</th>
+<th width="32%">Description</th>
+<th width="50%">Example</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td class="concept">Stateful Component</td>
+<td>Component that manages its own state using <b>state</b> or React Hooks.</td>
+<td>
+<pre>
+class Counter extends React.Component {
+  state = { count: 0 };
+
+  render() {
+    return (
+      <button onClick={() =>
+        this.setState({count: this.state.count + 1})
+      }>
+        {this.state.count}
+      </button>
+    );
+  }
+}
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Stateless Component</td>
+<td>Component without state. It receives data through <b>props</b>.</td>
+<td>
+<pre>
+function Hello(props){
+  return &lt;h1&gt;Hello {props.name}&lt;/h1&gt;
+}
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Pure Component</td>
+<td>Performs <b>shallow comparison</b> of props and state to avoid unnecessary re-renders.</td>
+<td>
+<pre>
+class MyComponent extends React.PureComponent {
+  render(){
+    return &lt;h1&gt;{this.props.name}&lt;/h1&gt;
+  }
+}
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Controlled Component</td>
+<td>Form element whose value is controlled by React state.</td>
+<td>
+<pre>
+function Form(){
+  const [name,setName] = React.useState("");
+
+  return (
+    &lt;input
+      value={name}
+      onChange={(e)=>setName(e.target.value)}
+    /&gt;
+  );
+}
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Uncontrolled Component</td>
+<td>Form data handled by the DOM using <b>refs</b>.</td>
+<td>
+<pre>
+function Input(){
+  const inputRef = React.useRef();
+
+  function handleClick(){
+    console.log(inputRef.current.value);
+  }
+
+  return (
+    &lt;&gt;
+      &lt;input ref={inputRef} /&gt;
+      &lt;button onClick={handleClick}&gt;Submit&lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Higher Order Component</td>
+<td>A function that takes a component and returns a new enhanced component.</td>
+<td>
+<pre>
+function withAuth(Component){
+  return function(){
+    const isAuth = true;
+
+    if(!isAuth){
+      return &lt;h1&gt;Login Required&lt;/h1&gt;
+    }
+
+    return &lt;Component /&gt;
+  }
+}
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Render Props</td>
+<td>Sharing code using a function as a prop.</td>
+<td>
+<pre>
+function DataProvider(props){
+  const data = "Hello";
+
+  return props.render(data);
+}
+
+&lt;DataProvider render={(data)=&gt;
+  &lt;h1&gt;{data}&lt;/h1&gt;
+/&gt;
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Memo Component</td>
+<td>Prevents re-render if props remain unchanged.</td>
+<td>
+<pre>
+const MyComponent = React.memo(function(props){
+  return &lt;h1&gt;{props.name}&lt;/h1&gt;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Fragments</td>
+<td>Group multiple elements without extra DOM nodes.</td>
+<td>
+<pre>
+return (
+  &lt;&gt;
+    &lt;h1&gt;Title&lt;/h1&gt;
+    &lt;p&gt;Description&lt;/p&gt;
+  &lt;/&gt;
+)
+</pre>
+</td>
+</tr>
+
+<tr>
+<td class="concept">Lazy Loading</td>
+<td>Loads components only when required to improve performance.</td>
+<td>
+<pre>
+const Home = React.lazy(() =>
+  import('./Home')
+);
+
+&lt;Suspense fallback="Loading..."&gt;
+  &lt;Home /&gt;
+&lt;/Suspense&gt;
+</pre>
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+    </div>
+</li> 
 
 <li data-id="q35562" class="zyellow">
     <span class="faq-question">
