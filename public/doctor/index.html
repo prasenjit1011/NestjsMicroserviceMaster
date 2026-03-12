@@ -62095,7 +62095,867 @@ Used in callbacks, array functions, promises, and asynchronous code.
 </table>
   </div>
   </li>
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        What are the different types of promises in JavaScript and how do they work?
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="8" cellspacing="0">
+<thead>
+<tr>
+<th>Promise Type / Method</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
 
+<tbody>
+
+<tr>
+<td><b>new Promise()</b></td>
+<td>Create a custom promise manually using resolve and reject.</td>
+<td>
+
+<pre>
+const promise = new Promise((resolve, reject) => {
+  const success = true;
+
+  if(success){
+    resolve("Task Completed");
+  }else{
+    reject("Task Failed");
+  }
+});
+
+promise.then(res => console.log(res))
+       .catch(err => console.log(err));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>.then()</b></td>
+<td>Used to handle successful promise result.</td>
+<td>
+
+<pre>
+fetch('/api/data')
+  .then(res => res.json())
+  .then(data => console.log(data));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>.catch()</b></td>
+<td>Handles promise errors.</td>
+<td>
+
+<pre>
+fetch('/api/data')
+  .then(res => res.json())
+  .catch(err => console.log("Error:", err));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>.finally()</b></td>
+<td>Runs after promise is completed (success or failure).</td>
+<td>
+
+<pre>
+fetch('/api/data')
+  .then(res => res.json())
+  .catch(err => console.log(err))
+  .finally(() => console.log("Finished"));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>Promise.resolve()</b></td>
+<td>Returns a resolved promise.</td>
+<td>
+
+<pre>
+Promise.resolve("Success")
+  .then(res => console.log(res));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>Promise.reject()</b></td>
+<td>Returns a rejected promise.</td>
+<td>
+
+<pre>
+Promise.reject("Error occurred")
+  .catch(err => console.log(err));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>Promise.all()</b></td>
+<td>Runs multiple promises in parallel. Fails if one promise fails.</td>
+<td>
+
+<pre>
+Promise.all([
+  fetch('/user'),
+  fetch('/posts')
+])
+.then(res => console.log("All done"))
+.catch(err => console.log(err));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>Promise.allSettled()</b></td>
+<td>Waits for all promises regardless of success or failure.</td>
+<td>
+
+<pre>
+Promise.allSettled([
+  Promise.resolve("A"),
+  Promise.reject("B")
+])
+.then(res => console.log(res));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>Promise.race()</b></td>
+<td>Returns the result of the first promise that completes.</td>
+<td>
+
+<pre>
+Promise.race([
+  fetch('/fast'),
+  fetch('/slow')
+])
+.then(res => console.log(res));
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><b>Promise.any()</b></td>
+<td>Returns the first successful promise.</td>
+<td>
+
+<pre>
+Promise.any([
+  Promise.reject("Error"),
+  Promise.resolve("Success")
+])
+.then(res => console.log(res));
+</pre>
+
+</td>
+</tr>
+
+</tbody>
+</table>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Node.js File System (fs) Important Functions    
+    </span>
+    <div class="answer">
+
+
+<table border="1" cellpadding="8" cellspacing="0">
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><b>fs.readFile()</b></td>
+<td>Reads a file asynchronously.</td>
+<td>
+<pre>
+const fs = require('fs');
+
+fs.readFile('test.txt','utf8',(err,data)=>{
+ if(err) throw err;
+ console.log(data);
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.readFileSync()</b></td>
+<td>Reads a file synchronously (blocking).</td>
+<td>
+<pre>
+const fs = require('fs');
+
+const data = fs.readFileSync('test.txt','utf8');
+console.log(data);
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.writeFile()</b></td>
+<td>Creates or overwrites a file.</td>
+<td>
+<pre>
+const fs = require('fs');
+
+fs.writeFile('test.txt','Hello Node',(err)=>{
+ if(err) throw err;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.writeFileSync()</b></td>
+<td>Writes file synchronously.</td>
+<td>
+<pre>
+const fs = require('fs');
+
+fs.writeFileSync('test.txt','Hello Node');
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.appendFile()</b></td>
+<td>Adds content to an existing file.</td>
+<td>
+<pre>
+fs.appendFile('test.txt','\nNew Line',(err)=>{
+ if(err) throw err;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.open()</b></td>
+<td>Opens a file for reading or writing.</td>
+<td>
+<pre>
+fs.open('test.txt','r',(err,fd)=>{
+ if(err) throw err;
+ console.log("File opened");
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.close()</b></td>
+<td>Closes an opened file descriptor.</td>
+<td>
+<pre>
+fs.close(fd,(err)=>{
+ if(err) throw err;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.read()</b></td>
+<td>Reads bytes from a file descriptor.</td>
+<td>
+<pre>
+const buffer = Buffer.alloc(100);
+
+fs.open('test.txt','r',(err,fd)=>{
+ fs.read(fd,buffer,0,100,0,(err,bytes)=>{
+   console.log(buffer.toString());
+ });
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.write()</b></td>
+<td>Writes bytes to a file descriptor.</td>
+<td>
+<pre>
+fs.open('test.txt','w',(err,fd)=>{
+ fs.write(fd,"Hello Node",0,'utf8',(err)=>{
+   console.log("Written");
+ });
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.rename()</b></td>
+<td>Renames a file.</td>
+<td>
+<pre>
+fs.rename('old.txt','new.txt',(err)=>{
+ if(err) throw err;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.unlink()</b></td>
+<td>Deletes a file.</td>
+<td>
+<pre>
+fs.unlink('test.txt',(err)=>{
+ if(err) throw err;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.copyFile()</b></td>
+<td>Copies a file.</td>
+<td>
+<pre>
+fs.copyFile('a.txt','b.txt',(err)=>{
+ if(err) throw err;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.stat()</b></td>
+<td>Gets file metadata (size, time, type).</td>
+<td>
+<pre>
+fs.stat('test.txt',(err,stats)=>{
+ console.log(stats.size);
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.existsSync()</b></td>
+<td>Checks if file exists.</td>
+<td>
+<pre>
+if(fs.existsSync('test.txt')){
+ console.log("File exists");
+}
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.mkdir()</b></td>
+<td>Creates a directory.</td>
+<td>
+<pre>
+fs.mkdir('myFolder',(err)=>{
+ if(err) throw err;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.readdir()</b></td>
+<td>Reads files inside a directory.</td>
+<td>
+<pre>
+fs.readdir('./',(err,files)=>{
+ console.log(files);
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.rmdir()</b></td>
+<td>Removes a directory.</td>
+<td>
+<pre>
+fs.rmdir('myFolder',(err)=>{
+ if(err) throw err;
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.createReadStream()</b></td>
+<td>Reads large files using streams.</td>
+<td>
+<pre>
+const stream = fs.createReadStream('bigfile.txt');
+
+stream.on('data',(chunk)=>{
+ console.log(chunk);
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.createWriteStream()</b></td>
+<td>Writes data to file using streams.</td>
+<td>
+<pre>
+const stream = fs.createWriteStream('output.txt');
+
+stream.write("Hello Node");
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.watch()</b></td>
+<td>Watches file changes.</td>
+<td>
+<pre>
+fs.watch('test.txt',(event,filename)=>{
+ console.log("File changed");
+});
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><b>fs.promises</b></td>
+<td>Promise based fs API.</td>
+<td>
+<pre>
+const fs = require('fs').promises;
+
+async function read(){
+ const data = await fs.readFile('test.txt','utf8');
+ console.log(data);
+}
+
+read();
+</pre>
+</td>
+</tr>
+
+</tbody>
+</table>
+    </div>
+</li> 
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        Kafka vs Redis Pub/Sub vs RabbitMQ vs AWS SQS (Messaging Queue Comparison)
+    </span>
+
+    <div class="answer">
+
+        <h3>1. Overview</h3>
+        <p>
+            Messaging systems are used in distributed and microservice architectures to enable 
+            asynchronous communication between services. Popular technologies include 
+            Apache Kafka, Redis Pub/Sub, RabbitMQ, and AWS SQS.
+        </p>
+
+        <h3>2. Architecture Comparison</h3>
+
+        <table border="1" cellpadding="8" cellspacing="0">
+            <tr>
+                <th>Feature</th>
+                <th>Kafka</th>
+                <th>Redis Pub/Sub</th>
+                <th>RabbitMQ</th>
+                <th>AWS SQS</th>
+            </tr>
+
+            <tr>
+                <td>Type</td>
+                <td>Distributed Event Streaming Platform</td>
+                <td>In-memory Publish/Subscribe Messaging</td>
+                <td>Message Broker</td>
+                <td>Managed Cloud Message Queue</td>
+            </tr>
+
+            <tr>
+                <td>Persistence</td>
+                <td>Yes (Disk-based log storage)</td>
+                <td>No (In-memory)</td>
+                <td>Optional</td>
+                <td>Yes (AWS managed)</td>
+            </tr>
+
+            <tr>
+                <td>Message Retention</td>
+                <td>Configurable (hours/days)</td>
+                <td>No retention</td>
+                <td>Usually removed after consumption</td>
+                <td>Up to 14 days</td>
+            </tr>
+
+            <tr>
+                <td>Throughput</td>
+                <td>Very High (Millions/sec)</td>
+                <td>High but memory dependent</td>
+                <td>Moderate</td>
+                <td>High and scalable</td>
+            </tr>
+
+            <tr>
+                <td>Scalability</td>
+                <td>Excellent (Partitions)</td>
+                <td>Limited</td>
+                <td>Good (Clustering)</td>
+                <td>Auto-scaled by AWS</td>
+            </tr>
+
+            <tr>
+                <td>Ordering</td>
+                <td>Partition ordering</td>
+                <td>No guarantee</td>
+                <td>Queue ordering</td>
+                <td>FIFO option available</td>
+            </tr>
+
+            <tr>
+                <td>Management</td>
+                <td>Self-managed cluster</td>
+                <td>Simple setup</td>
+                <td>Self-managed</td>
+                <td>Fully managed by AWS</td>
+            </tr>
+        </table>
+
+        <h3>3. Use Case Comparison</h3>
+
+        <table border="1" cellpadding="8" cellspacing="0">
+            <tr>
+                <th>Use Case</th>
+                <th>Best Technology</th>
+            </tr>
+
+            <tr>
+                <td>Event streaming / log processing</td>
+                <td>Kafka</td>
+            </tr>
+
+            <tr>
+                <td>Real-time notifications</td>
+                <td>Redis Pub/Sub</td>
+            </tr>
+
+            <tr>
+                <td>Task queues / background jobs</td>
+                <td>RabbitMQ</td>
+            </tr>
+
+            <tr>
+                <td>Serverless microservices on AWS</td>
+                <td>AWS SQS</td>
+            </tr>
+
+            <tr>
+                <td>High scale data pipelines</td>
+                <td>Kafka</td>
+            </tr>
+
+        </table>
+
+        <h3>4. Real World Company Usage</h3>
+
+        <table border="1" cellpadding="8" cellspacing="0">
+            <tr>
+                <th>Company</th>
+                <th>Technology Used</th>
+            </tr>
+
+            <tr>
+                <td>Netflix</td>
+                <td>Kafka</td>
+            </tr>
+
+            <tr>
+                <td>LinkedIn</td>
+                <td>Kafka (original creator)</td>
+            </tr>
+
+            <tr>
+                <td>Small Microservices Systems</td>
+                <td>RabbitMQ</td>
+            </tr>
+
+            <tr>
+                <td>AWS Cloud Native Systems</td>
+                <td>AWS SQS</td>
+            </tr>
+
+        </table>
+
+        <h3>5. Simple Architecture Flow</h3>
+
+<pre>
+Kafka:
+Producer → Topic → Partition → Broker → Consumer
+
+Redis Pub/Sub:
+Publisher → Channel → Subscriber
+
+RabbitMQ:
+Producer → Exchange → Queue → Consumer
+
+AWS SQS:
+Producer → SQS Queue → Consumer
+</pre>
+
+        <h3>6. Short Interview Answer (25 LPA Level)</h3>
+
+        <p>
+        Kafka is a distributed event streaming platform optimized for high-throughput 
+        data pipelines and event streaming. RabbitMQ is a message broker designed for 
+        reliable queue-based messaging. Redis Pub/Sub provides ultra-fast in-memory 
+        messaging but without persistence. AWS SQS is a fully managed cloud message 
+        queue service used for decoupling microservices in AWS architectures.
+        </p>
+
+    </div>
+</li>
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        Kafka vs RabbitMQ with Simple Node.js Example
+    </span>
+    <div class="answer">
+
+        <h3>1. What is Kafka?</h3>
+        <p>
+            Kafka is a distributed event streaming platform designed for handling very high throughput 
+            real-time data pipelines. Messages are stored in topics and partitions and can be consumed 
+            multiple times by different consumers.
+        </p>
+
+        <h3>2. What is RabbitMQ?</h3>
+        <p>
+            RabbitMQ is a message broker that uses queues to deliver messages between services. 
+            Once a consumer processes a message, it is typically removed from the queue.
+        </p>
+
+        <h3>3. Architecture Difference</h3>
+
+        <table border="1" cellpadding="8" cellspacing="0">
+            <tr>
+                <th>Feature</th>
+                <th>Kafka</th>
+                <th>RabbitMQ</th>
+            </tr>
+
+            <tr>
+                <td>Type</td>
+                <td>Distributed Event Streaming Platform</td>
+                <td>Message Broker</td>
+            </tr>
+
+            <tr>
+                <td>Message Storage</td>
+                <td>Stored in distributed logs</td>
+                <td>Stored in queues</td>
+            </tr>
+
+            <tr>
+                <td>Throughput</td>
+                <td>Very High (Millions/sec)</td>
+                <td>Moderate</td>
+            </tr>
+
+            <tr>
+                <td>Message Retention</td>
+                <td>Configurable (hours/days)</td>
+                <td>Removed after consumption</td>
+            </tr>
+
+            <tr>
+                <td>Scaling</td>
+                <td>Partitions allow horizontal scaling</td>
+                <td>Queue clustering</td>
+            </tr>
+
+        </table>
+
+        <h3>4. Simple Architecture Flow</h3>
+
+<pre>
+Kafka Flow:
+Producer → Topic → Partition → Consumer
+
+RabbitMQ Flow:
+Producer → Exchange → Queue → Consumer
+</pre>
+
+        <h3>5. RabbitMQ Example (Node.js)</h3>
+
+        <p><b>Producer (send message)</b></p>
+
+<pre>
+const amqp = require("amqplib");
+
+async function sendMessage() {
+
+  const connection = await amqp.connect("amqp://localhost");
+  const channel = await connection.createChannel();
+
+  await channel.assertQueue("tasks");
+
+  channel.sendToQueue("tasks", Buffer.from("Hello RabbitMQ"));
+
+  console.log("Message sent");
+}
+
+sendMessage();
+</pre>
+
+        <p><b>Consumer (receive message)</b></p>
+
+<pre>
+const amqp = require("amqplib");
+
+async function receiveMessage() {
+
+  const connection = await amqp.connect("amqp://localhost");
+  const channel = await connection.createChannel();
+
+  await channel.assertQueue("tasks");
+
+  channel.consume("tasks", (msg) => {
+    console.log("Received:", msg.content.toString());
+  });
+
+}
+
+receiveMessage();
+</pre>
+
+        <h3>6. Kafka Example (Node.js)</h3>
+
+        <p><b>Producer</b></p>
+
+<pre>
+const { Kafka } = require("kafkajs");
+
+const kafka = new Kafka({
+  clientId: "my-app",
+  brokers: ["localhost:9092"]
+});
+
+const producer = kafka.producer();
+
+async function send() {
+
+  await producer.connect();
+
+  await producer.send({
+    topic: "orders",
+    messages: [
+      { value: "New Order Created" }
+    ]
+  });
+
+  console.log("Message sent");
+
+}
+
+send();
+</pre>
+
+        <p><b>Consumer</b></p>
+
+<pre>
+const { Kafka } = require("kafkajs");
+
+const kafka = new Kafka({
+  clientId: "my-app",
+  brokers: ["localhost:9092"]
+});
+
+const consumer = kafka.consumer({ groupId: "order-group" });
+
+async function receive() {
+
+  await consumer.connect();
+  await consumer.subscribe({ topic: "orders" });
+
+  await consumer.run({
+    eachMessage: async ({ message }) => {
+      console.log("Received:", message.value.toString());
+    }
+  });
+
+}
+
+receive();
+</pre>
+
+        <h3>7. When to Use</h3>
+
+        <table border="1" cellpadding="8" cellspacing="0">
+            <tr>
+                <th>Scenario</th>
+                <th>Best Choice</th>
+            </tr>
+
+            <tr>
+                <td>High scale event streaming</td>
+                <td>Kafka</td>
+            </tr>
+
+            <tr>
+                <td>Background job queue</td>
+                <td>RabbitMQ</td>
+            </tr>
+
+            <tr>
+                <td>Microservice communication</td>
+                <td>RabbitMQ</td>
+            </tr>
+
+            <tr>
+                <td>Real-time analytics pipelines</td>
+                <td>Kafka</td>
+            </tr>
+
+        </table>
+
+        <h3>8. Short Interview Answer</h3>
+
+        <p>
+        Kafka is designed for high-throughput event streaming where messages are stored and can be 
+        replayed by consumers. RabbitMQ is a message broker that focuses on reliable message delivery 
+        using queues and routing exchanges. Kafka is preferred for large-scale data pipelines, while 
+        RabbitMQ is commonly used for task queues and microservice messaging.
+        </p>
+
+    </div>
+</li>
 
 <li data-id="q3" class="yellow"><span class="faq-question">
 ---------- Difference_End -----------------</span></li>
