@@ -6313,6 +6313,298 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
 
 <li data-id="q35562" class="zyellow">
     <span class="faq-question">
+        Redux Toolkit.
+    </span>
+    <div class="answer">
+        <pre><code>
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = {
+  value: 0
+}
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment: (state) => {
+      state.value += 1
+    },
+    decrement: (state) => {
+      state.value -= 1
+    },
+    incrementByAmount: (state, action) => {
+      state.value += action.payload
+    }
+  }
+})
+
+export const { increment, decrement, incrementByAmount } = counterSlice.actions
+
+export default counterSlice.reducer
+----------------------------------------------------
+
+import { configureStore } from '@reduxjs/toolkit'
+import counterReducer from '../features/counter/counterSlice'
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer
+  }
+})
+----------------------------------------------------
+
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { increment, decrement } from './features/counter/counterSlice'
+
+function App() {
+
+  const count = useSelector((state) => state.counter.value)
+  const dispatch = useDispatch()
+
+  return (
+    <div style={{textAlign:'center', marginTop:'40px'}}>
+      <h2>Counter App</h2>
+
+      <h1>{count}</h1>
+
+      <button onClick={() => dispatch(increment())}>
+        Increment
+      </button>
+
+      <button onClick={() => dispatch(decrement())}>
+        Decrement
+      </button>
+    </div>
+  )
+}
+
+export default App
+
+        </code></pre>
+    </div>
+</li> 
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        Redux Toolkit ****
+    </span>
+    <div class="answer">
+        <pre><code>
+npm i @reduxjs/toolkit react-redux
+
+
+
+---------------------
+import React, { useState } from "react";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Provider, useDispatch, useSelector } from "react-redux";
+
+/* ---------------- COUNTER ONE SLICE ---------------- */
+
+const counterOneSlice = createSlice({
+  name: "counterOne",
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+  },
+});
+
+/* ---------------- COUNTER TWO SLICE ---------------- */
+
+const counterTwoSlice = createSlice({
+  name: "counterTwo",
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      state.value += 5;
+    },
+    decrement: (state) => {
+      state.value -= 5;
+    },
+  },
+});
+
+/* ---------------- EMPLOYEE SLICE ---------------- */
+
+const employeeSlice = createSlice({
+  name: "employees",
+  initialState: {
+    list: [],
+  },
+  reducers: {
+    addEmployee: (state, action) => {
+      state.list.push(action.payload);
+    },
+    updateEmployee: (state, action) => {
+      const index = state.list.findIndex(
+        (emp) => emp.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.list[index] = action.payload;
+      }
+    },
+  },
+});
+
+/* ---------------- STORE ---------------- */
+
+const store = configureStore({
+  reducer: {
+    counterOne: counterOneSlice.reducer,
+    counterTwo: counterTwoSlice.reducer,
+    employees: employeeSlice.reducer,
+  },
+});
+
+/* ---------------- COUNTER ONE COMPONENT ---------------- */
+
+function CounterOne() {
+  const count = useSelector((state) => state.counterOne.value);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <h3>Counter One: {count}</h3>
+      <button onClick={() => dispatch(counterOneSlice.actions.increment())}>
+        Increment
+      </button>
+      <button onClick={() => dispatch(counterOneSlice.actions.decrement())}>
+        Decrement
+      </button>
+    </div>
+  );
+}
+
+/* ---------------- COUNTER TWO COMPONENT ---------------- */
+
+function CounterTwo() {
+  const count = useSelector((state) => state.counterTwo.value);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <h3>Counter Two: {count}</h3>
+      <button onClick={() => dispatch(counterTwoSlice.actions.increment())}>
+        Increment
+      </button>
+      <button onClick={() => dispatch(counterTwoSlice.actions.decrement())}>
+        Decrement
+      </button>
+    </div>
+  );
+}
+
+/* ---------------- EMPLOYEE COMPONENT ---------------- */
+
+function EmployeeForm() {
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employees.list);
+
+  const [form, setForm] = useState({ id: "", name: "", role: "" });
+  const [edit, setEdit] = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (edit) {
+      dispatch(employeeSlice.actions.updateEmployee(form));
+    } else {
+      dispatch(
+        employeeSlice.actions.addEmployee({
+          ...form,
+          id: Date.now(),
+        })
+      );
+    }
+
+    setForm({ id: "", name: "", role: "" });
+    setEdit(false);
+  }
+
+  function handleEdit(emp) {
+    setForm(emp);
+    setEdit(true);
+  }
+
+  return (
+    <div>
+      <h3>Employee Form</h3>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder="Name"
+          value={form.name}
+          onChange={(e) =>
+            setForm({ ...form, name: e.target.value })
+          }
+        />
+
+        <input
+          placeholder="Role"
+          value={form.role}
+          onChange={(e) =>
+            setForm({ ...form, role: e.target.value })
+          }
+        />
+
+        <button type="submit">
+          {edit ? "Update" : "Add"}
+        </button>
+      </form>
+
+      <h4>Employee List</h4>
+
+      {employees.map((emp) => (
+        <div key={emp.id}>
+          {emp.name} - {emp.role}
+          <button onClick={() => handleEdit(emp)}>Edit</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------------- APP ---------------- */
+
+function AppContent() {
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Redux Toolkit Example</h2>
+
+      <CounterOne />
+      <hr />
+
+      <CounterTwo />
+      <hr />
+
+      <EmployeeForm />
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <AppContent />
+    </Provider>
+  );
+}
+
+        </code></pre>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
 React Fiber Architecture    
     </span>
     <div class="answer">
