@@ -370,13 +370,14 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
             </td>
             <td style="vertical-align: top;">
               <ol>
-                <li><a href="#awslambda">AWS Lambda</a></li>
+                <li><a href="#awslambda_qlist">AWS Lambda</a></li>
                 <li><a href="#awscognito">AWS Cognito</a></li>
                 <li><a href="#awsdynamodb">AWS DynamoDB</a></li>
                 <li><a href="#awsec2">Ec2</a></li>
                 <li><a href="#awsamplify">AWS Amplify</a></li>
                 <li><a href="#eks_qlist">EKS / ECS</a></li>                
                 <li>API Gateway</li>
+                <li><a href="#gcpcloud_qlist">GCP Cloud</a></li>
               </ol>
             </td>
           </tr>
@@ -24546,6 +24547,21 @@ It is widely used for:
 
     
     <pre class="code-block"><code>
+      --------- Example Object ---------
+var keys  = {}
+keys['hello'] = 5;
+keys['hii']   = 3;
+
+Object.keys(keys).forEach((val, k)=>{
+  console.log('--->',val,'||', k)
+})
+
+for(let index in keys){
+  console.log(keys[index], index)
+}
+console.log(keys);
+
+
       ---------- Example 01 ----------
       Array.prototype.double = function () {
         return this.map(x => x * 2);
@@ -57059,8 +57075,712 @@ because you already know how the infrastructure is created.
 
 
 
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ----------------------------------------------------------------------------------</span></li>
+<li data-id="q3" id="gcpcloud_qlist" class="yellow"><span class="faq-question">
+  --------------   GCP Cloud Question  -----------------------</span></li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ---------------------------------------------------------------------------------------- 
+</span></li>
 
-<li data-id="q_call_api_without_useeffect" id="awslambda"><span class="faq-question green">
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        What is Google Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Run is a fully managed serverless platform that allows you to run containerized
+applications without managing servers or infrastructure.
+
+Key points:
+- Deploy containers directly
+- Automatic scaling
+- Pay only for requests
+- Supports HTTP services
+- Built on top of Kubernetes
+
+Architecture:
+Client → Cloud Run → Backend services (Cloud SQL / PubSub)
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35563" class="zyellow">
+    <span class="faq-question">
+        What are the advantages of Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+1. Serverless container platform
+2. Automatic scaling from 0 to N instances
+3. No infrastructure management
+4. Supports any programming language
+5. Faster deployment using containers
+6. Integrated with GCP services like Pub/Sub, Cloud SQL, IAM
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35564" class="zyellow">
+    <span class="faq-question">
+        What is the difference between Cloud Run and App Engine?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Run
+- Runs containerized applications
+- More flexible
+- Supports custom runtime
+- Works with Docker
+
+App Engine
+- Platform as a Service
+- Limited runtime environments
+- No container requirement
+
+Cloud Run is more suitable for microservices architecture.
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35565" class="zyellow">
+    <span class="faq-question">
+        How do you deploy a Node.js application to Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Step 1: Create Node.js application
+
+Step 2: Create Dockerfile
+
+FROM node:18
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 8080
+CMD ["node","app.js"]
+
+Step 3: Deploy
+
+gcloud run deploy node-service \
+--source . \
+--region asia-south1 \
+--allow-unauthenticated
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35566" class="zyellow">
+    <span class="faq-question">
+        How does scaling work in Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Run automatically scales based on incoming requests.
+
+Scaling behavior:
+- Starts from zero instances
+- Creates new instances when traffic increases
+- Stops instances when traffic decreases
+
+Benefits:
+- Cost efficient
+- Handles sudden traffic spikes
+- No manual scaling required
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35567" class="zyellow">
+    <span class="faq-question">
+        How does Cloud Run connect to Cloud SQL?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Run connects to Cloud SQL using:
+
+1. Cloud SQL Auth Proxy
+2. Private IP connection
+3. IAM service account authentication
+
+Node.js Example:
+
+const { Pool } = require("pg")
+
+const pool = new Pool({
+  user: "postgres",
+  host: "/cloudsql/project:region:instance",
+  database: "testdb",
+  password: "password"
+})
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35568" class="zyellow">
+    <span class="faq-question">
+        What are stateless services in Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Run services must be stateless.
+
+Stateless means:
+- No data stored in local memory or filesystem
+- Each request is independent
+- Persistent data should be stored in external services
+
+Examples:
+- Cloud SQL
+- Firestore
+- Cloud Storage
+- Redis
+
+        </code></pre>
+    </div>
+</li>
+<li data-id="q35569" class="zyellow">
+    <span class="faq-question">
+        How do you handle environment variables in Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Environment variables can be configured during deployment.
+
+Example:
+
+gcloud run deploy node-api \
+--image gcr.io/project-id/app \
+--set-env-vars DB_HOST=localhost,DB_USER=root
+
+Node.js usage:
+
+const dbHost = process.env.DB_HOST;
+const dbUser = process.env.DB_USER;
+
+Benefits:
+- Secure configuration
+- No hardcoded credentials
+- Easy environment switching
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35570" class="zyellow">
+    <span class="faq-question">
+        How do you connect Cloud Run to Cloud SQL using private IP?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Steps:
+
+1. Enable private IP on Cloud SQL instance
+2. Create Serverless VPC Connector
+3. Attach VPC connector to Cloud Run service
+
+Deployment example:
+
+gcloud run deploy api-service \
+--image gcr.io/project/app \
+--vpc-connector my-vpc-connector \
+--region asia-south1
+
+Benefits:
+- Secure database access
+- No public exposure
+- Lower latency
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35571" class="zyellow">
+    <span class="faq-question">
+        How do you enable CI/CD using Cloud Build?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Steps:
+
+1. Connect GitHub repository to Cloud Build
+2. Create cloudbuild.yaml
+3. Configure trigger on push
+
+Example cloudbuild.yaml:
+
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t','gcr.io/$PROJECT_ID/app','.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','gcr.io/$PROJECT_ID/app']
+
+Trigger:
+Git push → Cloud Build → Build Docker → Deploy
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35572" class="zyellow">
+    <span class="faq-question">
+        How do you automatically deploy to Cloud Run using Cloud Build?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+cloudbuild.yaml example:
+
+steps:
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t','gcr.io/$PROJECT_ID/node-api','.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','gcr.io/$PROJECT_ID/node-api']
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - run
+  - deploy
+  - node-api
+  - --image
+  - gcr.io/$PROJECT_ID/node-api
+  - --region
+  - asia-south1
+  - --platform
+  - managed
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35573" class="zyellow">
+    <span class="faq-question">
+        How do you manage database migrations in Cloud SQL during deployment?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Best practice:
+
+Run migrations during build or startup.
+
+Example using npm script:
+
+package.json
+
+"scripts": {
+  "migrate": "node migrate.js",
+  "start": "node app.js"
+}
+
+Cloud Build step:
+
+- name: 'node'
+  entrypoint: npm
+  args: ['run','migrate']
+
+Benefits:
+- Schema consistency
+- Automated deployments
+- No manual database updates
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35574" class="zyellow">
+    <span class="faq-question">
+        How do you secure credentials for Cloud SQL?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Use Secret Manager instead of hardcoding credentials.
+
+Steps:
+
+1. Store password in Secret Manager
+2. Grant access to service account
+3. Inject secret into Cloud Run
+
+Example:
+
+gcloud secrets create db-password
+
+Node.js usage:
+
+const password = process.env.DB_PASSWORD;
+
+Benefits:
+- Secure storage
+- Access control via IAM
+- Avoid exposing credentials in code
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35575" class="zyellow">
+    <span class="faq-question">
+        How do you debug failures in Cloud Build?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Steps:
+
+1. Go to Cloud Build console
+2. Open build history
+3. Check logs for failed step
+
+Common issues:
+
+- Docker build error
+- Permission denied
+- Missing environment variables
+- Incorrect image path
+
+Command line debugging:
+
+gcloud builds log BUILD_ID
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35576" class="zyellow">
+    <span class="faq-question">
+        How do you optimize Cloud Run performance?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Optimization techniques:
+
+1. Use minimum instances
+2. Enable concurrency
+3. Reduce cold start time
+4. Optimize container size
+5. Use connection pooling for databases
+
+Example:
+
+gcloud run deploy api \
+--concurrency 80 \
+--min-instances 1
+
+Benefits:
+- Faster response
+- Reduced cold starts
+- Better scalability
+
+        </code></pre>
+    </div>
+</li>
+<li data-id="q35577" class="zyellow">
+    <span class="faq-question">
+        What is a cold start in Cloud Run and how can it be reduced?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cold start happens when Cloud Run scales from zero instances
+and needs to start a new container to handle a request.
+
+Reasons:
+- No active container instance
+- Container image initialization
+
+Ways to reduce cold start:
+
+1. Use smaller container images
+2. Enable minimum instances
+3. Optimize application startup time
+4. Avoid heavy initialization logic
+
+Example:
+
+gcloud run deploy api-service \
+--image gcr.io/project/app \
+--min-instances 1
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35578" class="zyellow">
+    <span class="faq-question">
+        How does request concurrency work in Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Concurrency means how many requests a single container
+instance can process simultaneously.
+
+Default concurrency: 80 requests per container.
+
+Example:
+
+gcloud run deploy api-service \
+--concurrency 50
+
+Benefits:
+
+- Efficient resource utilization
+- Reduced container creation
+- Better scalability
+
+Important:
+Application must be able to handle parallel requests.
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35579" class="zyellow">
+    <span class="faq-question">
+        How do you implement connection pooling with Cloud SQL?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Run instances are short-lived, so database connections
+must be managed efficiently.
+
+Solution: Use connection pooling.
+
+Node.js Example using pg pool:
+
+const { Pool } = require("pg")
+
+const pool = new Pool({
+  user: "postgres",
+  host: "/cloudsql/project:region:instance",
+  database: "appdb",
+  password: "password",
+  max: 10
+})
+
+app.get("/users", async (req,res)=>{
+   const data = await pool.query("select * from users")
+   res.json(data.rows)
+})
+
+Benefits:
+- Prevent connection exhaustion
+- Improve performance
+- Efficient database usage
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35580" class="zyellow">
+    <span class="faq-question">
+        What is a Cloud Build trigger?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Build triggers automatically start a build
+when changes occur in a repository.
+
+Supported triggers:
+
+- GitHub push
+- Pull request
+- Tag creation
+- Manual trigger
+
+Example workflow:
+
+Developer push code → GitHub
+       ↓
+Cloud Build Trigger
+       ↓
+Docker Image Build
+       ↓
+Deploy to Cloud Run
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35581" class="zyellow">
+    <span class="faq-question">
+        How do you store Docker images built by Cloud Build?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Build pushes Docker images to Artifact Registry
+or Container Registry.
+
+Example:
+
+docker build -t gcr.io/project-id/app .
+
+docker push gcr.io/project-id/app
+
+Cloud Build automatically stores built images
+and they can be used by Cloud Run deployments.
+
+Benefits:
+
+- Versioned container images
+- Secure storage
+- Integrated with CI/CD pipelines
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35582" class="zyellow">
+    <span class="faq-question">
+        How do you implement zero downtime deployment in Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Cloud Run supports traffic splitting.
+
+New revision is deployed without stopping old revision.
+
+Example:
+
+Deploy new version:
+
+gcloud run deploy api-service --image gcr.io/project/app-v2
+
+Split traffic:
+
+gcloud run services update-traffic api-service \
+--to-revisions api-service-v1=50,api-service-v2=50
+
+Benefits:
+
+- Zero downtime deployment
+- Safe rollback
+- Gradual rollout
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35583" class="zyellow">
+    <span class="faq-question">
+        What monitoring tools are used with Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Monitoring tools:
+
+1. Cloud Logging
+2. Cloud Monitoring
+3. Error Reporting
+4. Trace
+
+Example Node.js logging:
+
+console.log("API request received")
+
+Logs automatically appear in
+Google Cloud Logging dashboard.
+
+Benefits:
+
+- Centralized logs
+- Error tracking
+- Performance monitoring
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35584" class="zyellow">
+    <span class="faq-question">
+        How do you secure a Cloud Run service?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Security methods:
+
+1. IAM authentication
+2. Identity tokens
+3. API Gateway
+4. Private services
+
+Example:
+
+Remove public access:
+
+gcloud run services update api-service \
+--no-allow-unauthenticated
+
+Then allow specific service accounts
+to call the API.
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35585" class="zyellow">
+    <span class="faq-question">
+        What happens if Cloud SQL reaches maximum connections?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+If the database reaches maximum connections:
+
+New requests will fail with connection errors.
+
+Solutions:
+
+1. Use connection pooling
+2. Limit Cloud Run instances
+3. Use Cloud SQL Proxy
+4. Increase database instance size
+
+Example:
+
+gcloud run deploy api \
+--max-instances 10
+
+This prevents too many database connections.
+
+        </code></pre>
+    </div>
+</li>
+<li data-id="q3" class="yellow"><span class="faq-question">
+  ---------------- GCP END ---------------------------- 
+</span></li>
+
+<li data-id="q_call_api_without_useeffect" id="awslambda_qlist"><span class="faq-question green">
   Lambda : Question?
   </span><div class="answer">
   
