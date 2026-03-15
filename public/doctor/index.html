@@ -342,7 +342,8 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
             </td>
             <td style="vertical-align: top;">
               <ol>
-                <li><a href="#reactjs_qlist">Reactjs</a></li>
+                <li><a href="#reactjs_qlist2">Reactjs Q1</a></li>
+                <li><a href="#reactjs_qlist">Reactjs Q2</a></li>                
                 <li><a href="#nextjs_qlist">Nextjs</a></li>
                 <li><a href="#redux_qlist">Redux</a></li>
                 <li><a href="#redux_toolkit">Toolkit</a></li>
@@ -1948,6 +1949,11 @@ shallow / shadow copy
 
 
 </div></li>
+
+
+<li data-id="q3"  id="reactjs_qlist" class="yellow"><span class="faq-question">
+--------------   ReactJS Q1  -------------------------------------------------------------------------------------</span></li>
+
 
 
 
@@ -6306,7 +6312,7 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
 
 
 
-<li data-id="q3" id="reactjs_qlist" class="yellow"><span class="faq-question">
+<li data-id="q3" id="reactjs_qlist2" class="yellow"><span class="faq-question">
   ---------------------------------------------</span></li>
 <li data-id="q3" class="yellow"><span class="faq-question">
   --------------   ReactJS  -------------------</span></li>
@@ -57776,6 +57782,342 @@ This prevents too many database connections.
         </code></pre>
     </div>
 </li>
+
+<li data-id="q35590" class="zyellow">
+    <span class="faq-question">
+        How do you create a GCP account and project for deploying a Node.js microservice?****
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Step 1: Open https://cloud.google.com
+
+Step 2: Login using Google account
+
+Step 3: Enable free trial ($300 credit usually)
+
+Step 4: Create a new project
+
+Example:
+
+Project Name: node-microservice-demo
+Project ID: node-microservice-demo-123
+
+Step 5: Install Google Cloud CLI
+
+Verify installation:
+
+gcloud version
+
+Login:
+
+gcloud auth login
+
+Select project:
+
+gcloud config set project node-microservice-demo-123
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35591" class="zyellow">
+    <span class="faq-question">
+        How do you create a Node.js microservice API?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Create project folder:
+
+mkdir node-api
+cd node-api
+
+Initialize project:
+
+npm init -y
+
+Install dependency:
+
+npm install express
+
+Example app.js
+
+const express = require("express")
+const app = express()
+
+app.get("/", (req,res)=>{
+    res.json({msg:"Home Service"})
+})
+
+app.get("/orders",(req,res)=>{
+    res.json({msg:"Orders Service"})
+})
+
+app.listen(8080, ()=>{
+    console.log("Server started")
+})
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35592" class="zyellow">
+    <span class="faq-question">
+        How do you containerize the Node.js service for Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Create Dockerfile
+
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 8080
+
+CMD ["node","app.js"]
+
+This container will be deployed to Cloud Run.
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35593" class="zyellow">
+    <span class="faq-question">
+        How do you build the container using Cloud Build?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Run command:
+
+gcloud builds submit --tag gcr.io/$PROJECT_ID/node-api
+
+What happens internally:
+
+1. Upload code to GCP
+2. Build Docker container
+3. Push container image to Container Registry
+
+Image created:
+
+gcr.io/project-id/node-api
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35594" class="zyellow">
+    <span class="faq-question">
+        How do you deploy the Node.js container to Cloud Run?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Deploy service:
+
+gcloud run deploy node-api \
+--image gcr.io/$PROJECT_ID/node-api \
+--platform managed \
+--region asia-south1 \
+--allow-unauthenticated
+
+After deployment Cloud Run provides a public URL.
+
+Example:
+
+https://node-api-abc.a.run.app
+
+Architecture:
+
+Client → Cloud Run → Node.js API
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35595" class="zyellow">
+    <span class="faq-question">
+        How do you create and use Pub/Sub for event driven microservices?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Create topic:
+
+gcloud pubsub topics create order-topic
+
+Create subscription:
+
+gcloud pubsub subscriptions create order-sub \
+--topic order-topic
+
+Publisher example in Node.js:
+
+const {PubSub} = require("@google-cloud/pubsub")
+
+const pubsub = new PubSub()
+
+async function publish(){
+   await pubsub.topic("order-topic")
+   .publishMessage({data: Buffer.from("Order created")})
+}
+
+Subscriber example:
+
+subscription.on("message", message=>{
+   console.log(message.data.toString())
+   message.ack()
+})
+
+Architecture:
+
+Order API → Pub/Sub → Worker Service
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35596" class="zyellow">
+    <span class="faq-question">
+        How do you create and connect Cloud SQL database?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Create PostgreSQL instance:
+
+gcloud sql instances create node-db \
+--database-version=POSTGRES_14 \
+--cpu=1 \
+--memory=4GB \
+--region=asia-south1
+
+Create database:
+
+gcloud sql databases create appdb --instance=node-db
+
+Node.js connection example:
+
+npm install pg
+
+const { Pool } = require("pg")
+
+const pool = new Pool({
+  user: "postgres",
+  host: "/cloudsql/project:region:instance",
+  database: "appdb",
+  password: "password"
+})
+
+app.get("/users", async (req,res)=>{
+   const data = await pool.query("select * from users")
+   res.json(data.rows)
+})
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35597" class="zyellow">
+    <span class="faq-question">
+        How do you create CI/CD pipeline using Cloud Build?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Create file:
+
+cloudbuild.yaml
+
+Example pipeline:
+
+steps:
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t','gcr.io/$PROJECT_ID/node-api','.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','gcr.io/$PROJECT_ID/node-api']
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - run
+  - deploy
+  - node-api
+  - --image
+  - gcr.io/$PROJECT_ID/node-api
+  - --region
+  - asia-south1
+
+Pipeline flow:
+
+Git push
+ ↓
+Cloud Build
+ ↓
+Docker Image
+ ↓
+Cloud Run Deployment
+
+        </code></pre>
+    </div>
+</li>
+
+<li data-id="q35598" class="zyellow">
+    <span class="faq-question">
+        What is the real production architecture of this Node.js microservice system?
+    </span>
+    <div class="answer">
+        <pre><code>
+
+Client
+   ↓
+API Gateway
+   ↓
+Cloud Run (Node.js API)
+   ↓
+Cloud SQL (Database)
+
+Background processing:
+
+Cloud Run API
+   ↓
+Pub/Sub Topic
+   ↓
+Worker Service (Cloud Run)
+
+CI/CD:
+
+GitHub
+   ↓
+Cloud Build
+   ↓
+Container Registry
+   ↓
+Cloud Run Deployment
+
+Benefits:
+
+- Fully serverless
+- Auto scaling
+- Event driven microservices
+- Secure infrastructure
+
+        </code></pre>
+    </div>
+</li>
+
+
 <li data-id="q3" class="yellow"><span class="faq-question">
   ---------------- GCP END ---------------------------- 
 </span></li>
@@ -62401,6 +62743,155 @@ Uber
 <li data-id="q3" id="difference_qlist" class="yellow"><span class="faq-question">
   --------------   Difference  -----------------------</span></li>
 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Controlled vs Uncontrolled Components        
+    </span>
+    <div class="answer">
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Controlled</th>
+      <th>Uncontrolled</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data stored in</td>
+      <td>React State</td>
+      <td>DOM</td>
+    </tr>
+    <tr>
+      <td>Access value</td>
+      <td>state</td>
+      <td>ref</td>
+    </tr>
+    <tr>
+      <td>Re-render</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Validation</td>
+      <td>Easy</td>
+      <td>Hard</td>
+    </tr>
+    <tr>
+      <td>Recommended in React</td>
+      <td>✅ Yes</td>
+      <td>⚠️ Rare</td>
+    </tr>
+    <tr>
+      <td>Use case</td>
+      <td>Complex forms</td>
+      <td>Simple forms or third-party libraries</td>
+    </tr>
+    <tr>
+      <td>
+        Component Flow
+      </td>
+      <td>
+<pre>
+User Types
+   ↓
+onChange Triggered
+   ↓
+setState Updates
+   ↓
+React Re-render
+   ↓
+Input value updated
+</pre>
+</td>
+<td>
+<pre>
+User Types
+   ↓
+Value stored in DOM
+   ↓
+React reads value using ref
+</pre>
+</td>
+</tr>
+<tr>
+  <td>Advantages</td>
+  <td>
+
+<ul>
+  <li>✅ Easy validation</li>
+  <li>✅ Easy to control UI</li>
+  <li>✅ Predictable data flow</li>
+  <li>✅ Best for complex forms</li>
+</ul>
+
+<h3>Disadvantages (Controlled Components)</h3>
+
+<ul>
+  <li>❌ More re-renders</li>
+  <li>❌ Slightly more code</li>
+</ul>
+
+      </td>
+      <td>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Example</td>
+      <td>
+<pre><code>
+import React, { useState } from "react";
+
+function App() {
+  const [name, setName] = useState("");
+
+  return (
+    &lt;div&gt;
+      &lt;input
+        type="text"
+        value={name}
+        onChange={(e) =&gt; setName(e.target.value)}
+      /&gt;
+
+      &lt;p&gt;Typed: {name}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre>
+      </td>
+      <td>
+<pre><code>
+import React, { useRef } from "react";
+
+function App() {
+  const inputRef = useRef();
+
+  function handleClick() {
+    alert(inputRef.current.value);
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;input type="text" ref={inputRef} /&gt;
+      &lt;button onClick={handleClick}&gt;Get Value&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+    </div>
+</li> 
 
 <li data-id="q35562" class="zyellow">
     <span class="faq-question">
