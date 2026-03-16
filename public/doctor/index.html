@@ -3976,6 +3976,148 @@ Redux Example : 01 : CounterApp ***
 <li data-id="q3" id="redux_observable_qlist" class="yellow"><span class="faq-question">
   --------------   Redux Observable Question  -----------------------</span></li>
 
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Redux Users and Posts Data Simple Example ***
+    </span>
+    <div class="answer">
+<pre><code>
+
+import React from "react"
+import { Provider, useDispatch, useSelector } from "react-redux"
+import { configureStore, createSlice } from "@reduxjs/toolkit"
+
+/* ---------------- SLICE ---------------- */
+
+const dataSlice = createSlice({
+  name: "data",
+  initialState: {
+    users: [],
+    posts: []
+  },
+  reducers: {
+
+    setUsers: (state, action) => {
+      state.users = action.payload
+    },
+
+    setPosts: (state, action) => {
+      state.posts = action.payload
+    }
+
+  }
+})
+
+const { setUsers, setPosts } = dataSlice.actions
+
+/* ---------------- STORE ---------------- */
+
+const store = configureStore({
+  reducer: {
+    data: dataSlice.reducer
+  }
+})
+
+/* ---------------- COMPONENT ---------------- */
+
+function App(){
+
+  const dispatch = useDispatch()
+
+  const users = useSelector(state => state.data.users)
+  const posts = useSelector(state => state.data.posts)
+
+  const loadUsers = async () => {
+
+    const res = await fetch("https://jsonplaceholder.typicode.com/users")
+    const data = await res.json()
+
+    dispatch(setUsers(data))
+  }
+
+  const loadPosts = async () => {
+
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+    const data = await res.json()
+
+    dispatch(setPosts(data))
+  }
+
+  return (
+
+    <div style={{padding:"20px"}}>
+
+      <h2>Redux Toolkit Example</h2>
+
+      <button onClick={loadUsers}>
+        Load Users
+      </button>
+
+      <button onClick={loadPosts} style={{marginLeft:"10px"}}>
+        Load Posts
+      </button>
+
+      <h3>Users</h3>
+
+      <table border="1" cellPadding="5">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {users.map(user => (
+            <tr key={user.id}>
+              <td>{user.id}</td>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h3>Posts</h3>
+
+      <table border="1" cellPadding="5">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {posts.slice(0,10).map(post => (
+            <tr key={post.id}>
+              <td>{post.id}</td>
+              <td>{post.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+    </div>
+  )
+}
+
+/* ---------------- ROOT ---------------- */
+
+export default function Root(){
+  return(
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  )
+}
+
+
+</code></pre>        
+    </div></li>
+
+
 
 <li data-id="q35562" class="zyellow">
     <span class="faq-question">
