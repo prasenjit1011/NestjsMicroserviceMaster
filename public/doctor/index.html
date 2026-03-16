@@ -342,11 +342,12 @@ readable.on('close', () => {  console.log('5. Stream closed (Close Callbacks Pha
             </td>
             <td style="vertical-align: top;">
               <ol>
-                <li><a href="#reactjs_qlist2">Reactjs Q1</a></li>
-                <li><a href="#reactjs_qlist">Reactjs Q2</a></li>                
+                <li><a href="#reactjs_qlist">Reactjs Q1</a></li>
+                <li><a href="#reactjs_qlist2">Reactjs Q2</a></li>                
                 <li><a href="#nextjs_qlist">Nextjs</a></li>
                 <li><a href="#redux_qlist">Redux</a></li>
                 <li><a href="#redux_toolkit">Toolkit</a></li>
+                <li><a href="#redux_observable_qlist">Redux Observable</a></li>
                 <li><a href="#redux_thunk">ReduxThunk</a></li>
                 <li><a href="#redux_saga">ReduxSaga</a></li>
                 <li><a href="#redux_advanced">Advanced</a></li>
@@ -1958,6 +1959,421 @@ shallow / shadow copy
 
 
 
+<li data-id="q35562-1" class="zyellow">
+    <span class="faq-question">
+        React useMemo Hook
+    </span>
+    <div class="answer">
+<h3>Pure Component → Prevents unnecessary re-render using shallow comparison of props and state.</h3>
+<h3>Impure Component → Re-renders every time without checking props/state changes.</h3>
+
+<h2>useMemo Hook</h2>
+
+<p><b>Definition:</b> Memoizes the result of a function so that expensive calculations are not executed on every render.</p>
+
+<p><b>Purpose:</b> Improve performance when heavy calculations exist.</p>
+
+<p><b>Returns:</b> Memoized value.</p>
+
+<p><b>Common Use Case:</b> Sorting large arrays, filtering big datasets, expensive computations.</p>
+
+
+<code><pre>
+const expensiveCalculation = (num) => {
+  console.log("Calculating...");
+  return num * 1000;
+};
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const result = useMemo(() => {
+    return expensiveCalculation(count);
+  }, [count]);
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Result: {result}&lt;/h2&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increase&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+        </pre></code>
+    </div>
+</li>
+<li data-id="q35562-2" class="zyellow">
+    <span class="faq-question">
+        React useCallback Hook
+    </span>
+    <div class="answer">
+        
+<h2>useCallback Hook</h2>
+
+<p><b>Definition:</b> Memoizes a function so that the function instance does not change between renders.</p>
+
+<p><b>Purpose:</b> Prevent unnecessary re-creation of functions.</p>
+
+<p><b>Returns:</b> Memoized function.</p>
+
+<p><b>Common Use Case:</b> Passing callbacks to child components.</p>
+
+
+<h3>Example</h3>
+<code><pre>
+const Child = ({ handleClick }) => {
+  console.log("Child Rendered");
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+};
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log("Button clicked");
+  }, []);
+
+  return (
+    &lt;div&gt;
+      &lt;Child handleClick={handleClick} /&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increase&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+        </pre></code>
+    </div>
+</li>
+<li data-id="q35562-3" class="zyellow">
+    <span class="faq-question">
+        React.memo
+    </span>
+    <div class="answer">
+        
+<h2>React.memo</h2>
+
+<p><b>Definition:</b> Higher-order component used to prevent unnecessary re-rendering of functional components.</p>
+
+<p><b>Purpose:</b> Component will only re-render when props change.</p>
+
+<p><b>Returns:</b> Memoized component.</p>
+
+<p><b>Common Use Case:</b> Prevent child component re-renders when parent state changes.</p>
+
+
+
+<code><pre>
+const Child = React.memo(({ name }) => {
+  console.log("Child Rendered");
+  return &lt;h2&gt;Hello {name}&lt;/h2&gt;;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;div&gt;
+      &lt;Child name="React" /&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increase&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+        </pre></code>
+    </div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        Redux Toolkit.
+    </span>
+    <div class="answer">
+        <pre><code>
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = {
+  value: 0
+}
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment: (state) => {
+      state.value += 1
+    },
+    decrement: (state) => {
+      state.value -= 1
+    },
+    incrementByAmount: (state, action) => {
+      state.value += action.payload
+    }
+  }
+})
+
+export const { increment, decrement, incrementByAmount } = counterSlice.actions
+
+export default counterSlice.reducer
+----------------------------------------------------
+
+import { configureStore } from '@reduxjs/toolkit'
+import counterReducer from '../features/counter/counterSlice'
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer
+  }
+})
+----------------------------------------------------
+
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { increment, decrement } from './features/counter/counterSlice'
+
+function App() {
+
+  const count = useSelector((state) => state.counter.value)
+  const dispatch = useDispatch()
+
+  return (
+    <div style={{textAlign:'center', marginTop:'40px'}}>
+      <h2>Counter App</h2>
+
+      <h1>{count}</h1>
+
+      <button onClick={() => dispatch(increment())}>
+        Increment
+      </button>
+
+      <button onClick={() => dispatch(decrement())}>
+        Decrement
+      </button>
+    </div>
+  )
+}
+
+export default App
+
+        </code></pre>
+    </div>
+</li> 
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        Redux Toolkit ****
+    </span>
+    <div class="answer">
+        <pre><code>
+npm i @reduxjs/toolkit react-redux
+
+
+
+---------------------
+import React, { useState } from "react";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Provider, useDispatch, useSelector } from "react-redux";
+
+/* ---------------- COUNTER ONE SLICE ---------------- */
+
+const counterOneSlice = createSlice({
+  name: "counterOne",
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+  },
+});
+
+/* ---------------- COUNTER TWO SLICE ---------------- */
+
+const counterTwoSlice = createSlice({
+  name: "counterTwo",
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      state.value += 5;
+    },
+    decrement: (state) => {
+      state.value -= 5;
+    },
+  },
+});
+
+/* ---------------- EMPLOYEE SLICE ---------------- */
+
+const employeeSlice = createSlice({
+  name: "employees",
+  initialState: {
+    list: [],
+  },
+  reducers: {
+    addEmployee: (state, action) => {
+      state.list.push(action.payload);
+    },
+    updateEmployee: (state, action) => {
+      const index = state.list.findIndex(
+        (emp) => emp.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.list[index] = action.payload;
+      }
+    },
+  },
+});
+
+/* ---------------- STORE ---------------- */
+
+const store = configureStore({
+  reducer: {
+    counterOne: counterOneSlice.reducer,
+    counterTwo: counterTwoSlice.reducer,
+    employees: employeeSlice.reducer,
+  },
+});
+
+/* ---------------- COUNTER ONE COMPONENT ---------------- */
+
+function CounterOne() {
+  const count = useSelector((state) => state.counterOne.value);
+  const dispatch = useDispatch();
+
+  return (
+    &lt;div>
+      &lt;h3>Counter One: {count}&lt;/h3>
+      &lt;button onClick={() => dispatch(counterOneSlice.actions.increment())}>
+        Increment
+      &lt;/button>
+      &lt;button onClick={() => dispatch(counterOneSlice.actions.decrement())}>
+        Decrement
+      &lt;/button>
+    &lt;/div>
+  );
+}
+
+/* ---------------- COUNTER TWO COMPONENT ---------------- */
+
+function CounterTwo() {
+  const count = useSelector((state) => state.counterTwo.value);
+  const dispatch = useDispatch();
+
+  return (
+    &lt;div>
+      &lt;h3>Counter Two: {count}</h3>
+      &lt;button onClick={() => dispatch(counterTwoSlice.actions.increment())}>
+        Increment
+      &lt;/button>
+      &lt;button onClick={() => dispatch(counterTwoSlice.actions.decrement())}>
+        Decrement
+      &lt;/button>
+    &lt;/div>
+  );
+}
+
+/* ---------------- EMPLOYEE COMPONENT ---------------- */
+
+function EmployeeForm() {
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employees.list);
+
+  const [form, setForm] = useState({ id: "", name: "", role: "" });
+  const [edit, setEdit] = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (edit) {
+      dispatch(employeeSlice.actions.updateEmployee(form));
+    } else {
+      dispatch(
+        employeeSlice.actions.addEmployee({
+          ...form,
+          id: Date.now(),
+        })
+      );
+    }
+
+    setForm({ id: "", name: "", role: "" });
+    setEdit(false);
+  }
+
+  function handleEdit(emp) {
+    setForm(emp);
+    setEdit(true);
+  }
+
+  return (
+    &lt;div>
+      &lt;h3>Employee Form</h3>
+      &lt;form onSubmit={handleSubmit}>
+        &lt;input
+          placeholder="Name"
+          value={form.name}
+          onChange={(e) =>
+            setForm({ ...form, name: e.target.value })
+          }
+        />
+
+        &lt;input
+          placeholder="Role"
+          value={form.role}
+          onChange={(e) =>
+            setForm({ ...form, role: e.target.value })
+          }
+        />
+
+        &lt;button type="submit">
+          {edit ? "Update" : "Add"}
+        &lt;/button>
+      &lt;/form>
+
+      &lt;h4>Employee List&lt;/h4>
+
+      {employees.map((emp) => (
+        &lt;div key={emp.id}>
+          {emp.name} - {emp.role}
+          &lt;button onClick={() => handleEdit(emp)}>Edit&lt;/button>
+        &lt;/div>
+      ))}
+    &lt;/div>
+  );
+}
+
+/* ---------------- APP ---------------- */
+
+function AppContent() {
+  return (
+    &lt;div style={{ padding: "20px" }}>
+      &lt;h2>Redux Toolkit Example&lt;/h2>
+
+      &lt;CounterOne />
+      &lt;hr />
+
+      &lt;CounterTwo />
+      &lt;hr />
+
+      &lt;EmployeeForm />
+    &lt;/div>
+  );
+}
+
+export default function App() {
+  return (
+    &lt;Provider store={store}>
+      &lt;AppContent />
+    &lt;/Provider>
+  );
+}
+
+        </code></pre>
+    </div>
+</li> 
+
+
 
 <li data-id="q_redux_formatted" id="reduxflux_qlist" class="yellow"><span class="faq-question">
   Redux, Flux, and Webpack
@@ -3555,8 +3971,736 @@ Redux Example : 01 : CounterApp ***
 </pre>
 
 </div></li>
+
+
+<li data-id="q3" id="redux_observable_qlist" class="yellow"><span class="faq-question">
+  --------------   Redux Observable Question  -----------------------</span></li>
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Redux Thunk Simple Example ***
+    </span>
+    <div class="answer">
+<p>Redux Thunk is a middleware that allows you to write action creators that return a function instead of an action. </p>
+<p>This is particularly useful for handling asynchronous operations, such as fetching data from an API. Below is an example of how to use Redux Thunk to fetch products from an API and dispatch actions based on the success or failure of the request.</p>
+
+<pre><code>
+By default, Redux only allows synchronous actions.
+But in real applications we need to:
+• Call APIs
+• Wait for server responses
+• Dispatch multiple actions (loading, success, error)
+
+Redux alone cannot handle async logic inside actions.
+
+Redux Thunk solves this.
+
+
+export const fetchProducts = () => async (dispatch) => {
+  try {
+
+    dispatch({ type: "PRODUCT_LOADING" });
+
+    const res = await fetch("/api/products");
+    const data = await res.json();
+
+    dispatch({
+      type: "PRODUCT_SUCCESS",
+      payload: data
+    });
+
+  } catch (error) {
+
+    dispatch({
+      type: "PRODUCT_ERROR",
+      payload: error.message
+    });
+
+  }
+};
+</code></pre>        
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+        Redux Saga Simple Example ***
+    </span>
+    <div class="answer">
+<pre><code>
+import React from "react"
+import { createStore, applyMiddleware } from "redux"
+import { Provider, useDispatch, useSelector } from "react-redux"
+import createSagaMiddleware from "redux-saga"
+import { takeEvery, call, put } from "redux-saga/effects"
+
+/* reducer */
+
+const reducer = (state = { users: [] }, action) => {
+
+  if (action.type === "SET_USERS") {
+    return { users: action.users }
+  }
+
+  return state
+}
+
+/* saga */
+
+function* loadUsers() {
+
+  const res = yield call(fetch, "https://jsonplaceholder.typicode.com/users")
+  const users = yield res.json()
+
+  yield put({
+    type: "SET_USERS",
+    users: users
+  })
+}
+
+function* rootSaga() {
+  yield takeEvery("LOAD_USERS", loadUsers)
+}
+
+/* store */
+
+const saga = createSagaMiddleware()
+const store = createStore(reducer, applyMiddleware(saga))
+
+saga.run(rootSaga)
+
+/* component */
+
+function App() {
+
+  const dispatch = useDispatch()
+  const users = useSelector(state => state.users)
+
+  return (
+    <div>
+
+      <button onClick={() => dispatch({ type: "LOAD_USERS" })}>
+        Load Users
+      </button>
+
+      {users.map(user => (
+        <p key={user.id}>{user.name}</p>
+      ))}
+
+    </div>
+  )
+}
+
+/* provider */
+
+export default function Root() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
+</code></pre>
+    </div>
+</li> 
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Redux Observable Simple Example ***
+    </span>
+    <div class="answer">
+      <pre><code>
+
+import React from "react"
+import { createStore, applyMiddleware } from "redux"
+import { Provider, useDispatch, useSelector } from "react-redux"
+
+import { createEpicMiddleware, ofType } from "redux-observable"
+import { map, mergeMap } from "rxjs/operators"
+import { from } from "rxjs"
+
+/* ---------------- REDUCER ---------------- */
+
+const reducer = (state = { users: [] }, action) => {
+
+  if (action.type === "SET_USERS") {
+    return { users: action.payload }
+  }
+
+  return state
+}
+
+/* ---------------- API ---------------- */
+
+const getUsers = () =>
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then(res => res.json())
+
+/* ---------------- EPIC ---------------- */
+
+const loadUsersEpic = (action$) =>
+  action$.pipe(
+
+    ofType("LOAD_USERS"),
+
+    mergeMap(() =>
+      from(getUsers()).pipe(
+        map(users => ({
+          type: "SET_USERS",
+          payload: users
+        }))
+      )
+    )
+
+  )
+
+/* ---------------- STORE ---------------- */
+
+const epicMiddleware = createEpicMiddleware()
+
+const store = createStore(
+  reducer,
+  applyMiddleware(epicMiddleware)
+)
+
+epicMiddleware.run(loadUsersEpic)
+
+/* ---------------- COMPONENT ---------------- */
+
+function App(){
+
+  const dispatch = useDispatch()
+  const users = useSelector(state => state.users)
+
+  return (
+
+    <div style={{padding:"20px"}}>
+
+      <button onClick={() => dispatch({type:"LOAD_USERS"})}>
+        Load Users
+      </button>
+
+      <ul>
+        {users.map(user => (
+          <li key={user.id}>
+            {user.name}
+          </li>
+        ))}
+      </ul>
+
+    </div>
+
+  )
+}
+
+/* ---------------- ROOT ---------------- */
+
+export default function Root(){
+  return(
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  )
+}
+
+      </code></pre>
+    </div>
+  </li>
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Redux Observable + Redux Toolkit (Single Page Example)***
+    </span>
+    <div class="answer">
+      <pre><code>
+
+import React from "react"
+import { Provider, useDispatch, useSelector } from "react-redux"
+import { configureStore, createSlice } from "@reduxjs/toolkit"
+
+import { createEpicMiddleware, ofType } from "redux-observable"
+import { mergeMap, map } from "rxjs/operators"
+import { from } from "rxjs"
+
+/* ---------------- SLICE ---------------- */
+
+const userSlice = createSlice({
+  name: "users",
+  initialState: { list: [] },
+  reducers: {
+
+    loadUsers: (state) => {},
+
+    setUsers: (state, action) => {
+      state.list = action.payload
+    }
+
+  }
+})
+
+const { loadUsers, setUsers } = userSlice.actions
+
+/* ---------------- API ---------------- */
+
+const fetchUsers = () =>
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then(res => res.json())
+
+/* ---------------- EPIC ---------------- */
+
+const loadUsersEpic = (action$) =>
+  action$.pipe(
+
+    ofType(loadUsers.type),
+
+    mergeMap(() =>
+      from(fetchUsers()).pipe(
+        map(users => setUsers(users))
+      )
+    )
+
+  )
+
+/* ---------------- STORE ---------------- */
+
+const epicMiddleware = createEpicMiddleware()
+
+const store = configureStore({
+  reducer: {
+    users: userSlice.reducer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: false }).concat(epicMiddleware)
+})
+
+epicMiddleware.run(loadUsersEpic)
+
+/* ---------------- COMPONENT ---------------- */
+
+function App(){
+
+  const dispatch = useDispatch()
+  const users = useSelector(state => state.users.list)
+
+  return (
+
+    <div style={{padding:"20px"}}>
+
+      <h2>Redux Observable + Redux Toolkit</h2>
+
+      <button onClick={() => dispatch(loadUsers())}>
+        Load Users
+      </button>
+
+      <ul>
+        {users.map(user => (
+          <li key={user.id}>
+            {user.name}
+          </li>
+        ))}
+      </ul>
+
+    </div>
+
+  )
+}
+
+/* ---------------- ROOT ---------------- */
+
+export default function Root(){
+  return(
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  )
+}
+
+
+      </code></pre>
+    </div>
+</li>
+
+
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Single Page Redux Saga Example (Users + Posts)        
+    </span>
+    <div class="answer">
+      <pre><code>
+
+import React from "react"
+import { createStore, applyMiddleware } from "redux"
+import { Provider, useDispatch, useSelector } from "react-redux"
+import createSagaMiddleware from "redux-saga"
+import { takeLatest, call, put } from "redux-saga/effects"
+
+/* ---------------- REDUCER ---------------- */
+
+const initialState = {
+  users: [],
+  posts: []
+}
+
+function reducer(state = initialState, action) {
+
+  switch(action.type){
+
+    case "SET_USERS":
+      return { ...state, users: action.payload }
+
+    case "SET_POSTS":
+      return { ...state, posts: action.payload }
+
+    default:
+      return state
+  }
+}
+
+/* ---------------- API ---------------- */
+
+const fetchUsers = () =>
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then(res => res.json())
+
+const fetchPosts = () =>
+  fetch("https://jsonplaceholder.typicode.com/posts")
+    .then(res => res.json())
+
+/* ---------------- SAGAS ---------------- */
+
+function* loadUsers() {
+
+  const users = yield call(fetchUsers)
+
+  yield put({
+    type: "SET_USERS",
+    payload: users
+  })
+}
+
+function* loadPosts() {
+
+  const posts = yield call(fetchPosts)
+
+  yield put({
+    type: "SET_POSTS",
+    payload: posts
+  })
+}
+
+function* rootSaga() {
+
+  yield takeLatest("LOAD_USERS", loadUsers)
+  yield takeLatest("LOAD_POSTS", loadPosts)
+
+}
+
+/* ---------------- STORE ---------------- */
+
+const sagaMiddleware = createSagaMiddleware()
+
+const store = createStore(
+  reducer,
+  applyMiddleware(sagaMiddleware)
+)
+
+sagaMiddleware.run(rootSaga)
+
+/* ---------------- COMPONENT ---------------- */
+
+function App() {
+
+  const dispatch = useDispatch()
+
+  const users = useSelector(state => state.users)
+  const posts = useSelector(state => state.posts)
+
+  return (
+
+    <div style={{padding:"20px"}}>
+
+      <h2>Redux Saga Example</h2>
+
+      <button onClick={() => dispatch({type:"LOAD_USERS"})}>
+        Load Users
+      </button>
+
+      <button onClick={() => dispatch({type:"LOAD_POSTS"})} style={{marginLeft:"10px"}}>
+        Load Posts
+      </button>
+
+      <h3>Users</h3>
+
+      <table border="1" cellPadding="5">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {users.map(user => (
+            <tr key={user.id}>
+              <td>{user.id}</td>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h3>Posts</h3>
+
+      <table border="1" cellPadding="5">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {posts.slice(0,10).map(post => (
+            <tr key={post.id}>
+              <td>{post.id}</td>
+              <td>{post.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+    </div>
+  )
+}
+
+/* ---------------- ROOT ---------------- */
+
+export default function Root(){
+  return(
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  )
+}
+
+     </code></pre>
+    </div>
+</li> 
+
+
+
+<li data-id="q35562" class="yellow">
+    <span class="faq-question">
+Redux-Observable: How to fetch data from an API and update the Redux store using Epics?***        
+    </span>
+    <div class="answer">
+<pre><code>
+import React, { useEffect } from "react";
+import { createStore, applyMiddleware } from "redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
+
+import { createEpicMiddleware, ofType } from "redux-observable";
+import { mergeMap, map } from "rxjs/operators";
+import { from } from "rxjs";
+
+const styles = {
+    main: {
+      padding: "2px 20px"
+    },
+    title: {
+      color: "#5C6AC4",
+      marginBottom: "1px"
+    }
+  };
+/* ACTION TYPES */
+
+const GET_USERS = "GET_USERS";
+const SET_USERS = "SET_USERS";
+
+/* REDUCER */
+
+const initialState = {
+  users: []
+};
+
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case SET_USERS:
+      return { ...state, users: action.payload };
+
+    default:
+      return state;
+  }
+}
+
+/* EPIC (Redux Observable) */
+
+const getUsersEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_USERS),
+        mergeMap(() =>
+            from(fetch("https://jsonplaceholder.typicode.com/posts")
+            .then(res => res.json()))
+            .pipe(
+                map(data => ({
+                    type: SET_USERS,
+                    payload: data.slice(0,3)
+                }))
+            )
+        )
+    );
+
+/* STORE */
+
+const epicMiddleware = createEpicMiddleware();
+const store = createStore(
+    reducer,
+    applyMiddleware(epicMiddleware)
+);
+
+epicMiddleware.run(getUsersEpic);
+
+/* COMPONENT */
+
+function UsersList() {
+    const dispatch = useDispatch();
+    const users = useSelector((state) => state.users);
+
+    useEffect(() => {
+        dispatch({ type: GET_USERS });
+    }, [dispatch]);
+
+    return (
+        &lt;div style={styles.main}>
+            &lt;h1 style={styles.title}>Redux-Observable: UsersList&lt;/h1>
+            &lt;ul>
+                {users.map((u) => (
+                    &lt;li key={u.id}>{u.title}&lt;/li>
+                ))}
+            &lt;/ul>
+        &lt;/div>
+    );
+}
+
+/* APP */
+
+function ReduxObservable() {
+  return (
+    &lt;Provider store={store}>
+      &lt;UsersList />
+    &lt;/Provider>
+  );
+}
+
+export default ReduxObservable;
+</code></pre>
+    </div>
+</li> 
+<li data-id="q35562" class="yellow">
+    <span class="faq-question">
+Redux Saga is a library that aims to make application side effects (e.g., asynchronous actions like data fetching) easier to manage, more efficient to execute, and better at handling failures. It uses an ES6 feature called Generators to make asynchronous flows easy to read and write.        
+    </span>
+    <div class="answer">
+<pre><code>
+import React, { useEffect } from "react";
+import { createStore, applyMiddleware } from "redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import createSagaMiddleware from "redux-saga";
+import { takeEvery, put } from "redux-saga/effects";
+
+const styles = {
+    main: {
+      padding: "2px 20px"
+    },
+    title: {
+      color: "#5C6AC4",
+      marginBottom: "1px"
+    }
+  };
+
+/* ACTION TYPES */
+const GET_USERS = "GET_USERS";
+const SET_USERS = "SET_USERS";
+
+/* REDUCER */
+const initialState = {
+  users: []
+};
+
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case SET_USERS:
+      return { ...state, users: action.payload };
+    default:
+      return state;
+  }
+}
+
+/* SAGA */
+function* getUsersSaga() {
+  const res = yield fetch("https://jsonplaceholder.typicode.com/todos");
+  const data = yield res.json();
+
+  yield put({
+    type: SET_USERS,
+    payload: data.slice(0,2)
+  });
+}
+
+/* WATCHER */
+function* rootSaga() {
+  yield takeEvery(GET_USERS, getUsersSaga);
+}
+
+/* STORE */
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
+
+/* COMPONENT */
+function Main() {
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
+
+  useEffect(() => {
+    dispatch({ type: GET_USERS });
+  }, [dispatch]);
+
+  return (
+    &lt;div style={styles.main}>
+      &lt;h1 style={styles.title}>Redux Saga&gt;/h1>
+      &lt;ul>
+        {users.map((u) => (
+          &lt;li key={u.id}>
+            {u.title}
+          &lt;/li>
+        ))}
+      &lt;/ul>
+    &lt;/div>
+  );
+}
+
+/* APP */
+function DemoUser() {
+  return (
+    &lt;Provider store={store}>
+      &lt;Main />
+    &lt;/Provider>
+  );
+}
+
+export default DemoUser;
+</code></pre>
+    </div>
+</li> 
+
   
-<li data-id="q_redux_login"  id="redux_thunk" class="yellow"><span class="faq-question">
+<li data-id="q_redux_login"  id="redux_thunk" class="zyellow"><span class="faq-question">
 Redux Example : 02 : Login & Logout API with createAsyncThunk
 </span><div class="answer">
 <pre>
@@ -3838,7 +4982,7 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
 </div></li>
 
 
-<li data-id="q_redux_example"  id="redux_qlist" class="yellow"><span class="faq-question">
+<li data-id="q_redux_example"  id="redux_qlist" class="zyellow"><span class="faq-question">
   Redux Example : 04 : Redux Saga
 </span><div class="answer">
 <pre>
@@ -6317,301 +7461,11 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
 <li data-id="q3" class="yellow"><span class="faq-question">
   --------------   ReactJS  -------------------</span></li>
 <li data-id="q3" class="yellow"><span class="faq-question">
-  ---------------------------------------------</span></li>
-
-<li data-id="q35562" class="zyellow">
-    <span class="faq-question">
-        Redux Toolkit.
-    </span>
-    <div class="answer">
-        <pre><code>
-import { createSlice } from '@reduxjs/toolkit'
-
-const initialState = {
-  value: 0
-}
-
-export const counterSlice = createSlice({
-  name: 'counter',
-  initialState,
-  reducers: {
-    increment: (state) => {
-      state.value += 1
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
-    }
-  }
-})
-
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
-
-export default counterSlice.reducer
-----------------------------------------------------
-
-import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from '../features/counter/counterSlice'
-
-export const store = configureStore({
-  reducer: {
-    counter: counterReducer
-  }
-})
-----------------------------------------------------
-
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { increment, decrement } from './features/counter/counterSlice'
-
-function App() {
-
-  const count = useSelector((state) => state.counter.value)
-  const dispatch = useDispatch()
-
-  return (
-    <div style={{textAlign:'center', marginTop:'40px'}}>
-      <h2>Counter App</h2>
-
-      <h1>{count}</h1>
-
-      <button onClick={() => dispatch(increment())}>
-        Increment
-      </button>
-
-      <button onClick={() => dispatch(decrement())}>
-        Decrement
-      </button>
-    </div>
-  )
-}
-
-export default App
-
-        </code></pre>
-    </div>
-</li> 
+  ------------------------------------------------</span></li>
 
 
 
-<li data-id="q35562" class="zyellow">
-    <span class="faq-question">
-        Redux Toolkit ****
-    </span>
-    <div class="answer">
-        <pre><code>
-npm i @reduxjs/toolkit react-redux
-
-
-
----------------------
-import React, { useState } from "react";
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { Provider, useDispatch, useSelector } from "react-redux";
-
-/* ---------------- COUNTER ONE SLICE ---------------- */
-
-const counterOneSlice = createSlice({
-  name: "counterOne",
-  initialState: { value: 0 },
-  reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-  },
-});
-
-/* ---------------- COUNTER TWO SLICE ---------------- */
-
-const counterTwoSlice = createSlice({
-  name: "counterTwo",
-  initialState: { value: 0 },
-  reducers: {
-    increment: (state) => {
-      state.value += 5;
-    },
-    decrement: (state) => {
-      state.value -= 5;
-    },
-  },
-});
-
-/* ---------------- EMPLOYEE SLICE ---------------- */
-
-const employeeSlice = createSlice({
-  name: "employees",
-  initialState: {
-    list: [],
-  },
-  reducers: {
-    addEmployee: (state, action) => {
-      state.list.push(action.payload);
-    },
-    updateEmployee: (state, action) => {
-      const index = state.list.findIndex(
-        (emp) => emp.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.list[index] = action.payload;
-      }
-    },
-  },
-});
-
-/* ---------------- STORE ---------------- */
-
-const store = configureStore({
-  reducer: {
-    counterOne: counterOneSlice.reducer,
-    counterTwo: counterTwoSlice.reducer,
-    employees: employeeSlice.reducer,
-  },
-});
-
-/* ---------------- COUNTER ONE COMPONENT ---------------- */
-
-function CounterOne() {
-  const count = useSelector((state) => state.counterOne.value);
-  const dispatch = useDispatch();
-
-  return (
-    <div>
-      <h3>Counter One: {count}</h3>
-      <button onClick={() => dispatch(counterOneSlice.actions.increment())}>
-        Increment
-      </button>
-      <button onClick={() => dispatch(counterOneSlice.actions.decrement())}>
-        Decrement
-      </button>
-    </div>
-  );
-}
-
-/* ---------------- COUNTER TWO COMPONENT ---------------- */
-
-function CounterTwo() {
-  const count = useSelector((state) => state.counterTwo.value);
-  const dispatch = useDispatch();
-
-  return (
-    <div>
-      <h3>Counter Two: {count}</h3>
-      <button onClick={() => dispatch(counterTwoSlice.actions.increment())}>
-        Increment
-      </button>
-      <button onClick={() => dispatch(counterTwoSlice.actions.decrement())}>
-        Decrement
-      </button>
-    </div>
-  );
-}
-
-/* ---------------- EMPLOYEE COMPONENT ---------------- */
-
-function EmployeeForm() {
-  const dispatch = useDispatch();
-  const employees = useSelector((state) => state.employees.list);
-
-  const [form, setForm] = useState({ id: "", name: "", role: "" });
-  const [edit, setEdit] = useState(false);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    if (edit) {
-      dispatch(employeeSlice.actions.updateEmployee(form));
-    } else {
-      dispatch(
-        employeeSlice.actions.addEmployee({
-          ...form,
-          id: Date.now(),
-        })
-      );
-    }
-
-    setForm({ id: "", name: "", role: "" });
-    setEdit(false);
-  }
-
-  function handleEdit(emp) {
-    setForm(emp);
-    setEdit(true);
-  }
-
-  return (
-    <div>
-      <h3>Employee Form</h3>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Name"
-          value={form.name}
-          onChange={(e) =>
-            setForm({ ...form, name: e.target.value })
-          }
-        />
-
-        <input
-          placeholder="Role"
-          value={form.role}
-          onChange={(e) =>
-            setForm({ ...form, role: e.target.value })
-          }
-        />
-
-        <button type="submit">
-          {edit ? "Update" : "Add"}
-        </button>
-      </form>
-
-      <h4>Employee List</h4>
-
-      {employees.map((emp) => (
-        <div key={emp.id}>
-          {emp.name} - {emp.role}
-          <button onClick={() => handleEdit(emp)}>Edit</button>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ---------------- APP ---------------- */
-
-function AppContent() {
-  return (
-    <div style={{ padding: "20px" }}>
-      <h2>Redux Toolkit Example</h2>
-
-      <CounterOne />
-      <hr />
-
-      <CounterTwo />
-      <hr />
-
-      <EmployeeForm />
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <Provider store={store}>
-      <AppContent />
-    </Provider>
-  );
-}
-
-        </code></pre>
-    </div>
-</li> 
-
-<li data-id="q35562" class="zyellow">
+  <li data-id="q35562" class="zyellow">
     <span class="faq-question">
 React Fiber Architecture    
     </span>
@@ -65064,6 +65918,7 @@ receive();
 
     </div>
 </li>
+
 
 <li data-id="q3" class="yellow"><span class="faq-question">
 ---------- Difference_End -----------------</span></li>
