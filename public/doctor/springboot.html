@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spring Boot</title>
+<script src="cdn/jquery-3.6.0.min.js"></script>
+<script src="cdn/js.cookie.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div>
+<a href="/doctor/index.html">Nodejs</a> &nbsp; 
+<a href="/doctor/react.html">React</a> &nbsp; 
+<a href="/doctor/docker.html">Docker</a> &nbsp; 
+<a href="/demat">Demat</a> &nbsp; 
+<a href="/doctor/cmd.html">CMD</a> &nbsp; 
+<a href="/doctor/kafka.html">Kafka</a> &nbsp; 
+<a href="kafka-interview.html">Kafka Interview</a> &nbsp; 
+<a href="mongodb.html">Mongo DB</a> &nbsp; 
+<a href="DynamoDB.html">Dynamo DB</a> &nbsp; 
+<a href="code.html">Promise</a> &nbsp; 
+<a href="code.html">Code</a> &nbsp; 
+<a href="crud.html">Crud</a> &nbsp; 
+<a href="skill.html">Skill</a> &nbsp; 
+<a href="laravel.html">Laravel</a> &nbsp; 
+<a href="https://onecompiler.com/nodejs/43hqq7r87" >Coding</a> &nbsp; 
+<a href="#" id="addCss">Add CSS</a> &nbsp;
+<a href="#" id="removeCss">Remove CSS</a>
+<a href="https://moneycontrol1011.netlify.app/activity">Activity</a>
+
+</div>
+
+<ul class="faq">
+    <li data-id="q35562" class="zyellow">
+        <span class="faq-question">
+Spring Boot Example : Encapsulation, Inheritance, Polymorphism, Abstraction
+        </span>
+        <div class="answer">
+            <pre><code>
+
+
+
+// Abstraction
+abstract class Payment {
+    protected double amount;
+
+    // Encapsulation (private data with getter/setter)
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    // Abstract method (must be implemented by child)
+    abstract void pay();
+}
+
+// Inheritance
+class CreditCardPayment extends Payment {
+
+    // Polymorphism (method overriding)
+    @Override
+    void pay() {
+        System.out.println("Paid " + amount + " using Credit Card");
+    }
+}
+
+class UpiPayment extends Payment {
+
+    // Polymorphism (method overriding)
+    @Override
+    void pay() {
+        System.out.println("Paid " + amount + " using UPI");
+    }
+}
+
+// Spring Boot Main Application
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+
+        // Polymorphism (same reference, different behavior)
+        Payment payment1 = new CreditCardPayment();
+        payment1.setAmount(1000);
+        payment1.pay();
+
+        Payment payment2 = new UpiPayment();
+        payment2.setAmount(500);
+        payment2.pay();
+    }
+}
+
+</code></pre>
+</div>
+</li>
+
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Spring Boot Example : Collections (List, Set, Map, HashMap)
+    </span>
+    <div class="answer">
+<pre><code>
+import java.util.*;
+
+public class CollectionExample {
+
+    public static void main(String[] args) {
+
+        // ===== LIST =====
+        List<String> list = new ArrayList<>();
+        list.add("Java");
+        list.add("Spring");
+        list.add("Java");
+
+        System.out.println("List: " + list);
+        // Output: List: [Java, Spring, Java]
+
+
+        // ===== SET =====
+        Set<String> set = new HashSet<>();
+        set.add("Java");
+        set.add("Spring");
+        set.add("Java");
+
+        System.out.println("Set: " + set);
+        // Output: Set: [Java, Spring]  (order may vary)
+
+
+        // ===== MAP =====
+        Map<Integer, String> map = new HashMap<>();
+        map.put(1, "Java");
+        map.put(2, "Spring");
+        map.put(1, "Updated Java");
+
+        System.out.println("Map: " + map);
+        // Output: Map: {1=Updated Java, 2=Spring}
+
+
+        // ===== HASHMAP =====
+        HashMap<String, Integer> hashMap = new HashMap<>();
+
+        hashMap.put("A", 1);
+        hashMap.put("B", 2);
+        hashMap.put("C", 3);
+        hashMap.put("Aa", 100);
+        hashMap.put("BB", 200);
+
+        System.out.println("HashMap: " + hashMap);
+        // Output: HashMap: {A=1, B=2, C=3, Aa=100, BB=200}
+        // (order may vary)
+
+        System.out.println("Get A: " + hashMap.get("A"));
+        // Output: Get A: 1
+
+
+        for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+            // Output:
+            // A -> 1
+            // B -> 2
+            // C -> 3
+            // Aa -> 100
+            // BB -> 200
+            // (order may vary)
+        }
+    }
+}
+</code></pre>
+    </div>
+</li> 
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Exception Handling
+    </span>
+    <div class="answer">
+public class ExceptionExample {
+
+    public static void main(String[] args) {
+
+        System.out.println("Start");
+
+        try {
+            int a = 10;
+            int b = 0;
+
+            int result = a / b; // ArithmeticException
+            System.out.println("Result: " + result);
+
+        } catch (ArithmeticException e) {
+            System.out.println("Caught ArithmeticException");
+            // Output: Caught ArithmeticException
+
+        } catch (Exception e) {
+            System.out.println("Generic Exception");
+        } finally {
+            System.out.println("Finally block always executes");
+            // Output: Finally block always executes
+        }
+
+        // ===== CUSTOM EXCEPTION =====
+        try {
+            validateAge(15);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // Output: Age must be 18+
+        }
+
+        System.out.println("End");
+        // Output: End
+    }
+
+    // Method with throws
+    static void validateAge(int age) throws Exception {
+        if (age < 18) {
+            throw new Exception("Age must be 18+"); // throw keyword
+        } else {
+            System.out.println("Valid Age");
+        }
+    }
+}
+    </div>
+</li> 
+<li data-id="q35562" class="zyellow">
+    <span class="faq-question">
+Multithreading & Concurrency in Java: A Simple Example
+    </span>
+    <div class="answer">
+<h3>Multithreading = Multiple threads inside a single program running simultaneously.</h3>
+<pre><code>
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread is running: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread();
+        MyThread t2 = new MyThread();
+
+        t1.start(); // starts thread 1
+        t2.start(); // starts thread 2
+
+        System.out.println("Main thread finished");
+    }
+}
+</code></pre>
+    </div>
+</li> 
+
+
+</ul>
+
+
+
+
+<script src="script.js"></script>
+<button id="goToTop" style="display:none; position:fixed; bottom:20px; right:20px; z-index:99; background-color:#007BFF; color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer;">Go to Top</button>
+
+<script>
+  // Show the button when the user scrolls down 20px from the top
+  window.onscroll = function() {
+    const goToTopButton = document.getElementById("goToTop");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      goToTopButton.style.display = "block";
+    } else {
+      goToTopButton.style.display = "none";
+    }
+  };
+
+  // Scroll to the top when the button is clicked
+  document.getElementById("goToTop").onclick = function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+</script>
+</body>
+</html>
