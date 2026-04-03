@@ -73,6 +73,8 @@
                 <li><a href="#redux_saga">ReduxSaga</a></li>
                 <li><a href="#redux_advanced">Advanced</a></li>
                 <li><a href="#reduxflux_qlist">Flux</a></li>
+                <li><a href="https://docs.nestjs.com/" target="_blank">NestJS Doc</a></li>
+                <li><a href="https://nextjs.org/" target="_blank">NextJS Doc</a></li>
               </ol>
             </td>
             <td style="vertical-align: top;">
@@ -148,7 +150,108 @@
     
     </div></li>
     
+<li data-id="q_node_event">
+  <span class="faq-question zgreen">
+Design Pattern
+</span>
+<div class="answer">
 
+<p><strong>A design pattern</strong> is a <span class="highlight">reusable solution to a common problem in software design</span>.</p>
+
+<p>It’s like a <strong>blueprint or best practice</strong>, not exact code, that helps developers solve problems in a clean, efficient, and maintainable way.</p>
+
+<hr>
+
+<h2>🔹 Simple Definition</h2>
+<p>A design pattern is a <strong>standard way to solve recurring design problems in software development</strong>.</p>
+
+<hr>
+
+<h2>🔹 Why Use Design Patterns?</h2>
+<ul>
+    <li>Improve code readability</li>
+    <li>Promote reusability</li>
+    <li>Follow best practices</li>
+    <li>Make systems scalable & maintainable</li>
+    <li>Help in system design interviews</li>
+</ul>
+
+<hr>
+
+<h2>🔹 Types of Design Patterns</h2>
+
+<h3>1. Creational Patterns (Object creation)</h3>
+<ul>
+    <li><strong>Singleton</strong> → Only one instance</li>
+    <li><strong>Factory</strong> → Create objects without exposing logic</li>
+    <li><strong>Builder</strong> → Step-by-step object creation</li>
+</ul>
+
+<h3>2. Structural Patterns (Class & object structure)</h3>
+<ul>
+    <li><strong>Adapter</strong> → Convert one interface to another</li>
+    <li><strong>Decorator</strong> → Add behavior dynamically</li>
+    <li><strong>Facade</strong> → Simplify complex system</li>
+</ul>
+
+<h3>3. Behavioral Patterns (Communication between objects)</h3>
+<ul>
+    <li><strong>Observer</strong> → Event-based system (like notifications)</li>
+    <li><strong>Strategy</strong> → Choose algorithm at runtime</li>
+    <li><strong>Command</strong> → Encapsulate requests</li>
+</ul>
+
+<hr>
+
+<h2>🔹 Example: Singleton Pattern</h2>
+<p>Ensures only <strong>one object</strong> is created.</p>
+
+<h3>Use Cases:</h3>
+<ul>
+    <li>Database connection</li>
+    <li>Logger</li>
+    <li>Configuration manager</li>
+</ul>
+
+<h3>JavaScript Example:</h3>
+<pre><code>
+class Singleton {
+  constructor() {
+    if (Singleton.instance) {
+      return Singleton.instance;
+    }
+    this.data = "Single Instance";
+    Singleton.instance = this;
+  }
+}
+
+const obj1 = new Singleton();
+const obj2 = new Singleton();
+
+console.log(obj1 === obj2); // true
+</code></pre>
+
+<hr>
+
+<h2>🔹 Real-Life Analogy</h2>
+<ul>
+    <li><strong>Singleton</strong> → Government (one authority)</li>
+    <li><strong>Factory</strong> → Car factory (creates different cars)</li>
+    <li><strong>Observer</strong> → YouTube subscribers (get notified)</li>
+</ul>
+
+<hr>
+
+<h2>🔹 In Short</h2>
+<ul>
+    <li>Proven solutions</li>
+    <li>Reusable</li>
+    <li>Used in system design</li>
+    <li>Important for interviews</li>
+</ul>
+
+</div>
+</li>
 
 
 <li data-id="q_node_event"><span class="faq-question zgreen">
@@ -7612,7 +7715,73 @@ Redux Example : 03 : Reducers vs ExtraReducers ***
   ------------------------------------------------</span></li>
 
 
+<li data-id="q_node_event">
+  <span class="faq-question zgreen">
+    React Hook vs Normal Function? Why use Custom Hook instead of normal function?
+  </span>
+  <div class="answer">
+    <pre>
 
+React Hook vs Normal Function
+
+1. Normal Function
+- Regular JavaScript function
+- Used for utility or pure logic
+- Cannot use React features like useState or useEffect
+
+Example:
+function sum(a, b) {
+  return a + b;
+}
+
+2. React Hook
+- Special function that uses React features (state, lifecycle)
+- Must start with "use"
+- Can use useState, useEffect, etc.
+
+Example:
+function useCounter() {
+  const [count, setCount] = useState(0);
+  return { count, setCount };
+}
+
+----------------------------------------
+
+Why use Custom Hook instead of Normal Function?
+
+1. Reuse Stateful Logic
+- Custom hooks allow sharing state logic across components
+
+2. Handle Side Effects
+- API calls, subscriptions, timers using useEffect
+
+3. Cleaner Code
+- Moves complex logic outside components
+
+4. Better Separation of Concerns
+- Keeps UI and logic separate
+
+5. Lifecycle Support
+- Hooks follow React lifecycle properly
+
+----------------------------------------
+
+Key Difference
+
+- Normal Function → No React state or lifecycle
+- Custom Hook → Supports state, effects, and React behavior
+
+----------------------------------------
+
+Important Rule
+
+- Hooks can only be used inside:
+  - React components
+  - Other custom hooks
+
+    </pre>
+  </div>
+</li>
   <li data-id="q35562" class="zyellow">
     <span class="faq-question">
 React Fiber Architecture    
@@ -26230,6 +26399,191 @@ export default function App() {
   ---------------------------------------------------------------------------------------- 
 </span></li>
 
+<li data-id="q_node_middleware">
+  <span class="faq-question zgreen">
+    Which types of middleware are used in Node.js?
+  </span>
+
+  <div class="answer">
+    <pre>
+Middleware functions run between the request and response cycle.
+
+1. Application-level Middleware
+app.use((req, res, next) => {
+  console.log("Request received:", req.method, req.url);
+  next();
+});
+
+2. Router-level Middleware
+const router = require("express").Router();
+
+router.use((req, res, next) => {
+  console.log("Router middleware");
+  next();
+});
+
+3. Built-in Middleware
+app.use(express.json());
+app.use(express.urlencoded());
+
+4. Third-party Middleware
+const cors = require("cors");
+app.use(cors());
+
+5. Error-handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+6. Authentication Middleware
+const auth = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) return res.status(401).send("Unauthorized");
+
+  next();
+};
+
+app.use("/protected", auth);
+
+7. Custom Middleware
+const timeLogger = (req, res, next) => {
+  req.time = new Date();
+  next();
+};
+
+Flow:
+Request → Middleware → Route → Response
+    </pre>
+  </div>
+</li>
+
+
+<li data-id="q_node_event">
+  <span class="faq-question zgreen">
+    Node.js Performance Optimization
+  </span>
+
+  <div class="answer">
+    <pre>
+🚀 Core Principle:
+Node.js is single-threaded (event loop) → avoid blocking operations.
+
+⚡ 1. Avoid Blocking Code
+❌ Bad:
+const data = fs.readFileSync('file.txt');
+
+✅ Good:
+fs.readFile('file.txt', (err, data) => { console.log(data.toString()); });
+
+⚡ 2. Use Async/Await Properly
+❌ Sequential:
+await task1();
+await task2();
+
+✅ Parallel:
+await Promise.all([task1(), task2()]);
+
+⚡ 3. Use Clustering (Multi-core)
+pm2 start app.js -i max
+
+⚡ 4. Caching
+Use Redis or in-memory cache to reduce DB/API calls.
+
+⚡ 5. Database Optimization
+- Use indexes
+- Avoid N+1 queries
+- Use connection pooling
+
+⚡ 6. Use Streams for Large Data
+fs.createReadStream('bigfile.txt').pipe(res);
+
+⚡ 7. Compression
+app.use(compression());
+
+⚡ 8. Load Balancing
+Use Nginx or PM2 cluster
+
+⚡ 9. Logging & Monitoring
+Use Winston, New Relic
+
+⚡ 10. Avoid Memory Leaks
+- Remove listeners
+- Avoid global variables
+
+⚡ 11. Worker Threads (CPU Tasks)
+Use worker_threads for heavy processing
+
+⚡ 12. Use Fast Framework
+Fastify > Express (performance)
+
+🔥 Golden Rules:
+- Don't block event loop
+- Cache data
+- Parallelize tasks
+- Monitor performance
+    </pre>
+  </div>
+</li>
+<li data-id="q_node_event">
+  <span class="faq-question zgreen">
+    Callback Functions in Node.js (Common List)
+  </span>
+  <div class="answer">
+In Node.js, a callback function is a function passed as an argument to another function and executed later (usually after an async operation).    
+    <pre>
+
+1. File System (fs)
+- fs.readFile(path, callback)
+- fs.writeFile(path, data, callback)
+- fs.appendFile(path, data, callback)
+- fs.unlink(path, callback)
+- fs.stat(path, callback)
+
+2. HTTP Server
+- http.createServer((req, res) => {})
+
+3. Timers
+- setTimeout(callback, delay)
+- setInterval(callback, delay)
+
+4. Events (EventEmitter)
+- emitter.on(event, callback)
+- emitter.once(event, callback)
+
+5. Streams
+- stream.on('data', callback)
+- stream.on('end', callback)
+- stream.on('error', callback)
+
+6. Database (Example)
+- db.collection().find(query, callback)
+
+7. Process
+- process.nextTick(callback)
+
+8. Child Process
+- exec(command, callback)
+
+9. DNS
+- dns.lookup(hostname, callback)
+
+10. Crypto
+- crypto.randomBytes(size, callback)
+
+Standard Callback Pattern:
+function callback(err, result) {
+  if (err) {
+    // handle error
+    return;
+  }
+  // handle result
+}
+
+    </pre>
+  </div>
+</li>
 
 <li data-id="settimeout_example">
   <span class="faq-question">What is setTimeout()? Give example.</span>
