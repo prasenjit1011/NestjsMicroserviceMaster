@@ -149,7 +149,315 @@
     </tbody></table>  
     
     </div></li>
+
+
+
+<li data-id="q_node_event" style="margin-bottom: 20px; list-style: none;">
+  
+  <span class="faq-question zgreen" >
+    🚀 How to reduce API response time in Node.js?
+  </span> 
+
+  <div class="answer" >
     
+    <ul style="padding-left: 18px; margin: 0;">
+       <li>
+          console.time(), &nbsp; 
+          APM tools (New Relic, Datadog), &nbsp; 
+          Built-in profiler
+      </li>
+      <li><strong>Use caching:</strong> Store frequent responses in memory or Redis.</li>
+      
+      <li><strong>Optimize database queries:</strong> Add indexes, avoid unnecessary fields, and use pagination.</li>
+      
+      <li><strong>Avoid blocking code:</strong> Use async operations instead of synchronous methods.</li>
+      
+      <li><strong>Run tasks in parallel:</strong> Use <code>Promise.all()</code> where possible.</li>
+      
+      <li><strong>Reduce payload size:</strong> Send only required data and enable compression.</li>
+      
+      <li><strong>Use a fast framework:</strong> Fastify improves performance with low overhead.</li>
+      
+      <li><strong>Enable clustering:</strong> Utilize multiple CPU cores.</li>
+      
+      <li><strong>Use CDN & edge caching:</strong> Serve cached responses closer to users.</li>
+      
+      <li><strong>Monitor performance:</strong> Use tools like logs and profilers to find bottlenecks.</li>
+
+    </ul>
+
+  </div>
+
+</li>
+<li data-id="q_node_graceful_shutdown">
+  <span class="faq-question zgreen">
+    What is graceful shutdown in Node.js?
+  </span> 
+  <div class="answer">
+    
+    <p><strong>Graceful shutdown</strong> is the process of safely stopping a Node.js application by stopping new requests, completing ongoing tasks, cleaning up resources, and then exiting the process.</p>
+
+    <h4>Why is it important?</h4>
+    <ul>
+      <li>Prevents request failures in the middle of execution</li>
+      <li>Avoids data loss or corruption</li>
+      <li>Ensures proper cleanup of database and network connections</li>
+    </ul>
+
+    <h4>How does it work?</h4>
+    <p>The application listens for system signals like <code>SIGINT</code> (Ctrl+C) and <code>SIGTERM</code> (used in production environments), and then executes cleanup logic.</p>
+
+    <h4>Example:</h4>
+    <pre><code>process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+
+async function shutdown(signal) {
+  console.log(`Received ${signal}`);
+
+  await server.close(); // stop accepting new requests
+  await db.close();     // close database
+
+  process.exit(0);
+}</code></pre>
+
+    <h4>Key Points:</h4>
+    <ul>
+      <li>Stops new incoming requests</li>
+      <li>Allows current requests to complete</li>
+      <li>Releases resources like databases and connections</li>
+      <li>Essential for production environments (Docker, Kubernetes)</li>
+    </ul>
+
+    <p><strong>Summary:</strong> Graceful shutdown ensures a Node.js application exits safely without interrupting active operations or causing resource leaks.</p>
+
+  </div>
+</li>
+
+<li data-id="q_node_architecture">
+  <span class="faq-question zgreen">
+    What is Node.js architecture?
+  </span> 
+  <div class="answer">
+
+    <p><strong>Node.js architecture</strong> is based on a <strong>single-threaded, event-driven, non-blocking I/O model</strong> that efficiently handles multiple concurrent requests.</p>
+
+    <h4>Core Components:</h4>
+    <ul>
+      <li><strong>Single Thread:</strong> Handles all incoming requests using one main thread.</li>
+      
+      <li><strong>Event Loop:</strong> Continuously processes incoming events and executes callbacks.</li>
+      
+      <li><strong>Event Queue:</strong> Stores incoming requests and tasks waiting to be processed.</li>
+      
+      <li><strong>Non-blocking I/O:</strong> Executes operations asynchronously without blocking the main thread.</li>
+      
+      <li><strong>Thread Pool (libuv):</strong> Handles heavy operations like file system, DNS, and cryptography using worker threads.</li>
+    </ul>
+
+    <h4>How it works:</h4>
+    <pre><code>Client Request → Event Queue → Event Loop → 
+Non-blocking Task → Thread Pool → 
+Callback → Response</code></pre>
+
+    <h4>Example:</h4>
+    <pre><code>const fs = require("fs");
+
+console.log("Start");
+
+fs.readFile("file.txt", "utf8", (err, data) => {
+  console.log("File read complete");
+});
+
+console.log("End");</code></pre>
+
+    <p><strong>Output:</strong></p>
+    <pre><code>Start
+End
+File read complete</code></pre>
+
+    <h4>Key Features:</h4>
+    <ul>
+      <li>High performance and scalability</li>
+      <li>Handles many concurrent users efficiently</li>
+      <li>Ideal for real-time applications (chat, streaming)</li>
+    </ul>
+
+    <h4>Limitations:</h4>
+    <ul>
+      <li>Not suitable for CPU-intensive tasks</li>
+      <li>Single thread can be blocked by heavy computations</li>
+    </ul>
+
+    <p><strong>Summary:</strong> Node.js uses a single-threaded event loop with non-blocking I/O to handle multiple requests efficiently and scalably.</p>
+
+  </div>
+</li>
+
+<li data-id="allq">
+  <span class="faq-question">
+    How can I reduce API response time in Node.js?
+  </span>
+  <div class="answer">
+
+    <p><strong>Reducing API response time in Node.js is usually about fixing bottlenecks—not just “making code faster.”</strong></p>
+
+    <h4>🚀 1. Identify the bottleneck first (most important)</h4>
+    <p>Before optimizing, check:</p>
+    <ul>
+      <li>Is it DB slow?</li>
+      <li>Is it CPU-heavy logic?</li>
+      <li>Is it network/API calls?</li>
+    </ul>
+    <p>Use:</p>
+    <ul>
+      <li><code>console.time()</code></li>
+      <li>APM tools (New Relic, Datadog)</li>
+      <li>Built-in profiler</li>
+    </ul>
+
+    <h4>⚡ 2. Use caching (biggest win)</h4>
+    <p><strong>In-memory cache (quick win)</strong></p>
+    <pre><code>const cache = new Map();
+
+app.get("/data", async (req, reply) =&gt; {
+  if (cache.has("data")) {
+    return cache.get("data");
+  }
+
+  const data = await fetchData();
+  cache.set("data", data);
+
+  return data;
+});</code></pre>
+
+    <p><strong>Better: Redis</strong> – use for scalable caching.</p>
+
+    <h4>🗄️ 3. Optimize database queries</h4>
+    <p>Most slow APIs = slow DB.</p>
+    <ul>
+      <li>Add indexes</li>
+      <li>Avoid <code>SELECT *</code></li>
+      <li>Use pagination</li>
+      <li>Use joins properly</li>
+    </ul>
+
+    <pre><code>-- Bad
+SELECT * FROM users;
+
+-- Good
+SELECT id, name FROM users WHERE id = 1;</code></pre>
+
+    <h4>🔁 4. Avoid blocking code (event loop)</h4>
+    <p><strong>Bad (blocking):</strong></p>
+    <pre><code>const data = fs.readFileSync("file.txt");</code></pre>
+
+    <p><strong>Good:</strong></p>
+    <pre><code>const data = await fs.promises.readFile("file.txt");</code></pre>
+
+    <h4>⚙️ 5. Use async parallelism</h4>
+    <p><strong>Don’t wait sequentially if not needed:</strong></p>
+
+    <p><strong>Bad:</strong></p>
+    <pre><code>const a = await getA();
+const b = await getB();</code></pre>
+
+    <p><strong>Good:</strong></p>
+    <pre><code>const [a, b] = await Promise.all([getA(), getB()]);</code></pre>
+
+    <h4>📦 6. Reduce payload size</h4>
+    <ul>
+      <li>Remove unnecessary fields</li>
+      <li>Use compression</li>
+    </ul>
+
+    <pre><code>import fastifyCompress from "@fastify/compress";
+
+app.register(fastifyCompress);</code></pre>
+
+    <h4>🔄 7. Enable HTTP keep-alive</h4>
+    <pre><code>import http from "http";
+
+const server = http.createServer(app);
+server.keepAliveTimeout = 5000;</code></pre>
+
+    <h4>🧠 8. Use clustering (multi-core)</h4>
+    <p>Node.js is single-threaded → use all CPU cores:</p>
+
+    <pre><code>import cluster from "cluster";
+import os from "os";
+
+if (cluster.isPrimary) {
+  os.cpus().forEach(() =&gt; cluster.fork());
+} else {
+  startServer();
+}</code></pre>
+
+    <h4>⚡ 9. Use Fastify</h4>
+    <ul>
+      <li>Low overhead</li>
+      <li>Schema-based serialization</li>
+      <li>Built-in optimizations</li>
+    </ul>
+
+    <p><strong>Bonus: Add schema for faster serialization</strong></p>
+    <pre><code>app.get("/user", {
+  schema: {
+    response: {
+      200: {
+        type: "object",
+        properties: {
+          id: { type: "number" },
+          name: { type: "string" }
+        }
+      }
+    }
+  }
+}, async () =&gt; {
+  return { id: 1, name: "John" };
+});</code></pre>
+
+    <h4>🌐 10. Use CDN &amp; edge caching</h4>
+    <p>Cache responses at CDN level (Cloudflare, etc.) to reduce server load.</p>
+
+    <h4>🔥 11. Rate limiting &amp; throttling</h4>
+    <pre><code>import rateLimit from "@fastify/rate-limit";
+
+app.register(rateLimit, {
+  max: 100,
+  timeWindow: "1 minute"
+});</code></pre>
+
+    <h4>🧪 12. Measure improvement</h4>
+    <ul>
+      <li>autocannon</li>
+      <li>Postman runner</li>
+      <li>k6</li>
+    </ul>
+
+    <h4>🧠 Golden Rule</h4>
+    <p>80% of latency comes from:</p>
+    <ul>
+      <li>Database</li>
+      <li>External APIs</li>
+      <li>Large payloads</li>
+    </ul>
+
+    <h4>⚡ Quick Checklist</h4>
+    <ul>
+      <li>✅ Add caching (Redis)</li>
+      <li>✅ Optimize DB queries</li>
+      <li>✅ Use Promise.all</li>
+      <li>✅ Avoid blocking code</li>
+      <li>✅ Compress responses</li>
+      <li>✅ Use Fastify schemas</li>
+      <li>✅ Run on multiple cores</li>
+    </ul>
+
+  </div>
+</li>
+
+
+
 <li data-id="q_node_event">
   <span class="faq-question zgreen">
 Design Pattern
@@ -252,6 +560,8 @@ console.log(obj1 === obj2); // true
 
 </div>
 </li>
+
+
 
 
 <li data-id="q_node_event"><span class="faq-question zgreen">
