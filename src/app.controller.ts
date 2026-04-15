@@ -13,6 +13,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto'
 import { CreatePostDto } from './dto/create-post.dto'
 import { CreateCommentDto } from './dto/create-comment.dto'
+import { AppService } from './app.service';
 
 // import { PrismaService } from './prisma/prisma.service'
 import { PrismaClient } from '@prisma/client'
@@ -22,10 +23,16 @@ import { PrismaClient } from '@prisma/client'
 export class AppController {
   private prisma = new PrismaClient()
   // constructor(private prisma: PrismaService) {}
+  constructor(private readonly appService: AppService) {}
 
   // 🔍 Validate ID
   private isValidId(id: string) {
     return typeof id === 'string' && id.length > 10
+  }
+
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
   }
 
   // 👤 Get User
