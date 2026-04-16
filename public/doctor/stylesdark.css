@@ -44,8 +44,14 @@ code, pre {
 }
 
 ul.faq li:hover {
-  background: #3838c0;
+  background: #08be72;
+  color: #000;
 }
+
+.faq_list li:hover {
+  background: #1dac71 !important;
+}
+
 
 ul.faq li ol li {
   font-weight: 300;

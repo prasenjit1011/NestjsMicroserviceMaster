@@ -22218,6 +22218,117 @@ These strategies allow NestJS apps to handle millions of requests.
   ---------------------------------------------------------------------------------------- 
 </span></li>
 
+
+
+<li data-id="kafka_intro">
+  <span class="faq-question">Kafka Interview Questions</span>
+  <div class="answer faq_list">
+
+
+
+
+<div class="section">
+  <h2>🟢 Beginner Kafka Questions</h2>
+  <ul>
+    <li>What is Apache Kafka?</li>
+    <li>Why do we use Kafka?</li>
+    <li>What problem does Kafka solve?</li>
+    <li>What is a Kafka topic?</li>
+    <li>What is a producer in Kafka?</li>
+    <li>What is a consumer in Kafka?</li>
+    <li>What is a broker?</li>
+    <li>What is a partition?</li>
+    <li>What is an offset?</li>
+    <li>What is a consumer group?</li>
+    <li>Kafka vs message queue difference?</li>
+    <li>Is Kafka push or pull based?</li>
+    <li>Can Kafka guarantee message ordering?</li>
+    <li>What happens if a consumer goes down?</li>
+    <li>What happens if a broker fails?</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>🟡 Intermediate Kafka Questions</h2>
+  <ul>
+    <li>Explain Kafka architecture</li>
+    <li>How does Kafka store messages?</li>
+    <li>What is replication in Kafka?</li>
+    <li>What is leader and follower?</li>
+    <li>What is ISR (In-Sync Replicas)?</li>
+    <li>How does Kafka ensure fault tolerance?</li>
+    <li>How does Kafka track consumer progress?</li>
+    <li>What is auto commit vs manual commit?</li>
+    <li>What happens with multiple consumers in a group?</li>
+    <li>Can multiple consumer groups read same topic?</li>
+    <li>Why is Kafka so fast?</li>
+    <li>What is partitioning strategy?</li>
+    <li>What is batching in Kafka?</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>🟠 Advanced Kafka Questions</h2>
+  <ul>
+    <li>How does Kafka achieve durability?</li>
+    <li>What is log compaction?</li>
+    <li>What is retention policy?</li>
+    <li>Log retention vs log compaction difference?</li>
+    <li>What is zero-copy in Kafka?</li>
+    <li>How does Kafka scale horizontally?</li>
+    <li>What is consumer group rebalancing?</li>
+    <li>What is partition re-assignment?</li>
+    <li>Explain delivery guarantees</li>
+    <li>At-most-once vs at-least-once vs exactly-once</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>🔴 System Design Kafka Questions</h2>
+  <ul>
+    <li>Design real-time notification system using Kafka</li>
+    <li>Design order processing system using Kafka</li>
+    <li>How to handle message loss?</li>
+    <li>How to handle duplicate messages?</li>
+    <li>How to monitor Kafka in production?</li>
+    <li>How to secure Kafka?</li>
+    <li>How to handle backpressure?</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>⚡ Scenario-Based Questions</h2>
+  <ul>
+    <li>Consumer is slow — what happens?</li>
+    <li>Broker overload — solution?</li>
+    <li>Hot partition problem?</li>
+    <li>Why are messages duplicated?</li>
+    <li>Consumer lag increasing — how to fix?</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>🎯 Bonus Questions</h2>
+  <ul>
+    <li>Is Kafka a database?</li>
+    <li>Kafka vs RabbitMQ</li>
+    <li>Does Kafka guarantee exactly-once by default?</li>
+    <li>Why partitions are needed?</li>
+    <li>Kafka without Zookeeper?</li>
+  </ul>
+</div>
+
+        
+
+  </div>
+</li>
+
+
+
+
+
+
+
 <li data-id="kafka_intro">
   <span class="faq-question">What is Apache Kafka?</span>
   <div class="answer">
@@ -67804,7 +67915,40 @@ CAP Theorem states that a distributed system can only guarantee
 two out of three properties: Consistency, Availability, and Partition Tolerance.
 In real-world distributed systems, we usually choose between CP and AP.
 </p>
+<pre>
+  <code>
+Promise.all
+- Waits for: All promises to resolve
+- If one fails: Entire promise rejects
+- Returns: Array of resolved values
+- Use case: When you need all results
 
+-------------------------------------
+
+Promise.race
+- Waits for: First promise to settle (resolve/reject)
+- If one fails: Rejects if first settled promise rejects
+- Returns: First resolved value OR rejection
+- Use case: When you only care about the fastest result
+
+-------------------------------------
+
+Promise.any
+- Waits for: First successful (resolved) promise
+- If one fails: Ignores failures unless all fail
+- Returns: First resolved value
+- Use case: When you want first success (fallback strategy)
+
+-------------------------------------
+
+Promise.allSettled
+- Waits for: All promises to settle
+- If one fails: Does NOT reject
+- Returns: Array of objects (status + value/reason)
+- Use case: When you need results of all, regardless of success/failure
+
+  </code>
+</pre>
 <li data-id="q3" class="yellow"><span class="faq-question">---------- Interview_End -----------------</span></li>
 
 
