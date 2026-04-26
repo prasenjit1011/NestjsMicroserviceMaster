@@ -1,0 +1,477 @@
+
+console.clear();
+let lineNum = 0;
+function consoleLine(str = 'DSA'){
+  lineNum++;
+  console.log('\n====================== '+lineNum+' '+str+' =======================================================\n');
+}
+
+consoleLine(' -: App Started :- '+ (new Date).toLocaleTimeString());
+consoleLine();
+
+let arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
+let k, arr1, x, y, z,  result, str, str1, obj, obj1, obj2, newobj, vowels, vCount, cCount, maxElement, result1, result2, data, ans, curLength;
+let x1  = {};
+
+obj = {};
+str = '';
+k   = 3;
+
+for(let i=0; i<arr.length; i++){
+  if(!obj[arr[i]]){
+    obj[arr[i]] = 0;
+  }
+  obj[arr[i]]++;
+}
+
+Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,k).map((val)=>{str += val[0]});
+console.log('\n Array : ',arr);
+console.log('\n Object : ',obj);
+console.log('\n String ',str);
+
+
+consoleLine('Element delete from array and object, Merge two array ****');
+arr = [];
+arr.push(123);
+arr.push(456);
+arr.push(789);
+arr.push(111,222);
+
+console.log('Orginal Array :',arr);
+x = arr.shift();
+console.log('Delete Element from array .shift():',x);
+console.log('After Delete :',arr);
+
+arr1 = ['aaaa','bbbb','cccc']
+result = [...arr, ...arr1]
+console.log('Array merge [...arr, ...arr1] :',result,'\n\n')
+
+
+obj = {'a':1,'b':3,c:5};
+obj[1] = [145];
+obj[1].push(123)
+console.log('Object element push and delete : ',obj);
+delete obj['b'];
+
+console.log("delete obj['b']")
+console.log('After delete b eleemet : ', obj)
+
+
+consoleLine('Move Zero to Last');
+
+arr = [0,1,0,5, 7, 3,12,11];
+result1 = arr.filter(val=>val?true:false);
+result2 = arr.filter(val=>val?false:true);
+data = [...result1, ...result2]
+
+console.log(arr);
+
+console.log(data);
+
+consoleLine('Sliding Window : Non Repeate String');
+let myfn = (str) => {
+  let obj = [];
+  let length = 0;
+
+  for (let i = 0; i < str.length; i++) {
+
+    // 🔁 Instead of reset → remove until duplicate gone
+    while (obj.includes(str[i])) {
+      obj.shift(); // remove from left
+    }
+
+    obj.push(str[i]);
+
+    if (length < obj.length) {
+      length = obj.length;
+    }
+  }
+
+  console.log(str, ' : ', length);
+}
+
+myfn("abcddefgh")
+myfn("abcbdeaf")
+myfn("aabcbcdbca")
+myfn("bbbbb")
+myfn("pwwkew")
+myfn("abcdef")
+myfn("abcabcbb")
+
+
+consoleLine()
+
+obj   = { a: 5, b: { c: 6, d: { e: 2, f:5 } }, c:99 }
+newobj  = {};
+
+const fn = (str, obj) => {
+  Object.entries(obj).map((val)=>{
+    if(typeof(val[1]) == 'object'){
+      fn(str+val[0],val[1])
+    }
+    else{
+      newobj[str+val[0]] = val[1];
+    }
+  });
+}
+
+fn('',obj);
+
+console.log(obj);
+console.log(newobj);
+
+consoleLine('Largest Number with key');
+
+obj = { a: 1, b: 4, c: 8, d: 2, f: 3 };
+maxElement = Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,2)
+console.log(obj);
+console.log('Largest Number with key : ',maxElement);
+
+consoleLine('DSA');
+
+
+
+str   = 'aaaabbccccddccffaaccbbf';
+str1  = '';
+obj   = {};
+
+for(let i in str){
+  obj[str[i]] = !obj[str[i]]? 1 : ++obj[str[i]];
+}
+
+Object.entries(obj).map((val)=>{
+  str1 += val[0]+val[1];
+})
+
+
+console.log('String : ',str);
+console.log('Object : ',obj);
+console.log('String : ',str1)
+
+
+consoleLine()
+
+// "I Love Riyan" => "I evoL nayiR"
+str = "I Love Riyan";
+str1 = '';
+str.split(' ').map((val)=>{
+  str1 += val.split('').reverse().join('')+' ';
+});
+
+console.log(str);
+console.log(str1);
+
+consoleLine('Vowels Count')
+
+// developer => Output: Vowels: 4, Consonants: 5
+str = 'developer';
+vowels = 'aeiou';
+vCount = 0;
+cCount = 0;
+for(let i in str){
+  if(vowels.includes(str[i])){
+    vCount++;
+  }
+  else{
+    cCount++;
+  }
+}
+
+console.log(str);
+console.log('Vowels: '+vCount+', Consonants: '+cCount);
+
+
+consoleLine('Longest words')
+
+// Longest words : I am learning JavaScript
+str = 'I am learning JavaScript';
+obj = {};
+let longestWords = '';
+k = 0;
+arr = str.split(' ').map((val)=>{
+  if(val.length > longestWords.length){
+    longestWords = val;
+  }
+});
+
+console.log('String : ',str);
+console.log('Longest Words : ', longestWords);
+
+
+consoleLine('Closure')
+
+function closureFn(){
+  let x = 0;
+  return function fn1(){
+    let c = 20;
+    x = x + c;
+    return x++;
+  }
+}
+
+const hello = closureFn();
+console.log(hello()) //20
+console.log(hello()) //41
+console.log(hello()) //62
+
+consoleLine('Call Bind** ')  
+const person = {
+      firstName: "Alice",
+      lastName: "Johnson",
+      greet: function() {
+        return `Hello, ${this.firstName}!`;
+      }
+    };
+
+const unboundGreet = person.greet.bind(person);
+console.log('11111',person.greet())
+console.log('22222',person.greet.bind(person)());
+
+
+
+
+consoleLine('Find the length of longest consecutive elements')
+arr = [100,4,101,102,103,200,1,104,105,3,2];
+data = arr.sort((a,b)=>a-b)
+ans = 0;
+curLength = 1;
+for(let i=0; i<data.length; i++){
+  
+  if(data[i]+1 == data[i+1]){
+    curLength++;
+  }
+  else{
+    curLength = 1;
+  }
+  
+  if(ans<curLength){
+    ans = curLength;
+  }
+}
+
+
+console.log('Answer : ',ans);
+console.log(arr)
+
+
+consoleLine('Find Duplicate')
+arr   = [1,3,4,2,2,4,4,4,4,4,4,3,3];
+data  = {};
+
+for(let i=0; i<arr.length; i++){
+  data[arr[i]] = !data[arr[i]] ? 1 : data[arr[i]] +1 ;
+}
+
+result = Object.entries(data).filter((val)=>val[1]>1?true:false).sort((a,b)=>b[1]-a[1])
+
+console.log(arr);
+console.log(data);
+console.log(result)
+
+consoleLine('Find first dublicate')
+arr   = [2,1,3,5,6,4,2,3,2,9,9]
+obj = [];
+result = '';
+for(let i=0; i<arr.length; i++){
+  if(!obj.includes(arr[i])){
+    obj.push(arr[i])
+  }
+  else{
+    result = arr[i];
+    break;
+  }
+}
+
+console.log(arr)
+console.log('First dublicate : ',result)
+
+
+consoleLine('Group Anagrams')
+
+
+arr = ["eat","tea","tan","ate","nat","bat"]
+// Output: [["eat","tea","ate"],["tan","nat"],["bat"]]
+obj = {}
+str;
+for(let i=0; i<arr.length; i++){
+  str = arr[i].split('').sort().join('')
+  if(!obj[str]){
+    obj[str] = [] 
+  }
+  obj[str].push(arr[i]);
+}
+
+
+console.log(arr);
+console.log(Object.values(obj))
+
+
+consoleLine();
+
+
+consoleLine(99)
+
+var keys  = {}
+keys['hello'] = 5;
+keys['hii']   = 3;
+
+Object.keys(keys).forEach((val, k)=>{
+  console.log('--->',val,'||', k)
+})
+
+for(let index in keys){
+  console.log(keys[index], index)
+}
+console.log(keys);
+
+Array.prototype.double = function () {
+  return this.map(x => x * 2);
+};
+
+const a = [1, 2, 3];
+console.log(a.double()); // [2, 4, 6]
+      
+consoleLine();
+/*
+
+
+      ---------- Example 02 ----------
+
+      function fn(a: string, b: string = 'World'): string {
+        return a + b;
+      }
+      var str = fn('hello')
+      console.log(str)
+
+*/
+/*
+
+
+      ---------- Example 02888 ----------*/
+
+obj1 = { a: 5, b: { c: 6, d: { e: 2 } } };
+x = Object.keys(obj1);
+y = Object.values(obj1);
+z = Object.entries(obj1);
+
+x1 = { a: 1, b: 4, c: 8, d: 2, f: 3 };
+const v1 = Math.max(...Object.values(x1));
+const v2 = Math.max(...[[1,2],3,4].flat());
+const v3 = Math.max(1,2,3,4);
+
+console.log(x1);
+console.log(v1, v2, v3);
+consoleLine();
+
+
+setImmediate(()=>{console.log('01 setImmediate')});
+setTimeout(()=>{console.log('02 setTimeout')},0)
+process.nextTick(()=>{console.log('03 nextTick');});
+console.log('04 consoleLog')
+
+console.log(x,y,z);
+
+consoleLine();
+/*
+
+
+      ---------- Example 02 ----------*/
+
+      arr1 = [1,2,3,4,5,9]
+      const length = arr1.length;
+      const target = 6;
+      result = [];
+      
+      for(let i = 0; i< length; i++){
+        for(let j=i+1; j< length; j++){
+          if(arr1[i]+arr1[j] == target){
+            result.push([arr1[i],arr1[j]]);
+          }
+        }
+      }
+      
+      console.log('\n Result : ',result)
+      
+      
+      
+/*
+
+
+      ---------- Example 03 ----------
+
+      var obj = { a: 5, b: { c: 6, d: { e: 2 } } };
+      var keys = [];
+      
+      getKeys(obj)
+      
+      function getKeys(obj){
+        for(let val in obj){
+          keys.push(val)
+          if(typeof obj[val] === 'object'){
+            getKeys(obj[val]);
+          }
+        }
+      }
+      
+      console.log(keys);
+      [ 'a', 'b', 'c', 'd', 'e' ]
+      
+
+
+      ------------------------------------------------------*/
+
+      obj2 = { a: 5, b: { c: 6, d: { e: 2 } } };
+      result2 = [];
+
+      getKeys(obj2);
+      
+      function getKeys(obj){
+        Object.entries(obj).map((value, key)=>{
+          result.push(value[0]);
+          if(typeof value[1] == 'object'){
+            getKeys(value[1]);
+          }
+        })
+      }
+      
+      console.log('Result2 : ',result2);
+
+
+/*
+
+
+      ---------- Example 04 ----------
+
+      const p1 = Promise.resolve(1);
+      const p2 = Promise.resolve(2);
+      const p3 = Promise.resolve(3);
+
+      Promise.all([p1, p2, p3])
+        .then(results => {
+          output("All success: " + JSON.stringify(results));
+        })
+        .catch(err => {
+          output("One failed: " + err);
+        });
+
+
+    --------------------------------------------------------------
+
+
+        async function fetchData() {
+          try {
+            const results = await Promise.all([p1, p2, p3]);
+            output("All success1: " + JSON.stringify(results));
+          } catch (err) {
+            output("One failed1: " + err);
+          }
+        }
+        
+        fetchData();
+
+
+
+
+*/
+
+/* */
