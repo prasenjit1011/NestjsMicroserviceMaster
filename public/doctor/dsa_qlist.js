@@ -1,12 +1,141 @@
 
 console.clear();
 let lineNum = 0;
-function consoleLine(str = 'DSA'){
+async function consoleLine(str = 'DSA'){
   lineNum++;
-  console.log('\n====================== '+lineNum+' '+str+' =======================================================\n');
+  await console.log('\n====================== '+lineNum+' '+str+' =======================================================\n');
 }
 
 consoleLine(' -: App Started :- '+ (new Date).toLocaleTimeString());
+
+consoleLine();
+
+const arr2 = [1, 2, 3];
+const data = arr2.map((num) => {
+  if (num > 1) return;
+  return num * 2;
+});
+console.log(data)
+
+consoleLine();
+
+
+async function foo() {
+  console.log("A");
+  await bar();
+  console.log("B");
+}
+async function bar() {
+  console.log("C");
+}
+
+console.log("D");
+foo();
+Promise.resolve().then(() => console.log("E"));
+console.log("F");
+
+consoleLine();
+
+console.log("Start");
+setTimeout(() => console.log("Timeout1"), 0); // 
+Promise.resolve().then(() => {
+  console.log("Promise1");
+  setTimeout(() => console.log("Timeout2"), 0); // Phase 
+});
+ 
+Promise.resolve().then(() => console.log("Promise2"));
+ 
+console.log("End");
+
+
+
+
+
+consoleLine('Call, Bind');
+
+const obj = {
+  name: "JS",
+  getName: function () {
+    return this.name;    
+  },
+};
+
+const getName = obj.getName;
+console.log(obj.getName());
+
+
+console.log([] == ![])
+console.log(3 > 2 > 1)
+console.log([] + {})
+
+consoleLine();
+
+
+
+let num = 98456;
+let arr1 = [];
+for(let i = 10; 0<num; i = i*1 ){
+  arr1.push(num%i);
+  num = parseInt(num/i);
+}
+
+console.log(arr1.join(''));
+
+
+
+
+
+ 
+
+
+const arr = [2, 7, 8, 11, 1, 15, 9];
+const target = 9;
+// Output: [0,1]
+let res = {};
+let k = 0;
+
+for(let i=0; i< arr.length; i++){
+  if(arr[i] == target){
+    res[k++] = [i];
+  }
+  else{
+    for(let j=i+1; j<arr.length; j++){
+      if(arr[i]+arr[j] == target){
+        res[k++] = [i,j];
+      }
+    }  
+  }
+  
+}
+
+console.log(Object.values(res));
+
+
+// async function fetchData() {
+//   const res  = fetch("https://api.com/data");
+//   const data = res.json();
+//   return data;
+// }
+
+// console.log(fetchData())
+
+
+
+const arr3 = ["eat", "tea", "tan", "ate", "nat", "bat"];
+let res3 = {};
+let str;
+for(let i = 0; i<arr3.length; i++){
+  str = arr3[i].split('').sort().join('');
+  if(!res3[str]){
+    res3[str] = [];
+  }
+  res3[str].push(arr3[i]);
+}
+
+console.log(Object.values(res3));
+
+
+
 consoleLine();
 
 let arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
@@ -83,8 +212,8 @@ obj = {'a':1,'b':3,c:5};
 obj[1] = [145];
 obj[1].push(123)
 console.log('Object element push and delete : ',obj);
-delete obj['b'];
 
+delete obj['b']; //* Most Important */
 console.log("delete obj['b']")
 console.log('After delete b eleemet : ', obj)
 
@@ -160,8 +289,6 @@ console.log(obj);
 console.log('Largest Number with key : ',maxElement);
 
 consoleLine('DSA');
-
-
 
 str   = 'aaaabbccccddccffaaccbbf';
 str1  = '';
@@ -320,7 +447,6 @@ console.log('First dublicate : ',result)
 
 consoleLine('Group Anagrams')
 
-
 arr = ["eat","tea","tan","ate","nat","bat"]
 // Output: [["eat","tea","ate"],["tan","nat"],["bat"]]
 obj = {}
@@ -349,8 +475,7 @@ for(let i = 0; i<arr.length;i++){
   arr1 = [];
   sum1 = 0;
   j = i;
-  while(arr1.length<k){
-    
+  while(arr1.length<k){   
     sum1 += arr[j];
     arr1.push(arr[j]);
     j++;
