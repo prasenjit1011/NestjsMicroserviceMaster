@@ -29,6 +29,38 @@ console.log('\n Array : ',arr);
 console.log('\n Object : ',obj);
 console.log('\n String ',str);
 
+consoleLine('Promise all, race, allSettled')
+let i = 5;
+const p1 = new Promise((resolve, reject)=>{
+  return resolve('One')
+});
+const p2 = Promise.resolve('Two');
+const p3 = Promise.resolve('Three');
+const p4 = Promise.resolve('Four');
+const p5 = Promise.reject('Six')
+
+Promise.all([p1, p2, p5])
+  .then((val) => { i++;console.log('Promise all Success ',val); })
+  .catch((err) => { i++;console.log('Promise all Error : ',err); });
+  
+Promise.all([p1, p2])
+  .then((val) => { i++;console.log('Promise all Success : ',val); })
+  .catch((err) => { i++;console.log('Promise all Error : ',err); });
+
+Promise.allSettled([p1, p2, p5])
+  .then((val) => { i++;console.log('Promise allSettled Success : ',val); })
+  .catch((err) => { i++;console.log(err); });
+
+
+console.log(' i = ',i)
+await Promise.race([p1, p2, p5])
+  .then((val) => { i++;console.log('Promise Race Success : ',val); })
+  .catch((err) => { i++;console.log('Promise Race Error : ',err); });
+
+
+console.log(' i = ',i)
+
+
 
 consoleLine('Element delete from array and object, Merge two array ****');
 arr = [];
@@ -304,6 +336,35 @@ for(let i=0; i<arr.length; i++){
 
 console.log(arr);
 console.log(Object.values(obj))
+
+
+consoleLine('Find max sub array');
+
+arr = [2, 1, 5, 1, 3, 2]
+arr1 = arr2 = [];
+k = 3
+sum = 0;
+
+for(let i = 0; i<arr.length;i++){
+  arr1 = [];
+  sum1 = 0;
+  j = i;
+  while(arr1.length<k){
+    
+    sum1 += arr[j];
+    arr1.push(arr[j]);
+    j++;
+  }
+  if(sum < sum1){
+    arr2 = arr1;
+    sum = sum1;
+  }
+}
+
+console.log('Orginal Array : ',arr);
+console.log('Sub-Array of length '+k+' with max: ',arr2, sum)
+console.log('Sub-Array : ',arr2)
+console.log('Max-Sum : ', sum)
 
 
 consoleLine();
