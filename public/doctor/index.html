@@ -26522,6 +26522,38 @@ const arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8
 const k = 3;
 let obj = {};
 let str = '';
+
+
+consoleLine('Closure and Debounce Function')
+
+consoleLine("Starting debounce test at", new Date().toLocaleTimeString(), ' :-');
+
+const callApi = (param) => {
+  console.log('\n\n -: Closure and Debounce Function :',new Date().toLocaleTimeString(),' : ', param, ' \n\n\n');
+};
+
+const debounce = (delay) => {
+  let timer;
+  const fn =  (str) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      callApi(str);
+    }, delay);
+  };
+  return fn;
+}
+
+const debouncedPrint = debounce(10000);
+debouncedPrint(`Call 1`);
+debouncedPrint(`Call 2`);
+debouncedPrint(`Call 3`);
+debouncedPrint(`Call 4`);
+
+
+
+
+
+
 for(let i=0; i<arr.length; i++){
   obj[arr[i]] = !obj[arr[i]] ? 1 : ++obj[arr[i]];
 }
@@ -26559,16 +26591,16 @@ console.log(keys);
 
 
       --------------------------------
-const person = {
-        name: "Ram",
-        address: {
-          city: "Kolkata"
-        }
-      };
+  const person = {
+          name: "Ram",
+          address: {
+            city: "Kolkata"
+          }
+        };
 
-const mem = { ...person }
-const emp = structuredClone(person);
-emp.address.city = "Delhi";
+  const mem = { ...person }
+  const emp = structuredClone(person);
+  emp.address.city = "Delhi";
 
 
 
@@ -48152,7 +48184,53 @@ console.log(result);  // Output: 15
   ------------------------------ MongoDB ------------------------------------
 </span><div class="answer"></div></li>
 
+<li data-id="q1" class="zyellow">
+    <span class="faq-question">
+        MongoDB : Parent-Child Table
+    </span>
+    <div class="answer">
+<code><pre>
 
+get all employee under Sam
+
+[
+  { "_id": 1, "name": "Ram",   "manager_id": null },
+  { "_id": 2, "name": "Sam",   "manager_id": 1 },
+  { "_id": 3, "name": "Sunil", "manager_id": 2 },
+  { "_id": 4, "name": "Sanjay","manager_id": 3 },
+  { "_id": 5, "name": "Rabi",  "manager_id": 3 },
+  { "_id": 6, "name": "Ajoy",  "manager_id": 5 }
+]
+
+------------------------------------------------------------
+db.employee.aggregate([
+  {
+    $match: { name: "Sam" }
+  },
+  {
+    $graphLookup: {
+      from: "employee",
+      startWith: "$_id",
+      connectFromField: "_id",
+      connectToField: "manager_id",
+      as: "subordinates"
+    }
+  }
+])
+---------------------------------------------------------------
+{
+  "_id": 2,
+  "name": "Sam",
+  "manager_id": 1,
+  "subordinates": [
+    { "_id": 3, "name": "Sunil", "manager_id": 2 },
+    { "_id": 4, "name": "Sanjay", "manager_id": 3 },
+    { "_id": 5, "name": "Rabi", "manager_id": 3 },
+    { "_id": 6, "name": "Ajoy", "manager_id": 5 }
+  ]
+}
+</pre></code>
+    </div></li>
 
 
 <li data-id="q1" class="zyellow">

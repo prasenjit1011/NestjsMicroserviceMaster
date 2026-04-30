@@ -1,63 +1,23 @@
-
-
 console.clear();
-let lineNum = 0;
-async function consoleLine(str = 'DSA'){
-  lineNum++;
-  await console.log('\n====================== '+lineNum+' '+str+' =======================================================\n');
+console.log("\n\n -: Starting debounce test at", new Date().toLocaleTimeString(), ' :-');
+
+function callApi(param) {
+  console.log(' -: Debounce Function :',new Date().toLocaleTimeString(),' : ', param, ' \n\n\n');
 }
 
-consoleLine(' -: App Started :- '+ (new Date).toLocaleTimeString());
-
-
-Promise.resolve().then(() => {
-  for(let i=0; i<5; i++){
-    setTimeout(()=>{console.log(i)},i*1000)
-  }
-})
-.then(()=>{
-
-
-consoleLine();
-
-const arr2 = [1, 2, 3];
-const data = arr2.map((num) => {
-  if (num > 1) return;
-  return num * 2;
-});
-console.log(data)
-
-consoleLine();
-
-
-async function foo() {
-  console.log("A");
-  await bar();
-  console.log("B");
-}
-async function bar() {
-  console.log("C");
+function debounce(delay) {
+  let timer;
+  return (str) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      callApi(str);
+    }, delay);
+  };
 }
 
-console.log("D");
-foo();
-Promise.resolve().then(() => console.log("E"));
-console.log("F");
+const debouncedPrint = debounce(5000);
+debouncedPrint(`Call 1`);
+debouncedPrint(`Call 2`);
+debouncedPrint(`Call 3`);
+debouncedPrint(`Call 4`);
 
-})
-.then(()=>{
-
-consoleLine();
-
-console.log("Start");
-setTimeout(() => console.log("Timeout1"), 0); // 
-Promise.resolve().then(() => {
-  console.log("Promise1");
-  setTimeout(() => console.log("Timeout2"), 0); // Phase 
-});
- 
-Promise.resolve().then(() => console.log("Promise2"));
- 
-console.log("End");
-  
-});

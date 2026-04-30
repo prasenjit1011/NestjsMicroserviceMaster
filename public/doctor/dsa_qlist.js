@@ -10,143 +10,29 @@ async function consoleLine(str = 'DSA'){
 
 consoleLine(' -: App Started :- '+ (new Date).toLocaleTimeString());
 
-/*
-consoleLine();
 
-const arr2 = [1, 2, 3];
-const data = arr2.map((num) => {
-  if (num > 1) return;
-  return num * 2;
-});
-console.log(data)
-// [ 2, undefined, undefined ]
-
-consoleLine();
-
-
-async function foo() {
-  console.log("A2");
-  await bar();
-  console.log("B5");
-}
-async function bar() {
-  console.log("C3");
-}
-
-console.log("D1");
-foo();
-Promise.resolve().then(() => console.log("E6"));
-console.log("F4");
-
-// D1 A2 C3 F4 B5 E6
-
-consoleLine();
-
-console.log("Start");
-setTimeout(() => console.log("Timeout1"), 0); // 
-Promise.resolve().then(() => {
-  console.log("Promise1");
-  setTimeout(() => console.log("Timeout2"), 0); // Phase 
-});
- 
-Promise.resolve().then(() => console.log("Promise2"));
- 
-console.log("End");
-
-
-
-
-/*
-consoleLine('Call, Bind');
-
-const obj = {
-  name: "JS",
-  getName: function () {
-    return this.name;    
-  },
-};
-
-const getName = obj.getName;
-console.log(obj.getName());
-
-console.log([] == ![], 1 == !1, 3>2>1, [] + {})
-console.log([] == ![]) // 
-console.log(3 > 2 > 1) //false
-console.log([] + {}) //[object object]
-
-consoleLine();
-
-
-/*
-let num = 98456;
-let arr5 = [];
-for(let i = 10; 0<num; i = i*1 ){
-  arr5.push(num%i);
-  num = parseInt(num/i);
-}
-
-console.log(arr5.join(''));
-
-
-
-
-
- 
-/*
-
-const arr4 = [2, 7, 8, 11, 1, 15, 9];
-const target = 9;
-// Output: [0,1]
-let res = {};
-let k4 = 0;
-
-for(let i=0; i< arr4.length; i++){
-  if(arr4[i] == target){
-    res[k4++] = [i];
-  }
-  else{
-    for(let j=i+1; j<arr.length; j++){
-      if(arr4[i]+arr4[j] == target){
-        res[k4++] = [i,j];
-      }
-    }  
-  }
-  
-}
-
-console.log(Object.values(res));
-
-
-// async function fetchData() {
-//   const res  = fetch("https://api.com/data");
-//   const data = res.json();
-//   return data;
-// }
-
-// console.log(fetchData())
-
-
-
-const arr3 = ["eat", "tea", "tan", "ate", "nat", "bat"];
-let res3 = {};
-let str3;
-for(let i = 0; i<arr3.length; i++){
-  str3 = arr3[i].split('').sort().join('');
-  if(!res3[str3]){
-    res3[str3] = [];
-  }
-  res3[str3].push(arr3[i]);
-}
-
-console.log(Object.values(res3));
-*/
 
 
 consoleLine();
 
 let arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
-let k, arr1, arr2, sum, sum1, j, x, y, z,  result, str, str1, obj, obj1, obj2, newobj, vowels, vCount, cCount, maxElement, result1, result2, data, ans, curLength;
+let k, arr1, arr2, sum, sum1, str, str1, obj, obj1, obj2, newobj,  result, result1, result2, data;
+let j, x, y, z,  vowels, vCount, cCount, maxElement, ans, curLength;
 let x1  = {};
+
+
+consoleLine();
+arr2 = [1, 2, 3];
+data = arr2.map((num) => {
+  if (num > 1) return;
+  return num * 2;
+});
+
+console.log(data)
+// [ 2, undefined, undefined ]
+
+consoleLine();
+
 
 obj = {};
 str = '';
@@ -188,12 +74,14 @@ Promise.allSettled([p1, p2, p5])
 
 
 console.log(' i = ',i)
-await Promise.race([p1, p2, p5])
+Promise.race([p1, p2, p5])
   .then((val) => { i++;console.log('Promise Race Success : ',val); })
   .catch((err) => { i++;console.log('Promise Race Error : ',err); });
 
 
 console.log(' i = ',i)
+
+consoleLine();
 
 
 
@@ -378,6 +266,32 @@ const hello = closureFn();
 console.log(hello()) //20
 console.log(hello()) //41
 console.log(hello()) //62
+
+consoleLine('Closure and Debounce Function')
+
+consoleLine("Starting debounce test at", new Date().toLocaleTimeString(), ' :-');
+
+const callApi = (param) => {
+  console.log('\n\n -: Closure and Debounce Function :',new Date().toLocaleTimeString(),' : ', param, ' \n\n\n');
+};
+
+const debounce = (delay) => {
+  let timer;
+  const fn =  (str) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      callApi(str);
+    }, delay);
+  };
+  return fn;
+}
+
+const debouncedPrint = debounce(100);
+debouncedPrint(`Call 1`);
+debouncedPrint(`Call 2`);
+debouncedPrint(`Call 3`);
+debouncedPrint(`Call 4`);
+
 
 consoleLine('Call Bind** ')  
 const person = {
@@ -628,4 +542,124 @@ consoleLine();
       
       console.log('Result2 : ',result2);
 
+
+
+
+
+async function foo() {
+  console.log("A2");
+  await bar();
+  console.log("B5");
+}
+async function bar() {
+  console.log("C3");
+}
+
+console.log("D1");
+foo();
+Promise.resolve().then(() => console.log("E6"));
+console.log("F4");
+
+// D1 A2 C3 F4 B5 E6
+
+consoleLine();
+
+console.log("Start");
+setTimeout(() => console.log("Timeout1"), 0); // 
+Promise.resolve().then(() => {
+  console.log("Promise1");
+  setTimeout(() => console.log("Timeout2"), 0); // Phase 
+});
+ 
+Promise.resolve().then(() => console.log("Promise2"));
+ 
+console.log("End");
+
+
+consoleLine('Call, Bind');
+
+
+
+obj = {
+  name: "JS",
+  getName: function () {
+    return this.name;    
+  },
+};
+
+const getName = obj.getName;
+console.log(obj.getName());
+
+console.log([] == ![], 1 == !1, 3>2>1, [] + {})
+console.log([] == ![]) // 
+console.log(3 > 2 > 1) //false
+console.log([] + {}) //[object object]
+
+consoleLine();
+
+
+
+let num = 98456;
+let arr5 = [];
+for(let i = 10; 0<num; i = i*1 ){
+  arr5.push(num%i);
+  num = parseInt(num/i);
+}
+
+console.log(arr5.join(''));
+
+/*
+
+
+
+ 
+
+
+const arr4 = [2, 7, 8, 11, 1, 15, 9];
+const target = 9;
+// Output: [0,1]
+let res = {};
+let k4 = 0;
+
+for(let i=0; i< arr4.length; i++){
+  if(arr4[i] == target){
+    res[k4++] = [i];
+  }
+  else{
+    for(let j=i+1; j<arr.length; j++){
+      if(arr4[i]+arr4[j] == target){
+        res[k4++] = [i,j];
+      }
+    }  
+  }
+  
+}
+
+console.log(Object.values(res));
+
+
+// async function fetchData() {
+//   const res  = fetch("https://api.com/data");
+//   const data = res.json();
+//   return data;
+// }
+
+// console.log(fetchData())
+
+
+
+const arr3 = ["eat", "tea", "tan", "ate", "nat", "bat"];
+let res3 = {};
+let str3;
+for(let i = 0; i<arr3.length; i++){
+  str3 = arr3[i].split('').sort().join('');
+  if(!res3[str3]){
+    res3[str3] = [];
+  }
+  res3[str3].push(arr3[i]);
+}
+
+console.log(Object.values(res3));
+
+/* */
 
