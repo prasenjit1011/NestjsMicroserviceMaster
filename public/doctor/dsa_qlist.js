@@ -1,13 +1,16 @@
 
 console.clear();
 let lineNum = 0;
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function consoleLine(str = 'DSA'){
   lineNum++;
-  await console.log('\n====================== '+lineNum+' '+str+' =======================================================\n');
+  // await delay(1000);
+  await console.log('\n====================== '+lineNum+' '+(new Date().toString())+' '+str+' =======================================================\n');
 }
 
 consoleLine(' -: App Started :- '+ (new Date).toLocaleTimeString());
 
+/*
 consoleLine();
 
 const arr2 = [1, 2, 3];
@@ -16,23 +19,26 @@ const data = arr2.map((num) => {
   return num * 2;
 });
 console.log(data)
+// [ 2, undefined, undefined ]
 
 consoleLine();
 
 
 async function foo() {
-  console.log("A");
+  console.log("A2");
   await bar();
-  console.log("B");
+  console.log("B5");
 }
 async function bar() {
-  console.log("C");
+  console.log("C3");
 }
 
-console.log("D");
+console.log("D1");
 foo();
-Promise.resolve().then(() => console.log("E"));
-console.log("F");
+Promise.resolve().then(() => console.log("E6"));
+console.log("F4");
+
+// D1 A2 C3 F4 B5 E6
 
 consoleLine();
 
@@ -50,7 +56,7 @@ console.log("End");
 
 
 
-
+/*
 consoleLine('Call, Bind');
 
 const obj = {
@@ -63,45 +69,45 @@ const obj = {
 const getName = obj.getName;
 console.log(obj.getName());
 
-
-console.log([] == ![])
-console.log(3 > 2 > 1)
-console.log([] + {})
+console.log([] == ![], 1 == !1, 3>2>1, [] + {})
+console.log([] == ![]) // 
+console.log(3 > 2 > 1) //false
+console.log([] + {}) //[object object]
 
 consoleLine();
 
 
-
+/*
 let num = 98456;
-let arr1 = [];
+let arr5 = [];
 for(let i = 10; 0<num; i = i*1 ){
-  arr1.push(num%i);
+  arr5.push(num%i);
   num = parseInt(num/i);
 }
 
-console.log(arr1.join(''));
+console.log(arr5.join(''));
 
 
 
 
 
  
+/*
 
-
-const arr = [2, 7, 8, 11, 1, 15, 9];
+const arr4 = [2, 7, 8, 11, 1, 15, 9];
 const target = 9;
 // Output: [0,1]
 let res = {};
-let k = 0;
+let k4 = 0;
 
-for(let i=0; i< arr.length; i++){
-  if(arr[i] == target){
-    res[k++] = [i];
+for(let i=0; i< arr4.length; i++){
+  if(arr4[i] == target){
+    res[k4++] = [i];
   }
   else{
     for(let j=i+1; j<arr.length; j++){
-      if(arr[i]+arr[j] == target){
-        res[k++] = [i,j];
+      if(arr4[i]+arr4[j] == target){
+        res[k4++] = [i,j];
       }
     }  
   }
@@ -123,23 +129,23 @@ console.log(Object.values(res));
 
 const arr3 = ["eat", "tea", "tan", "ate", "nat", "bat"];
 let res3 = {};
-let str;
+let str3;
 for(let i = 0; i<arr3.length; i++){
-  str = arr3[i].split('').sort().join('');
-  if(!res3[str]){
-    res3[str] = [];
+  str3 = arr3[i].split('').sort().join('');
+  if(!res3[str3]){
+    res3[str3] = [];
   }
-  res3[str].push(arr3[i]);
+  res3[str3].push(arr3[i]);
 }
 
 console.log(Object.values(res3));
-
+*/
 
 
 consoleLine();
 
 let arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
-let k, arr1, x, y, z,  result, str, str1, obj, obj1, obj2, newobj, vowels, vCount, cCount, maxElement, result1, result2, data, ans, curLength;
+let k, arr1, arr2, sum, sum1, j, x, y, z,  result, str, str1, obj, obj1, obj2, newobj, vowels, vCount, cCount, maxElement, result1, result2, data, ans, curLength;
 let x1  = {};
 
 obj = {};
@@ -623,41 +629,3 @@ consoleLine();
       console.log('Result2 : ',result2);
 
 
-/*
-
-
-      ---------- Example 04 ----------
-
-      const p1 = Promise.resolve(1);
-      const p2 = Promise.resolve(2);
-      const p3 = Promise.resolve(3);
-
-      Promise.all([p1, p2, p3])
-        .then(results => {
-          output("All success: " + JSON.stringify(results));
-        })
-        .catch(err => {
-          output("One failed: " + err);
-        });
-
-
-    --------------------------------------------------------------
-
-
-        async function fetchData() {
-          try {
-            const results = await Promise.all([p1, p2, p3]);
-            output("All success1: " + JSON.stringify(results));
-          } catch (err) {
-            output("One failed1: " + err);
-          }
-        }
-        
-        fetchData();
-
-
-
-
-*/
-
-/* */
