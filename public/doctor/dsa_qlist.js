@@ -1,5 +1,10 @@
+// cd C:\myproject\github\NestjsMicroserviceMaster\public\doctor\dsa_qlist.js
+// node dsa_qlist.js
 
 console.clear();
+
+let k, arr, arr1, arr2, sum, sum1, str, str1, obj, obj1, obj2, newobj,  result, result1, result2, data;
+let j, x, y, z, x1,  vowels, vCount, cCount, maxElement, ans, curLength;
 let lineNum = 0;
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function consoleLine(str = 'DSA'){
@@ -10,18 +15,15 @@ async function consoleLine(str = 'DSA'){
 
 consoleLine(' -: App Started :- '+ (new Date).toLocaleTimeString());
 
+consoleLine('Spread Operator and Object Reference');
+let emp = {name:"prsenjit", address:"Patna"}
+let staff = {...emp};
+staff.address = "Delhi";
+console.log(emp.address);   // Kolkata ✅ not changed
+console.log(staff.address); // Delhi
 
 
-
-consoleLine();
-
-let arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
-let k, arr1, arr2, sum, sum1, str, str1, obj, obj1, obj2, newobj,  result, result1, result2, data;
-let j, x, y, z,  vowels, vCount, cCount, maxElement, ans, curLength;
-let x1  = {};
-
-
-consoleLine();
+consoleLine('Array Map');
 arr2 = [1, 2, 3];
 data = arr2.map((num) => {
   if (num > 1) return;
@@ -31,10 +33,19 @@ data = arr2.map((num) => {
 console.log(data)
 // [ 2, undefined, undefined ]
 
-consoleLine();
+consoleLine('Reduce** ');
+data = arr2.reduce((a, b) =>a + b, 0);
+console.log('Find sum of array using Reduce : ',arr2, data);
 
+consoleLine('Reduce and Flatten Array');
+const arr = [[1, 2], [3, 4], [5]];
+const flat = arr.reduce((acc, curr) => acc.concat(curr), []);
 
-obj = {};
+console.log(flat); // [1, 2, 3, 4, 5]
+
+consoleLine()
+arr = [1,1,1,1,1,1,1,1  ,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
+x1  = obj = {};
 str = '';
 k   = 3;
 
@@ -50,38 +61,6 @@ console.log('\n Array : ',arr);
 console.log('\n Object : ',obj);
 console.log('\n String ',str);
 
-consoleLine('Promise all, race, allSettled')
-let i = 5;
-const p1 = new Promise((resolve, reject)=>{
-  return resolve('One')
-});
-const p2 = Promise.resolve('Two');
-const p3 = Promise.resolve('Three');
-const p4 = Promise.resolve('Four');
-const p5 = Promise.reject('Six')
-
-Promise.all([p1, p2, p5])
-  .then((val) => { i++;console.log('Promise all Success ',val); })
-  .catch((err) => { i++;console.log('Promise all Error : ',err); });
-  
-Promise.all([p1, p2])
-  .then((val) => { i++;console.log('Promise all Success : ',val); })
-  .catch((err) => { i++;console.log('Promise all Error : ',err); });
-
-Promise.allSettled([p1, p2, p5])
-  .then((val) => { i++;console.log('Promise allSettled Success : ',val); })
-  .catch((err) => { i++;console.log(err); });
-
-
-console.log(' i = ',i)
-Promise.race([p1, p2, p5])
-  .then((val) => { i++;console.log('Promise Race Success : ',val); })
-  .catch((err) => { i++;console.log('Promise Race Error : ',err); });
-
-
-console.log(' i = ',i)
-
-consoleLine();
 
 
 
@@ -110,7 +89,6 @@ console.log('Object element push and delete : ',obj);
 delete obj['b']; //* Most Important */
 console.log("delete obj['b']")
 console.log('After delete b eleemet : ', obj)
-
 
 consoleLine('Move Zero to Last');
 
@@ -542,9 +520,81 @@ consoleLine();
       
       console.log('Result2 : ',result2);
 
+consoleLine('Call, Bind');
+
+obj = {
+  name: "JS",
+  getName: function () {
+    return this.name;    
+  },
+};
+
+const getName = obj.getName;
+console.log(obj.getName());
+
+console.log([] == ![], 1 == !1, 3>2>1, [] + {})
+console.log([] == ![]) // 
+console.log(3 > 2 > 1) //false
+console.log([] + {}) //[object object]
+
+consoleLine();
 
 
 
+let num = 98456;
+let arr5 = [];
+for(let i = 10; 0<num; i = i*1 ){
+  arr5.push(num%i);
+  num = parseInt(num/i);
+}
+
+console.log(arr5.join(''));
+
+
+consoleLine('Async Await and Promise');
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function run() {
+  console.log("Line 1");
+  await sleep(2000);
+  console.log("Line 3");
+}
+
+run().then(() => {
+  
+})
+.then(() => {
+  
+});
+
+
+
+
+
+consoleLine('AB-Promise all, race, allSettled')
+let i = 5;
+const p1 = new Promise((resolve, reject)=>{return resolve('One')});
+const p2 = Promise.resolve('Two');
+const p3 = Promise.resolve('Three');
+const p4 = Promise.resolve('Four');
+const p5 = Promise.reject('Six')
+
+Promise.all([p1, p2, p5])         .then((val) => { i++;console.log('Promise all Success ',val); }).catch((err) => { i++;console.log('Promise all Error : ',err); });
+Promise.all([p1, p2, p3])         .then((val) => { i++;console.log('Promise all Success : ',val); }).catch((err) => { i++;console.log('Promise all Error : ',err); });
+Promise.allSettled([p1, p2, p5])  .then((val) => { i++;console.log('Promise allSettled Success : ',val); }).catch((err) => { i++;console.log(err); });
+console.log(' i = ',i)
+Promise.race([p1, p2, p5])        .then((val) => { i++;console.log('Promise Race Success : ',val); }).catch((err) => { i++;console.log('Promise Race Error : ',err); });
+Promise.any([p1, p2, p3, p4, p5]) .then((val) => { i++;console.log('Promise Any Success : ',val); }).catch((err) => { i++;console.log('Promise Any Error : ',err); });
+
+console.log(' i = ',i)
+
+consoleLine();
+
+
+consoleLine('AB- Async Await and Promise');
 
 async function foo() {
   console.log("A2");
@@ -576,37 +626,7 @@ Promise.resolve().then(() => console.log("Promise2"));
 console.log("End");
 
 
-consoleLine('Call, Bind');
 
-
-
-obj = {
-  name: "JS",
-  getName: function () {
-    return this.name;    
-  },
-};
-
-const getName = obj.getName;
-console.log(obj.getName());
-
-console.log([] == ![], 1 == !1, 3>2>1, [] + {})
-console.log([] == ![]) // 
-console.log(3 > 2 > 1) //false
-console.log([] + {}) //[object object]
-
-consoleLine();
-
-
-
-let num = 98456;
-let arr5 = [];
-for(let i = 10; 0<num; i = i*1 ){
-  arr5.push(num%i);
-  num = parseInt(num/i);
-}
-
-console.log(arr5.join(''));
 
 /*
 

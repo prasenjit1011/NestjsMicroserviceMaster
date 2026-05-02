@@ -151,7 +151,32 @@
     </div></li>
 
 
-<li data-id="q_node_event" style="margin-bottom: 20px; list-style: none;">
+<li data-id="q_node_event" style="list-style: none;">
+<span class="faq-question zgreen" >
+Interface vs Generic function
+</span> 
+<div class="answer" >
+<pre><code>
+interface Product {
+  name: string;
+  price: number;
+}
+---------------------------
+const item: Product = {
+  name: "Phone",
+  price: 20000
+};
+------------------------------
+
+function identity<T>(value: T): T {
+  return value;
+}
+---------------------------
+identity<string>("Hello");
+identity<number>(123);
+</code></pre></div></li>
+
+<li data-id="q_node_event" style="list-style: none;">
 <span class="faq-question zgreen" >
 🚀 LTI MindTree
 </span> 
@@ -370,8 +395,7 @@ Write aggregation queries for analytics (e.g., monthly active users).
 </div>
 </li>
 
-
-<li data-id="q_node_event" style="margin-bottom: 20px; list-style: none;">
+<li data-id="q_node_event" style="list-style: none;">
 <span class="faq-question zgreen" >
 🚀 Event Loop in Node.js?
 </span> 
@@ -384,7 +408,7 @@ Write aggregation queries for analytics (e.g., monthly active users).
   <li>It works with components like the heap, call stack, Web APIs, and task queues to manage execution flow</li>
 </ol>
 </div></li>
-<li data-id="q_node_event" style="margin-bottom: 20px; list-style: none;">
+<li data-id="q_node_event" style="list-style: none;">
 <span class="faq-question zgreen" >
 🚀 Closure in Node.js?
 </span> 
@@ -393,7 +417,7 @@ Write aggregation queries for analytics (e.g., monthly active users).
 Closuer is function that remember paramater value and return a funtion.
 </div></li>
 
-<li data-id="q_node_event" style="margin-bottom: 20px; list-style: none;">
+<li data-id="q_node_event" style="list-style: none;">
   
   <span class="faq-question zgreen" >
     🚀 How to reduce API response time in Node.js?
@@ -417,14 +441,10 @@ Closuer is function that remember paramater value and return a funtion.
       
       <li><strong>Reduce payload size:</strong> Send only required data and enable compression.</li>
       
-      <li><strong>Use a fast framework:</strong> Fastify improves performance with low overhead.</li>
-      
+      <li><strong>Use a fast framework:</strong> Fastify improves performance with low overhead.</li>      
       <li><strong>Enable clustering:</strong> Utilize multiple CPU cores.</li>
-      
       <li><strong>Use CDN & edge caching:</strong> Serve cached responses closer to users.</li>
-      
       <li><strong>Monitor performance:</strong> Use tools like logs and profilers to find bottlenecks.</li>
-
     </ul>
 
   </div>
@@ -26513,8 +26533,73 @@ It is widely used for:
         Coding Question-NodeJS
     </span>
     <div class="answer">
+<pre></code>
+import React, { useReducer } from 'react';
 
-    
+const obj     = { count: 0, title: 'Rummy' };
+const reducer = (state, action) => {
+  if(action.newtype == 'Like') {
+    return { count: 1 + state.count, title: 'Dummy '+state.count };
+  }
+  else if(action.newtype == 'Dislike'){
+    return { ...state, title:'Hummy'}
+  }
+  
+  return state;
+}
+
+export default function Counter() {
+  const [state, dispatch] = useReducer(reducer, obj);
+
+  return (
+    <div>
+      <h2>Count: {state.count} : {state.title}</h2>
+      <button onClick={() => dispatch({ newtype: 'Like' })}>Like</button> &nbsp;
+      <button onClick={() => dispatch({ newtype: 'Dislike' })}>DisLike</button> &nbsp;
+      <button onClick={() => dispatch({ newtype: 'Demo' })}>DisLike</button>
+    </div>
+  );
+}
+</pre></code>
+<hr />
+<code><pre>
+
+import React, { useReducer } from 'react';
+
+const obj = { name: '',   email: ''};
+function reducer(state, action) {
+  return {...state, [action.field]: action.value  };
+}
+
+export default function Form() {
+  const [state, dispatch] = useReducer(reducer, obj);
+
+  return (
+    <>
+      <input
+        type="text"
+        placeholder="Name"
+        value={state.name}
+        onChange={(e) =>
+          dispatch({ field: 'name', value: e.target.value })
+        }
+      />
+
+      <input
+        type="email"
+        placeholder="Email"
+        value={state.email}
+        onChange={(e) =>
+          dispatch({ field: 'email', value: e.target.value })
+        }
+      />
+      <hr />
+      <pre>{JSON.stringify(state, null, 2)}</pre>
+    </>
+  );
+}
+</pre></code>
+
     <pre class="code-block"><code>
       --------- Example Object ---------
 
@@ -48204,18 +48289,8 @@ get all employee under Sam
 
 ------------------------------------------------------------
 db.employee.aggregate([
-  {
-    $match: { name: "Sam" }
-  },
-  {
-    $graphLookup: {
-      from: "employee",
-      startWith: "$_id",
-      connectFromField: "_id",
-      connectToField: "manager_id",
-      as: "subordinates"
-    }
-  }
+    {   $match: { name: "Sam" }},
+    {   $graphLookup: {from: "employee",    startWith: "$_id",    connectFromField: "_id",    connectToField: "manager_id",   as: "subordinates"  }}
 ])
 ---------------------------------------------------------------
 {
@@ -48230,6 +48305,56 @@ db.employee.aggregate([
   ]
 }
 </pre></code>
+
+<code><pre>
+CREATE TABLE employee_list (
+    id INT PRIMARY KEY,
+    manager_id INT NULL,
+    manager_name VARCHAR(100),
+    FOREIGN KEY (manager_id) REFERENCES employee_list(id)
+);
+
+INSERT INTO employee_list (id, manager_id, manager_name) VALUES
+(1, NULL, 'Ram'),
+(2, 1, 'Sam'),
+(3, 2, 'Sunil'),
+(4, 3, 'Sanjay'),
+(5, 3, 'Rabi'),
+(6, 5, 'Ajoy');
+
+WITH RECURSIVE emp_hierarchy AS (
+    SELECT id, manager_id, manager_name
+    FROM employee_list
+    WHERE manager_name = 'Sunil'
+
+    UNION ALL
+    
+    SELECT e.id, e.manager_id, e.manager_name
+    FROM employee_list e
+    INNER JOIN emp_hierarchy eh 
+        ON e.manager_id = eh.id
+)
+
+SELECT * FROM emp_hierarchy WHERE manager_name != 'Sunil';
+
+WITH RECURSIVE emp_hierarchy AS (
+    SELECT id, manager_id, manager_name
+    FROM employee_list
+    WHERE manager_name = 'Sunil'
+
+    UNION ALL
+
+    SELECT e.id, e.manager_id, e.manager_name
+    FROM employee_list e
+    INNER JOIN emp_hierarchy eh 
+        ON e.manager_id = eh.id
+)
+
+SELECT COUNT(*) AS total_employees FROM emp_hierarchy WHERE manager_name != 'Sunil';
+</pre></code>
+
+</pre></code>
+
     </div></li>
 
 
@@ -69508,21 +69633,31 @@ don't use &lt;code> in text
 
 <script src="script.js"></script>
 <button id="goToTop" style="display:none; position:fixed; bottom:20px; right:20px; z-index:99; background-color:#007BFF; color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer;">Go to Top</button>
+<button id="clickAll" style="display:none; position:fixed; bottom:20px; right:150px; z-index:99; background-color:#007BFF; color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer;">Click All</button>
 
 <script>
   // Show the button when the user scrolls down 20px from the top
   window.onscroll = function() {
     const goToTopButton = document.getElementById("goToTop");
+    const clickAllBtn = document.getElementById("clickAll");
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
       goToTopButton.style.display = "block";
+      clickAllBtn.style.display = "block";
     } else {
       goToTopButton.style.display = "none";
+      clickAllBtn.style.display = "none";
     }
   };
 
   // Scroll to the top when the button is clicked
   document.getElementById("goToTop").onclick = function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Click all buttons when the button is clicked
+  document.getElementById("clickAll").onclick = function() {
+    const items = document.querySelectorAll('li');
+    items.forEach(li => li.click());
   };
 </script>
 </body>
