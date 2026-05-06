@@ -4,7 +4,7 @@
 console.clear();
 
 let k, arr, arr1, arr2, sum, sum1, str, str1, obj, obj1, obj2, newobj,  result, result1, result2, data;
-let j, x, y, z, x1,  vowels, vCount, cCount, maxElement, ans, curLength;
+let j, x, y, z, x1, key, vowels, vCount, cCount, maxElement, ans, curLength;
 let lineNum = 0;
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function consoleLine(str = 'DSA'){
@@ -44,7 +44,7 @@ const flat = arr.reduce((acc, curr) => acc.concat(curr), []);
 console.log(flat); // [1, 2, 3, 4, 5]
 
 consoleLine()
-arr = [1,1,1,1,1,1,1,1  ,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
+arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
 x1  = obj = {};
 str = '';
 k   = 3;
@@ -62,7 +62,21 @@ console.log('\n Object : ',obj);
 console.log('\n String ',str);
 
 
+consoleLine("Merge two arrays of objects by id. If the same id exists, sum x and y.");
+arr1 =  [  { id: 1, x: 2, y: 3 },  { id: 2, x: 3, y: 6 }  ];  
+arr2 =  [  { id: 2, x: 10, y: 20 },  { id: 3, x: 0, y: 0 } ];
+result = {};
 
+[...arr1, ...arr2].map((val)=>{
+  
+  if(!result[val.id]){
+    result[val.id] = val;
+  }
+  else{    
+    result[val.id].x = val.x + result[val.id].x;
+    result[val.id].y = val.y + result[val.id].y;
+  }
+})
 
 consoleLine('Element delete from array and object, Merge two array ****');
 arr = [];

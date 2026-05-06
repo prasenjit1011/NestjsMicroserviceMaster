@@ -2764,19 +2764,60 @@ shallow / shadow copy
 
 
 <li data-id="q3"  id="reacthook_qlist" class="yellow"><span class="faq-question">React Hook *** Most Important ***</span></li>
+
+
+<li data-id="q35562-1" class="zyellow">
+<span class="faq-question">
+⚛️ React Hooks List
+</span>
+<div class="answer">
+  <h3>⚛️ React Hooks List</h3>
+  <pre><code>
+1) useState  : [count, setCount] = useState(0);
+2) useEffect : useEffect(() => { console.log("Mounted"); }, []);
+
+3) Memoize expensive calculation
+val = useMemo(() => compute(), [deps]);
+
+4) Memoize function
+fn = useCallback(() => {}, [deps]);
+
+5) Complex state logic
+[state, dispatch] = useReducer(reducer, initial);
+
+6) React Query Hooks : Fetch data
+{data, isLoading, isError, error} = useQuery({ queryKey: ["todos"], queryFn: fetchTodos });
+
+7) Create / update / delete
+useMutation({ mutationFn: addTodo });
+
+8) Pagination / infinite scroll<
+useInfiniteQuery({ queryKey: ["todos"], queryFn });
+
+9) Access cache
+client = useQueryClient();
+
+10) Access global context
+useContext  : value = useContext(MyContext);
+
+11) DOM reference / mutable value
+ref = useRef(null);  
+
+</code></pre>
+
+</div>
+</li>
+
+
+
+
 <li data-id="q35562-1" class="zyellow">
     <span class="faq-question">
         React useMemo, Callback, React.Memo Hook
     </span>
     <div class="answer">
 <pre><code>
-
-
-
-
-
-
-  import React, { useState, useMemo, useCallback, CSSProperties } from "react";
+import React, { useState, useMemo, useCallback, CSSProperties } from "react";
 import ReactDOM from "react-dom/client";
 
 // ✅ Properly typed styles
@@ -17026,6 +17067,16 @@ export default User;
 
 <li data-id="q_node_event2222" id="nextjs_qlist" class="yellow"><span class="faq-question">
   main features of Next.js?</span><div class="answer">
+
+    <ul>
+      <li>Server-Side Rendering (SSR)</li>
+      <li>Static Site Generation (SSG)</li>
+      <li>Incremental Static Regeneration (ISR)</li>
+      <li>Client-Side Rendering (CSR)</li>
+      <li>Streaming / Server Components (React + Next.js)</li>      
+    </ul>
+
+
   Next.js is a React-based web framework that enables features like server-side rendering, static site generation, and client-side rendering, making it ideal for building production-ready web applications with better performance, SEO, and developer experience.
 
   <hr>
@@ -27049,6 +27100,29 @@ const arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8
 const k = 3;
 let obj = {};
 let str = '';
+
+
+
+
+const arr1 =  [  { id: 1, x: 2, y: 3 },  { id: 2, x: 3, y: 6 }  ];  
+const arr2 =  [  { id: 2, x: 10, y: 20 },  { id: 3, x: 0, y: 0 } ];
+let result = {};
+
+[...arr1, ...arr2].map((val)=>{
+  if(!result[val.id]){
+    result[val.id] = val;
+  }
+  else{
+    result[val.id].x = val.x + result[val.id].x;
+    result[val.id].y = val.y + result[val.id].y;
+  }
+  
+})
+
+
+
+
+
 
 
 consoleLine('Closure and Debounce Function')
