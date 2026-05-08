@@ -104,6 +104,25 @@
                 <li><a href="#eks_qlist">EKS / ECS</a></li>                
                 <li>API Gateway</li>
                 <li><a href="#gcpcloud_qlist">GCP Cloud</a></li>
+                <li>Amazon Web Services (AWS)</li>
+                <li>AWS Secrets Manager</li>
+                <li>Kubernetes (K8s)</li>
+                <li>Amazon EKS (Elastic Kubernetes Service)</li>
+                <li>Docker containers</li>
+                <li>Helm charts</li>
+                <li>Infrastructure as Code (IaC)</li>
+                <li>Terraform</li>
+                <li>Cloud-native architecture</li>
+                <li>Strong understanding of Microservices, RESTful APIs, and event-driven architecture</li>
+                <li>Hands on experience on MongoDB, PostgreSQL, SQL, and caching strategies (Redis).</li>
+                <li>Optimize applications for maximum speed, security, and scalability</li>
+                <li>Hands-on experience with AWS cloud technologies (e.g., EC2, S3, RDS, ECS, DynamoDB, IAM).</li>
+                <li>Experience with Docker and CI/CD pipelines is a plus</li>
+                <li>Experience with GraphQL or RabbitMQ/Kafka.</li>
+                <li>Container orchestration (Kubernetes).</li>
+                <li>Service Workers, WebWorkers, Caching, IndexedDB, Sockets, designing & implementing Optimisation Strategies for scale)</li>
+                <li>Well versed with modern JavaScript technologies such as React, Redux, RxJS, Node.js, AG-Grid etc.</li>
+                <li>Experience with testing frameworks such as Jest, React Testing Library, Jasmine, Mocha, Cypress / Playwrite, etc.</li>
               </ol>
             </td>
           </tr>
@@ -2921,8 +2940,8 @@ type User = {
 };
 
 // ✅ Fetch function
-const fetchUsers = async (): Promise&lt;User[]&gt; =&gt; {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+const fetchUsers = async (departmentId): Promise&lt;User[]&gt; =&gt; {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users/{departmentId}");
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
@@ -2930,17 +2949,10 @@ const fetchUsers = async (): Promise&lt;User[]&gt; =&gt; {
 };
 
 // ✅ Component using React Query
+// ["user", 1], ["user", 2], ["user", 3]
+// Each gets separate cache.
 function Users() {
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useQuery&lt;User[]&gt;({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-  });
+  const { data,  isLoading,  isError,  error,  refetch,  } = useQuery&lt;User[]&gt;({  queryKey: ["users", departmentId],  queryFn: fetchUsers(departmentId),  });
 
   if (isLoading) return &lt;p&gt;Loading...&lt;/p&gt;;
   if (isError) return &lt;p&gt;Error: {(error as Error).message}&lt;/p&gt;;
@@ -3428,19 +3440,19 @@ function App() {
   const dispatch = useDispatch()
 
   return (
-    <div style={{textAlign:'center', marginTop:'40px'}}>
-      <h2>Counter App</h2>
+    &lt;div style={{textAlign:'center', marginTop:'40px'}}>
+      &lt;h2>Counter App&lt;/h2>
 
-      <h1>{count}</h1>
+      &lt;h1>{count}&lt;/h1>
 
-      <button onClick={() => dispatch(increment())}>
+      &lt;button onClick={() => dispatch(increment())}>
         Increment
-      </button>
+      &lt;/button>
 
-      <button onClick={() => dispatch(decrement())}>
+      &lt;button onClick={() => dispatch(decrement())}>
         Decrement
-      </button>
-    </div>
+      &lt;/button>
+    &lt;/div>
   )
 }
 
@@ -3965,7 +3977,10 @@ export default function App() {
 <h2>Why Use Redux Observable?</h2>
 <ul>
   <li><strong>Complex Async Logic:</strong> Redux Observable is powerful for handling complex asynchronous workflows, including retries, cancellations, debouncing, throttling, polling, etc.</li>
-  <li><strong>Declarative:</strong> Epics let you declare side effects in a pure functional style using RxJS operators like <code>map</code>, <code>mergeMap</code>, <code>switchMap</code>, <code>catchError</code>, etc.</li>
+  <li>
+    <strong>Declarative:</strong> Epics let you declare side effects in a pure functional style using RxJS operators like 
+    <p>map, mergeMap, switchMap, catchError etc.</p>
+  </li>
   <li><strong>Composable:</strong> Since epics are just functions of streams, they are easily testable, composable, and reusable.</li>
   <li><strong>Reactive Programming:</strong> Ideal for real-time applications where you need to react to a stream of user inputs, WebSocket messages, or long-running operations.</li>
 </ul>

@@ -1,0 +1,39 @@
+import ReactDOM from 'react-dom/client';
+
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+
+// Redux Toolkit Slice
+const initialState = { value: 0 };
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment: (mystate)  => {  mystate.value += Math.floor(Math.random() * 10000); },
+    decrement: (newstate) => {  newstate.value -= Math.floor(Math.random() * 100);  },
+  },
+});
+
+const { increment, decrement } = counterSlice.actions;
+const store       = configureStore({ reducer: { counter: counterSlice.reducer } });
+const unsubscribe = store.subscribe(() => console.log(store.getState()));
+
+const App = () => {
+  const count     = useSelector((mydata) => mydata.counter.value);
+  const dispatch  = useDispatch();
+
+  return (
+    <div>
+      <h1>Cnt: {count}</h1>
+      <button onClick={() => dispatch(increment())}>++++</button> &nbsp;
+      <button onClick={() => dispatch(decrement())}>----</button>
+    </div>
+  );
+}
+
+// Render App
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VS Code Style Code Block</title>
+
+  <style>
+
+    body{
+      margin:0;
+      padding:30px;
+      background:#1e1e1e;
+      font-family:Consolas, monospace;
+      color:#d4d4d4;
+    }
+
+    .editor{
+      max-width:1400px;
+      margin:auto;
+      background:#1e1e1e;
+      border:1px solid #2d2d2d;
+      border-radius:8px;
+      overflow:hidden;
+    }
+
+    .topbar{
+      height:40px;
+      background:#252526;
+      border-bottom:1px solid #333;
+      display:flex;
+      align-items:center;
+      padding:0 15px;
+      gap:8px;
+    }
+
+    .dot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+    }
+
+    .red{
+      background:#f14c4c;
+    }
+
+    .yellow{
+      background:#ffcc66;
+    }
+
+    .green{
+      background:#23d18b;
+    }
+
+    .filename{
+      margin-left:12px;
+      font-size:13px;
+      color:#cccccc;
+    }
+
+    pre{
+      margin:0;
+      padding:22px;
+      overflow:auto;
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    code{
+      white-space:pre;
+      display:block;
+    }
+
+    /* VS CODE COLORS */
+
+    .keyword{
+      color:#569cd6;
+    }
+
+    .string{
+      color:#ce9178;
+    }
+
+    .type{
+      color:#4ec9b0;
+    }
+
+    .comment{
+      color:#6a9955;
+    }
+
+    .function{
+      color:#dcdcaa;
+    }
+
+    .variable{
+      color:#9cdcfe;
+    }
+
+    .number{
+      color:#b5cea8;
+    }
+
+    .tag{
+      color:#569cd6;
+    }
+
+    .operator{
+      color:#d4d4d4;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="editor">
+
+  <div class="topbar">
+    <div class="dot red"></div>
+    <div class="dot yellow"></div>
+    <div class="dot green"></div>
+
+    <div class="filename">
+      App.tsx
+    </div>
+  </div>
+
+<pre>
+<code>
+<span class="keyword">import</span> React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} <span class="keyword">from</span> <span class="string">"react"</span>;
+
+<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom/client"</span>;
+
+<span class="keyword">import</span> {
+  QueryClient,
+  QueryClientProvider,
+} <span class="keyword">from</span> <span class="string">"@tanstack/react-query"</span>;
+
+<span class="comment">// ================= QUERY CLIENT =================</span>
+
+<span class="keyword">const</span> <span class="variable">queryClient</span> =
+  <span class="keyword">new</span> <span class="type">QueryClient</span>();
+
+<span class="comment">// ================= TYPES =================</span>
+
+<span class="keyword">type</span> <span class="type">User</span> = {
+  id: <span class="type">number</span>;
+  name: <span class="type">string</span>;
+  email: <span class="type">string</span>;
+};
+
+<span class="keyword">type</span> <span class="type">AuthContextType</span> = {
+  user: <span class="type">User</span> | <span class="keyword">null</span>;
+
+  login: (
+    email: <span class="type">string</span>,
+    password: <span class="type">string</span>
+  ) =&gt; Promise&lt;<span class="type">void</span>&gt;;
+
+  logout: () =&gt; <span class="type">void</span>;
+
+  loading: <span class="type">boolean</span>;
+};
+
+<span class="comment">// ================= CONTEXT =================</span>
+
+<span class="keyword">const</span> <span class="variable">AuthContext</span> =
+  createContext&lt;
+    <span class="type">AuthContextType</span> | undefined
+  &gt;(undefined);
+
+<span class="keyword">const</span> <span class="function">useAuth</span> = () =&gt; {
+
+  <span class="keyword">const</span> <span class="variable">context</span> =
+    useContext(AuthContext);
+
+  <span class="keyword">if</span> (!context) {
+
+    <span class="keyword">throw</span> <span class="keyword">new</span> Error(
+      <span class="string">
+        "useAuth must be used inside Provider"
+      </span>
+    );
+  }
+
+  <span class="keyword">return</span> context;
+};
+
+<span class="comment">// ================= PROVIDER =================</span>
+
+<span class="keyword">const</span> <span class="variable">AuthProvider</span>:
+React.FC&lt;{
+  children: React.ReactNode;
+}&gt;
+
+= ({ children }) =&gt; {
+
+  <span class="keyword">const</span> [
+    <span class="variable">user</span>,
+    <span class="variable">setUser</span>
+  ]
+
+  = useState&lt;
+    <span class="type">User</span> | <span class="keyword">null</span>
+  &gt;(<span class="keyword">null</span>);
+
+  <span class="keyword">const</span> [
+    <span class="variable">loading</span>,
+    <span class="variable">setLoading</span>
+  ]
+
+  = useState(<span class="keyword">true</span>);
+
+  useEffect(() =&gt; {
+
+    <span class="keyword">const</span> <span class="variable">stored</span> =
+      localStorage.getItem(
+        <span class="string">"user"</span>
+      );
+
+    <span class="keyword">if</span> (stored) {
+      setUser(JSON.parse(stored));
+    }
+
+    setLoading(<span class="keyword">false</span>);
+
+  }, []);
+
+};
+</code>
+</pre>
+
+</div>
+
+</body>
+</html>

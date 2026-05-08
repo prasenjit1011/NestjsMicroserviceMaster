@@ -2,9 +2,6 @@
 // node dsa_qlist.js
 
 console.clear();
-
-let k, arr, arr1, arr2, sum, sum1, str, str1, obj, obj1, obj2, newobj,  result, result1, result2, data;
-let j, x, y, z, x1, key, vowels, vCount, cCount, maxElement, ans, curLength;
 let lineNum = 0;
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function consoleLine(str = 'DSA'){
@@ -13,15 +10,113 @@ async function consoleLine(str = 'DSA'){
   await console.log('\n====================== '+lineNum+' '+(new Date().toString())+' '+str+' =======================================================\n');
 }
 
+
+
+
 consoleLine(' -: App Started :- '+ (new Date).toLocaleTimeString());
 
+let k, arr, arr1, arr2, flat, flatarr, emp, staff, sum, sum1, str, str1, obj, obj1, obj2, newobj,  result, result1, result2, data;
+let j, x, y, z, x1, key, vowels, vCount, cCount, maxElement, ans, curLength;
+
+
+
 consoleLine('Spread Operator and Object Reference');
-let emp = {name:"prsenjit", address:"Patna"}
-let staff = {...emp};
+emp   = {name:"prsenjit", address:"Patna"}
+staff = {...emp};
 staff.address = "Delhi";
 console.log(emp.address);   // Kolkata ✅ not changed
 console.log(staff.address); // Delhi
 
+consoleLine('Example Start of Reduce');
+
+consoleLine('Flattening Arrays');
+arr     = [[1, 2], [3, 4], [5]];
+flatarr = arr.reduce((acc, curr) => acc.concat(curr), []);
+console.log(arr); // [[1, 2], [3, 4], [5]]
+console.log(flatarr); // [1, 2, 3, 4, 5]
+
+
+consoleLine('Spread Operator in Function Arguments');
+function cartTotal(...prices) {
+    console.log(prices); // [100, 200, 300]
+    return prices.reduce((total, price) => total + price, 0);
+}
+
+console.log('cartTotal(100, 200, 300)');
+console.log(cartTotal(299, 499, 199));
+// 997
+
+consoleLine('Average Marks');
+function averageMarks(...marks) {
+    console.log(marks); // [80, 90, 70, 100]
+    const total = marks.reduce((sum, mark) => sum + mark, 0);
+    return total / marks.length;
+}
+
+console.log(`averageMarks(80, 90, 70, 100)`);
+console.log(averageMarks(80, 90, 70, 100));
+// 85
+
+
+consoleLine('Total Salary Calculation');
+function totalSalary(baseSalary, ...bonuses) {
+  const bonusTotal = bonuses.reduce((a, b) => a + b, 0);
+  return baseSalary + bonusTotal;
+}
+
+console.log(`totalSalary(50000, 5000, 3000, 2000)`);
+console.log(totalSalary(50000, 5000, 3000, 2000));
+// 60000
+
+
+
+consoleLine('Grouping Objects by Property');
+obj = [{ name: "A", role: "admin" }, { name: "B", role: "user" }, { name: "C", role: "admin" }];
+const grouped = obj.reduce((acc, user) => {
+  if (!acc[user.role]) {
+    acc[user.role] = [];
+  }
+
+  acc[user.role].push(user);
+
+  return acc;
+}, {});
+
+console.log(obj);
+console.log(grouped);
+
+
+
+consoleLine('Total Price Calculation');
+obj = [{ item: "Phone", price: 20000 },  { item: "Laptop", price: 50000 },  { item: "Mouse", price: 1000 },];
+console.log(obj);
+
+result = obj.reduce((sum, product) => {
+    console.log('================================');
+    console.log('Sum : ',sum);
+    console.log('Product : ',product);
+    return sum + product.price;
+}, 0);
+
+console.log('\n\n===== Total Price =====');
+console.log(result);
+
+
+
+consoleLine('Finding Maximum Salary');
+obj = [  { name: "A", salary: 30000 },  { name: "B", salary: 32000 },  { name: "C", salary: 33000 },  { name: "D", salary: 35000 },  { name: "E", salary: 37000 },  { name: "F", salary: 34000 },  { name: "G", salary: 36500 }];
+console.log(obj);
+
+result = obj.reduce((max, emp) => {
+    console.log('================================');
+    console.log('Max : ',max);
+    console.log('Emp : ',emp);
+    return emp.salary > max.salary ? emp : max;
+});
+
+console.log('\n\n===== Maximum Salary =====');
+console.log(result);
+consoleLine('Example End of Reduce');
 
 consoleLine('Array Map');
 arr2 = [1, 2, 3];
@@ -38,10 +133,10 @@ data = arr2.reduce((a, b) =>a + b, 0);
 console.log('Find sum of array using Reduce : ',arr2, data);
 
 consoleLine('Reduce and Flatten Array');
-const arr = [[1, 2], [3, 4], [5]];
-const flat = arr.reduce((acc, curr) => acc.concat(curr), []);
+arr = [[1, 2], [3, 4], [5]];
+flatarr = arr.reduce((acc, curr) => acc.concat(curr), []);
 
-console.log(flat); // [1, 2, 3, 4, 5]
+console.log(flatarr); // [1, 2, 3, 4, 5]
 
 consoleLine()
 arr = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]
