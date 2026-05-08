@@ -1,0 +1,340 @@
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      background:#0f172a;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:40px;
+      font-family:Consolas, monospace;
+    }
+
+    .editor{
+      width:100%;
+      max-width:1400px;
+      background:#1e1e1e;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.05),
+        0 20px 50px rgba(0,0,0,0.6);
+    }
+
+    /* ================= TOP BAR ================= */
+
+    .top-bar{
+      height:48px;
+      background:#2d2d2d;
+      display:flex;
+      align-items:center;
+      padding:0 16px;
+      border-bottom:1px solid #3b3b3b;
+    }
+
+    .dots{
+      display:flex;
+      gap:8px;
+    }
+
+    .dot{
+      width:13px;
+      height:13px;
+      border-radius:50%;
+    }
+
+    .red{ background:#ff5f56; }
+    .yellow{ background:#ffbd2e; }
+    .green{ background:#27c93f; }
+
+    .title{
+      color:#c5c5c5;
+      font-size:14px;
+      margin-left:18px;
+      letter-spacing:.5px;
+    }
+
+    /* ================= CODE AREA ================= */
+
+    .code-container{
+      overflow:auto;
+    }
+
+    pre{
+      margin:0;
+      padding:25px;
+      overflow:auto;
+    }
+
+    code{
+      color:#d4d4d4;
+      font-size:15px;
+      line-height:1.7;
+      white-space:pre;
+      display:block;
+    }
+
+    /* ================= VS CODE COLORS ================= */
+
+    .keyword{
+      color:#569cd6;
+    }
+
+    .string{
+      color:#ce9178;
+    }
+
+    .function{
+      color:#dcdcaa;
+    }
+
+    .type{
+      color:#4ec9b0;
+    }
+
+    .variable{
+      color:#9cdcfe;
+    }
+
+    .number{
+      color:#b5cea8;
+    }
+
+    .comment{
+      color:#6a9955;
+      font-style:italic;
+    }
+
+    .operator{
+      color:#d4d4d4;
+    }
+
+    .tag{
+      color:#569cd6;
+    }
+
+    .component{
+      color:#4ec9b0;
+    }
+
+    .attr{
+      color:#9cdcfe;
+    }
+
+    .purple{
+      color:#c586c0;
+    }
+
+    .orange{
+      color:#d19a66;
+    }
+
+    /* ================= SCROLLBAR ================= */
+
+    ::-webkit-scrollbar{
+      width:10px;
+      height:10px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+      background:#444;
+      border-radius:10px;
+    }
+
+    ::-webkit-scrollbar-track{
+      background:#1e1e1e;
+    }
+  
+    .variable{
+  color:#9cdcfe;
+}
+
+.function{
+  color:#dcdcaa;
+}
+
+.string{
+  color:#ce9178;
+}
+
+
+
+body{
+  margin:0;
+  padding:40px;
+  background:#0f172a;
+  font-family:Consolas, monospace;
+}
+
+pre{
+  margin:0;
+  padding:30px;
+  background:#1e1e1e;
+  border-radius:14px;
+  overflow:auto;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 20px 50px rgba(0,0,0,0.6);
+}
+
+code{
+  color:#d4d4d4;
+  font-size:15px;
+  line-height:1.7;
+  white-space:pre;
+}
+
+/* ================= VS CODE COLORS ================= */
+
+.keyword{
+  color:#569cd6;
+}
+
+.string{
+  color:#ce9178;
+}
+
+.function{
+  color:#dcdcaa;
+}
+
+.variable{
+  color:#9cdcfe;
+}
+
+.type{
+  color:#4ec9b0;
+}
+
+.number{
+  color:#b5cea8;
+}
+
+.component{
+  color:#4ec9b0;
+}
+
+.tag{
+  color:#569cd6;
+}
+
+.comment{
+  color:#6a9955;
+}
+
+.operator{
+  color:#d4d4d4;
+}
+
+.property{
+  color:#9cdcfe;
+}
+
+.boolean{
+  color:#569cd6;
+}
+
+.error{
+  color:#f44747;
+}
+
+/* ================= REACT HOOK COLORS ================= */
+
+.hook{
+  color:#c586c0;
+  font-weight:500;
+}
+
+
+
+
+body{
+  margin:0;
+  padding:40px;
+  background:#0f172a;
+  font-family:Consolas, monospace;
+}
+
+pre{
+  margin:0;
+  padding:30px;
+  background:#1e1e1e;
+  border-radius:14px;
+  overflow:auto;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 20px 50px rgba(0,0,0,0.6);
+}
+
+code{
+  color:#d4d4d4;
+  font-size:15px;
+  line-height:1.7;
+  white-space:pre;
+}
+
+/* ================= VS CODE COLORS ================= */
+
+.keyword{
+  color:#569cd6;
+}
+
+.string{
+  color:#ce9178;
+}
+
+.function{
+  color:#dcdcaa;
+}
+
+.variable{
+  color:#9cdcfe;
+}
+
+.type{
+  color:#4ec9b0;
+}
+
+.number{
+  color:#b5cea8;
+}
+
+.component{
+  color:#4ec9b0;
+}
+
+.tag{
+  color:#569cd6;
+}
+
+.comment{
+  color:#6a9955;
+}
+
+.operator{
+  color:#d4d4d4;
+}
+
+.property{
+  color:#9cdcfe;
+}
+
+.boolean{
+  color:#569cd6;
+}
+
+.error{
+  color:#f44747;
+}
+
+/* ================= REACT HOOK COLORS ================= */
+
+.hook{
+  color:#c586c0;
+  font-weight:500;
+}
+

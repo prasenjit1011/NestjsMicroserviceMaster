@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VS Code Theme</title>
+
+<style>
+
+body{
+  margin:0;
+  padding:40px;
+  background:#0f172a;
+  font-family:Consolas, monospace;
+}
+
+pre{
+  margin:0;
+  padding:30px;
+  background:#1e1e1e;
+  border-radius:14px;
+  overflow:auto;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 20px 50px rgba(0,0,0,0.6);
+}
+
+code{
+  color:#d4d4d4;
+  font-size:15px;
+  line-height:1.7;
+  white-space:pre;
+}
+
+/* ================= VS CODE COLORS ================= */
+
+.keyword{
+  color:#569cd6;
+}
+
+.string{
+  color:#ce9178;
+}
+
+.function{
+  color:#dcdcaa;
+}
+
+.variable{
+  color:#9cdcfe;
+}
+
+.type{
+  color:#4ec9b0;
+}
+
+.number{
+  color:#b5cea8;
+}
+
+.component{
+  color:#4ec9b0;
+}
+
+.tag{
+  color:#569cd6;
+}
+
+.comment{
+  color:#6a9955;
+}
+
+.operator{
+  color:#d4d4d4;
+}
+
+.property{
+  color:#9cdcfe;
+}
+
+.boolean{
+  color:#569cd6;
+}
+
+.error{
+  color:#f44747;
+}
+
+/* ================= REACT HOOK COLORS ================= */
+
+.hook{
+  color:#c586c0;
+  font-weight:500;
+}
+
+</style>
+</head>
+
+<body>
+
+<pre><code>
+<span class="keyword">import</span> <span class="variable">React</span> <span class="keyword">from</span> <span class="string">"react"</span>;
+<span class="keyword">import</span> <span class="variable">ReactDOM</span> <span class="keyword">from</span> <span class="string">"react-dom/client"</span>;
+<span class="keyword">import</span> {  <span class="variable">QueryClient</span>,  <span class="component">QueryClientProvider</span>,  <span class="hook">useQuery</span>,  <span class="hook">useMutation</span>,  <span class="hook">useQueryClient</span>,  } <span class="keyword">from</span> <span class="string">"@tanstack/react-query"</span>;
+
+
+// TYPES
+<span class="keyword">type</span> <span class="type">User</span> = {  <span class="property">id</span>: <span class="type">number</span>;  <span class="property">name</span>: <span class="type">string</span>;  <span class="property">email</span>: <span class="type">string</span>;  };
+<span class="keyword">const</span> <span class="variable">API_URL</span> = <span class="string">"https://jsonplaceholder.typicode.com/users"</span>;
+
+<span class="keyword">const</span> <span class="function">getUsers</span> = <span class="keyword">async</span> (): <span class="type">Promise</span>&lt;<span class="type">User</span>[]&gt; =&gt; {
+  <span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="variable">API_URL</span>);
+  <span class="keyword">if</span> (!<span class="variable">response</span>.<span class="property">ok</span>) {  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(<span class="string">"Failed to fetch users"</span>);  }
+  <span class="keyword">return</span> <span class="variable">response</span>.<span class="function">json</span>();
+};
+
+<span class="comment">// ADD USER</span>
+<span class="keyword">const</span> <span class="function">addUser</span> = <span class="keyword">async</span> (): <span class="type">Promise</span>&lt;<span class="type">User</span>&gt; =&gt; {
+  <span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">fetch</span>(  <span class="variable">API_URL</span>,  {
+    <span class="property">method</span>: <span class="string">"POST"</span>,
+    <span class="property">headers</span>: {  <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>,  },
+    <span class="property">body</span>: <span class="variable">JSON</span>.<span class="function">stringify</span>({  <span class="property">name</span>: <span class="string">"New User"</span>,  <span class="property">email</span>: <span class="string">"newuser@gmail.com"</span>,  }),
+  });
+
+  <span class="keyword">if</span> (!<span class="variable">response</span>.<span class="property">ok</span>) {  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(<span class="string">"Failed to add user"</span>);  }
+  <span class="keyword">return</span> <span class="variable">response</span>.<span class="function">json</span>();
+};
+
+<span class="comment">// -----------------------------------</span>
+<span class="comment">// COMPONENT</span>
+<span class="comment">// -----------------------------------</span>
+<span class="keyword">const</span> <span class="variable">Users</span>: <span class="variable">React</span>.<span class="type">FC</span> = () =&gt; {
+  <span class="keyword">const</span> <span class="variable">queryClient</span> = <span class="hook">useQueryClient</span>();
+
+  <span class="comment">// -----------------------------------</span>
+  <span class="comment">// useQuery -&gt; GET API + CACHE</span>
+  <span class="comment">// -----------------------------------</span>
+  <span class="keyword">const</span> {    <span class="property">data</span>,    <span class="property">error</span>,    <span class="property">isLoading</span>,    <span class="property">refetch</span>,    } = <span class="hook">useQuery</span>&lt;<span class="type">User</span>[]&gt;({
+    <span class="property">queryKey</span>: [<span class="string">"users"</span>], <span class="comment">// cache key</span>
+    <span class="property">queryFn</span>: <span class="function">getUsers</span>,   <span class="comment">// fetch function</span>
+    <span class="property">staleTime</span>: <span class="number">5000</span>,     <span class="comment">// cache valid for 5 sec</span>
+  });
+
+  <span class="comment">// -----------------------------------</span>
+  <span class="comment">// useMutation -&gt; POST API</span>
+  <span class="comment">// -----------------------------------</span>
+  <span class="keyword">const</span> <span class="variable">mutation</span> = <span class="hook">useMutation</span>({
+    <span class="property">mutationFn</span>: <span class="function">addUser</span>,
+    <span class="comment">// auto refetch after success</span>
+    <span class="property">onSuccess</span>: () =&gt; {
+      <span class="variable">queryClient</span>.<span class="function">invalidateQueries</span>({
+        <span class="property">queryKey</span>: [<span class="string">"users"</span>],
+      });
+    },
+  });
+
+  <span class="keyword">if</span> (<span class="property">isLoading</span>) {  <span class="keyword">return</span> &lt;<span class="tag">h2</span>&gt;Loading...&lt;/<span class="tag">h2</span>&gt;;  }
+  <span class="keyword">if</span> (<span class="property">error</span> <span class="keyword">instanceof</span> <span class="type">Error</span>) {  <span class="keyword">return</span> &lt;<span class="tag">h2</span>&gt;{<span class="property">error</span>.<span class="property">message</span>}&lt;/<span class="tag">h2</span>&gt;;  }
+
+  <span class="keyword">return</span> (
+    &lt;<span class="tag">div</span> <span class="property">style</span>={{ <span class="property">padding</span>: <span class="string">"20px"</span>, <span class="property">fontFamily</span>: <span class="string">"Arial"</span> }}&gt;
+      &lt;<span class="tag">h1</span>&gt;React Query Example&lt;/<span class="tag">h1</span>&gt;
+
+      <span class="comment">{/* ADD USER */}</span>
+      &lt;<span class="tag">button</span>  <span class="property">onClick</span>={() =&gt; <span class="variable">mutation</span>.<span class="function">mutate</span>()}  <span class="property">style</span>={{ <span class="property">marginRight</span>: <span class="string">"10px"</span> }}  &gt;Add User&lt;/<span class="tag">button</span>&gt;
+
+      <span class="comment">{/* MANUAL REFETCH */}</span>
+      &lt;<span class="tag">button</span> <span class="property">onClick</span>={() =&gt; <span class="function">refetch</span>()}&gt;Refetch Users&lt;/<span class="tag">button</span>&gt;
+
+      <span class="comment">{/* Mutation Status */}</span>
+      {<span class="variable">mutation</span>.<span class="property">isPending</span> &amp;&amp; &lt;<span class="tag">p</span>&gt;Adding user...&lt;/<span class="tag">p</span>&gt;}
+
+      <span class="comment">{/* USER LIST */}</span>
+      &lt;<span class="tag">ul</span>&gt;
+        {<span class="property">data</span>?.<span class="function">map</span>((<span class="variable">user</span>) =&gt; (
+          &lt;<span class="tag">li</span> <span class="property">key</span>={<span class="variable">user</span>.<span class="property">id</span>}&gt;
+            &lt;<span class="tag">strong</span>&gt;{<span class="variable">user</span>.<span class="property">name</span>}&lt;/<span class="tag">strong</span>&gt;
+            &lt;<span class="tag">br</span> /&gt;
+            {<span class="variable">user</span>.<span class="property">email</span>}
+          &lt;/<span class="tag">li</span>&gt;
+        ))}
+      &lt;/<span class="tag">ul</span>&gt;
+    &lt;/<span class="tag">div</span>&gt;
+  );
+};
+
+<span class="comment">// -----------------------------------</span>
+<span class="comment">// QUERY CLIENT</span>
+<span class="comment">// -----------------------------------</span>
+<span class="keyword">const</span> <span class="variable">queryClient</span> = <span class="keyword">new</span> <span class="variable">QueryClient</span>();
+
+<span class="comment">// -----------------------------------</span>
+<span class="comment">// APP</span>
+<span class="comment">// -----------------------------------</span>
+<span class="keyword">const</span> <span class="variable">App</span>: <span class="variable">React</span>.<span class="type">FC</span> = () =&gt; {
+  <span class="keyword">return</span> (
+    &lt;<span class="component">QueryClientProvider</span> <span class="property">client</span>={<span class="variable">queryClient</span>}&gt;
+      &lt;<span class="component">Users</span> /&gt;
+    &lt;/<span class="component">QueryClientProvider</span>&gt;
+  );
+};
+
+<span class="comment">// -----------------------------------</span>
+<span class="comment">// ROOT</span>
+<span class="comment">// -----------------------------------</span>
+<span class="keyword">const</span> <span class="variable">root</span> = <span class="variable">ReactDOM</span>.<span class="function">createRoot</span>(
+  <span class="variable">document</span>.<span class="function">getElementById</span>(<span class="string">"root"</span>) <span class="keyword">as</span> <span class="type">HTMLElement</span>
+);
+
+<span class="variable">root</span>.<span class="function">render</span>(
+  &lt;<span class="variable">React</span>.<span class="component">StrictMode</span>&gt;
+    &lt;<span class="component">App</span> /&gt;
+  &lt;/<span class="variable">React</span>.<span class="component">StrictMode</span>&gt;
+);
+</code></pre>
+
+</body>
+</html>

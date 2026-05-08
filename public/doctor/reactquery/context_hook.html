@@ -4,238 +4,106 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VS Code Style Code Block</title>
-
-  <style>
-
-    body{
-      margin:0;
-      padding:30px;
-      background:#1e1e1e;
-      font-family:Consolas, monospace;
-      color:#d4d4d4;
-    }
-
-    .editor{
-      max-width:1400px;
-      margin:auto;
-      background:#1e1e1e;
-      border:1px solid #2d2d2d;
-      border-radius:8px;
-      overflow:hidden;
-    }
-
-    .topbar{
-      height:40px;
-      background:#252526;
-      border-bottom:1px solid #333;
-      display:flex;
-      align-items:center;
-      padding:0 15px;
-      gap:8px;
-    }
-
-    .dot{
-      width:11px;
-      height:11px;
-      border-radius:50%;
-    }
-
-    .red{
-      background:#f14c4c;
-    }
-
-    .yellow{
-      background:#ffcc66;
-    }
-
-    .green{
-      background:#23d18b;
-    }
-
-    .filename{
-      margin-left:12px;
-      font-size:13px;
-      color:#cccccc;
-    }
-
-    pre{
-      margin:0;
-      padding:22px;
-      overflow:auto;
-      font-size:14px;
-      line-height:1.7;
-    }
-
-    code{
-      white-space:pre;
-      display:block;
-    }
-
-    /* VS CODE COLORS */
-
-    .keyword{
-      color:#569cd6;
-    }
-
-    .string{
-      color:#ce9178;
-    }
-
-    .type{
-      color:#4ec9b0;
-    }
-
-    .comment{
-      color:#6a9955;
-    }
-
-    .function{
-      color:#dcdcaa;
-    }
-
-    .variable{
-      color:#9cdcfe;
-    }
-
-    .number{
-      color:#b5cea8;
-    }
-
-    .tag{
-      color:#569cd6;
-    }
-
-    .operator{
-      color:#d4d4d4;
-    }
-
-  </style>
+  <link  rel="stylesheet" href="vscode_style.css" />
 </head>
 
 <body>
 
 <div class="editor">
 
-  <div class="topbar">
-    <div class="dot red"></div>
-    <div class="dot yellow"></div>
-    <div class="dot green"></div>
-
-    <div class="filename">
-      App.tsx
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
     </div>
+
+    <div class="title">ContextHook.tsx</div>
   </div>
 
-<pre>
-<code>
-<span class="keyword">import</span> React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} <span class="keyword">from</span> <span class="string">"react"</span>;
+  <!-- CODE -->
+  <div class="code-container">
 
+<pre><code>
 <span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom/client"</span>;
+<span class="keyword">import</span> React, {  createContext,  useContext,  useEffect,  useState,} <span class="keyword">from</span> <span class="string">"react"</span>;
+<span class="keyword">import</span> {  QueryClient,  QueryClientProvider,} <span class="keyword">from</span> <span class="string">"@tanstack/react-query"</span>;
 
-<span class="keyword">import</span> {
-  QueryClient,
-  QueryClientProvider,
-} <span class="keyword">from</span> <span class="string">"@tanstack/react-query"</span>;
+<span class="keyword">const</span> queryClient = <span class="keyword">new</span> <span class="type">QueryClient</span>();
+<span class="keyword">type</span> User = {  id: <span class="type">number</span>;  name: <span class="type">string</span>;  email: <span class="type">string</span>;};
 
-<span class="comment">// ================= QUERY CLIENT =================</span>
-
-<span class="keyword">const</span> <span class="variable">queryClient</span> =
-  <span class="keyword">new</span> <span class="type">QueryClient</span>();
-
-<span class="comment">// ================= TYPES =================</span>
-
-<span class="keyword">type</span> <span class="type">User</span> = {
-  id: <span class="type">number</span>;
-  name: <span class="type">string</span>;
-  email: <span class="type">string</span>;
-};
-
-<span class="keyword">type</span> <span class="type">AuthContextType</span> = {
-  user: <span class="type">User</span> | <span class="keyword">null</span>;
-
-  login: (
-    email: <span class="type">string</span>,
-    password: <span class="type">string</span>
-  ) =&gt; Promise&lt;<span class="type">void</span>&gt;;
-
+<span class="keyword">type</span> AuthContextType = {
+  user: User | <span class="keyword">null</span>;
+  login: (email: <span class="type">string</span>, password: <span class="type">string</span>) =&gt; Promise&lt;<span class="type">void</span>&gt;;
   logout: () =&gt; <span class="type">void</span>;
-
   loading: <span class="type">boolean</span>;
 };
 
-<span class="comment">// ================= CONTEXT =================</span>
-
-<span class="keyword">const</span> <span class="variable">AuthContext</span> =
-  createContext&lt;
-    <span class="type">AuthContextType</span> | undefined
-  &gt;(undefined);
-
-<span class="keyword">const</span> <span class="function">useAuth</span> = () =&gt; {
-
-  <span class="keyword">const</span> <span class="variable">context</span> =
-    useContext(AuthContext);
-
-  <span class="keyword">if</span> (!context) {
-
-    <span class="keyword">throw</span> <span class="keyword">new</span> Error(
-      <span class="string">
-        "useAuth must be used inside Provider"
-      </span>
-    );
-  }
-
+<span class="keyword">const</span> AuthContext =  createContext&lt;AuthContextType | undefined&gt;(undefined);
+<span class="keyword">const</span> useAuth = () =&gt; {
+  <span class="keyword">const</span> context = useContext(AuthContext);
+  <span class="keyword">if</span> (!context){  <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"useAuth must be used inside Provider"</span>);  }
   <span class="keyword">return</span> context;
 };
 
 <span class="comment">// ================= PROVIDER =================</span>
-
-<span class="keyword">const</span> <span class="variable">AuthProvider</span>:
-React.FC&lt;{
-  children: React.ReactNode;
-}&gt;
-
-= ({ children }) =&gt; {
-
-  <span class="keyword">const</span> [
-    <span class="variable">user</span>,
-    <span class="variable">setUser</span>
-  ]
-
-  = useState&lt;
-    <span class="type">User</span> | <span class="keyword">null</span>
-  &gt;(<span class="keyword">null</span>);
-
-  <span class="keyword">const</span> [
-    <span class="variable">loading</span>,
-    <span class="variable">setLoading</span>
-  ]
-
-  = useState(<span class="keyword">true</span>);
-
+<span class="keyword">const</span> AuthProvider: React.FC&lt;{ children: React.ReactNode }&gt; = ({ children }) =&gt; {
+  <span class="keyword">const</span> [user, setUser] =  useState&lt;User | <span class="keyword">null</span>&gt;(<span class="keyword">null</span>);
+  <span class="keyword">const</span> [loading, setLoading] =  useState(<span class="keyword">true</span>);
   useEffect(() =&gt; {
-
-    <span class="keyword">const</span> <span class="variable">stored</span> =
-      localStorage.getItem(
-        <span class="string">"user"</span>
-      );
-
-    <span class="keyword">if</span> (stored) {
-      setUser(JSON.parse(stored));
-    }
-
+    <span class="keyword">const</span> stored =  localStorage.getItem(<span class="string">"user"</span>);
+    <span class="keyword">if</span> (stored){  setUser(JSON.parse(stored)); }
     setLoading(<span class="keyword">false</span>);
-
   }, []);
 
-};
-</code>
-</pre>
+  <span class="keyword">const</span> login =  <span class="keyword">async</span> (  email: <span class="type">string</span>,  password: <span class="type">string</span>  ) =&gt; {
+    setLoading(<span class="keyword">true</span>);
+    <span class="keyword">await</span> <span class="keyword">new</span> Promise(  (res) =&gt; setTimeout(res, <span class="number">1000</span>)  );
+    <span class="keyword">const</span> fakeUser: User = {  id: <span class="number">1</span>,  name: <span class="string">"John Doe"</span>,  email,  };
 
+    localStorage.setItem(  <span class="string">"user"</span>,  JSON.stringify(fakeUser)  );
+    setUser(fakeUser);
+    setLoading(<span class="keyword">false</span>);
+  };
+
+  <span class="keyword">const</span> logout = () =&gt; {
+    localStorage.removeItem(<span class="string">"user"</span>);
+    setUser(<span class="keyword">null</span>);
+  };
+
+  <span class="keyword">return</span> (  
+    &lt;<span class="component">AuthContext.Provider</span>  value={{ user, login, logout, loading }}&gt;
+      {children}
+    &lt;/<span class="component">AuthContext.Provider</span>&gt;
+  );
+};
+
+<span class="comment">// ================= UI =================</span>
+<span class="keyword">const</span> Login = () =&gt; {
+  <span class="keyword">const</span> { login, loading } = useAuth();
+  <span class="keyword">const</span> [email, setEmail]  = useState(<span class="string">""</span>);
+  <span class="keyword">const</span> [password, setPassword] =  useState(<span class="string">""</span>);
+
+  <span class="keyword">return</span> (
+    &lt;<span class="tag">form</span>&gt;
+      &lt;<span class="tag">h2</span>&gt;Login&lt;/<span class="tag">h2</span>&gt;
+      &lt;<span class="tag">input</span>  value={email}  /&gt;
+      &lt;<span class="tag">button</span>&gt;Login&lt;/<span class="tag">button</span>&gt;
+    &lt;/<span class="tag">form</span>&gt;
+  );
+};
+
+<span class="variable">ReactDOM</span>.<span class="function">createRoot</span>(  <span class="variable">document</span>.<span class="function">getElementById</span>(<span class="string">"root"</span>)!  ).<span class="function">render</span>(
+  &lt;<span class="component">QueryClientProvider</span>  client={queryClient}&gt;
+    &lt;<span class="component">AuthProvider</span>&gt;
+      &lt;<span class="component">App</span> /&gt;
+    &lt;/<span class="component">AuthProvider</span>&gt;
+  &lt;/<span class="component">QueryClientProvider</span>&gt;
+);
+</code></pre>
+
+  </div>
 </div>
 
 </body>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VS Code Theme</title>
+<link  rel="stylesheet" href="vscode_style.css" />
+</head>
+
+<body>
+<div class="editor">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+
+    <div class="title">ReactQuery.tsx</div>
+  </div>
+
+  <!-- CODE -->
+  <div class="code-container">
+<pre><code>
+<span class="keyword">import</span> <span class="variable">ReactDOM</span> <span class="keyword">from</span> <span class="string">"react-dom/client"</span>;
+<span class="keyword">import</span> <span class="variable">React</span>, {  <span class="hook">useState</span>,  <span class="hook">useMemo</span>,  <span class="hook">useCallback</span>,  <span class="hook">useEffect</span>,  } <span class="keyword">from</span> <span class="string">"react"</span>;
+<span class="keyword">import</span> {  <span class="variable">QueryClient</span>,  <span class="component">QueryClientProvider</span>,  <span class="hook">useQuery</span>,  <span class="hook">useQueryClient</span>,  } <span class="keyword">from</span> <span class="string">"@tanstack/react-query"</span>;
+
+
+<span class="keyword">const</span> <span class="variable">LIMIT</span> = <span class="number">3</span>;
+<span class="keyword">const</span> <span class="function">fetchProducts</span> = <span class="keyword">async</span> (<span class="variable">page</span>, <span class="variable">limit</span>, <span class="variable">signal</span>) =&gt; {
+  <span class="keyword">const</span> <span class="variable">url</span> = <span class="string">`http://localhost:3000/productlist?page=${page}&limit=${limit}`</span>;
+
+  <span class="keyword">const</span> <span class="variable">res</span> = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="variable">url</span>, { <span class="property">signal</span> });
+  <span class="keyword">if</span> (!<span class="variable">res</span>.<span class="property">ok</span>) {  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(<span class="string">"Failed to fetch products"</span>);  }
+  <span class="keyword">return</span> <span class="variable">res</span>.<span class="function">json</span>();
+};
+
+<span class="keyword">const</span> <span class="variable">App</span> = () =&gt; {
+  <span class="keyword">const</span> [<span class="variable">page</span>, <span class="function">setPage</span>] = <span class="hook">useState</span>(<span class="number">1</span>);
+  <span class="keyword">const</span> <span class="variable">queryClient</span> = <span class="hook">useQueryClient</span>();
+
+  <span class="keyword">const</span> {  <span class="property">data</span>,  <span class="property">isLoading</span>,  <span class="property">isError</span>,  <span class="property">error</span>,  <span class="property">isFetching</span>,  } = <span class="hook">useQuery</span>({
+    <span class="property">queryKey</span>: [<span class="string">"productdata"</span>, <span class="variable">page</span>, <span class="variable">LIMIT</span>],
+    <span class="property">queryFn</span>: ({ <span class="property">signal</span> }) =&gt; <span class="function">fetchProducts</span>(<span class="variable">page</span>, <span class="variable">LIMIT</span>, <span class="property">signal</span>),
+    <span class="property">placeholderData</span>: (<span class="variable">prev</span>) =&gt; <span class="variable">prev</span>,
+
+    <span class="property">staleTime</span>: <span class="number">1000</span> * <span class="number">60</span> * <span class="number">2</span>,
+    <span class="property">gcTime</span>: <span class="number">1000</span> * <span class="number">60</span> * <span class="number">5</span>,
+    <span class="property">retry</span>: <span class="number">1</span>,
+  });
+
+
+  <span class="hook">useEffect</span>(() =&gt; {
+    <span class="keyword">if</span> (<span class="variable">data</span> &amp;&amp; <span class="variable">data</span>.<span class="property">page</span> &lt; <span class="variable">data</span>.<span class="property">totalPages</span>) {
+      <span class="variable">queryClient</span>.<span class="function">prefetchQuery</span>({
+        <span class="property">queryKey</span>: [<span class="string">"productdata"</span>, <span class="variable">page</span> + <span class="number">1</span>, <span class="variable">LIMIT</span>],
+        <span class="property">queryFn</span>: ({ <span class="property">signal</span> }) =&gt;
+          <span class="function">fetchProducts</span>(<span class="variable">page</span> + <span class="number">1</span>, <span class="variable">LIMIT</span>, <span class="property">signal</span>),
+      });
+    }
+  }, [<span class="variable">data</span>, <span class="variable">page</span>, <span class="variable">queryClient</span>]);
+
+
+  <span class="keyword">const</span> <span class="variable">nextPage</span> = <span class="hook">useCallback</span>(() =&gt; {  <span class="keyword">if</span> (<span class="variable">data</span> &amp;&amp; <span class="variable">page</span> &lt; <span class="variable">data</span>.<span class="property">totalPages</span>) {  <span class="function">setPage</span>((<span class="variable">p</span>) =&gt; <span class="variable">p</span> + <span class="number">1</span>);  }  }, [<span class="variable">data</span>, <span class="variable">page</span>]);
+  <span class="keyword">const</span> <span class="variable">prevPage</span> = <span class="hook">useCallback</span>(() =&gt; {  <span class="function">setPage</span>((<span class="variable">p</span>) =&gt; <span class="variable">Math</span>.<span class="function">max</span>(<span class="variable">p</span> - <span class="number">1</span>, <span class="number">1</span>));  }, []);
+  <span class="keyword">const</span> <span class="variable">products</span> = <span class="hook">useMemo</span>(() =&gt; <span class="variable">data</span>?.<span class="property">data</span> ?? [], [<span class="variable">data</span>]);
+
+  <span class="keyword">if</span> (<span class="property">isLoading</span>) {  <span class="keyword">return</span> &lt;<span class="tag">p</span>&gt;Loading products...&lt;/<span class="tag">p</span>&gt;;  }
+  <span class="keyword">if</span> (<span class="property">isError</span>) {  <span class="keyword">return</span> &lt;<span class="tag">p</span>&gt;Error: {<span class="property">error</span>.<span class="property">message</span>}&lt;/<span class="tag">p</span>&gt;;  }
+
+
+  <span class="keyword">return</span> (
+    &lt;<span class="tag">div</span> <span class="property">style</span>={{ <span class="property">padding</span>: <span class="number">20</span> }}&gt;
+      &lt;<span class="tag">h2</span>&gt;Products : {<span class="property">isFetching</span> &amp;&amp; &lt;&gt;PreFetching data of page {<span class="variable">page</span>}...&lt;/&gt;}&lt;/<span class="tag">h2</span>&gt;
+      &lt;<span class="tag">ul</span>&gt;        
+        {<span class="variable">products</span>.<span class="function">map</span>((<span class="variable">p</span>) =&gt; (
+          &lt;<span class="tag">li</span> <span class="property">key</span>={<span class="variable">p</span>.<span class="property">_id</span>}&gt;
+            {<span class="variable">p</span>.<span class="property">name</span>} — ₹{<span class="variable">p</span>.<span class="property">price</span>} (Stock: {<span class="variable">p</span>.<span class="property">stock</span>})
+          &lt;/<span class="tag">li</span>&gt;
+        ))}
+      &lt;/<span class="tag">ul</span>&gt;
+
+      &lt;<span class="tag">div</span> <span class="property">style</span>={{ <span class="property">marginTop</span>: <span class="number">20</span> }}&gt;
+        &lt;<span class="tag">button</span>  <span class="property">onClick</span>={<span class="variable">prevPage</span>}  <span class="property">disabled</span>={<span class="variable">page</span> === <span class="number">1</span>}  <span class="property">style</span>={{ <span class="property">cursor</span>: <span class="string">"pointer"</span> }}  &gt;  Prev  &lt;/<span class="tag">button</span>&gt;
+        &lt;<span class="tag">span</span> <span class="property">style</span>={{ <span class="property">margin</span>: <span class="string">"0 10px"</span> }}&gt;
+          Page {<span class="variable">data</span>?.<span class="property">page</span> ?? <span class="number">1</span>} / {<span class="variable">data</span>?.<span class="property">totalPages</span> ?? <span class="number">1</span>}
+        &lt;/<span class="tag">span</span>&gt;
+        &lt;<span class="tag">button</span>  <span class="property">onClick</span>={<span class="variable">nextPage</span>}  <span class="property">disabled</span>={<span class="variable">page</span> === <span class="variable">data</span>?.<span class="property">totalPages</span>}  <span class="property">style</span>={{ <span class="property">cursor</span>: <span class="string">"pointer"</span> }}  &gt;
+          Next
+        &lt;/<span class="tag">button</span>&gt;
+      &lt;/<span class="tag">div</span>&gt;
+    &lt;/<span class="tag">div</span>&gt;
+  );
+};
+
+
+<span class="keyword">const</span> <span class="variable">queryClient</span> = <span class="keyword">new</span> <span class="variable">QueryClient</span>();
+<span class="keyword">const</span> <span class="variable">rootElement</span> = <span class="variable">document</span>.<span class="function">getElementById</span>(<span class="string">"root"</span>);
+<span class="keyword">if</span> (!<span class="variable">rootElement</span>) {  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(<span class="string">"Root element (#root) not found in index.html"</span>);  }
+
+<span class="variable">ReactDOM</span>.<span class="function">createRoot</span>(<span class="variable">rootElement</span>).<span class="function">render</span>(
+  &lt;<span class="variable">React</span>.<span class="component">StrictMode</span>&gt;
+    &lt;<span class="component">QueryClientProvider</span> <span class="property">client</span>={<span class="variable">queryClient</span>}&gt;
+      &lt;<span class="component">App</span> /&gt;
+    &lt;/<span class="component">QueryClientProvider</span>&gt;
+  &lt;/<span class="variable">React</span>.<span class="component">StrictMode</span>&gt;
+);
+</code></pre>
+</div></div>
+</body>
+</html>

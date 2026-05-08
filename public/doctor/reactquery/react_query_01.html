@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VS Code Theme</title>
+
+
+  <link  rel="stylesheet" href="vscode_style.css" />
+
+</head>
+
+<body>
+
+<div class="editor">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+
+    <div class="title">ReactQuery.tsx</div>
+  </div>
+
+  <!-- CODE -->
+  <div class="code-container">
+<pre><code>
+<span class="keyword">import</span> <span class="variable">React</span> <span class="keyword">from</span> <span class="string">"react"</span>;
+<span class="keyword">import</span> <span class="variable">ReactDOM</span> <span class="keyword">from</span> <span class="string">"react-dom/client"</span>;
+<span class="keyword">import</span> {  <span class="variable">QueryClient</span>,  <span class="variable">QueryClientProvider</span>,  <span class="function">useQuery</span>  } <span class="keyword">from</span> <span class="string">"@tanstack/react-query"</span>;
+
+<span class="comment">// ✅ Type</span>
+<span class="keyword">const</span> <span class="variable">url</span> = https://jsonplaceholder.typicode.com/todos"
+<span class="keyword">type</span> <span class="type">Todo</span> = {  <span class="property">userId</span>: <span class="type">number</span>;  <span class="property">id</span>: <span class="type">number</span>;  <span class="property">title</span>: <span class="type">string</span>;  <span class="property">completed</span>: <span class="type">boolean</span>;  };
+<span class="keyword">const</span> <span class="variable">queryClient</span> = <span class="keyword">new</span> <span class="variable">QueryClient</span>();
+
+<span class="comment">// ✅ Fetch with AbortController (via signal)</span>
+<span class="keyword">const</span> <span class="function">fetchTodos</span> = <span class="keyword">async</span> ({  <span class="property">signal</span>,  }: {  <span class="property">signal</span>?: <span class="type">AbortSignal</span>;  }): <span class="type">Promise</span>&lt;<span class="type">Todo</span>[]&gt; =&gt; {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> <span class="variable">res</span> = <span class="keyword">await</span> <span class="function">fetch</span>(  <span class="string">url</span>,  { <span class="property">signal</span> } <span class="comment"></span>);   // 👈 important
+    <span class="keyword">if</span> (!<span class="variable">res</span>.<span class="property">ok</span>) {  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(<span class="string">"Failed to fetch todos"</span>);  }
+
+    <span class="keyword">return</span> <span class="keyword">await</span> <span class="variable">res</span>.<span class="function">json</span>();
+  } 
+  <span class="keyword">catch</span> (<span class="variable">error</span>: <span class="keyword">any</span>) {
+    <span class="comment">// ✅ Handle abort separately (optional but clean)</span>
+    <span class="keyword">if</span> (<span class="variable">error</span>.<span class="property">name</span> === <span class="string">"AbortError"</span>) {  <span class="variable">console</span>.<span class="function">log</span>(<span class="string">"Request cancelled"</span>);  }
+    <span class="keyword">throw</span> <span class="variable">error</span>;
+  }
+};
+
+<span class="keyword">const</span> <span class="variable">App</span>: <span class="variable">React</span>.<span class="type">FC</span> = () =&gt; {
+  <span class="keyword">const</span> { <span class="property">data</span>, <span class="property">isLoading</span>, <span class="property">isError</span>, <span class="property">error</span>, <span class="property">refetch</span> } = <span class="function">useQuery</span>&lt;  <span class="type">Todo</span>[],  <span class="type">Error</span>  &gt;({
+    <span class="property">queryKey</span>: [<span class="string">"todos"</span>],
+    <span class="property">queryFn</span>: <span class="function">fetchTodos</span>,
+    <span class="property">staleTime</span>: <span class="number">1000</span> * <span class="number">60</span> * <span class="number">5</span>,
+  });
+
+  <span class="keyword">if</span> (<span class="variable">isLoading</span>) <span class="keyword">return</span> &lt;<span class="tag">h2</span>&gt;Loading...&lt;/<span class="tag">h2</span>&gt;;
+
+  <span class="keyword">if</span> (<span class="variable">isError</span>)
+    <span class="keyword">return</span> (
+      &lt;<span class="tag">div</span>&gt;
+        &lt;<span class="tag">h2</span>&gt;Error: {<span class="variable">error</span>.<span class="property">message</span>}&lt;/<span class="tag">h2</span>&gt;
+        &lt;<span class="tag">button</span> <span class="property">onClick</span>={() =&gt; <span class="function">refetch</span>()}&gt;Retry&lt;/<span class="tag">button</span>&gt;
+      &lt;/<span class="tag">div</span>&gt;
+    );
+
+  <span class="keyword">return</span> (
+    &lt;<span class="tag">div</span> <span class="property">style</span>={{ <span class="property">padding</span>: <span class="string">"20px"</span> }}&gt;
+      &lt;<span class="tag">h1</span>&gt;Todos List&lt;/<span class="tag">h1</span>&gt;
+      &lt;<span class="tag">ul</span>&gt;
+        {<span class="variable">data</span>?.<span class="function">slice</span>(<span class="number">0</span>, <span class="number">20</span>).<span class="function">map</span>((<span class="variable">todo</span>) =&gt; (
+          &lt;<span class="tag">li</span> <span class="property">key</span>={<span class="variable">todo</span>.<span class="property">id</span>}&gt;
+            {<span class="variable">todo</span>.<span class="property">title</span>} {<span class="variable">todo</span>.<span class="property">completed</span> ? <span class="string">"✅"</span> : <span class="string">"❌"</span>}
+          &lt;/<span class="tag">li</span>&gt;
+        ))}
+      &lt;/<span class="tag">ul</span>&gt;
+    &lt;/<span class="tag">div</span>&gt;
+  );
+};
+
+<span class="variable">ReactDOM</span>.<span class="function">createRoot</span>(<span class="variable">document</span>.<span class="function">getElementById</span>(<span class="string">"root"</span>)!).<span class="function">render</span>(
+  &lt;<span class="variable">React</span>.<span class="component">StrictMode</span>&gt;
+    &lt;<span class="component">QueryClientProvider</span> <span class="property">client</span>={<span class="variable">queryClient</span>}&gt;
+      &lt;<span class="component">App</span> /&gt;
+    &lt;/<span class="component">QueryClientProvider</span>&gt;
+  &lt;/<span class="variable">React</span>.<span class="component">StrictMode</span>&gt;
+);
+</code></pre>
+</div></div>
+</body>
+</html>

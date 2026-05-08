@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VS Code Theme</title>
+  <link  rel="stylesheet" href="vscode_style.css" />
+</head>
+<body>
+
+<div class="editor">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+
+    <div class="title">ReactRedux.tsx</div>
+  </div>
+
+  <!-- CODE -->
+  <div class="code-container">
+<pre><code>
+<span class="keyword">import</span> <span class="variable">ReactDOM</span> <span class="keyword">from</span> <span class="string">'react-dom/client'</span>;
+<span class="keyword">import</span> { <span class="variable">Provider</span>, <span class="function">useDispatch</span>, <span class="function">useSelector</span> } <span class="keyword">from</span> <span class="string">'react-redux'</span>;
+<span class="keyword">import</span> { <span class="function">configureStore</span>,  <span class="function">createSlice</span>,  <span class="type">PayloadAction</span>} <span class="keyword">from</span> <span class="string">'@reduxjs/toolkit'</span>;
+
+<span class="keyword">type</span> <span class="type">CounterState</span> = {  <span class="property">value</span>: <span class="type">number</span>;};
+<span class="keyword">const</span> <span class="variable">initialState</span>: <span class="type">CounterState</span> = {  <span class="property">value</span>: <span class="number">0</span>};
+
+<span class="keyword">const</span> <span class="variable">counterSlice</span> = <span class="function">createSlice</span>({
+  <span class="property">name</span>: <span class="string">'counter'</span>,
+  <span class="property">initialState</span>,
+  <span class="property">reducers</span>: {
+    <span class="property">increment</span>: (<span class="variable">newstate</span>)   =&gt; {    <span class="variable">newstate</span>.<span class="property">value</span>  += <span class="variable">Math</span>.<span class="function">floor</span>(<span class="variable">Math</span>.<span class="function">random</span>() * <span class="number">100</span>);   },
+    <span class="property">decrement</span>: (<span class="variable">demostate</span>)  =&gt; {    <span class="variable">demostate</span>.<span class="property">value</span> -= <span class="variable">Math</span>.<span class="function">floor</span>(<span class="variable">Math</span>.<span class="function">random</span>() * <span class="number">100</span>);  },
+  },
+});
+
+<span class="keyword">const</span> { <span class="property">increment</span>, <span class="property">decrement</span> } = <span class="variable">counterSlice</span>.<span class="property">actions</span>;
+<span class="keyword">const</span> <span class="variable">store</span>     = <span class="function">configureStore</span>({  <span class="property">reducer</span>: {<span class="property">counter</span>: <span class="variable">counterSlice</span>.<span class="property">reducer</span> }});
+<span class="keyword">type</span> <span class="type">RootState</span>  = <span class="function">ReturnType</span>&lt;<span class="keyword">typeof</span> <span class="variable">store</span>.<span class="function">getState</span>&gt;;
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> <span class="variable">count</span>       = <span class="function">useSelector</span>((<span class="variable">devstate</span>: <span class="type">RootState</span>) =&gt; <span class="variable">devstate</span>.<span class="property">counter</span>.<span class="property">value</span>);
+  <span class="keyword">const</span> <span class="variable">dispatch</span>    = <span class="function">useDispatch</span>();
+
+  <span class="keyword">return</span> (
+    &lt;<span class="tag">div</span>&gt;
+      &lt;<span class="tag">h1</span>&gt;Cnt: {<span class="variable">count</span>}&lt;/<span class="tag">h1</span>&gt;
+      &lt;<span class="tag">button</span> <span class="property">onClick</span>={() =&gt; <span class="variable">dispatch</span>(<span class="function">increment</span>())} <span class="property">style</span>={{ <span class="property">fontSize</span>: <span class="string">'2em'</span>, <span class="property">padding</span>: <span class="string">'0.5em 1em'</span>, <span class="property">cursor</span>: <span class="string">'pointer'</span>}}&gt;  Addition  &lt;/<span class="tag">button</span>&gt;
+      &lt;<span class="tag">button</span> <span class="property">onClick</span>={() =&gt; <span class="variable">dispatch</span>(<span class="function">decrement</span>())} <span class="property">style</span>={{ <span class="property">fontSize</span>: <span class="string">'2em'</span>, <span class="property">padding</span>: <span class="string">'0.5em 1em'</span>, <span class="property">cursor</span>: <span class="string">'pointer'</span>}}&gt;  Subtract  &lt;/<span class="tag">button</span>&gt;
+    &lt;/<span class="tag">div</span>&gt;
+  );
+}
+
+<span class="comment">// Render</span>
+<span class="variable">ReactDOM</span>.<span class="function">createRoot</span>(  <span class="variable">document</span>.<span class="function">getElementById</span>(<span class="string">"root"</span>)!  ).<span class="function">render</span>(
+  &lt;<span class="component">QueryClientProvider</span>  client={queryClient}&gt;
+    &lt;<span class="component">AuthProvider</span>&gt;
+      &lt;<span class="component">App</span> /&gt;
+    &lt;/<span class="component">AuthProvider</span>&gt;
+  &lt;/<span class="component">QueryClientProvider</span>&gt;
+);
+</code></pre>
+</div></div>
+</body>
+</html>
