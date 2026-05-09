@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prisma ORM Keywords</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background:#0f172a;
+      color:white;
+      padding:20px;
+      line-height:1.7;
+    }
+
+    h1{
+      color:#22c55e;
+    }
+
+    .box{
+      background:#1e293b;
+      padding:18px;
+      margin-bottom:20px;
+      border-radius:10px;
+      border-left:5px solid #38bdf8;
+    }
+
+    .keyword{
+      color:#facc15;
+      font-size:22px;
+      font-weight:bold;
+    }
+
+    .desc{
+      color:#cbd5e1;
+      margin:10px 0;
+    }
+
+    pre{
+      background:#020617;
+      color:#67e8f9;
+      padding:15px;
+      overflow:auto;
+      border-radius:8px;
+    }
+
+    .model{
+      color:#fb7185;
+    }
+
+    .method{
+      color:#4ade80;
+    }
+
+    .arg{
+      color:#f472b6;
+    }
+
+    .value{
+      color:#facc15;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Prisma ORM Important Keywords</h1>
+
+
+<div class="box">
+  <div class="keyword">Prisma</div>
+  <div class="desc">
+    Important Function List
+  </div>
+
+<pre>
+
+const user  = await prisma.user.findFirst({  where: { age: 20}});
+const user  = await prisma.user.findUnique({  where: {  id: 1  }  });
+const users = await prisma.user.findMany({    where: {  age: {  gt: 18  }  }});
+const users = await prisma.user.findMany({    select: {  name: true,  email: true  }});
+const users = await prisma.user.findMany({    include: {  posts: true  }});
+const users = await prisma.user.findMany({    orderBy: {  age: "desc"  }});
+
+const users = await prisma.user.findMany({    skip: 10  });
+const users = await prisma.user.findMany({    take: 5  });
+const total = await prisma.user.count();
+const users = await prisma.user.groupBy({     by: ["city"]  });
+const users = await prisma.user.aggregate({   _avg: {  age: true  }  });
+
+
+
+await prisma.user.create({      data: { name: "Amit",   email: "amit@gmail.com"  }});
+await prisma.user.createMany({  data: [ { name: "A" },  { name: "B" }  ]});
+await prisma.post.create({  data: {  title: "Hello",  user: {  connect: {  id: 1  }}}});
+
+
+await prisma.user.update({      where: {  id: 1   },    data: {   name: "New Name" }  });  
+await prisma.user.updateMany({  where: {  age: 18 },    data: {   active: true  }  });
+await prisma.user.upsert({  where: { email: "a@gmail.com" },  update: { name: "New" },  create: {  name: "New",  email: "a@gmail.com"  }  });
+
+//Remove relation
+await prisma.post.update({  where: { id: 1 },  data: {  user: {  disconnect: true  }}});
+
+
+await prisma.user.delete({      where: {  id: 1  }  });
+await prisma.user.deleteMany({  where: {  active: false  }});
+
+
+where: {  AND:    [  { age: { gt: 18 } },  { active: true }]}
+where: {  OR:     [  { city: "Kolkata" },  { city: "Delhi" }]}
+where: {  NOT:    {    active: false }}
+where: {  name:   {    contains: "demo"  }}
+where: {  name:   {    startsWith: "A"  }}
+where: {  email:  {    endsWith: "@gmail.com"  }}
+where: {  age:    {    gt: 18,  lt: 60  }}
+where: {  id:     {    in: [1,2,3]  }}
+
+
+model User {
+  id Int @id @default(autoincrement())
+  posts Post[]
+}
+
+// belongsTo Relation
+model Post {
+  id Int @id @default(autoincrement())
+  userId Int
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+await prisma.$transaction([  prisma.user.create({  data: { name: "A" }  }),  prisma.post.create({  data: { title: "Hello" }  })]);
+await prisma.user.findMany({  skip: 0,  take: 10  });
+
+
+</pre>
+</div>
+
+
+
+<div><pre>
+
+# Prisma ORM Important Keywords / Methods Cheat Sheet
+
+```bash id="aj3v5q"
+npm install prisma @prisma/client
+```
+
+```ts id="d8y8e0"
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+```
+
+---
+
+# Basic Query Methods
+
+| Keyword          | Purpose               |
+| ---------------- | --------------------- |
+| `findMany()`     | Get multiple rows     |
+| `findUnique()`   | Get single unique row |
+| `findFirst()`    | First matching row    |
+| `create()`       | Insert row            |
+| `createMany()`   | Insert multiple       |
+| `update()`       | Update single         |
+| `updateMany()`   | Update many           |
+| `delete()`       | Delete single         |
+| `deleteMany()`   | Delete many           |
+| `upsert()`       | Update or insert      |
+| `count()`        | Count rows            |
+| `aggregate()`    | AVG/SUM/MIN/MAX       |
+| `groupBy()`      | SQL GROUP BY          |
+| `$transaction()` | Transaction           |
+| `$queryRaw()`    | Raw SQL               |
+
+
+# Filtering Keywords
+
+| Keyword      | Meaning        |
+| ------------ | -------------- |
+| `where`      | Filter         |
+| `AND`        | All conditions |
+| `OR`         | Any condition  |
+| `NOT`        | Opposite       |
+| `equals`     | Equal          |
+| `contains`   | LIKE           |
+| `startsWith` | Starts         |
+| `endsWith`   | Ends           |
+| `in`         | IN array       |
+| `notIn`      | NOT IN         |
+| `gt`         | Greater        |
+| `gte`        | Greater equal  |
+| `lt`         | Less           |
+| `lte`        | Less equal     |
+
+# in
+
+```ts id="ow9j5n"
+await prisma.user.findMany({
+  where: {
+    id: {
+      in: [1, 2, 3],
+    },
+  },
+});
+```
+
+---
+
+# OR
+
+```ts id="pqv96g"
+await prisma.user.findMany({
+  where: {
+    OR: [
+      { name: "John" },
+      { age: 25 },
+    ],
+  },
+});
+```
+
+---
+
+# AND
+
+```ts id="t0yzjg"
+await prisma.user.findMany({
+  where: {
+    AND: [
+      { active: true },
+      { age: { gt: 18 } },
+    ],
+  },
+});
+```
+
+---
+
+# Sorting / Pagination
+
+| Keyword   | Purpose           |
+| --------- | ----------------- |
+| `orderBy` | Sorting           |
+| `skip`    | Offset            |
+| `take`    | Limit             |
+| `cursor`  | Cursor pagination |
+
+---
+
+# orderBy
+
+```ts id="mjlwm5"
+await prisma.user.findMany({
+  orderBy: {
+    createdAt: "desc",
+  },
+});
+```
+
+---
+
+# skip + take
+
+```ts id="w7n7jc"
+await prisma.user.findMany({
+  skip: 10,
+  take: 5,
+});
+```
+
+---
+
+# cursor pagination
+
+```ts id="kk4kgd"
+await prisma.user.findMany({
+  take: 5,
+  cursor: {
+    id: 10,
+  },
+});
+```
+
+---
+
+# Select / Include
+
+| Keyword   | Purpose         |
+| --------- | --------------- |
+| `select`  | Specific fields |
+| `include` | Relations       |
+
+---
+
+# select
+
+```ts id="h7y0n8"
+await prisma.user.findMany({
+  select: {
+    name: true,
+    email: true,
+  },
+});
+```
+
+---
+
+# include
+
+```ts id="7olw4s"
+await prisma.user.findMany({
+  include: {
+    posts: true,
+  },
+});
+```
+
+---
+
+# Relation Keywords
+
+Prisma DOES NOT use:
+
+* `belongsTo`
+* `hasMany`
+* `hasOne`
+
+Like Sequelize.
+
+Instead Prisma uses:
+
+* relation fields
+* `@relation`
+
+---
+
+# One-to-Many Relation
+
+```prisma id="jlf9mq"
+model User {
+  id    Int    @id @default(autoincrement())
+  posts Post[]
+}
+
+model Post {
+  id      Int  @id @default(autoincrement())
+  userId  Int
+  user    User @relation(fields: [userId], references: [id])
+}
+```
+
+Equivalent meaning:
+
+| Sequelize | Prisma              |
+| --------- | ------------------- |
+| hasMany   | posts Post[]        |
+| belongsTo | user User @relation |
+
+---
+
+# Nested Create
+
+```ts id="x3prfi"
+await prisma.user.create({
+  data: {
+    name: "John",
+
+    posts: {
+      create: [
+        { title: "Post 1" },
+      ],
+    },
+  },
+});
+```
+
+---
+
+# connect
+
+Connect existing relation.
+
+```ts id="m38l4r"
+await prisma.post.create({
+  data: {
+    title: "Hello",
+
+    user: {
+      connect: {
+        id: 1,
+      },
+    },
+  },
+});
+```
+
+---
+
+# disconnect
+
+```ts id="a67kdr"
+await prisma.post.update({
+  where: {
+    id: 1,
+  },
+
+  data: {
+    user: {
+      disconnect: true,
+    },
+  },
+});
+```
+
+---
+
+# Aggregation
+
+| Keyword  | Purpose |
+| -------- | ------- |
+| `_count` | Count   |
+| `_avg`   | Average |
+| `_sum`   | Sum     |
+| `_min`   | Minimum |
+| `_max`   | Maximum |
+
+---
+
+# count()
+
+```ts id="0wpr8f"
+const total = await prisma.user.count();
+```
+
+---
+
+# aggregate()
+
+```ts id="k4mdxo"
+await prisma.user.aggregate({
+  _avg: {
+    age: true,
+  },
+
+  _max: {
+    age: true,
+  },
+});
+```
+
+---
+
+# groupBy()
+
+```ts id="mbbsvm"
+await prisma.user.groupBy({
+  by: ["country"],
+
+  _count: {
+    country: true,
+  },
+});
+```
+
+---
+
+# Relation Filters
+
+| Keyword | Meaning      |
+| ------- | ------------ |
+| `some`  | At least one |
+| `every` | All          |
+| `none`  | No match     |
+
+---
+
+# some
+
+Users having some published posts.
+
+```ts id="pq6u2v"
+await prisma.user.findMany({
+  where: {
+    posts: {
+      some: {
+        published: true,
+      },
+    },
+  },
+});
+```
+
+---
+
+# every
+
+```ts id="pdh32l"
+await prisma.user.findMany({
+  where: {
+    posts: {
+      every: {
+        published: true,
+      },
+    },
+  },
+});
+```
+
+---
+
+# none
+
+```ts id="wqixxe"
+await prisma.user.findMany({
+  where: {
+    posts: {
+      none: {
+        published: true,
+      },
+    },
+  },
+});
+```
+
+---
+
+# Transactions
+
+```ts id="i07s9v"
+await prisma.$transaction([
+  prisma.user.create({
+    data: {
+      name: "A",
+      email: "a@gmail.com",
+    },
+  }),
+
+  prisma.user.create({
+    data: {
+      name: "B",
+      email: "b@gmail.com",
+    },
+  }),
+]);
+```
+
+---
+
+# Raw SQL
+
+```ts id="6zv4k5"
+await prisma.$queryRaw`
+  SELECT * FROM "User"
+`;
+```
+
+---
+
+# executeRaw
+
+```ts id="qf4tyb"
+await prisma.$executeRaw`
+  DELETE FROM "User"
+`;
+```
+
+---
+
+# Useful Special Keywords
+
+| Keyword           | Purpose              |
+| ----------------- | -------------------- |
+| `connect`         | Link relation        |
+| `disconnect`      | Remove relation      |
+| `set`             | Replace relation     |
+| `create`          | Nested insert        |
+| `connectOrCreate` | Create if not exists |
+| `include`         | Load relations       |
+| `select`          | Pick fields          |
+
+---
+
+# connectOrCreate
+
+```ts id="wlqkq4"
+await prisma.post.create({
+  data: {
+    title: "Hello",
+
+    user: {
+      connectOrCreate: {
+        where: {
+          email: "john@gmail.com",
+        },
+
+        create: {
+          email: "john@gmail.com",
+          name: "John",
+        },
+      },
+    },
+  },
+});
+```
+
+---
+
+# Interview Keywords
+
+| Important Term         | Meaning                      |
+| ---------------------- | ---------------------------- |
+| Prisma Client          | Generated DB client          |
+| Prisma Schema          | DB schema                    |
+| Migration              | DB versioning                |
+| Type Safety            | Compile-time safety          |
+| Relation Query         | Nested query                 |
+| N+1 Problem            | Multiple DB calls            |
+| Connection Pooling     | Reuse DB connections         |
+| Singleton PrismaClient | Prevent too many connections |
+
+---
+
+# Most Common Real Production Methods
+
+```ts id="v9v7yc"
+findMany()
+findUnique()
+create()
+update()
+delete()
+upsert()
+
+where
+include
+select
+orderBy
+skip
+take
+
+_count
+groupBy
+
+connect
+disconnect
+
+$transaction()
+$queryRaw()
+```
+
+</pre></div>
+
+
+
+
+
+</body>
+</html>

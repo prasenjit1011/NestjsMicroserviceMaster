@@ -50,8 +50,13 @@ ul.faq li:hover {
 
 .faq_list li:hover {
   background: #1dac71 !important;
+  color: #FFF;
 }
 
+.anchor a:hover{
+  color: #00F;
+  font-weight: bold;
+}
 
 ul.faq li ol li {
   font-weight: 300;
@@ -108,3 +113,49 @@ span.green {
   padding-top: 5px;
 }
 /********************************************************************************/
+
+
+/*************** Prisma ORM ****************************************************/
+.box{
+      background:#1e293b;
+      padding:18px;
+      margin-bottom:20px;
+      border-radius:10px;
+      border-left:5px solid #38bdf8;
+    }
+
+    .keyword{
+      color:#facc15;
+      font-size:22px;
+      font-weight:bold;
+    }
+
+    .desc{
+      color:#cbd5e1;
+      margin:10px 0;
+    }
+
+    pre{
+      background:#020617;
+      color:#67e8f9;
+      padding:15px;
+      overflow:auto;
+      border-radius:8px;
+    }
+
+    .model{
+      color:#fb7185;
+    }
+
+    .method{
+      color:#4ade80;
+    }
+
+    .arg{
+      color:#f472b6;
+    }
+
+    .value{
+      color:#facc15;
+    }
+

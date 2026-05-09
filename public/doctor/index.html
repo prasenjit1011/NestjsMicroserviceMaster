@@ -80,8 +80,9 @@
             </td>
             <td style="vertical-align: top;">
               <ol>
-                <li><a href="#postgre_qlist">PostGre SQL</a></li>
+                <li><a href="#prisma_qlist">Prisma ORM</a></li>
                 <li><a href="#mongodb_qlist">MongoDB</a></li>
+                <li><a href="#postgre_qlist">PostGre SQL</a></li>                
                 <li><a href="#docker_qlist">Docker</a></li>
                 <li><a href="#graphql_qlist">GraphQL</a></li>
                 <li>Appsync</li>
@@ -123,6 +124,7 @@
                 <li>Service Workers, WebWorkers, Caching, IndexedDB, Sockets, designing & implementing Optimisation Strategies for scale)</li>
                 <li>Well versed with modern JavaScript technologies such as React, Redux, RxJS, Node.js, AG-Grid etc.</li>
                 <li>Experience with testing frameworks such as Jest, React Testing Library, Jasmine, Mocha, Cypress / Playwrite, etc.</li>
+                <li>Typescript, Node.Js, Backend Development, Rest Api Development, Open Api, Swagger, Api Integration, Aws Lambda, Step Functions, Dynamo Db, S, Sns, Amazon Sqs, Serverless Architecture, Cloud Native Architecture, Apigee, Api Gateway</li>
               </ol>
             </td>
           </tr>
@@ -48840,9 +48842,92 @@ console.log(result);  // Output: 15
 
 
 
+<li data-id="q_call_api_without_useeffect" id="prisma_qlist" class="yellow"><span class="faq-question232">
+  -----------------------------------------------------------------------
+</span><div class="answer"></div></li>
+<li data-id="q_call_api_without_useeffect" class="yellow"><span class="faq-question234234">
+  ------------------------------ Prisma ORM ------------------------------------
+</span><div class="answer"></div></li>
+
+<li data-id="q1" class="zyellow">
+<span class="faq-question">
+Prisma ORM Important Keywords</span>
+<div class="answer">
 
 
 
+<div class="box">
+  <div class="keyword">Prisma ORM Important Keywords</div>
+  <div class="desc">
+    Important Function List
+  </div>
+
+<pre>
+
+const user  = await prisma.user.findFirst({  where: { age: 20}});
+const user  = await prisma.user.findUnique({  where: {  id: 1  }  });
+const users = await prisma.user.findMany({    where: {  age: {  gt: 18  }  }});
+const users = await prisma.user.findMany({    select: {  name: true,  email: true  }});
+const users = await prisma.user.findMany({    include: {  posts: true  }});
+const users = await prisma.user.findMany({    orderBy: {  age: "desc"  }});
+
+const users = await prisma.user.findMany({    skip: 10  });
+const users = await prisma.user.findMany({    take: 5  });
+const total = await prisma.user.count();
+const users = await prisma.user.groupBy({     by: ["city"]  });
+const users = await prisma.user.aggregate({   _avg: {  age: true  }  });
+
+
+
+await prisma.user.create({      data: { name: "Amit",   email: "amit@gmail.com"  }});
+await prisma.user.createMany({  data: [ { name: "A" },  { name: "B" }  ]});
+await prisma.post.create({  data: {  title: "Hello",  user: {  connect: {  id: 1  }}}});
+
+
+await prisma.user.update({      where: {  id: 1   },    data: {   name: "New Name" }  });  
+await prisma.user.updateMany({  where: {  age: 18 },    data: {   active: true  }  });
+await prisma.user.upsert({  where: { email: "a@gmail.com" },  update: { name: "New" },  create: {  name: "New",  email: "a@gmail.com"  }  });
+
+//Remove relation
+await prisma.post.update({  where: { id: 1 },  data: {  user: {  disconnect: true  }}});
+
+
+await prisma.user.delete({      where: {  id: 1  }  });
+await prisma.user.deleteMany({  where: {  active: false  }});
+
+
+where: {  AND:    [  { age: { gt: 18 } },  { active: true }]}
+where: {  OR:     [  { city: "Kolkata" },  { city: "Delhi" }]}
+where: {  NOT:    {    active: false }}
+where: {  name:   {    contains: "demo"  }}
+where: {  name:   {    startsWith: "A"  }}
+where: {  email:  {    endsWith: "@gmail.com"  }}
+where: {  age:    {    gt: 18,  lt: 60  }}
+where: {  id:     {    in: [1,2,3]  }}
+
+
+model User {
+  id Int @id @default(autoincrement())
+  posts Post[]
+}
+
+// belongsTo Relation
+model Post {
+  id Int @id @default(autoincrement())
+  userId Int
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+await prisma.$transaction([  prisma.user.create({  data: { name: "A" }  }),  prisma.post.create({  data: { title: "Hello" }  })]);
+await prisma.user.findMany({  skip: 0,  take: 10  });
+
+
+</pre>
+</div>
+
+
+</div></li>
 
 <li data-id="q_call_api_without_useeffect" id="mongodb_qlist" class="yellow"><span class="faq-question232">
   -----------------------------------------------------------------------
