@@ -48859,27 +48859,83 @@ console.log(result);  // Output: 15
   </div>
 <pre>
 
-const user  = await prisma.user.findFirst({  where: { age: 20}});
-const user  = await prisma.user.findUnique({  where: {  id: 1  }  });
-const users = await prisma.user.findMany({    where: {  age: {  gt: 18  }  }});
-const users = await prisma.user.findMany({    select: {  name: true,  email: true  }});
-const users = await prisma.user.findMany({    include: {  posts: true  }});
-const users = await prisma.user.findMany({    orderBy: {  age: "desc"  }});
+
+npm install prisma @prisma/client
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+
+const users = await prisma.user.findMany({    select:   {  name: true,  email: true  }});
+const users = await prisma.user.findMany({    include:  {  posts: true  }});
+const users = await prisma.user.findMany({    orderBy:  {  age: "desc"  }});
+const users = await prisma.user.findMany({    orderBy:  {  createdAt: "desc",  },  });
+const users = await prisma.user.findMany({    orderBy: [{ age: "desc" },  { createdAt: "desc" }  ]  });
+
 
 # skip + take
+const users = await prisma.user.findMany({    skip: 10  });
+const users = await prisma.user.findMany({    take: 5  });
 const users = await prisma.user.findMany({    skip: 10,  take: 5,});
-
 # cursor pagination
 const users = await prisma.user.findMany({    take: 5,  cursor: {  id: 10,  }});
 
 
+const users = await prisma.user.findMany({    where: {  id: {  in: [1, 2, 3],  },  },  });
+const users = await prisma.user.findMany({    where: {  OR: [  { name: "John" },  { age: 25 },  ],  },  });
+const users = await prisma.user.findMany({    include: {    posts: true,  },});
 
-const users = await prisma.user.findMany({    skip: 10  });
-const users = await prisma.user.findMany({    take: 5  });
+
+const users = await prisma.user.findMany({    where:    {  age: {  gt: 18  }  }});
+const user  = await prisma.user.findFirst({   where:    {  age: 20}});
+const user  = await prisma.user.findUnique({  where:    {  id: 1  }  });
+
+
+# some
+Users having some published posts.
+await prisma.user.findMany({  where: {  posts: {  some: {  published: true,  },  },  },  });
+
+# every
+await prisma.user.findMany({  where: {  posts: {  every:  {  published: true,  },  },  },  });
+await prisma.user.findMany({  where: {  posts: {  none:   {  published: true,  },  },  },  });
+
+# Transactions
+await prisma.$transaction([
+  prisma.user.create({  data: {  name: "A",  email: "a@gmail.com",  },  }),
+  prisma.user.create({  data: {  name: "B",  email: "b@gmail.com",  },  }),
+]);
+
+# Raw SQL
+await prisma.$queryRaw`  SELECT * FROM "User" `;
+# Used For 
+# SELECT, RETURNING, fetching rows, custom joins, aggregate queries
+
+# executeRaw
+await prisma.$executeRaw`  DELETE FROM "User" `;
+#Used for
+# DELETE, UPDATE, INSERT, ALTER, CREATE TABLE, DROP, 
+
+
+# Nested Create
+await prisma.user.create({  data: {  name: "John",    posts: {  create: [{ title: "Post 1" }] },  }});
+await prisma.post.create({  data: {  title: "Hello",  user: {  connect: {  id: 1,  },  },  },});
+await prisma.post.update({  where: {  id: 1,  },  data: {  user: {  disconnect: true,  },  },  });
+
+
+# count()
+const total = await prisma.user.count();
+
+
+await prisma.user.aggregate({  _avg: {  age: true,  },  _max: {  age: true,  },  });
+await prisma.user.groupBy({  by: ["country"],  _count: {  country: true,  },});
+
+
+# connectOrCreate
+await prisma.post.create({  data: {  title: "Hello",  user: {  connectOrCreate: {  where: {  email: "john@gmail.com",  },  create: {  email: "john@gmail.com",  name: "John",  },  },  },  },  });
+
+
 const total = await prisma.user.count();
 const users = await prisma.user.groupBy({     by: ["city"]  });
 const users = await prisma.user.aggregate({   _avg: {  age: true  }  });
-
 
 
 await prisma.user.create({      data: { name: "Amit",   email: "amit@gmail.com"  }});
@@ -48890,6 +48946,7 @@ await prisma.post.create({  data: {  title: "Hello",  user: {  connect: {  id: 1
 await prisma.user.update({      where: {  id: 1   },    data: {   name: "New Name" }  });  
 await prisma.user.updateMany({  where: {  age: 18 },    data: {   active: true  }  });
 await prisma.user.upsert({  where: { email: "a@gmail.com" },  update: { name: "New" },  create: {  name: "New",  email: "a@gmail.com"  }  });
+
 
 //Remove relation
 await prisma.post.update({  where: { id: 1 },  data: {  user: {  disconnect: true  }}});
@@ -48926,17 +48983,10 @@ model Post {
 await prisma.$transaction([  prisma.user.create({  data: { name: "A" }  }),  prisma.post.create({  data: { title: "Hello" }  })]);
 await prisma.user.findMany({  skip: 0,  take: 10  });
 
-
 </pre>
 </div>
 
-
 </div></li>
-
-
-
-
-
 
 <li data-id="q1" class="zyellow">
   <span class="faq-question">Prisma ORM Important Keywords-02</span>
@@ -48949,10 +48999,6 @@ await prisma.user.findMany({  skip: 0,  take: 10  });
 
 # Prisma ORM Important Keywords / Methods Cheat Sheet
 
-
-npm install prisma @prisma/client
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
 # Basic Query Methods
 | Keyword          | Purpose               |
@@ -49113,50 +49159,7 @@ model Post {
 }
 
 
-await prisma.user.findMany({  where: {  id: {  in: [1, 2, 3],  },  },  });
-await prisma.user.findMany({  where: {  OR: [  { name: "John" },  { age: 25 },  ],  },  });
 
-# include
-await prisma.user.findMany({  include: {    posts: true,  },});
-
-# Nested Create
-await prisma.user.create({  data: {  name: "John",    posts: {  create: [{ title: "Post 1" }] },  }});
-await prisma.post.create({  data: {  title: "Hello",  user: {  connect: {  id: 1,  },  },  },});
-await prisma.post.update({  where: {  id: 1,  },  data: {  user: {  disconnect: true,  },  },  });
-
-
-# count()
-const total = await prisma.user.count();
-
-await prisma.user.aggregate({  _avg: {  age: true,  },  _max: {  age: true,  },  });
-await prisma.user.groupBy({  by: ["country"],  _count: {  country: true,  },});
-
-# connectOrCreate
-await prisma.post.create({  data: {  title: "Hello",  user: {  connectOrCreate: {  where: {  email: "john@gmail.com",  },  create: {  email: "john@gmail.com",  name: "John",  },  },  },  },  });
-
-
-# some
-Users having some published posts.
-await prisma.user.findMany({  where: {  posts: {  some: {  published: true,  },  },  },  });
-
-# every
-await prisma.user.findMany({  where: {  posts: {  every:  {  published: true,  },  },  },  });
-await prisma.user.findMany({  where: {  posts: {  none:   {  published: true,  },  },  },  });
-
-# Transactions
-await prisma.$transaction([
-  prisma.user.create({  data: {  name: "A",  email: "a@gmail.com",  },  }),
-  prisma.user.create({  data: {  name: "B",  email: "b@gmail.com",  },  }),
-]);
-
-# Raw SQL
-await prisma.$queryRaw`  SELECT * FROM "User" `;
-
-# executeRaw
-await prisma.$executeRaw`  DELETE FROM "User" `;
-
-# orderBy
-await prisma.user.findMany({  orderBy: {  createdAt: "desc",  },  });
 
       </pre>
     </div>
