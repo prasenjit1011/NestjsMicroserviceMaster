@@ -41,7 +41,7 @@
       <table border="1" cellpadding="5" class="anchor">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">
+            <td style="vertical-align: top;" width="25%">
               <ol>
                 <li><a href="#nodejs_qlist">Nodejs</a></li>
                 <li><a href="#coding_qlist">Coding</a></li>
@@ -61,7 +61,7 @@
                 <li><a href="https://onecompiler.com/react/44ejbghbm" target="_blank">Coding</a></li>
               </ol>
             </td>
-            <td style="vertical-align: top;">
+            <td style="vertical-align: top;" width="25%">
               <ol>
                 <li><a href="#reacthook_qlist">React Hook</a></li>
                 <li><a href="#reactjs_qlist">Reactjs Q1</a></li>
@@ -78,7 +78,7 @@
                 <li><a href="https://nextjs.org/" target="_blank">NextJS Doc</a></li>
               </ol>
             </td>
-            <td style="vertical-align: top;">
+            <td style="vertical-align: top;" width="25%">
               <ol>
                 <li><a href="#prisma_qlist">Prisma ORM</a></li>
                 <li><a href="#mongodb_qlist">MongoDB</a></li>
@@ -95,7 +95,7 @@
                 <li><a href="#jest_qlist">Jest</a></li>
                 </ol>
             </td>
-            <td style="vertical-align: top;">
+            <td style="vertical-align: top;" width="25%">
               <ol>
                 <li><a href="#awslambda_qlist">AWS Lambda</a></li>
                 <li><a href="#awscognito">AWS Cognito</a></li>
@@ -2066,231 +2066,6 @@ function App() {
   
   
 </div></li>
-
-
-<li data-id="q122"><span class="faq-question green">
-  MongoDB ShortsCut
-  </span>
-  <div class="answer">
-  
-<pre>
-  User.create({ name: "Prasenjit", age: 30 });
-  User.insertMany([{ name: "A", age: 25 }, { name: "B", age: 28 }]);
-
-  User.find();
-  
-  User.find().sort({ age: -1 });
-  User.find().limit(10);
-  User.find().skip(10).limit(10);
-  
-  User.find({ age: { $gt: 25 } });
-  User.find({}, 'name age'); (select fields)
-  User.find({}, { password: 0 }); (exclude fields)
-
-  User.findById("id");
-</pre>
-
-<pre>
-  User.updateOne({ name: "A" }, { $set: { age: 35 } });
-  User.updateMany({ age: { $lt: 30 } }, { $inc: { age: 1 } });
-  User.findByIdAndUpdate(id, { $set: { name: "Updated" } }, { new: true });
-
-  <strong>Upsert</strong>
-  User.updateOne({ email: "a@example.com" }, { $set: { name: "Upserted User" } }, { upsert: true });
-</pre>
-
-<pre>
-  User.deleteOne({ name: "A" });
-  User.deleteMany({ age: { $gt: 40 } });
-  User.findByIdAndDelete(id);
-</pre>
-
-<pre>
-  <strong>Utility Functions</strong>
-  User.exists({ email: "a@example.com" });
-  User.distinct("age");
-  User.estimatedDocumentCount();
-
-  User.countDocuments({ age: { $gt: 25 } });
- 
-  <strong>Regex Search</strong>
-  User.find({ name: { $regex: "pras", $options: "i" } });
-
-  <strong>Indexing</strong>
-  userSchema.index({ email: 1 }, { unique: true });
-  User.collection.createIndex({ name: 1 });
-</pre>
-<hr />
-<pre>
-  <strong>Aggregation Operators</strong>      
-      User.aggregate([
-        { $match: { age: { $gte: 25 } } },
-        { $group: { _id: "$age", total: { $sum: 1 } } },
-        { $sort: { _id: 1 } }
-      ]);
-
-      db.orders.aggregate([
-        { $match: { status: "completed" } },
-        { $group: { _id: "$customerId", total: { $sum: "$amount" } } },
-        { $sort: { total: -1 } }
-      ]);
-</pre>
-
-<pre>
-  <strong>$lookup (Join)</strong>
-      User.aggregate([
-        {
-          $lookup: {
-            from: "orders",
-            localField: "_id",
-            foreignField: "userId",
-            as: "userOrders"
-          }
-        }
-      ]);
-</pre>
-
-<pre>
-  const data = 
-    [{"_id": 1,   "customer": "Alice",  "item": "Laptop",   "price": 1000,  "quantity": 2},
-    {"_id": 2,    "customer": "Bob",    "item": "Keyboard", "price": 50,    "quantity": 1},
-    {"_id": 3,    "customer": "Alice",  "item": "Mouse",    "price": 25,    "quantity": 2}]
-  
-
-    const result =
-      db.orders.aggregate([
-      {
-        $group: {
-          _id: "$customer",
-          totalQuantity:  { $sum: "$quantity" },
-          totalSpent:     { $sum: { $multiply: ["$price", "$quantity"] } }
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          customer: "$_id",
-          totalQuantity: 1,
-          totalSpent: 1
-        }
-      }
-    ])
-</pre>
-
-
-  
-<pre>
-  <strong>Transactions</strong>
-    const session = await mongoose.startSession();<br>
-    try {
-      session.startTransaction();
-      await User.create([{ name: "Tx User" }], { session });
-      await Order.create([{ total: 100 }], { session });
-      await session.commitTransaction();
-    } 
-    catch (err) {
-      await session.abortTransaction();
-    } 
-    finally {
-      session.endSession();
-    }
-</pre>
-
-
-<pre>
-  const mongoose = require('mongoose');
-  const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
-    age: { type: Number, required: true },
-  }, { timestamps: true });
-  
-  module.exports = mongoose.model('User', userSchema);
-</pre>
-
-<pre>
-  const user = await User.create(req.body);
-  const users = await User.find();
-  const user = await User.findById(req.params.id);
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  const user = await User.findByIdAndDelete(req.params.id);
-</pre>
-
-<pre>
-  await User.updateOne(
-    { email: "prasenjit@example.com" },
-    { $set: { name: "Prasenjit", age: 30 } },
-    { upsert: true }
-  );
-
-  const user = await User.findOneAndUpdate(
-    { email: "prasenjit@example.com" },     // filter
-    { name: "Prasenjit", age: 30 },         // update
-    { new: true, upsert: true }             // options
-  );
-    
-
-  db.orders.aggregate([
-  {
-      $lookup: {
-        from: "products",        // foreign collection
-        localField: "product_id",// field in orders
-        foreignField: "_id",     // field in products
-        as: "productDetails"     // result array field
-      }
-    }
-  ]);
-
-  const result = await Order.aggregate([
-  {
-      $lookup: {
-        from: "products",
-        localField: "product_id",
-        foreignField: "_id",
-        as: "productDetails"
-      }
-    },
-    { $unwind: "$productDetails" }
-  ]);
-
-  db.orders.aggregate([
-    {
-      $lookup: {
-        from: "products",
-        localField: "product_id",
-        foreignField: "_id",
-        as: "productDetails"
-      }
-    },
-    { $unwind: "$productDetails" },
-    {
-      $match: { "productDetails.price": { $gt: 500 } }
-    },
-    {
-      $project: {
-        quantity: 1,
-        productName: "$productDetails.name",
-        price: "$productDetails.price"
-      }
-    }
-  ]);
-
-
-</pre>
-
-
-<pre>
-  mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
-        console.log('MongoDB connected');
-        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-    }).catch(err => console.error(err));
-</pre>
-</div>
-</li>
-
 
 
 
@@ -49203,8 +48978,12 @@ Prisma Studio opens a GUI table viewer in browser.
     Important Function List
   </div>
 <pre>
-
+npm install prisma --save-dev
 npm install prisma @prisma/client
+npx prisma init
+npx prisma db pull
+npx prisma generate
+
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -49231,6 +49010,10 @@ const users = await prisma.user.findMany({    where: {  age: {  gt: 18  }  }});
 
 const user  = await prisma.user.findFirst({   where: {  age: 20 }});
 const user  = await prisma.user.findUnique({  where: {  id: 1   }  });
+
+
+await prisma.$transaction([  prisma.user.create({  data: { name: "A" }  }),  prisma.post.create({  data: { title: "Hello" }  })]);
+await prisma.user.findMany({  skip: 0,  take: 10  });
 
 
 # some
@@ -49273,7 +49056,11 @@ await prisma.user.groupBy({  by: ["country"],  _count: {  country: true,  },});
 
 
 # connectOrCreate
-await prisma.post.create({  data: {  title: "Hello",  user: {  connectOrCreate: {  where: {  email: "john@gmail.com",  },  create: {  email: "john@gmail.com",  name: "John",  },  },  },  },  });
+await prisma.post.create({  data: {  
+          title: "Hello",  
+            user: {  connectOrCreate: {  
+              where: {  email: "john@gmail.com",  },  
+                create: {  email: "john@gmail.com",  name: "John",  },  },  },  },  });
 
 
 const total = await prisma.user.count();
@@ -49288,7 +49075,10 @@ await prisma.post.create({  data: {  title: "Hello",  user: {  connect: {  id: 1
 
 await prisma.user.update({      where: {  id: 1   },    data: {   name: "New Name" }  });  
 await prisma.user.updateMany({  where: {  age: 18 },    data: {   active: true  }  });
-await prisma.user.upsert({  where: { email: "a@gmail.com" },  update: { name: "New" },  create: {  name: "New",  email: "a@gmail.com"  }  });
+await prisma.user.upsert({  
+        where: { email: "a@gmail.com" },  
+        update: { name: "New" },  
+        create: {  name: "New",  email: "a@gmail.com"  }  });
 
 
 //Remove relation
@@ -49322,9 +49112,6 @@ model Post {
 
   user User @relation(fields: [userId], references: [id])
 }
-
-await prisma.$transaction([  prisma.user.create({  data: { name: "A" }  }),  prisma.post.create({  data: { title: "Hello" }  })]);
-await prisma.user.findMany({  skip: 0,  take: 10  });
 
 </pre>
 </div>
@@ -49496,9 +49283,289 @@ $queryRaw()
   ------------------------------ MongoDB ------------------------------------
 </span><div class="answer"></div></li>
 
+
+
+<li data-id="q1" class="zyellow">
+  <span class="faq-question">MongoDB Important Keywords - 01</span>
+  <div class="answer">
+    <div class="box">
+      <div class="keyword">MongoDB Important Keywords - 01</div>
+      <div class="desc">Important Function List</div>
+      <pre>
+  User.create({ name: "Prasenjit", age: 30 });
+  User.insertMany([{ name: "A", age: 25 }, { name: "B", age: 28 }]);
+
+  User.find();
+  
+  User.find().sort({ age: -1 });
+  User.find().limit(10);
+  User.find().skip(10).limit(10);
+  
+  User.find({ age: { $gt: 25 } });
+  User.find({}, 'name age'); (select fields)
+  User.find({}, { password: 0 }); (exclude fields)
+
+  User.find(
+    {
+      $or: [{ dept: 5, isActive: true },{ designation: 'manager', authorType: 'senior' }],
+      age: {  $gt: 25    }
+    },
+    { password: 0 }
+  )
+  .sort({  age: -1    }).skip(10).limit(10);
+
+  User.findById("id");
+</pre>
+
+<pre>
+  User.updateOne({ name: "A" }, { $set: { age: 35 } });
+  User.updateMany({ age: { $lt: 30 } }, { $inc: { age: 1 } });
+  User.findByIdAndUpdate(id, { $set: { name: "Updated" } }, { new: true });
+
+  <strong>Upsert</strong>
+  User.updateOne({ email: "a@example.com" }, { $set: { name: "Upserted User" } }, { upsert: true });
+</pre>
+
+<pre>
+  User.deleteOne({ name: "A" });
+  User.deleteMany({ age: { $gt: 40 } });
+  User.findByIdAndDelete(id);
+</pre>
+
+<pre>
+  <strong>Utility Functions</strong>
+  User.exists({ email: "a@example.com" });
+  User.distinct("age");
+  User.estimatedDocumentCount();
+
+  User.countDocuments({ age: { $gt: 25 } });
+ 
+  <strong>Regex Search</strong>
+  User.find({ name: { $regex: "pras", $options: "i" } });
+
+  <strong>Indexing</strong>
+  userSchema.index({ email: 1 }, { unique: true });
+  User.collection.createIndex({ name: 1 });
+</pre>
+<hr />
+<pre>
+  <strong>Aggregation Operators</strong>      
+      User.aggregate([
+        { $match: { age: { $gte: 25 } } },
+        { $group: { _id: "$age", total: { $sum: 1 } } },
+        { $sort: { _id: 1 } }
+      ]);
+
+      db.orders.aggregate([
+        { $match: { status: "completed" } },
+        { $group: { _id: "$customerId", total: { $sum: "$amount" } } },
+        { $sort: { total: -1 } }
+      ]);
+</pre>
+
+<pre>
+  <strong>$lookup (Join)</strong>
+      User.aggregate([
+        {
+          $lookup: {
+            from: "orders",
+            localField: "_id",
+            foreignField: "userId",
+            as: "userOrders"
+          }
+        }
+      ]);
+</pre>
+
+<pre>
+  const data = 
+    [{"_id": 1,   "customer": "Alice",  "item": "Laptop",   "price": 1000,  "quantity": 2},
+    {"_id": 2,    "customer": "Bob",    "item": "Keyboard", "price": 50,    "quantity": 1},
+    {"_id": 3,    "customer": "Alice",  "item": "Mouse",    "price": 25,    "quantity": 2}]
+  
+
+    const result =
+      db.orders.aggregate([
+      {
+        $group: {
+          _id: "$customer",
+          totalQuantity:  { $sum: "$quantity" },
+          totalSpent:     { $sum: { $multiply: ["$price", "$quantity"] } }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          customer: "$_id",
+          totalQuantity: 1,
+          totalSpent: 1
+        }
+      }
+    ])
+</pre>
+
+
+  
+<pre>
+  <strong>Transactions</strong>
+    const session = await mongoose.startSession();<br>
+    try {
+      session.startTransaction();
+      await User.create([{ name: "Tx User" }], { session });
+      await Order.create([{ total: 100 }], { session });
+      await session.commitTransaction();
+    } 
+    catch (err) {
+      await session.abortTransaction();
+    } 
+    finally {
+      session.endSession();
+    }
+</pre>
+
+
+<pre>
+  const mongoose = require('mongoose');
+  const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
+    age: { type: Number, required: true },
+  }, { timestamps: true });
+  
+  module.exports = mongoose.model('User', userSchema);
+</pre>
+
+<pre>
+  const user = await User.create(req.body);
+  const users = await User.find();
+  const user = await User.findById(req.params.id);
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  const user = await User.findByIdAndDelete(req.params.id);
+</pre>
+
+<pre>
+  await User.updateOne(
+    { email: "prasenjit@example.com" },
+    { $set: { name: "Prasenjit", age: 30 } },
+    { upsert: true }
+  );
+
+  const user = await User.findOneAndUpdate(
+    { email: "prasenjit@example.com" },     // filter
+    { name: "Prasenjit", age: 30 },         // update
+    { new: true, upsert: true }             // options
+  );
+    
+
+  db.orders.aggregate([
+  {
+      $lookup: {
+        from: "products",        // foreign collection
+        localField: "product_id",// field in orders
+        foreignField: "_id",     // field in products
+        as: "productDetails"     // result array field
+      }
+    }
+  ]);
+
+  const result = await Order.aggregate([
+  {
+      $lookup: {
+        from: "products",
+        localField: "product_id",
+        foreignField: "_id",
+        as: "productDetails"
+      }
+    },
+    { $unwind: "$productDetails" }
+  ]);
+
+  db.orders.aggregate([
+    {
+      $lookup: {
+        from: "products",
+        localField: "product_id",
+        foreignField: "_id",
+        as: "productDetails"
+      }
+    },
+    { $unwind: "$productDetails" },
+    {
+      $match: { "productDetails.price": { $gt: 500 } }
+    },
+    {
+      $project: {
+        quantity: 1,
+        productName: "$productDetails.name",
+        price: "$productDetails.price"
+      }
+    }
+  ]);
+</pre>
+
+
+<pre>
+  mongoose.connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }).then(() => {
+        console.log('MongoDB connected');
+        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    }).catch(err => console.error(err));
+</pre>
+
+<pre>
+User.aggregate([
+  {
+    $match: {
+      age: { $gt: 25 },
+      salary: { $gte: 50000 },
+      isActive: true,
+
+      $or: [
+        { role: { $in: ['admin', 'manager'] } },
+        { city: 'Kolkata' }
+      ],
+
+      status: { $nin: ['blocked', 'deleted']},
+      $and:   [{
+          $or: [
+            { name:    { $regex: /^.Hello$/i }},
+            { company: { $regex: /^Demo.Data.*/i }}
+          ]
+        }]
+    }
+  },
+  {
+    $group: {
+      _id: {
+        department: '$department',
+        designation: '$designation'
+      },
+      totalEmployees: { $sum: 1 },
+      averageSalary:  { $avg: '$salary' },
+      maxSalary: { $max: '$salary' },
+      minSalary: { $min: '$salary' }
+    }
+  },
+
+  { $match: { totalEmployees: { $gte: 2 }}},
+  { $sort:  { totalEmployees: -1 }},
+  { $skip: 20 },
+  { $limit: 10 }
+]);
+</pre>
+</div>
+</li>
+
+
+
+
+
+
 <li data-id="q1" class="zyellow">
     <span class="faq-question">
-        MongoDB : Parent-Child Table
+        MongoDB : Parent-Child Table N+1
     </span>
     <div class="answer">
 <code><pre>
@@ -51002,228 +51069,7 @@ For **1–2 years experience interviews**, focus on:
     </div></li>
   
   
-<li data-id="q122" class="yellow"><span class="faq-question">
-  MongoDB ShortsCut
-  </span>
-  <div class="answer">
-  
-<pre>
-  User.create({ name: "Prasenjit", age: 30 });
-  User.insertMany([{ name: "A", age: 25 }, { name: "B", age: 28 }]);
 
-  User.find();
-  
-  User.find().sort({ age: -1 });
-  User.find().limit(10);
-  User.find().skip(10).limit(10);
-  
-  User.find({ age: { $gt: 25 } });
-  User.find({}, 'name age'); (select fields)
-  User.find({}, { password: 0 }); (exclude fields)
-
-  User.findById("id");
-</pre>
-
-<pre>
-  User.updateOne({ name: "A" }, { $set: { age: 35 } });
-  User.updateMany({ age: { $lt: 30 } }, { $inc: { age: 1 } });
-  User.findByIdAndUpdate(id, { $set: { name: "Updated" } }, { new: true });
-
-  <strong>Upsert</strong>
-  User.updateOne({ email: "a@example.com" }, { $set: { name: "Upserted User" } }, { upsert: true });
-</pre>
-
-<pre>
-  User.deleteOne({ name: "A" });
-  User.deleteMany({ age: { $gt: 40 } });
-  User.findByIdAndDelete(id);
-</pre>
-
-<pre>
-  <strong>Utility Functions</strong>
-  User.exists({ email: "a@example.com" });
-  User.distinct("age");
-  User.estimatedDocumentCount();
-
-  User.countDocuments({ age: { $gt: 25 } });
- 
-  <strong>Regex Search</strong>
-  User.find({ name: { $regex: "pras", $options: "i" } });
-
-  <strong>Indexing</strong>
-  userSchema.index({ email: 1 }, { unique: true });
-  User.collection.createIndex({ name: 1 });
-</pre>
-<hr />
-<pre>
-  <strong>Aggregation Operators</strong>      
-      User.aggregate([
-        { $match: { age: { $gte: 25 } } },
-        { $group: { _id: "$age", total: { $sum: 1 } } },
-        { $sort: { _id: 1 } }
-      ]);
-
-      db.orders.aggregate([
-        { $match: { status: "completed" } },
-        { $group: { _id: "$customerId", total: { $sum: "$amount" } } },
-        { $sort: { total: -1 } }
-      ]);
-</pre>
-
-<pre>
-  <strong>$lookup (Join)</strong>
-      User.aggregate([
-        {
-          $lookup: {
-            from: "orders",
-            localField: "_id",
-            foreignField: "userId",
-            as: "userOrders"
-          }
-        }
-      ]);
-</pre>
-
-<pre>
-  const data = 
-    [{"_id": 1,   "customer": "Alice",  "item": "Laptop",   "price": 1000,  "quantity": 2},
-    {"_id": 2,    "customer": "Bob",    "item": "Keyboard", "price": 50,    "quantity": 1},
-    {"_id": 3,    "customer": "Alice",  "item": "Mouse",    "price": 25,    "quantity": 2}]
-  
-
-    const result =
-      db.orders.aggregate([
-      {
-        $group: {
-          _id: "$customer",
-          totalQuantity:  { $sum: "$quantity" },
-          totalSpent:     { $sum: { $multiply: ["$price", "$quantity"] } }
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          customer: "$_id",
-          totalQuantity: 1,
-          totalSpent: 1
-        }
-      }
-    ])
-</pre>
-
-
-  
-<pre>
-  <strong>Transactions</strong>
-    const session = await mongoose.startSession();<br>
-    try {
-      session.startTransaction();
-      await User.create([{ name: "Tx User" }], { session });
-      await Order.create([{ total: 100 }], { session });
-      await session.commitTransaction();
-    } 
-    catch (err) {
-      await session.abortTransaction();
-    } 
-    finally {
-      session.endSession();
-    }
-</pre>
-
-
-<pre>
-  const mongoose = require('mongoose');
-  const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
-    age: { type: Number, required: true },
-  }, { timestamps: true });
-  
-  module.exports = mongoose.model('User', userSchema);
-</pre>
-
-<pre>
-  const user = await User.create(req.body);
-  const users = await User.find();
-  const user = await User.findById(req.params.id);
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  const user = await User.findByIdAndDelete(req.params.id);
-</pre>
-
-<pre>
-  await User.updateOne(
-    { email: "prasenjit@example.com" },
-    { $set: { name: "Prasenjit", age: 30 } },
-    { upsert: true }
-  );
-
-  const user = await User.findOneAndUpdate(
-    { email: "prasenjit@example.com" },     // filter
-    { name: "Prasenjit", age: 30 },         // update
-    { new: true, upsert: true }             // options
-  );
-    
-
-  db.orders.aggregate([
-  {
-      $lookup: {
-        from: "products",        // foreign collection
-        localField: "product_id",// field in orders
-        foreignField: "_id",     // field in products
-        as: "productDetails"     // result array field
-      }
-    }
-  ]);
-
-  const result = await Order.aggregate([
-  {
-      $lookup: {
-        from: "products",
-        localField: "product_id",
-        foreignField: "_id",
-        as: "productDetails"
-      }
-    },
-    { $unwind: "$productDetails" }
-  ]);
-
-  db.orders.aggregate([
-    {
-      $lookup: {
-        from: "products",
-        localField: "product_id",
-        foreignField: "_id",
-        as: "productDetails"
-      }
-    },
-    { $unwind: "$productDetails" },
-    {
-      $match: { "productDetails.price": { $gt: 500 } }
-    },
-    {
-      $project: {
-        quantity: 1,
-        productName: "$productDetails.name",
-        price: "$productDetails.price"
-      }
-    }
-  ]);
-
-
-</pre>
-
-
-<pre>
-  mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
-        console.log('MongoDB connected');
-        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-    }).catch(err => console.error(err));
-</pre>
-</div>
-</li>
 
 
   

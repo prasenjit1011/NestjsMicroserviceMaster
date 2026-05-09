@@ -1,0 +1,64 @@
+
+
+
+User.aggregate([{
+    $match: {
+        age:    {   $gt: 25    },
+        salary: {   $gte: 50000    },
+        isActive:   true,
+        $or: [
+            {role: { $in: ['admin', 'manager']}},
+            {city: 'Kolkata'}
+        ],
+        status: {
+            $nin: ['blocked', 'deleted']
+        },
+        $and: [{
+            $or: [
+                {   name:    {$regex: /^.Hello$/i }},            
+                {   company: {$regex: /^Demo.Data.*/i}}
+            ]
+        }]
+    }
+},
+  {
+    $group: {
+      _id: {
+        department: '$department',
+        designation: '$designation'
+      },
+      totalEmployees: {
+        $sum: 1
+      },
+      averageSalary: {
+        $avg: '$salary'
+      },
+      maxSalary: {
+        $max: '$salary'
+      },
+      minSalary: {
+        $min: '$salary'
+      }
+    }
+  },
+  {
+    $match: {
+      totalEmployees: {
+        $gte: 2
+      }
+    }
+  },
+  {
+    $sort: {
+      totalEmployees: -1
+    }
+  },
+  {
+    $skip: 20
+  },
+  {
+    $limit: 10
+  }
+
+]);
+
