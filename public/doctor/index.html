@@ -48910,112 +48910,65 @@ model Post {
   isActive    <span class="type">Boolean</span>   <span class="keyword">@default</span>(true)
   profileData <span class="type">Json</span>?
   createdAt   <span class="type">DateTime</span>  <span class="keyword">@default</span>(now())
-
   <span class="comment">// One to One</span>
   profile     Profile?
-
   <span class="comment">// One to Many</span>
   posts       Post[]
-
   <span class="comment">// Many to Many</span>
   roles       UserRole[]
-
   <span class="keyword">@@unique</span>([email, username])
 }
 
 <span class="keyword">model</span> Profile {
-
   id       <span class="type">Int</span>     <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
-
   bio      <span class="type">String</span>  <span class="keyword">@db.VarChar</span>(200)
-
   userId   <span class="type">Int</span>     <span class="keyword">@unique</span>
-
-  user     User     <span class="keyword">@relation</span>(
-                        fields: [userId],
-                        references: [id]
-                     )
+  user     User     <span class="keyword">@relation</span>(  fields: [userId],  references: [id]  )
 }
 
 <span class="keyword">model</span> Post {
-
   id          <span class="type">Int</span>       <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
-
   title       <span class="type">String</span>    <span class="keyword">@db.VarChar</span>(100)
-
   content     <span class="type">String</span>?
-
   published   <span class="type">Boolean</span>   <span class="keyword">@default</span>(false)
-
   meta        <span class="type">Json</span>?
-
   createdAt   <span class="type">DateTime</span>  <span class="keyword">@default</span>(now())
-
   userId      <span class="type">Int</span>
-
-  author      User      <span class="keyword">@relation</span>(
-                            fields: [userId],
-                            references: [id]
-                         )
-
+  author      User      <span class="keyword">@relation</span>(  fields: [userId],  references: [id]  )
   categories  PostCategory[]
-
   <span class="keyword">@@index</span>([title])
 }
 
 <span class="keyword">model</span> Category {
-
   id      <span class="type">Int</span>      <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
-
   name    <span class="type">String</span>   <span class="keyword">@unique</span>
 
-  posts   PostCategory[]
+  parentId  <span class="type">Int?</span>
+  parent    Category?  <span class="keyword">@relation(</span>  "CategoryToCategory",  fields: [parentId],  references: [id]  )
+
+  children  Category[] <span class="keyword">@relation("CategoryToCategory")</code>
+  posts     PostCategory[]
 }
 
 <span class="keyword">model</span> PostCategory {
-
   postId      <span class="type">Int</span>
-
   categoryId  <span class="type">Int</span>
-
-  post        Post      <span class="keyword">@relation</span>(
-                            fields: [postId],
-                            references: [id]
-                         )
-
-  category    Category  <span class="keyword">@relation</span>(
-                            fields: [categoryId],
-                            references: [id]
-                         )
-
+  post        Post      <span class="keyword">@relation</span>(  fields: [postId],      references: [id]  )
+  category    Category  <span class="keyword">@relation</span>(  fields: [categoryId],  references: [id]  )
   <span class="keyword">@@id</span>([postId, categoryId])
 }
 
 <span class="keyword">model</span> Role {
-
   id      <span class="type">Int</span>      <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
-
   name    <span class="type">String</span>   <span class="keyword">@unique</span>
-
   users   UserRole[]
 }
 
 <span class="keyword">model</span> UserRole {
-
   userId  <span class="type">Int</span>
-
   roleId  <span class="type">Int</span>
-
-  user    User  <span class="keyword">@relation</span>(
-                    fields: [userId],
-                    references: [id]
-                 )
-
-  role    Role  <span class="keyword">@relation</span>(
-                    fields: [roleId],
-                    references: [id]
-                 )
-
+  user    User  <span class="keyword">@relation</span>(  fields: [userId],  references: [id]  )
+  role    Role  <span class="keyword">@relation</span>(  fields: [roleId],  references: [id]  )
   <span class="keyword">@@id</span>([userId, roleId])
 }
 </code></pre>
@@ -49260,8 +49213,9 @@ const users = await prisma.user.findMany({    select:   {  name: true,  email: t
 const users = await prisma.user.findMany({    include:  {  posts: true  }});
 const users = await prisma.user.findMany({    orderBy:  {  age: "desc"  }});
 const users = await prisma.user.findMany({    orderBy:  {  createdAt: "desc",  },  });
-const users = await prisma.user.findMany({    orderBy: [{ age: "desc" },  { createdAt: "desc" }  ]  });
-
+const users = await prisma.user.findMany({    orderBy: [{  age: "desc" },  { createdAt: "desc" }  ]  });
+// User & Manager
+const users = await prisma.user.findMany({    include:  {  children: true  }  });
 
 # skip + take
 const users = await prisma.user.findMany({    skip: 10  });
