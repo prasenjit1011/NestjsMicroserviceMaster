@@ -48850,18 +48850,13 @@ console.log(result);  // Output: 15
 </span><div class="answer"></div></li>
 
 <li data-id="q1" class="zyellow">
-<span class="faq-question">
-Prisma ORM Important Keywords</span>
+<span class="faq-question">Prisma ORM Important Keywords-01</span>
 <div class="answer">
-
-
-
 <div class="box">
-  <div class="keyword">Prisma ORM Important Keywords</div>
+  <div class="keyword">Prisma ORM Important Keywords - 01</div>
   <div class="desc">
     Important Function List
   </div>
-
 <pre>
 
 const user  = await prisma.user.findFirst({  where: { age: 20}});
@@ -48870,6 +48865,14 @@ const users = await prisma.user.findMany({    where: {  age: {  gt: 18  }  }});
 const users = await prisma.user.findMany({    select: {  name: true,  email: true  }});
 const users = await prisma.user.findMany({    include: {  posts: true  }});
 const users = await prisma.user.findMany({    orderBy: {  age: "desc"  }});
+
+# skip + take
+const users = await prisma.user.findMany({    skip: 10,  take: 5,});
+
+# cursor pagination
+const users = await prisma.user.findMany({    take: 5,  cursor: {  id: 10,  }});
+
+
 
 const users = await prisma.user.findMany({    skip: 10  });
 const users = await prisma.user.findMany({    take: 5  });
@@ -48903,7 +48906,8 @@ where: {  name:   {    contains: "demo"  }}
 where: {  name:   {    startsWith: "A"  }}
 where: {  email:  {    endsWith: "@gmail.com"  }}
 where: {  age:    {    gt: 18,  lt: 60  }}
-where: {  id:     {    in: [1,2,3]  }}
+where: {  id:     {    in: [1, 2, 3]  }}
+where: {  id:     {    notIn: [1, 2, 3]  }}
 
 
 model User {
@@ -48928,6 +48932,245 @@ await prisma.user.findMany({  skip: 0,  take: 10  });
 
 
 </div></li>
+
+
+
+
+
+
+<li data-id="q1" class="zyellow">
+  <span class="faq-question">Prisma ORM Important Keywords-02</span>
+  <div class="answer">
+    <div class="box">
+      <div class="keyword">Prisma ORM Important Keywords - 02</div>
+      <div class="desc">Important Function List</div>
+      <pre>
+
+
+# Prisma ORM Important Keywords / Methods Cheat Sheet
+
+
+npm install prisma @prisma/client
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+# Basic Query Methods
+| Keyword          | Purpose               |
+| ---------------- | --------------------- |
+| `findMany()`     | Get multiple rows     |
+| `findUnique()`   | Get single unique row |
+| `findFirst()`    | First matching row    |
+| `create()`       | Insert row            |
+| `createMany()`   | Insert multiple       |
+| `update()`       | Update single         |
+| `updateMany()`   | Update many           |
+| `delete()`       | Delete single         |
+| `deleteMany()`   | Delete many           |
+| `upsert()`       | Update or insert      |
+| `count()`        | Count rows            |
+| `aggregate()`    | AVG/SUM/MIN/MAX       |
+| `groupBy()`      | SQL GROUP BY          |
+| `$transaction()` | Transaction           |
+| `$queryRaw()`    | Raw SQL               |
+
+
+# Filtering Keywords
+
+| Keyword      | Meaning        |
+| ------------ | -------------- |
+| `where`      | Filter         |
+| `AND`        | All conditions |
+| `OR`         | Any condition  |
+| `NOT`        | Opposite       |
+| `equals`     | Equal          |
+| `contains`   | LIKE           |
+| `startsWith` | Starts         |
+| `endsWith`   | Ends           |
+| `in`         | IN array       |
+| `notIn`      | NOT IN         |
+| `gt`         | Greater        |
+| `gte`        | Greater equal  |
+| `lt`         | Less           |
+| `lte`        | Less equal     |
+
+
+# Sorting / Pagination
+
+| Keyword   | Purpose           |
+| --------- | ----------------- |
+| `orderBy` | Sorting           |
+| `skip`    | Offset            |
+| `take`    | Limit             |
+| `cursor`  | Cursor pagination |
+
+
+
+# Select / Include
+| Keyword   | Purpose         |
+| --------- | --------------- |
+| `select`  | Specific fields |
+| `include` | Relations       |
+
+
+Equivalent meaning:
+| Sequelize | Prisma              |
+| --------- | ------------------- |
+| hasMany   | posts Post[]        |
+| belongsTo | user User @relation |
+
+
+# Aggregation
+| Keyword  | Purpose |
+| -------- | ------- |
+| `_count` | Count   |
+| `_avg`   | Average |
+| `_sum`   | Sum     |
+| `_min`   | Minimum |
+| `_max`   | Maximum |
+
+
+# Relation Filters
+| Keyword | Meaning      |
+| ------- | ------------ |
+| `some`  | At least one |
+| `every` | All          |
+| `none`  | No match     |
+
+
+# Useful Special Keywords
+| Keyword           | Purpose              |
+| ----------------- | -------------------- |
+| `connect`         | Link relation        |
+| `disconnect`      | Remove relation      |
+| `set`             | Replace relation     |
+| `create`          | Nested insert        |
+| `connectOrCreate` | Create if not exists |
+| `include`         | Load relations       |
+| `select`          | Pick fields          |
+
+
+# Interview Keywords
+| Important Term         | Meaning                      |
+| ---------------------- | ---------------------------- |
+| Prisma Client          | Generated DB client          |
+| Prisma Schema          | DB schema                    |
+| Migration              | DB versioning                |
+| Type Safety            | Compile-time safety          |
+| Relation Query         | Nested query                 |
+| N+1 Problem            | Multiple DB calls            |
+| Connection Pooling     | Reuse DB connections         |
+| Singleton PrismaClient | Prevent too many connections |
+
+
+# Most Common Real Production Methods
+findMany()
+findUnique()
+create()
+update()
+delete()
+upsert()
+
+where
+include
+select
+orderBy
+skip
+take
+
+_count
+groupBy
+
+connect
+disconnect
+
+$transaction()
+$queryRaw()
+
+
+      </pre>
+    </div>
+  </div>
+</li>
+
+<li data-id="q1" class="zyellow">
+  <span class="faq-question">Prisma ORM Important Keywords-03</span>
+  <div class="answer">
+    <div class="box">
+      <div class="keyword">Prisma ORM Important Keywords - 03</div>
+      <div class="desc">Important Function List</div>
+      <pre>
+
+# One-to-Many Relation
+model User {
+  id    Int    @id @default(autoincrement())
+  posts Post[]
+}
+
+model Post {
+  id      Int  @id @default(autoincrement())
+  userId  Int
+  user    User @relation(fields: [userId], references: [id])
+}
+
+
+await prisma.user.findMany({  where: {  id: {  in: [1, 2, 3],  },  },  });
+await prisma.user.findMany({  where: {  OR: [  { name: "John" },  { age: 25 },  ],  },  });
+
+# include
+await prisma.user.findMany({  include: {    posts: true,  },});
+
+# Nested Create
+await prisma.user.create({  data: {  name: "John",    posts: {  create: [{ title: "Post 1" }] },  }});
+await prisma.post.create({  data: {  title: "Hello",  user: {  connect: {  id: 1,  },  },  },});
+await prisma.post.update({  where: {  id: 1,  },  data: {  user: {  disconnect: true,  },  },  });
+
+
+# count()
+const total = await prisma.user.count();
+
+await prisma.user.aggregate({  _avg: {  age: true,  },  _max: {  age: true,  },  });
+await prisma.user.groupBy({  by: ["country"],  _count: {  country: true,  },});
+
+# connectOrCreate
+await prisma.post.create({  data: {  title: "Hello",  user: {  connectOrCreate: {  where: {  email: "john@gmail.com",  },  create: {  email: "john@gmail.com",  name: "John",  },  },  },  },  });
+
+
+# some
+Users having some published posts.
+await prisma.user.findMany({  where: {  posts: {  some: {  published: true,  },  },  },  });
+
+# every
+await prisma.user.findMany({  where: {  posts: {  every:  {  published: true,  },  },  },  });
+await prisma.user.findMany({  where: {  posts: {  none:   {  published: true,  },  },  },  });
+
+# Transactions
+await prisma.$transaction([
+  prisma.user.create({  data: {  name: "A",  email: "a@gmail.com",  },  }),
+  prisma.user.create({  data: {  name: "B",  email: "b@gmail.com",  },  }),
+]);
+
+# Raw SQL
+await prisma.$queryRaw`  SELECT * FROM "User" `;
+
+# executeRaw
+await prisma.$executeRaw`  DELETE FROM "User" `;
+
+# orderBy
+await prisma.user.findMany({  orderBy: {  createdAt: "desc",  },  });
+
+      </pre>
+    </div>
+  </div>
+</li>
+
+
+
+
+
+
+
+
+
 
 <li data-id="q_call_api_without_useeffect" id="mongodb_qlist" class="yellow"><span class="faq-question232">
   -----------------------------------------------------------------------
