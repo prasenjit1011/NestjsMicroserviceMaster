@@ -159,3 +159,65 @@ span.green {
       color:#facc15;
     }
 
+body{
+        font-family: Arial, sans-serif;
+        background:#0f172a;
+        color:#e2e8f0;
+        padding:30px;
+        line-height:1.7;
+    }
+
+    h1,h2,h3{
+        color:#38bdf8;
+    }
+
+    pre{
+        background:#111827;
+        padding:20px;
+        border-radius:10px;
+        overflow:auto;
+        border:1px solid #334155;
+    }
+
+    code{
+        font-size:15px;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:20px;
+        margin-bottom:40px;
+    }
+
+    th,td{
+        border:1px solid #334155;
+        padding:12px;
+        text-align:left;
+    }
+
+    th{
+        background:#1e293b;
+        color:#38bdf8;
+    }
+
+    .keyword{
+        color:#f472b6;
+        font-weight:bold;
+    }
+
+    .type{
+        color:#22c55e;
+    }
+
+    .func{
+        color:#facc15;
+    }
+
+    .comment{
+        color:#94a3b8;
+    }
+
+    .string{
+        color:#fb923c;
+    }

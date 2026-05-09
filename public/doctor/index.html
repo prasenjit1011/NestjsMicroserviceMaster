@@ -48849,16 +48849,407 @@ console.log(result);  // Output: 15
   ------------------------------ Prisma ORM ------------------------------------
 </span><div class="answer"></div></li>
 
+
+
 <li data-id="q1" class="zyellow">
-<span class="faq-question">Prisma ORM Important Keywords-01</span>
+  <span class="faq-question">Prisma ORM Important Keywords-01</span>
+  <div class="answer">
+    <div class="box">
+      <div class="keyword">Prisma ORM Important Keywords - 01</div>
+      <div class="desc">Important Function List</div>
+      <pre>
+
+# One-to-Many Relation
+model User {
+  id    Int    @id @default(autoincrement())
+  posts Post[]
+}
+
+model Post {
+  id      Int  @id @default(autoincrement())
+  userId  Int
+  user    User @relation(fields: [userId], references: [id])
+}
+
+      </pre>
+    </div>
+  </div>
+</li>
+
+
+
+
+<li data-id="q1" class="zyellow">
+<span class="faq-question">Prisma ORM Important Keywords-02</span>
 <div class="answer">
 <div class="box">
-  <div class="keyword">Prisma ORM Important Keywords - 01</div>
+  <div class="keyword">Prisma ORM Important Keywords - 02</div>
+  <div class="desc">
+    Important Function List
+  </div>
+
+<h1>Prisma ORM Relations and Keywords</h1>
+
+<h2>Complete Prisma Schema Example</h2>
+
+<pre><code>
+<span class="keyword">datasource</span> db {
+  provider = <span class="string">"postgresql"</span>
+  url      = env(<span class="string">"DATABASE_URL"</span>)
+}
+
+<span class="keyword">generator</span> client {
+  provider = <span class="string">"prisma-client-js"</span>
+}
+
+<span class="keyword">model</span> User {
+  id          <span class="type">Int</span>       <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
+  email       <span class="type">String</span>    <span class="keyword">@unique</span>
+  username    <span class="type">String</span>    <span class="keyword">@db.VarChar</span>(20)
+  password    <span class="type">String</span>    <span class="keyword">@db.VarChar</span>(100)
+  isActive    <span class="type">Boolean</span>   <span class="keyword">@default</span>(true)
+  profileData <span class="type">Json</span>?
+  createdAt   <span class="type">DateTime</span>  <span class="keyword">@default</span>(now())
+
+  <span class="comment">// One to One</span>
+  profile     Profile?
+
+  <span class="comment">// One to Many</span>
+  posts       Post[]
+
+  <span class="comment">// Many to Many</span>
+  roles       UserRole[]
+
+  <span class="keyword">@@unique</span>([email, username])
+}
+
+<span class="keyword">model</span> Profile {
+
+  id       <span class="type">Int</span>     <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
+
+  bio      <span class="type">String</span>  <span class="keyword">@db.VarChar</span>(200)
+
+  userId   <span class="type">Int</span>     <span class="keyword">@unique</span>
+
+  user     User     <span class="keyword">@relation</span>(
+                        fields: [userId],
+                        references: [id]
+                     )
+}
+
+<span class="keyword">model</span> Post {
+
+  id          <span class="type">Int</span>       <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
+
+  title       <span class="type">String</span>    <span class="keyword">@db.VarChar</span>(100)
+
+  content     <span class="type">String</span>?
+
+  published   <span class="type">Boolean</span>   <span class="keyword">@default</span>(false)
+
+  meta        <span class="type">Json</span>?
+
+  createdAt   <span class="type">DateTime</span>  <span class="keyword">@default</span>(now())
+
+  userId      <span class="type">Int</span>
+
+  author      User      <span class="keyword">@relation</span>(
+                            fields: [userId],
+                            references: [id]
+                         )
+
+  categories  PostCategory[]
+
+  <span class="keyword">@@index</span>([title])
+}
+
+<span class="keyword">model</span> Category {
+
+  id      <span class="type">Int</span>      <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
+
+  name    <span class="type">String</span>   <span class="keyword">@unique</span>
+
+  posts   PostCategory[]
+}
+
+<span class="keyword">model</span> PostCategory {
+
+  postId      <span class="type">Int</span>
+
+  categoryId  <span class="type">Int</span>
+
+  post        Post      <span class="keyword">@relation</span>(
+                            fields: [postId],
+                            references: [id]
+                         )
+
+  category    Category  <span class="keyword">@relation</span>(
+                            fields: [categoryId],
+                            references: [id]
+                         )
+
+  <span class="keyword">@@id</span>([postId, categoryId])
+}
+
+<span class="keyword">model</span> Role {
+
+  id      <span class="type">Int</span>      <span class="keyword">@id</span> <span class="keyword">@default</span>(<span class="func">autoincrement</span>())
+
+  name    <span class="type">String</span>   <span class="keyword">@unique</span>
+
+  users   UserRole[]
+}
+
+<span class="keyword">model</span> UserRole {
+
+  userId  <span class="type">Int</span>
+
+  roleId  <span class="type">Int</span>
+
+  user    User  <span class="keyword">@relation</span>(
+                    fields: [userId],
+                    references: [id]
+                 )
+
+  role    Role  <span class="keyword">@relation</span>(
+                    fields: [roleId],
+                    references: [id]
+                 )
+
+  <span class="keyword">@@id</span>([userId, roleId])
+}
+</code></pre>
+
+
+<h2>Prisma Relation Types</h2>
+
+<table>
+<tr>
+    <th>Relation</th>
+    <th>Meaning</th>
+    <th>Example</th>
+</tr>
+
+<tr>
+    <td>One To One</td>
+    <td>One user has one profile</td>
+    <td>User → Profile</td>
+</tr>
+
+<tr>
+    <td>One To Many</td>
+    <td>One user has many posts</td>
+    <td>User → Posts</td>
+</tr>
+
+<tr>
+    <td>Many To Many</td>
+    <td>Many students many courses</td>
+    <td>Student ↔ Course</td>
+</tr>
+</table>
+
+
+<h2>Important Prisma Keywords</h2>
+
+<table>
+
+<tr>
+    <th>Keyword</th>
+    <th>Description</th>
+</tr>
+
+<tr>
+    <td>@id</td>
+    <td>Primary key</td>
+</tr>
+
+<tr>
+    <td>@default()</td>
+    <td>Default value</td>
+</tr>
+
+<tr>
+    <td>autoincrement()</td>
+    <td>Auto increment number</td>
+</tr>
+
+<tr>
+    <td>@unique</td>
+    <td>Unique value</td>
+</tr>
+
+<tr>
+    <td>@relation</td>
+    <td>Create relation between tables</td>
+</tr>
+
+<tr>
+    <td>references</td>
+    <td>Reference another table column</td>
+</tr>
+
+<tr>
+    <td>fields</td>
+    <td>Foreign key field</td>
+</tr>
+
+<tr>
+    <td>Boolean</td>
+    <td>true / false value</td>
+</tr>
+
+<tr>
+    <td>Json</td>
+    <td>Store JSON object</td>
+</tr>
+
+<tr>
+    <td>@@unique()</td>
+    <td>Combined unique key</td>
+</tr>
+
+<tr>
+    <td>@@id()</td>
+    <td>Composite primary key</td>
+</tr>
+
+<tr>
+    <td>@@index()</td>
+    <td>Create database index</td>
+</tr>
+
+<tr>
+    <td>@db.VarChar(20)</td>
+    <td>Maximum character length</td>
+</tr>
+
+<tr>
+    <td>String?</td>
+    <td>Optional nullable field</td>
+</tr>
+
+<tr>
+    <td>DateTime</td>
+    <td>Date and time field</td>
+</tr>
+
+<tr>
+    <td>@updatedAt</td>
+    <td>Auto update timestamp</td>
+</tr>
+
+</table>
+
+
+<h2>Minimum and Maximum Length Validation</h2>
+
+<p>
+Prisma does not support:
+</p>
+
+<pre><code>
+minLength
+maxLength
+</code></pre>
+
+<p>
+Usually validation is done using:
+</p>
+
+<ul>
+    <li>Zod</li>
+    <li>Joi</li>
+    <li>Express Validator</li>
+    <li>Frontend Validation</li>
+</ul>
+
+
+<pre><code>
+import { z } from "zod";
+
+const userSchema = z.object({
+
+  username: z.string().min(3).max(20),
+
+  password: z.string().min(8).max(100),
+
+});
+</code></pre>
+
+
+<h2>View Table Data Using Prisma</h2>
+
+<p>Yes, Prisma can view table data.</p>
+
+<h3>Find All Users</h3>
+
+<pre><code>
+const users = await prisma.user.findMany();
+
+console.log(users);
+</code></pre>
+
+
+<h3>Find One User</h3>
+
+<pre><code>
+const user = await prisma.user.findUnique({
+  where: {
+    id: 1
+  }
+});
+
+console.log(user);
+</code></pre>
+
+
+<h3>Include Relations</h3>
+
+<pre><code>
+const users = await prisma.user.findMany({
+
+  include: {
+    posts: true,
+    profile: true
+  }
+
+});
+
+console.log(users);
+</code></pre>
+
+
+<h3>View Database Table Using Prisma Studio</h3>
+
+<pre><code>
+npx prisma studio
+</code></pre>
+
+<p>
+Prisma Studio opens a GUI table viewer in browser.
+</p>
+
+
+      </pre>
+    </div>
+  </div>
+</li>
+
+
+
+
+
+
+<li data-id="q1" class="zyellow">
+<span class="faq-question">Prisma ORM Important Keywords-02</span>
+<div class="answer">
+<div class="box">
+  <div class="keyword">Prisma ORM Important Keywords - 02</div>
   <div class="desc">
     Important Function List
   </div>
 <pre>
-
 
 npm install prisma @prisma/client
 import { PrismaClient } from "@prisma/client";
@@ -48882,12 +49273,10 @@ const users = await prisma.user.findMany({    take: 5,  cursor: {  id: 10,  }});
 
 const users = await prisma.user.findMany({    where: {  id: {  in: [1, 2, 3],  },  },  });
 const users = await prisma.user.findMany({    where: {  OR: [  { name: "John" },  { age: 25 },  ],  },  });
-const users = await prisma.user.findMany({    include: {    posts: true,  },});
+const users = await prisma.user.findMany({    where: {  age: {  gt: 18  }  }});
 
-
-const users = await prisma.user.findMany({    where:    {  age: {  gt: 18  }  }});
-const user  = await prisma.user.findFirst({   where:    {  age: 20}});
-const user  = await prisma.user.findUnique({  where:    {  id: 1  }  });
+const user  = await prisma.user.findFirst({   where: {  age: 20 }});
+const user  = await prisma.user.findUnique({  where: {  id: 1   }  });
 
 
 # some
@@ -48989,10 +49378,10 @@ await prisma.user.findMany({  skip: 0,  take: 10  });
 </div></li>
 
 <li data-id="q1" class="zyellow">
-  <span class="faq-question">Prisma ORM Important Keywords-02</span>
+  <span class="faq-question">Prisma ORM Important Keywords-03</span>
   <div class="answer">
     <div class="box">
-      <div class="keyword">Prisma ORM Important Keywords - 02</div>
+      <div class="keyword">Prisma ORM Important Keywords - 03</div>
       <div class="desc">Important Function List</div>
       <pre>
 
@@ -49137,35 +49526,6 @@ $queryRaw()
     </div>
   </div>
 </li>
-
-<li data-id="q1" class="zyellow">
-  <span class="faq-question">Prisma ORM Important Keywords-03</span>
-  <div class="answer">
-    <div class="box">
-      <div class="keyword">Prisma ORM Important Keywords - 03</div>
-      <div class="desc">Important Function List</div>
-      <pre>
-
-# One-to-Many Relation
-model User {
-  id    Int    @id @default(autoincrement())
-  posts Post[]
-}
-
-model Post {
-  id      Int  @id @default(autoincrement())
-  userId  Int
-  user    User @relation(fields: [userId], references: [id])
-}
-
-
-
-
-      </pre>
-    </div>
-  </div>
-</li>
-
 
 
 
