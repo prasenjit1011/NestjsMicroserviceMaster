@@ -27768,47 +27768,32 @@ Request → Middleware → Route → Response
 
   <div class="answer">
     <pre>
-🚀 Core Principle:
-Node.js is single-threaded (event loop) → avoid blocking operations.
+🚀 Core Principle: Node.js is single-threaded (event loop) → avoid blocking operations.
 
-⚡ 1. Avoid Blocking Code
-❌ Bad:
-const data = fs.readFileSync('file.txt');
+⚡ 1. Avoid Blocking Code 
+❌ Bad: const data = fs.readFileSync('file.txt');
 
-✅ Good:
-fs.readFile('file.txt', (err, data) => { console.log(data.toString()); });
+✅ Good: fs.readFile('file.txt', (err, data) => { console.log(data.toString()); });
 
 ⚡ 2. Use Async/Await Properly
 ❌ Sequential:
 await task1();
 await task2();
 
-✅ Parallel:
-await Promise.all([task1(), task2()]);
+✅ Parallel: await Promise.all([task1(), task2()]);
 
-⚡ 3. Use Clustering (Multi-core)
-pm2 start app.js -i max
-
-⚡ 4. Caching
-Use Redis or in-memory cache to reduce DB/API calls.
+⚡ 3. Use Clustering (Multi-core) : pm2 start app.js -i max
+⚡ 4. Caching : Use Redis or in-memory cache to reduce DB/API calls.
 
 ⚡ 5. Database Optimization
 - Use indexes
 - Avoid N+1 queries
 - Use connection pooling
 
-⚡ 6. Use Streams for Large Data
-fs.createReadStream('bigfile.txt').pipe(res);
-
-⚡ 7. Compression
-app.use(compression());
-
-⚡ 8. Load Balancing
-Use Nginx or PM2 cluster
-
-⚡ 9. Logging & Monitoring
-Use Winston, New Relic
-
+⚡ 6. Use Streams for Large Data : fs.createReadStream('bigfile.txt').pipe(res);
+⚡ 7. Compression : app.use(compression());
+⚡ 8. Load Balancing : Use Nginx or PM2 cluster
+⚡ 9. Logging & Monitoring : Use Winston, New Relic
 ⚡ 10. Avoid Memory Leaks
 - Remove listeners
 - Avoid global variables
