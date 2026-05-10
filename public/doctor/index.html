@@ -48996,6 +48996,18 @@ const users = await prisma.user.findMany({    orderBy: [{  age: "desc" },  { cre
 // User & Manager
 const users = await prisma.user.findMany({    include:  {  children: true  }  });
 
+// Prisma Query
+
+const result = await prisma.employee.findMany({ 
+  select: {
+    name: true,
+    dept: { select: { name: true  }}
+  }
+});
+
+
+
+
 # skip + take
 const users = await prisma.user.findMany({    skip: 10  });
 const users = await prisma.user.findMany({    take: 5  });
@@ -49268,13 +49280,724 @@ $queryRaw()
   </div>
 </li>
 
+<li data-id="q1" class="zyellow">
+  <span class="faq-question">MongoDB Important Keywords - 01</span>
+  <div class="answer">
+    <div class="box">
+      <div class="keyword">MongoDB Important Keywords - 01</div>
+      <div class="desc">Important Function List</div>
+      <pre>
+
+
+// ============================================
+// 1. User -> Posts -> Comments -> Author
+// ============================================
+
+const users = await prisma.user.findMany({
+
+  where: {
+    isActive: true
+  },
+
+  include: {
+
+    posts: {
+
+      where: {
+        published: true
+      },
+
+      include: {
+
+        comments: {
+
+          include: {
+
+            author: {
+              select: {
+                id: true,
+                name: true,
+                email: true
+              }
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+});
 
 
 
 
+// ============================================
+// 2. Employee -> Department -> Company
+// ============================================
+
+const employees = await prisma.employee.findMany({
+
+  include: {
+
+    department: {
+
+      include: {
+
+        company: true
+
+      }
+
+    }
+
+  }
+
+});
 
 
 
+
+// ============================================
+// 3. Orders -> Customer -> Address
+// ============================================
+
+const orders = await prisma.order.findMany({
+
+  include: {
+
+    customer: {
+
+      include: {
+
+        address: true
+
+      }
+
+    },
+
+    items: {
+
+      include: {
+
+        product: true
+
+      }
+
+    }
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 4. Many-to-Many
+// Student -> Courses
+// ============================================
+
+const students = await prisma.student.findMany({
+
+  include: {
+
+    courses: true
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 5. Nested Filtering
+// ============================================
+
+const result = await prisma.user.findMany({
+
+  where: {
+
+    posts: {
+
+      some: {
+
+        published: true,
+
+        comments: {
+
+          some: {
+
+            message: {
+              contains: 'mongodb',
+              mode: 'insensitive'
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  },
+
+  include: {
+
+    posts: {
+
+      include: {
+
+        comments: true
+
+      }
+
+    }
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 6. Deep Nested Include
+// Company -> Departments -> Employees -> Tasks
+// ============================================
+
+const companies = await prisma.company.findMany({
+
+  include: {
+
+    departments: {
+
+      include: {
+
+        employees: {
+
+          include: {
+
+            tasks: true
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 7. LEFT JOIN Style
+// ============================================
+
+const employees = await prisma.employee.findMany({
+
+  include: {
+
+    department: true
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 8. INNER JOIN Style
+// Only employees having department
+// ============================================
+
+const employees = await prisma.employee.findMany({
+
+  where: {
+
+    department: {
+
+      isNot: null
+
+    }
+
+  },
+
+  include: {
+
+    department: true
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 9. Aggregate + Group By
+// ============================================
+
+const result = await prisma.employee.groupBy({
+
+  by: [
+    'departmentId'
+  ],
+
+  _count: {
+    id: true
+  },
+
+  _avg: {
+    salary: true
+  },
+
+  having: {
+
+    id: {
+      _count: {
+        gt: 5
+      }
+    }
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 10. Complex OR + AND + Relation
+// ============================================
+
+const users = await prisma.user.findMany({
+
+  where: {
+
+    AND: [
+
+      {
+        isActive: true
+      },
+
+      {
+        OR: [
+
+          {
+            role: 'ADMIN'
+          },
+
+          {
+            city: 'Kolkata'
+          }
+
+        ]
+      },
+
+      {
+        posts: {
+
+          some: {
+
+            published: true
+
+          }
+
+        }
+
+      }
+
+    ]
+
+  },
+
+  include: {
+
+    posts: true,
+
+    profile: true
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 11. Self Join
+// Employee -> Manager
+// ============================================
+
+const employees = await prisma.employee.findMany({
+
+  include: {
+
+    manager: true,
+
+    subordinates: true
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 12. Junction Table
+// Post -> Categories
+// ============================================
+
+const posts = await prisma.post.findMany({
+
+  include: {
+
+    categories: {
+
+      include: {
+
+        category: true
+
+      }
+
+    }
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 13. Pagination + Sorting + Relation
+// ============================================
+
+const users = await prisma.user.findMany({
+
+  skip: 20,
+
+  take: 10,
+
+  orderBy: {
+
+    createdAt: 'desc'
+
+  },
+
+  include: {
+
+    posts: {
+
+      orderBy: {
+
+        createdAt: 'desc'
+
+      }
+
+    }
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 14. Relation Count
+// ============================================
+
+const users = await prisma.user.findMany({
+
+  include: {
+
+    _count: {
+
+      select: {
+
+        posts: true,
+
+        comments: true
+
+      }
+
+    }
+
+  }
+
+});
+
+
+
+
+// ============================================
+// 15. Conditional Relation Filtering
+// ============================================
+
+const departments = await prisma.department.findMany({
+  where: {
+    employees: {
+      some: {
+        salary: {
+          gt: 100000
+        }
+      }
+    }
+  },
+
+  include: {
+
+    employees: {
+
+      where: {
+
+        salary: {
+
+          gt: 100000
+
+        }
+
+      }
+
+    }
+
+  }
+
+});
+
+
+      </pre>
+    </div>
+  </div>
+</li>
+
+<li data-id="q1" class="zyellow">
+  <span class="faq-question">Prisma Keywords - 01 - Country->State->District->City</span>
+  <div class="answer">
+    <div class="box">
+      <div class="keyword">MongoDB Important Keywords - 01</div>
+      <div class="desc">Important Function List</div>
+      
+<pre><code class="language-prisma">
+model Country {
+  id      Int      @id @default(autoincrement())
+  name    String
+
+  states  State[]
+}
+
+model State {
+  id         Int        @id @default(autoincrement())
+  name       String
+
+  countryId  Int
+  country    Country    @relation(fields: [countryId], references: [id])
+
+  districts  District[]
+}
+
+model District {
+  id       Int      @id @default(autoincrement())
+  name     String
+
+  stateId  Int
+  state    State    @relation(fields: [stateId], references: [id])
+
+  cities   City[]
+}
+
+model City {
+  id          Int       @id @default(autoincrement())
+  name        String
+
+  districtId  Int
+  district    District  @relation(fields: [districtId], references: [id])
+
+  mayors      Mayor[]
+}
+
+model Mayor {
+  id      Int    @id @default(autoincrement())
+  name    String
+
+  cityId  Int
+  city    City   @relation(fields: [cityId], references: [id])
+}
+</code></pre>
+
+<hr>
+
+<h2>1. Get Country Name From Mayor</h2>
+
+<pre><code class="language-ts">
+const result = await prisma.mayor.findFirst({
+  where: {  name: "John"  },
+  select: {
+    name: true,
+    city: {
+      select: {
+        name: true,
+        district: {
+          select: {
+            name: true,
+            state: {
+              select: {
+                name: true,
+                country: {
+                  select: {
+                    name: true
+                  }  }  }  }  }  }  }  }  }  });
+
+console.log(result);
+</code></pre>
+
+<h3>Output</h3>
+
+<pre><code class="language-json">
+{
+  "name": "John",
+  "city": {
+    "name": "Kolkata",
+    "district": {
+      "name": "North 24 Parganas",
+      "state": {
+        "name": "West Bengal",
+        "country": {
+          "name": "India"
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>2. Get Mayor From Country Name</h2>
+
+<pre><code class="language-ts">
+const result = await prisma.country.findFirst({
+  where:  {  name: "India" },
+  select: {
+    name: true,
+    states: {
+      select: {
+        name: true,
+        districts: {
+          select: {
+            name: true,
+            cities: {
+              select: {
+                name: true,
+                mayors: {
+                  select: {
+                    id: true,
+                    name: true
+                  }  }  }  }  }  }  }  }  }  });
+
+console.log(result);
+</code></pre>
+
+<hr>
+
+<h2>Direct Mayor Query Using Deep Relation Filter</h2>
+
+<pre><code class="language-ts">
+const mayors = await prisma.mayor.findMany({
+  where: {
+    city: {
+      district: {
+        state: {
+          country: {
+            name: "India"
+          }
+        }
+      }
+    }
+  },
+
+  select: {
+    id: true,
+    name: true,
+
+    city: {
+      select: {
+        name: true,
+
+        district: {
+          select: {
+            name: true,
+
+            state: {
+              select: {
+                name: true,
+
+                country: {
+                  select: {
+                    name: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+console.log(mayors);
+</code></pre>
+
+<hr>
+
+<h2>SQL Equivalent</h2>
+
+<pre><code class="language-sql">
+SELECT
+    m.name        AS mayor_name,
+    c.name        AS country_name
+FROM Mayor m
+JOIN City ci       ON m.cityId = ci.id
+JOIN District d    ON ci.districtId = d.id
+JOIN State s       ON d.stateId = s.id
+JOIN Country c     ON s.countryId = c.id
+WHERE m.name = 'John';
+</code></pre>
+
+<hr>
+
+<h2>Reverse SQL</h2>
+
+<pre><code class="language-sql">
+SELECT
+    m.name AS mayor_name
+FROM Country c
+JOIN State s       ON c.id = s.countryId
+JOIN District d    ON s.id = d.stateId
+JOIN City ci       ON d.id = ci.districtId
+JOIN Mayor m       ON ci.id = m.cityId
+WHERE c.name = 'India';
+</code></pre>
+
+      </pre>
+    </div>
+  </div>
+</li>
 
 <li data-id="q_call_api_without_useeffect" id="mongodb_qlist" class="yellow"><span class="faq-question232">
   -----------------------------------------------------------------------
@@ -49554,6 +50277,30 @@ User.aggregate([
   { $skip: 20 },
   { $limit: 10 }
 ]);
+</pre>
+
+<pre>
+{
+  $match: {
+    age: { $gt: 25 },
+    salary: { $gte: 50000 },
+    isActive: true,
+
+    $or: [
+      { role: { $in: ['admin', 'manager'] } },
+      { city: 'Kolkata' }
+    ],
+
+    status: {
+      $nin: ['blocked', 'deleted']
+    },
+
+    $or: [
+      { name: { $regex: /^.Hello$/i } },
+      { company: { $regex: /^Demo.Data.*/i } }
+    ]
+  }
+}
 </pre>
 </div>
 </li>
