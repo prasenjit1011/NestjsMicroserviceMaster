@@ -48631,6 +48631,61 @@ console.log(result);  // Output: 15
   <div class="answer">
 
 <div class="box">
+<pre><code>
+
+import React, { useState, Suspense, lazy } from 'react';
+
+const Demo = lazy(() =>
+  new Promise((fn)=>{setTimeout(()=>{ fn({ default:({str})=>{ return <h1>{str}!!</h1>;}});},1000)})
+);
+
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<h3>Loading.....</h3>}>
+        <Demo str="Demooo-Str" />  
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+</code></pre>
+
+
+
+        <table>
+            <tr>
+                <th>JOIN Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>INNER JOIN</td>
+                <td>Returns only matching rows from both tables</td>
+            </tr>
+            <tr>
+                <td>LEFT JOIN</td>
+                <td>Returns all rows from left table + matched right table rows</td>
+            </tr>
+            <tr>
+                <td>RIGHT JOIN</td>
+                <td>Returns all rows from right table + matched left table rows</td>
+            </tr>
+            <tr>
+                <td>FULL OUTER JOIN</td>
+                <td>Returns all rows from both tables (using UNION in MySQL)</td>
+            </tr>
+            <tr>
+                <td>CROSS JOIN</td>
+                <td>Returns Cartesian product of both tables</td>
+            </tr>
+            <tr>
+                <td>SELF JOIN</td>
+                <td>A table joined with itself</td>
+            </tr>
+        </table>
+
+
 <div class="keyword">1. INNER JOIN : </div>
 <pre>
 Returns only matching rows from both tables.

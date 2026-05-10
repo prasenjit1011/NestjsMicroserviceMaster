@@ -1,87 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>MySQL JOIN Types</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Lazy Loading Example</title>
+
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            line-height: 1.6;
-            padding: 20px;
-            background-color: #f5f5f5;
+            background: #f4f4f4;
         }
-        h1, h2 {
-            color: #333;
-        }
-        pre {
-            background: #1e1e1e;
-            color: #ffffff;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-        }
-        .box {
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
             background: white;
-            padding: 15px;
-            margin-bottom: 20px;
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
+
+        h1 {
+            color: #222;
         }
-        table, th, td {
-            border: 1px solid #ccc;
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
         }
-        th, td {
-            padding: 10px;
-            text-align: left;
+
+        button:hover {
+            background: #0056b3;
         }
-        th {
-            background-color: #eee;
+
+        .card {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #e9f3ff;
+            border: 1px solid #cce0ff;
+        }
+
+        .loading {
+            margin-top: 20px;
+            color: #ff6600;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
 
+    <div id="root"></div>
 
+    <!-- React CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
+    <!-- Babel CDN -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <div class="box">
-        <h2>Summary Table</h2>
-        <table>
-            <tr>
-                <th>JOIN Type</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td>INNER JOIN</td>
-                <td>Returns only matching rows from both tables</td>
-            </tr>
-            <tr>
-                <td>LEFT JOIN</td>
-                <td>Returns all rows from left table + matched right table rows</td>
-            </tr>
-            <tr>
-                <td>RIGHT JOIN</td>
-                <td>Returns all rows from right table + matched left table rows</td>
-            </tr>
-            <tr>
-                <td>FULL OUTER JOIN</td>
-                <td>Returns all rows from both tables (using UNION in MySQL)</td>
-            </tr>
-            <tr>
-                <td>CROSS JOIN</td>
-                <td>Returns Cartesian product of both tables</td>
-            </tr>
-            <tr>
-                <td>SELF JOIN</td>
-                <td>A table joined with itself</td>
-            </tr>
-        </table>
-    </div>
+    <script type="text/babel">
+
+        const {
+            useState,
+            lazy,
+            Suspense
+        } = React;
+
+        /*
+        -----------------------------------------
+        Lazy Loaded Component
+        -----------------------------------------
+        */
+
+        const LazyComponent = lazy(() => {
+
+            return new Promise((resolve) => {
+
+                setTimeout(() => {
+
+                    resolve({
+
+                        default: function UserProfile() {
+
+                            return (
+                                <div className="card">
+                                    <h2>User Profile Component</h2>
+
+                                    <p>
+                                        This component was loaded lazily using
+                                        React.lazy() and Suspense.
+                                    </p>
+
+                                    <p>
+                                        Lazy loading helps improve application
+                                        performance by splitting code into smaller chunks.
+                                    </p>
+
+                                    <ul>
+                                        <li>Faster initial page load</li>
+                                        <li>Better performance</li>
+                                        <li>Reduced bundle size</li>
+                                        <li>Efficient code splitting</li>
+                                    </ul>
+                                </div>
+                            );
+                        }
+
+                    });
+
+                }, 2000);
+
+            });
+
+        });
+
+        /*
+        -----------------------------------------
+        Main App Component
+        -----------------------------------------
+        */
+
+        function App() {
+
+            const [showComponent, setShowComponent] = useState(false);
+
+            function handleLoadComponent() {
+
+                setShowComponent(true);
+
+            }
+
+            return (
+
+                <div className="container">
+
+                    <h1>ReactJS Lazy Loading Example</h1>
+
+                    <p>
+                        Click the button below to load the component lazily.
+                    </p>
+
+                    <button onClick={handleLoadComponent}>
+                        Load Lazy Component
+                    </button>
+
+                    {
+                        showComponent && (
+
+                            <Suspense
+                                fallback={
+                                    <div className="loading">
+                                        Loading component...
+                                    </div>
+                                }
+                            >
+
+                                <LazyComponent />
+
+                            </Suspense>
+
+                        )
+                    }
+
+                </div>
+
+            );
+
+        }
+
+        /*
+        -----------------------------------------
+        ReactDOM Rendering
+        -----------------------------------------
+        */
+
+        const root = ReactDOM.createRoot(
+            document.getElementById("root")
+        );
+
+        root.render(
+            <App />
+        );
+
+    </script>
 
 </body>
 </html>
