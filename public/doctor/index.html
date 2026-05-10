@@ -48627,6 +48627,70 @@ console.log(result);  // Output: 15
 
 
 <li data-id="q1" class="zyellow">
+  <span class="faq-question">MySQL JOIN Types</span>
+  <div class="answer">
+
+<div class="box">
+<div class="keyword">1. INNER JOIN : </div>
+<pre>
+Returns only matching rows from both tables.
+Result: Only rows that exist in both A and B.
+
+SELECT *  FROM A  INNER JOIN B ON A.id = B.a_id;
+</pre>
+
+<div class="keyword">2. LEFT JOIN (LEFT OUTER JOIN) : </div>
+<pre>
+Returns all rows from the left table and matching rows from the right table.
+Result: If no match in B, values will be NULL.
+
+SELECT *  FROM A  LEFT JOIN B ON A.id = B.a_id;
+</pre>
+
+
+<div class="keyword">3. RIGHT JOIN (RIGHT OUTER JOIN)</div>
+<pre>
+Returns all rows from the right table and matching rows from the left table.
+Result: If no match in A, values will be NULL.
+
+SELECT *  FROM A  RIGHT JOIN B ON A.id = B.a_id;
+</pre>
+
+<div class="keyword">4. FULL OUTER JOIN (Not supported directly in MySQL)</div>
+<pre>
+Can be simulated using UNION of LEFT JOIN and RIGHT JOIN.
+Result: All records from both tables.
+
+SELECT *  FROM A  LEFT JOIN B ON A.id = B.a_id
+  UNION
+SELECT *  FROM A  RIGHT JOIN B ON A.id = B.a_id;
+</pre>
+
+<div class="keyword">5. CROSS JOIN</div>
+<pre>
+Returns Cartesian product of both tables.
+Result: Every row of A combined with every row of B.
+
+SELECT *  FROM A  CROSS JOIN B;
+</pre>
+
+<div class="keyword">6. SELF JOIN</div>
+<pre>
+A table joins with itself.
+Use case: Hierarchical relationships like manager-employee.
+
+SELECT A.name, B.name  FROM Employee A  JOIN Employee B ON A.manager_id = B.id;
+</pre>
+
+</div>
+</div>
+</li>
+
+
+
+
+
+<li data-id="q1" class="zyellow">
   <span class="faq-question">Prisma ORM Important Keywords-01</span>
   <div class="answer">
     <div class="box">
@@ -49654,7 +49718,6 @@ WHERE c.name = 'India';
 <li data-id="q_call_api_without_useeffect" class="yellow"><span class="faq-question234234">
   ------------------------------ MongoDB ------------------------------------
 </span><div class="answer"></div></li>
-
 
 
 <li data-id="q1" class="zyellow">
