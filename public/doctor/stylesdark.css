@@ -221,3 +221,26 @@ body{
     .string{
         color:#fb923c;
     }
+
+    
+pre{
+    background:#111827;
+    color:#e5e7eb;
+    padding:25px;
+    border-radius:12px;
+    overflow:auto;
+    line-height:1.6;
+    font-size:15px;
+    border:1px solid #334155;
+}
+
+.keyword{
+  font-size: small;
+    color:#ff79c6;
+    font-weight:bold;
+}
+.keyword_small{
+    font-size: small;
+    color:#ff79c6;
+    font-weight:bold;
+}

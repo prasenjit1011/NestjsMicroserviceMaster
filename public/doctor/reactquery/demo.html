@@ -1,197 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>React Lazy Loading Example</title>
+<meta charset="UTF-8">
+<title>React Syntax Highlight</title>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-        }
+<style>
+body{
+    background:#0f172a;
+    padding:20px;
+    font-family:Consolas, monospace;
+}
 
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
+pre{
+    background:#111827;
+    color:#e5e7eb;
+    padding:25px;
+    border-radius:12px;
+    overflow:auto;
+    line-height:1.6;
+    font-size:15px;
+    border:1px solid #334155;
+}
 
-        h1 {
-            color: #222;
-        }
-
-        button {
-            padding: 12px 20px;
-            border: none;
-            background: #007bff;
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        .card {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 8px;
-            background: #e9f3ff;
-            border: 1px solid #cce0ff;
-        }
-
-        .loading {
-            margin-top: 20px;
-            color: #ff6600;
-            font-size: 18px;
-        }
-    </style>
+.keyword{
+    color:#ff79c6;
+    font-weight:bold;
+}
+</style>
 </head>
+
 <body>
-
-    <div id="root"></div>
-
-    <!-- React CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Babel CDN -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script type="text/babel">
-
-        const {
-            useState,
-            lazy,
-            Suspense
-        } = React;
-
-        /*
-        -----------------------------------------
-        Lazy Loaded Component
-        -----------------------------------------
-        */
-
-        const LazyComponent = lazy(() => {
-
-            return new Promise((resolve) => {
-
-                setTimeout(() => {
-
-                    resolve({
-
-                        default: function UserProfile() {
-
-                            return (
-                                <div className="card">
-                                    <h2>User Profile Component</h2>
-
-                                    <p>
-                                        This component was loaded lazily using
-                                        React.lazy() and Suspense.
-                                    </p>
-
-                                    <p>
-                                        Lazy loading helps improve application
-                                        performance by splitting code into smaller chunks.
-                                    </p>
-
-                                    <ul>
-                                        <li>Faster initial page load</li>
-                                        <li>Better performance</li>
-                                        <li>Reduced bundle size</li>
-                                        <li>Efficient code splitting</li>
-                                    </ul>
-                                </div>
-                            );
-                        }
-
-                    });
-
-                }, 2000);
-
-            });
-
-        });
-
-        /*
-        -----------------------------------------
-        Main App Component
-        -----------------------------------------
-        */
-
-        function App() {
-
-            const [showComponent, setShowComponent] = useState(false);
-
-            function handleLoadComponent() {
-
-                setShowComponent(true);
-
-            }
-
-            return (
-
-                <div className="container">
-
-                    <h1>ReactJS Lazy Loading Example</h1>
-
-                    <p>
-                        Click the button below to load the component lazily.
-                    </p>
-
-                    <button onClick={handleLoadComponent}>
-                        Load Lazy Component
-                    </button>
-
-                    {
-                        showComponent && (
-
-                            <Suspense
-                                fallback={
-                                    <div className="loading">
-                                        Loading component...
-                                    </div>
-                                }
-                            >
-
-                                <LazyComponent />
-
-                            </Suspense>
-
-                        )
-                    }
-
-                </div>
-
-            );
-
-        }
-
-        /*
-        -----------------------------------------
-        ReactDOM Rendering
-        -----------------------------------------
-        */
-
-        const root = ReactDOM.createRoot(
-            document.getElementById("root")
-        );
-
-        root.render(
-            <App />
-        );
-
-    </script>
 
 </body>
 </html>

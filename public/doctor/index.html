@@ -43,7 +43,7 @@
           <tr>
             <td style="vertical-align: top;" width="25%">
               <ol>
-                <li><a href="#nodejs_qlist">Nodejs</a></li>
+                <li><a href="#nodejs_qlist">Nodejs</a></li>                
                 <li><a href="#coding_qlist">Coding</a></li>
                 <li><a href="#q_ts">TypeScript</a></li> 
                 <li><a href="#es6_qlist">ES6</a></li>
@@ -2564,7 +2564,7 @@ shallow / shadow copy
 
 <li data-id="q35562-1" class="zyellow">
 <span class="faq-question">
-⚛️ React Hooks List
+⚛️ React Hooks List - 01
 </span>
 <div class="answer">
   <h3>⚛️ React Hooks List</h3>
@@ -2604,6 +2604,171 @@ ref = useRef(null);
 </div>
 </li>
 
+
+
+<li data-id="q1" class="zyellow">
+<span class="faq-question">React Hooks - Debounce, Throttle, lazy, Suspense, useMemo, useCallback, useEffect,  -02</span>
+<div class="answer">
+<div class="box">
+<div class="keyword">React Hooks - 02</div>
+<div class="desc">Debounce, Throttle, lazy, Suspense, useMemo, useCallback, useEffect, useCustomHook</div>
+
+
+<pre>
+<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> "react-dom/client";
+<span class="keyword">import</span> React, { memo,  useState,  useMemo,  useCallback,  useEffect,  lazy, Suspense,  useReducer   } <span class="keyword">from</span> "react";
+
+<span class="keyword">const</span> styles = {main: {padding: '20px',},title: {color: '#5C6AC4'}, 
+box:{border:'1px solid #1b11a7', margin:'10px', padding:'20px'}, subbox:{borderTop:'1px solid #1b11a7'},
+btn: {padding: '10px 20px', cursor: 'pointer', backgroundColor: '#1b11a7', color: '#faf2f2f3', marginRight: '20px'}}
+<span class="keyword">const</span> items: string[]   = ["Apple","Mango","Orange","Grape","WaterMelon","Coconut"];
+<span class="keyword">const</span> url = "https://jsonplaceholder.typicode.com/todos"
+<span class="keyword">let</span> timer = 0, timer2 = 0, timer3 = 0, delay = 2000;
+<span class="keyword">let</span> obj = {cnt:0}
+
+<span class="comment">// Custom Hook</span>
+<span class="keyword">const</span> useWindowWidth = () => {
+    <span class="keyword">const</span> [width, setWidth] = useState(<span class="keyword">window.innerWidth</span>);
+    useEffect(() => {
+        <span class="keyword">const</span> resizeFn = () => {    setWidth(<span class="keyword">window.innerWidth</span>);    };
+        window.addEventListener("resize", resizeFn);
+        <span class="keyword">return</span> () => {    window.removeEventListener("resize", resizeFn)};
+    }, []);
+
+    <span class="keyword">return</span> width;
+};
+
+
+<span class="keyword">const</span> Child = React.memo(({onClick, filterData}) => {
+    <span class="keyword">return</span> (
+        &lt;div&gt;
+            &lt;p&gt;{JSON.stringify(filterData)}&lt;/p&gt;
+            &lt;button onClick={onClick} style={styles.btn}&gt;Callback Fn {new Date().toLocaleString()}&lt;/button&gt;
+        &lt;/div&gt;
+    )
+})
+
+
+<span class="keyword">const</span> LazyDemo = () => lazy(()=>{
+    <span class="keyword">return</span> (<span class="keyword">new</span> Promise((fn)=>{
+        <span class="keyword">setTimeout</span>(()=>{
+            <span class="keyword">return fn({</span>
+                <span class="keyword">default:</span>({str})=>{
+                    <span class="keyword">return</span> &lt;h3&gt;{str}-{new Date().toLocaleString()}&lt;/h3&gt;
+                }
+            })
+        },delay)
+    }))
+})
+
+
+<span class="keyword">const</span> App = () => {
+    <span class="keyword">const</span> window_width = useWindowWidth();
+    <span class="keyword">const</span> [LazyComp, loadingLazyComp] = useState(()=>LazyDemo())
+    <span class="keyword">const</span> reloadComp = ()   =>{   loadingLazyComp(()=>LazyDemo())}
+
+    <span class="keyword">const</span> reducerIncr = () => {    dispatch({type:'incr'}) }
+    <span class="keyword">const</span> [state, dispatch] = useReducer((state, action) => {    
+            <span class="keyword">if</span>(action.type == 'incr'){    <span class="keyword">return</span> {...state, cnt:state.cnt+1}    }
+            <span class="keyword">else</span>{    <span class="keyword">return</span> state    }    
+        },  obj)
+
+
+    <span class="keyword">const</span> [debounceCnt, setDebounceCnt] = useState(0)
+    <span class="keyword">const</span> debounce = () => {
+        clearTimeout(timer);
+        timer = setTimeout(()=>{setDebounceCnt(debounceCnt+1)},delay)
+    }
+
+
+    <span class="keyword">const</span> [throttleCnt, setThrottleCnt] = useState(0)
+    <span class="keyword">const</span> throttle = () => {
+        timer2 = Date.now();
+        <span class="keyword">if</span>(timer2-timer3>delay){
+            setThrottleCnt(throttleCnt+1)
+            timer3 = timer2
+        }
+    }
+
+
+
+    <span class="keyword">const</span> [todos, setTodos] = useState([])
+    <span class="keyword">const</span> [error, setError] = useState("");
+    useEffect(() => {
+        <span class="keyword">const</span> ctrl = <span class="keyword">new</span> AbortController();
+        <span class="keyword">const</span> fetchData = <span class="keyword">async</span> () => {
+            <span class="keyword">try</span> {
+                <span class="keyword">const</span> res = <span class="keyword">await</span> fetch(url, {  signal: ctrl.signal });
+                <span class="keyword">if</span> (!res.ok) {    <span class="keyword">throw</span> <span class="keyword">new</span> Error("Failed to fetch data");    }
+                <span class="keyword">const</span> data = <span class="keyword">await</span> res.json();
+                setTodos(data);
+            } 
+            <span class="keyword">catch</span> (err) {
+                <span class="comment">// Ignore abort error</span>
+                <span class="keyword">if</span> (err.name !== "AbortError") {    setError(err.message);  }
+            }
+        };
+
+        fetchData();
+        <span class="keyword">return</span> () => {  ctrl.abort();   };
+    }, []);
+
+
+    <span class="keyword">const</span> [cnt, setCnt] = useState(0);    
+    <span class="keyword">const</span> filterData    = useMemo(()=>{ <span class="keyword_small">if</span>(cnt&lt;5){<span class="keyword_small">return</span> items}<span class="keyword_small">else</span>{<span class="keyword_small">return</span> items[cnt%items.length]}},[cnt])
+    <span class="keyword">const</span> handleClick   = useCallback(() =>{    setCnt(0);alert("Callback Clicked")    },[])
+    <span class="comment">//Reducer, debounce, throttle, memo, callback, react.meo, API call</span>
+
+
+    <span class="keyword">return</span> (
+        &lt;div style={styles.box}&gt;
+            &lt;button onClick={debounce}      style={styles.btn}  &gt;Debounce : {debounceCnt}&lt;/button&gt;
+            &lt;button onClick={throttle}      style={styles.btn}  &gt;Throttle : {throttleCnt}&lt;/button&gt;
+            &lt;button onClick={reducerIncr}   style={styles.btn}  &gt;Reducer : {state.cnt}&lt;/button&gt;
+            &lt;button onClick={reloadComp}    style={styles.btn}  &gt;Lazy Reload Component&lt;/button&gt;
+            &lt;button style={styles.btn}&gt;Custom Hook : Window Width : {window_width}&lt;/button&gt;
+
+            &lt;Suspense fallback={&lt;h1&gt;Loading....&lt;/h1&gt;}&gt;
+                &lt;LazyComp str="Demo..." /&gt;
+            &lt;/Suspense&gt;
+            &lt;ul&gt;
+                {
+                    Array.isArray(todos) && todos.length&gt;0 ? 
+                        todos.slice(0,2).map((val, index)=>{
+                            <span class="keyword">return</span> &lt;li key={index}&gt;{val?.title}&lt;/li&gt;
+                        }):&lt;li&gt;No Data&lt;/li&gt;
+                }
+            &lt;/ul&gt;
+
+            &lt;div style={styles.subbox}&gt;
+                &lt;h3&gt;useCallback and useMemo&lt;/h3&gt;
+                &lt;p&gt;{JSON.stringify(filterData)}&lt;/p&gt;
+                &lt;button onClick={()=>{setCnt(cnt+1)}}      style={styles.btn}  &gt;Counter : {cnt}&lt;/button&gt;
+                &lt;Child  onClick={handleClick}   filterData={filterData} /&gt;
+                &lt;hr /&gt;
+                &lt;p&gt;useMemo and React.memo: memoizes a computed value, recalculating it only when its dependencies change.&lt;/p&gt; 
+                &lt;p&gt;without this child will be render when parent re-render&lt;/p&gt;
+                &lt;p&gt;useCallback : memoizes a function,&lt;/p&gt; 
+                &lt;p&gt; preventing new function creation on every render unless dependencies change.&lt;/p&gt;            
+            &lt;/div&gt;
+        &lt;/div&gt;
+    )
+}
+
+<span class="keyword">const</span> rootElement = document.getElementById("root");
+<span class="keyword">if</span> (!rootElement) {  <span class="keyword">throw</span> <span class="keyword">new</span> Error("Root element (#root) not found in index.html");   }
+
+ReactDOM.createRoot(rootElement).render(
+  &lt;React.StrictMode&gt;
+      &lt;App /&gt;
+  &lt;/React.StrictMode&gt;
+);
+</pre>
+
+
+</div>
+</div>
+</li>
 
 
 
@@ -26813,6 +26978,117 @@ It is widely used for:
   ----------------------------------------------------------------------------------</span></li>
 <li data-id="q3" id="coding_qlist" class="yellow"><span class="faq-question">
   --------------  Coding Question  -----------------------</span></li>
+
+<li data-id="q1" class="zyellow">
+<span class="faq-question">NodeJS MCQ Typeof and Others-01</span>
+<div class="answer">
+<div class="box">
+<div class="keyword">NodeJS MCQ Typeof and Others-01</div>
+<div class="desc">NodeJS MCQ Typeof and Others-01</div>
+<pre>
+
+
+
+
+console.log('\n======== Start : Typeof Advanced Assessment ========')
+console.log('typeof undefined \t\t',            typeof undefined)
+console.log('typeof typeof 1 \t\t',             typeof typeof 1)
+console.log('typeof String("abc") \t',          typeof String("abc"))
+console.log('typeof Boolean(false) \t',         typeof Boolean(false))
+console.log('typeof Symbol() \t\t',             typeof Symbol())
+console.log('typeof Symbol.iterator \t',      typeof Symbol.iterator)
+
+
+console.log('\n======== number ========')
+console.log('typeof Number("123") \t',          typeof Number("123"))
+console.log('typeof NaN \t\t\t\t',              typeof NaN)
+console.log('typeof Infinity \t\t',             typeof Infinity)
+console.log('typeof (1/0) \t\t\t',              typeof (1 / 0))
+console.log('typeof 10n \t\t\t\t',              typeof 10n)
+console.log('typeof BigInt(10) \t\t',           typeof BigInt(10))
+console.log('typeof parseInt("10") \t',         typeof parseInt("10"))
+console.log('typeof parseFloat("1.5")',         typeof parseFloat("1.5"))
+console.log('typeof Number.MAX_VALUE ',         typeof Number.MAX_VALUE)
+console.log('typeof Number.POSITIVE_INFINITY ', typeof Number.POSITIVE_INFINITY)
+
+console.log('\n======== function ========')
+console.log('typeof Date \t\t\t',               typeof Date)
+console.log('typeof Array \t\t\t',              typeof Array)
+console.log('typeof RegExp \t\t\t',             typeof RegExp)
+console.log('typeof async function(){} ',       typeof async function(){})
+console.log('typeof function*(){} \t',          typeof function*(){})
+console.log('typeof function(){} \t',           typeof function(){})
+console.log('typeof (()=>{}) \t\t',             typeof (() => {}))
+console.log('typeof Object \t\t\t',             typeof Object)
+console.log('typeof class Demo {} \t',          typeof class Demo {})
+console.log('typeof Promise \t\t\t',            typeof Promise)
+
+console.log('\n======== object ========')
+console.log('\n======== object ========')
+console.log('typeof new String("abc") ',        typeof new String("abc"))
+console.log('typeof new Boolean(true) ',        typeof new Boolean(true))
+console.log('typeof new Map() \t\t',            typeof new Map())
+console.log('typeof new Set() \t\t',            typeof new Set())
+console.log('typeof new WeakMap() \t',          typeof new WeakMap())
+console.log('typeof new WeakSet() \t',          typeof new WeakSet())
+console.log('typeof new Array(5) \t',           typeof new Array(5))
+console.log('typeof new RegExp("a") \t',        typeof new RegExp("a"))
+console.log('typeof new Error() \t\t',          typeof new Error())
+console.log('typeof Promise.resolve() ',        typeof Promise.resolve())
+console.log('typeof new Date() \t\t',           typeof new Date())
+console.log('typeof /abc/ \t\t\t',              typeof /abc/)
+console.log('typeof Math \t\t\t',               typeof Math)
+console.log('typeof JSON \t\t\t',               typeof JSON)
+console.log('typeof new Number(5) \t',          typeof new Number(5))
+console.log('typeof [] \t\t\t\t',               typeof [])
+console.log('typeof {} \t\t\t\t',               typeof {})
+console.log('typeof null \t\t\t',               typeof null)
+
+
+console.log('======== Typeof ========')
+
+
+console.log('\n======== String ========')
+console.log('[] + [] \t',           [] + [])
+console.log('[1,2] + [3,4] \t',     [1,2] + [3,4])
+console.log('2 + "2" \t\t',         2 + "2")
+console.log('"5" + 4 \t\t',         "5" + 4)
+console.log('4+"5" - 2 \t\t',       4+"5" - 2)
+console.log('"5" - 2 \t\t',         "5" - 2)
+console.log('"5" * 2 \t\t',         "5" * 2)
+console.log('"10" / 2 \t\t',        "10" / 2)
+console.log('2 + true \t\t',        2 + true)
+console.log('1 + +"2" \t\t',        1 + +"2")
+
+console.log('0 && "Hello" \t',    0 && "Hello")
+console.log('0 || "Hello" \t',    0 || "Hello")
+console.log('[] + {} \t\t',         [] + {})
+
+console.log('\n======== True/False ========')
+console.log('null==undefined ',     null == undefined)
+console.log('null===undefined',     null === undefined)
+console.log('0 == false \t\t',      0 == false)
+console.log("Boolean('') \t",       Boolean(''))
+console.log('Boolean([]) \t',       Boolean([]))
+console.log('Boolean("0") \t',      Boolean("0"))
+
+console.log('\n======== True/False ========')
+console.log('1 < 2 < 3 \t\t',       1 < 2 < 3)
+console.log('3 > 2 > 1 \t\t',       3 > 2 > 1)
+console.log('[] == false \t',       [] == false)
+console.log('2 == "2" \t\t',        2 == "2")
+console.log('!!"hello" \t\t',       !!"hello")
+
+
+console.log('\n======== End : Typeof Advanced Assessment ========')
+</pre>
+</div>
+</div>
+</li>
+
+
+
+  
 <li data-id="q35562" class="zyellow">
     <span class="faq-question">
         Coding Question-NodeJS
@@ -48616,26 +48892,7 @@ console.log(result);  // Output: 15
   <div class="answer">
 
 <div class="box">
-<pre><code>
 
-import React, { useState, Suspense, lazy } from 'react';
-
-const Demo = lazy(() =>
-  new Promise((fn)=>{setTimeout(()=>{ fn({ default:({str})=>{ return <h1>{str}!!</h1>;}});},1000)})
-);
-
-function App() {
-  return (
-    <div>
-      <Suspense fallback={<h3>Loading.....</h3>}>
-        <Demo str="Demooo-Str" />  
-      </Suspense>
-    </div>
-  );
-}
-
-export default App;
-</code></pre>
 
 
 

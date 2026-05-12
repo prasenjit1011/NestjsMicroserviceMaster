@@ -18,6 +18,65 @@ consoleLine(' -: App Started :- '+ (new Date).toLocaleTimeString());
 let k, arr, arr1, arr2, flat, flatarr, emp, staff, sum, sum1, str, str1, obj, obj1, obj2, newobj,  result, result1, result2, data;
 let j, x, y, z, x1, key, vowels, vCount, cCount, maxElement, ans, curLength;
 
+consoleLine('===================')
+let a = [1,2];
+let b = a;
+b.push(3);
+console.log(a);
+/*
+Closures
+Scope chain
+Event loop
+Promise chaining
+this
+Prototype inheritance
+Debounce vs throttle
+Memory leaks
+React rendering optimization
+*/
+consoleLine("Start : MCQ : 01")
+console.log('======== Typeof ========')
+console.log('typeof [] \t\t\t',     typeof [])
+console.log('typeof {} \t\t\t',     typeof {})
+console.log('typeof null \t\t',     typeof null)
+console.log('typeof NaN \t\t\t',    typeof NaN)
+console.log('typeof typeof 1 \t',   typeof typeof 1)
+console.log('typeof undefined \t',  typeof undefined)
+console.log('typeof function(){} ', typeof function(){})
+
+
+console.log('\n======== String ========')
+console.log('[] + [] \t',           [] + [])
+console.log('[1,2] + [3,4] \t',     [1,2] + [3,4])
+console.log('2 + "2" \t\t',         2 + "2")
+console.log('"5" + 4 \t\t',         "5" + 4)
+console.log('4+"5" - 2 \t\t',       4+"5" - 2)
+console.log('"5" - 2 \t\t',         "5" - 2)
+console.log('"5" * 2 \t\t',         "5" * 2)
+console.log('"10" / 2 \t\t',        "10" / 2)
+console.log('2 + true \t\t',        2 + true)
+console.log('1 + +"2" \t\t',        1 + +"2")
+
+console.log('0 && "Hello" \t',    0 && "Hello")
+console.log('0 || "Hello" \t',    0 || "Hello")
+console.log('[] + {} \t\t',         [] + {})
+
+console.log('\n======== True/False ========')
+console.log('null==undefined ',     null == undefined)
+console.log('null===undefined',     null === undefined)
+console.log('0 == false \t\t',      0 == false)
+console.log("Boolean('') \t",       Boolean(''))
+console.log('Boolean([]) \t',       Boolean([]))
+console.log('Boolean("0") \t',      Boolean("0"))
+
+console.log('\n======== True/False ========')
+console.log('1 < 2 < 3 \t\t',       1 < 2 < 3)
+console.log('3 > 2 > 1 \t\t',       3 > 2 > 1)
+console.log('[] == false \t',       [] == false)
+console.log('2 == "2" \t\t',        2 == "2")
+console.log('!!"hello" \t\t',       !!"hello")
+
+consoleLine("End : MCQ : 02")
 
 
 consoleLine('Spread Operator and Object Reference');
