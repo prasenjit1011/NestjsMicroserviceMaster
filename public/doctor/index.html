@@ -2771,6 +2771,154 @@ ReactDOM.createRoot(rootElement).render(
 </li>
 
 
+<li data-id="q1" class="zyellow">
+<span class="faq-question">03 : React-Redux-TypeScript-Toolkit</span>
+<div class="answer">
+<div class="box">
+<div class="desc">Level - 01 : ⚛️ React-Redux</h3>
+<pre>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;
+<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom/client"</span>;
+<span class="keyword">import</span> { createStore } <span class="keyword">from</span> <span class="string">"redux"</span>;
+<span class="keyword">import</span> { Provider, useSelector, useDispatch } <span class="keyword">from</span> <span class="string">"react-redux"</span>;
+
+<span class="comment">// Store</span>
+<span class="keyword">const</span> obj   = {count:<span class="number">55</span>, slno:<span class="number">9</span>}
+<span class="keyword">const</span> store = createStore((state = obj, action) <span class="operator">=&gt;</span> {state[action.type] += action.val;<span class="keyword">return</span> {...state}});
+<span class="keyword">function</span> <span class="function">Counter</span>() {
+  <span class="keyword">const</span> {count, slno} = useSelector((state) <span class="operator">=&gt;</span> state);
+  <span class="keyword">return</span> (<span class="tag">&lt;h2&gt;</span>  Count : {count} / Slno : {slno}  <span class="tag">&lt;/h2&gt;</span>  );
+}
+
+<span class="keyword">function</span> <span class="function">Buttons</span>() {
+  <span class="keyword">const</span> dispatch = useDispatch();
+  <span class="keyword">return</span> (  <span class="tag">&lt;&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>={() <span class="operator">=&gt;</span> dispatch({ type: <span class="string">"count"</span>, val:<span class="number">1</span> })}<span class="tag">&gt;</span>+<span class="tag">&lt;/button&gt;</span> &amp;nbsp;
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>={() <span class="operator">=&gt;</span> dispatch({ type: <span class="string">"slno"</span>, val:<span class="number">2</span> })}<span class="tag">&gt;</span>+<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/&gt;</span>  );
+}
+
+<span class="keyword">const</span> root = ReactDOM.createRoot(document.getElementById(<span class="string">"root"</span>));
+root.render(
+  <span class="tag">&lt;Provider</span> <span class="attr">store</span>={store}<span class="tag">&gt;</span>
+    <span class="tag">&lt;Counter</span> <span class="tag">/&gt;</span>
+    <span class="tag">&lt;Buttons</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/Provider&gt;</span>
+);
+</pre>
+
+
+<div class="desc">Level - 02 : ⚛️ React-Redux-TypeScript</h3>
+<pre>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;
+<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom/client"</span>;
+<span class="keyword">import</span> { createStore } <span class="keyword">from</span> <span class="string">"redux"</span>;
+<span class="keyword">import</span> { Provider, useSelector, useDispatch } <span class="keyword">from</span> <span class="string">"react-redux"</span>;
+
+<span class="comment">// Types & Store</span>
+<span class="keyword">type</span> <span class="type">StateType</span>  = {  count: <span class="type">number</span>;           slno: <span class="type">number</span>;};
+<span class="keyword">type</span> <span class="type">ActionType</span> = {  type: <span class="keyword">keyof</span> <span class="type">StateType</span>;   val: <span class="type">number</span>;};
+<span class="keyword">const</span> obj: <span class="type">StateType</span> = { count: <span class="number">95</span>, slno: <span class="number">9</span> };
+<span class="keyword">const</span> store = createStore((state:<span class="type">StateType</span>=obj, action: <span class="type">ActionType</span>): <span class="type">StateType</span> <span class="operator">=&gt;</span> {  state[action.type] += action.val;
+              <span class="keyword">return</span> {...state };
+            });
+
+<span class="keyword">function</span> <span class="function">Counter</span>() {
+  <span class="keyword">const</span> { count, slno } = useSelector((state: <span class="type">StateType</span>) <span class="operator">=&gt;</span> state);
+  <span class="keyword">return</span> (  <span class="tag">&lt;h2&gt;</span>  Count : {count} / Slno : {slno}  <span class="tag">&lt;/h2&gt;</span>  );
+}
+
+<span class="keyword">function</span> <span class="function">Buttons</span>() {
+  <span class="keyword">const</span> dispatch = useDispatch();
+  <span class="keyword">return</span> ( <span class="tag">&lt;&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>={() <span class="operator">=&gt;</span> dispatch({ type: <span class="string">"count"</span>, val: <span class="number">4</span> })}<span class="tag">&gt;</span>+<span class="tag">&lt;/button&gt;</span> &amp;nbsp;
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>={() <span class="operator">=&gt;</span> dispatch({ type: <span class="string">"slno"</span>, val: <span class="number">3</span> })}<span class="tag">&gt;</span>+<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/&gt;</span>
+  );
+}
+
+<span class="keyword">const</span> root = ReactDOM.createRoot(  document.getElementById(<span class="string">"root"</span>) <span class="keyword">as</span> <span class="type">HTMLElement</span>  );
+root.render(
+  <span class="tag">&lt;Provider</span> <span class="attr">store</span>={store}<span class="tag">&gt;</span>
+    <span class="tag">&lt;Counter</span> <span class="tag">/&gt;</span>
+    <span class="tag">&lt;Buttons</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/Provider&gt;</span>
+);
+</pre>
+
+
+<div class="desc">Level - 03 : ⚛️ React-Redux-TypeScript-Toolkit</h3>
+
+<pre>
+<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom/client"</span>;
+<span class="keyword">import</span> { Provider, useSelector, useDispatch } <span class="keyword">from</span> <span class="string">"react-redux"</span>;
+<span class="keyword">import</span> { configureStore, createSlice, PayloadAction } <span class="keyword">from</span> <span class="string">"@reduxjs/toolkit"</span>;
+
+<span class="comment">// Types</span>
+<span class="keyword">type</span> <span class="type">StateType</span> = {  count: <span class="type">number</span>;  slno: <span class="type">number</span>;};
+
+<span class="comment">// Slice</span>
+<span class="keyword">const</span> initialStateObj: <span class="type">StateType</span> = { count: <span class="number">95</span>, slno: <span class="number">9</span> };
+
+<span class="keyword">const</span> counterSlice = createSlice({
+  name: <span class="string">"counter"</span>,
+  initialState: initialStateObj,
+  reducers: {
+    updData: (state, action: PayloadAction&lt;{ key: <span class="keyword">keyof</span> <span class="type">StateType</span>; val: <span class="type">number</span> }&gt;) <span class="operator">=&gt;</span> {
+      state[action.payload.key] += action.payload.val;
+    },
+    count: (state, action: PayloadAction&lt;<span class="type">number</span>&gt;) <span class="operator">=&gt;</span> {
+      state.count += action.payload;
+    },
+    slno: (state, action: PayloadAction&lt;<span class="type">number</span>&gt;) <span class="operator">=&gt;</span> {
+      state.slno += action.payload;
+    },
+  },
+});
+
+<span class="comment">// Store</span>
+<span class="keyword">const</span> store = configureStore({  reducer: counterSlice.reducer });
+
+<span class="comment">// RootState</span>
+<span class="keyword">type</span> <span class="type">RootState</span> = ReturnType&lt;<span class="keyword">typeof</span> store.getState&gt;;
+
+<span class="keyword">function</span> <span class="function">Counter</span>() {
+  <span class="keyword">const</span> { count, slno } = useSelector(  (state: <span class="type">RootState</span>) <span class="operator">=&gt;</span> state  );
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;h2&gt;</span>  Count : {count} / Slno : {slno}  <span class="tag">&lt;/h2&gt;</span>
+  );
+}
+
+<span class="keyword">function</span> <span class="function">Buttons</span>() {
+  <span class="keyword">const</span> dispatch = useDispatch();
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;&gt;</span>
+      <span class="tag">&lt;button</span>  <span class="attr">onClick</span>={() <span class="operator">=&gt;</span>  dispatch(counterSlice.actions.count(<span class="number">4</span>))  }  <span class="tag">&gt;</span>count : + <span class="tag">&lt;/button&gt;</span> &amp;nbsp;
+      <span class="tag">&lt;button</span>  <span class="attr">onClick</span>={() <span class="operator">=&gt;</span>  dispatch(counterSlice.actions.slno(<span class="number">3</span>))   }  <span class="tag">&gt;</span>slno : + <span class="tag">&lt;/button&gt;</span> &amp;nbsp;
+      <span class="tag">&lt;button</span>  <span class="attr">onClick</span>={() <span class="operator">=&gt;</span>  dispatch(counterSlice.actions.updData({ key: <span class="string">"count"</span>, val: <span class="number">6</span> }))  }  <span class="tag">&gt;</span>updData_count: + <span class="tag">&lt;/button&gt;</span> &amp;nbsp;
+      <span class="tag">&lt;button</span>  <span class="attr">onClick</span>={() <span class="operator">=&gt;</span>  dispatch(counterSlice.actions.updData({ key: <span class="string">"slno"</span>, val: <span class="number">9</span> }))  }  <span class="tag">&gt;</span>updData_slno: + <span class="tag">&lt;/button&gt;</span> &amp;nbsp;
+    <span class="tag">&lt;/&gt;</span>
+  );
+}
+
+<span class="keyword">const</span> root = ReactDOM.createRoot(  document.getElementById(<span class="string">"root"</span>) <span class="keyword">as</span> <span class="type">HTMLElement</span> );
+root.render(
+  <span class="tag">&lt;Provider</span> <span class="attr">store</span>={store}<span class="tag">&gt;</span>
+    <span class="tag">&lt;Counter</span> <span class="tag">/&gt;</span>
+    <span class="tag">&lt;Buttons</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/Provider&gt;</span>
+);
+</pre>
+
+
+
+</div>
+</div>
+</li>
+
+
+
+
 
 <li data-id="q35562-1" class="zyellow">
     <span class="faq-question">

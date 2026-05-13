@@ -244,3 +244,13 @@ pre{
     color:#ff79c6;
     font-weight:bold;
 }
+
+
+    
+    .string{ color:#CE9178; }
+    .function{ color:#DCDCAA; }
+    .number{ color:#B5CEA8; }
+    .comment{ color:#6A9955; }
+    .operator{ color:#D4D4D4; }
+    .tag{ color:#4EC9B0; }
+    .attr{ color:#9CDCFE; }
