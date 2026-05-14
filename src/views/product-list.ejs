@@ -1,20 +1,59 @@
+<!-- views/admin-list.ejs -->
 
- <!-- views/product-list.ejs -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>Products</title>
+
+    <link  rel="stylesheet"  href="/adminstyle.css"  />
+
 </head>
 
 <body>
 
-<h2>Product List</h2>
+<div class="layout">
 
-<a href="/products/add">
-  Add Product
-</a>
+  <%- include('sidebar') %>
 
-<table border="1" cellpadding="10">
+
+  <!-- ================= CONTENT ================= -->
+
+  <div class="content">
+
+    <div class="topbar">
+
+      <h1>Product Management</h1>
+
+      <div class="user-box">
+        Welcome :
+        <strong>Add Product</strong>
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="card-header">
+
+        <h2>Product List</h2>
+
+        <a href="/products/add" class="btn">
+          + Add Product
+        </a>
+
+
+
+
+      </div>
+
+      <table>
+
+        <thead>
+
 
 <tr>
   <th>Name</th>
@@ -22,6 +61,8 @@
   <th>Tenant</th>
   <th>Action</th>
 </tr>
+</thead>
+<tbody>
 
 <% products.forEach(x => { %>
 
@@ -49,7 +90,22 @@
 
 <% }) %>
 
-</table>
+        </tbody>
+
+      </table>
+
+
+
+
+      
+    </div>
+
+  </div>
+
+</div>
 
 </body>
 </html>
+
+
+
