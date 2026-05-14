@@ -12,6 +12,7 @@ import {
 
 import * as fs from 'fs';
 import * as path from 'path';
+import * as bcrypt from 'bcrypt';
 
 @Controller()
 export class AuthController {
@@ -30,24 +31,22 @@ export class AuthController {
   }
 
   @Post('/login')
-  login(
-    @Body() body,
-    @Req() req,
-    @Res() res,
-  ) {
+  async login(@Body() body, @Req() req, @Res() res) {
     const users = JSON.parse(
       fs.readFileSync(this.filePath, 'utf8'),
     );
 
-    const user = users.find(
-      (x) =>
-        x.username === body.username &&
-        x.password === body.password,
-    );
+    const user = users.find((val) =>  val.username === body.username);
 
     if (!user) {
-      return res.send('Invalid Login');
+      return res.send('User not found.');
     }
+
+    const isMatch = await bcrypt.compare(body.password, user.password);
+    if (!isMatch) {
+      return res.send('Invalid password.');
+    }
+
 
     req.session.user = user;
 

@@ -12,6 +12,8 @@ import {
 
 import { AdminService } from './admin.service';
 import { AuthGuard } from '../auth/auth.guard';
+import * as bcrypt from 'bcrypt';
+
 
 @Controller('admins')
 @UseGuards(AuthGuard)
@@ -57,15 +59,16 @@ export class AdminController {
   }
 
   @Post('/add')
-  add(@Body() body, @Res() res) {
-    const users =
-      this.adminService.getUsers();
+  async add(@Body() body, @Res() res) {
+    const users =  this.adminService.getUsers();
+    const hashedPassword = await bcrypt.hash(body.password, 10);
+
 
     users.push({
       id: Date.now(),
       name: body.name,
       username: body.username,
-      password: body.password,
+      password: hashedPassword,
       role: 'admin',
       tenantId: body.tenantId,
     });

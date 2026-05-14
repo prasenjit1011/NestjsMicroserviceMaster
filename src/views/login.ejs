@@ -2,79 +2,17 @@
 <html>
 <head>
   <title>Login</title>
-
-  <style>
-    body{
-      font-family: Arial;
-      background:#f3f4f6;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      margin:0;
-    }
-
-    .card{
-      background:white;
-      padding:40px;
-      width:350px;
-      border-radius:10px;
-      box-shadow:0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2{
-      text-align:center;
-      margin-bottom:30px;
-    }
-
-    input{
-      width:100%;
-      padding:12px;
-      margin-bottom:15px;
-      border:1px solid #ccc;
-      border-radius:5px;
-    }
-
-    button{
-      width:100%;
-      padding:12px;
-      border:none;
-      background:#2563eb;
-      color:white;
-      border-radius:5px;
-      cursor:pointer;
-    }
-  </style>
-  
+  <link  rel="stylesheet"  href="/css/login-style.css"  />
+  <link  rel="stylesheet"  href="/css/adminstyle.css"  />
 </head>
-
 <body>
-
-<div class="card">
-
-<h2>Login</h2>
-
-<form method="post" action="/login">
-
-<input
-  type="text"
-  name="username"
-  placeholder="Username"
-/>
-
-<input
-  type="password"
-  name="password"
-  placeholder="Password"
-/>
-
-<button type="submit">
-  Login
-</button>
-
-</form>
-
-</div>
-
+  <div class="card">
+    <h2>Login</h2>
+    <form method="post" action="/login">
+      <input  type="text"  name="username"  placeholder="Username"  />
+      <input  type="password"  name="password"  placeholder="Password"  />
+      <button type="submit">  Login </button>
+    </form>
+  </div>
 </body>
 </html>

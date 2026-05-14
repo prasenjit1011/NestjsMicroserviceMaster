@@ -1,38 +1,30 @@
 [
   {
-    "id": 1,
-    "username": "admin",
-    "password": "123456",
-    "role": "superadmin",
-    "name": "Super Admin"
-  },
-  {
-    "id": 2,
-    "username": "manager",
-    "password": "123456",
-    "role": "admin",
-    "name": "Manager User"
-  },
-  {
+      "id": 1,
+      "username": "admin",
+      "password": "$2b$10$SxbN/y5I.rSxfUyr3Izy.err3g4AqX2FI5kfvEFEkELlCO7rZ57eK",
+      "role": "superadmin",
+      "name": "Super Admin"
+    },
+    {
+      "id": 2,
+      "username": "manager",
+      "password": "$2b$10$SxbN/y5I.rSxfUyr3Izy.err3g4AqX2FI5kfvEFEkELlCO7rZ57eK",
+      "role": "admin",
+      "name": "Manager User"
+    },
+    {
     "id": 3,
     "username": "user",
-    "password": "123456",
+    "password": "$2b$10$SxbN/y5I.rSxfUyr3Izy.err3g4AqX2FI5kfvEFEkELlCO7rZ57eK",
     "role": "user",
     "name": "Normal User"
   },
   {
-    "id": 1778728572343,
-    "name": "Dummy",
-    "username": "admin",
-    "password": "123456",
-    "role": "admin",
-    "tenantId": "1"
-  },
-  {
-    "id": 1778731537029,
-    "name": "DummyAAA",
-    "username": "managerAAB",
-    "password": "123456",
+    "id": 1778738618060,
+    "name": "Demo",
+    "username": "demo",
+    "password": "$2b$10$SxbN/y5I.rSxfUyr3Izy.err3g4AqX2FI5kfvEFEkELlCO7rZ57eK",
     "role": "admin",
     "tenantId": "1"
   }
