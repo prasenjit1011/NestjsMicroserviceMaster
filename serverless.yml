@@ -21,7 +21,7 @@ provider:
 
 functions:
   api:
-    handler: dist/lambda.handler
+    handler: dist/main.handler
     events:
       - httpApi: '*'
 #  sqsHandler:
