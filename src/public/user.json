@@ -27,5 +27,13 @@
     "password": "123456",
     "role": "admin",
     "tenantId": "1"
+  },
+  {
+    "id": 1778731537029,
+    "name": "DummyAAA",
+    "username": "managerAAB",
+    "password": "123456",
+    "role": "admin",
+    "tenantId": "1"
   }
 ]

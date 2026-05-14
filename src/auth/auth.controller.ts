@@ -17,7 +17,7 @@ import * as path from 'path';
 export class AuthController {
   private filePath = path.join(
     process.cwd(),
-    'public',
+    'src/public',
     'user.json',
   );
 

@@ -9,7 +9,7 @@ import * as path from 'path';
 export class AdminService {
   private filePath = path.join(
     process.cwd(),
-    'public',
+    'src/public',
     'user.json',
   );
 

@@ -20,7 +20,7 @@ async function bootstrap() {
   );
 
   // static files
-  app.useStaticAssets(path.join(process.cwd(), 'public'));
+  app.useStaticAssets(path.join(process.cwd(), 'src/public'));
   
   // views
   app.setBaseViewsDir(path.join(process.cwd(), 'src/views'));

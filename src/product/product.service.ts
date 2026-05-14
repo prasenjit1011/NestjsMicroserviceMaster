@@ -8,7 +8,7 @@ import * as path from 'path';
 export class ProductService {
   private filePath = path.join(
     process.cwd(),
-    'public',
+    'src/public',
     'product.json',
   );
 
