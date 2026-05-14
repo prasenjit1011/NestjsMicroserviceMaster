@@ -43,7 +43,7 @@ jobs:
       # =========================
       - name: Deploy Multi Tenant Lambda
         if: github.ref == 'refs/heads/multi_tenant_app'
-        run: npx serverless deploy --stage multi_tenant_app
+        run: npx serverless deploy --stage multi-tenant-app
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
