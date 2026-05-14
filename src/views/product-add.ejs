@@ -1,0 +1,38 @@
+<!-- # views/product-add.ejs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Product</title>
+</head>
+
+<body>
+
+<h2>Add Product</h2>
+
+<form method="post" action="/products/add">
+
+<input
+  type="text"
+  name="name"
+  placeholder="Product Name"
+/>
+
+<br /><br />
+
+<input
+  type="number"
+  name="price"
+  placeholder="Price"
+/>
+
+<br /><br />
+
+<button type="submit">
+  Save
+</button>
+
+</form>
+
+</body>
+</html>

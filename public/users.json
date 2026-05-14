@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "username": "superadmin",
+    "password": "123456",
+    "role": "superadmin",
+    "tenantId": null
+  }
+]

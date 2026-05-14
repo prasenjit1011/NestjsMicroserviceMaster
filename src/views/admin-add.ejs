@@ -1,0 +1,51 @@
+<!-- views/admin-add.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Admin</title>
+</head>
+
+<body>
+
+<h2>Add Admin</h2>
+
+<form method="post" action="/admins/add">
+
+<input
+  type="text"
+  name="username"
+  placeholder="Username"
+/>
+
+<br /><br />
+
+<input
+  type="password"
+  name="password"
+  placeholder="Password"
+/>
+
+<br /><br />
+
+<select name="tenantId">
+
+<% tenants.forEach(x => { %>
+
+<option value="<%= x.tenantId %>">
+  <%= x.name %>
+</option>
+
+<% }) %>
+
+</select>
+
+<br /><br />
+
+<button type="submit">
+  Save
+</button>
+
+</form>
+
+</body>
+</html>

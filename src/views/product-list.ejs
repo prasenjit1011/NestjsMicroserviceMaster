@@ -1,0 +1,55 @@
+
+ <!-- views/product-list.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Products</title>
+</head>
+
+<body>
+
+<h2>Product List</h2>
+
+<a href="/products/add">
+  Add Product
+</a>
+
+<table border="1" cellpadding="10">
+
+<tr>
+  <th>Name</th>
+  <th>Price</th>
+  <th>Tenant</th>
+  <th>Action</th>
+</tr>
+
+<% products.forEach(x => { %>
+
+<tr>
+
+<td><%= x.name %></td>
+
+<td><%= x.price %></td>
+
+<td><%= x.tenantId %></td>
+
+<td>
+
+<a href="/products/edit/<%= x.id %>">
+  Edit
+</a>
+
+<a href="/products/delete/<%= x.id %>">
+  Delete
+</a>
+
+</td>
+
+</tr>
+
+<% }) %>
+
+</table>
+
+</body>
+</html>
