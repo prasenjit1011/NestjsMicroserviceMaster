@@ -23,23 +23,11 @@ export class AdminController {
   @Get()
   @Render('admin-list')
   adminList(@Req() req) {
-
-    const admins = [
-      {
-        id: 1,
-        username: 'admin1',
-        email: 'admin1@gmail.com',
-        role: 'admin',
-        tenantName: 'Tenant 1',
-      },
-    ];
-
     const users = this.adminService.getUsers();
-    // const admins = users.filter(
-    //   (x) => x.role === 'admin',
-    // );
+    const admins = users.filter(
+      (x) => x.role !== 'superadmin',
+    );
 
-    console.log('',users);
 
     return {
       users,
@@ -47,14 +35,6 @@ export class AdminController {
       user: req.session.user,
     };
   }
-
-
-  // list() {
-
-
-  //   return { admins };
-  // }
-
 
 
   @Get('/add')
@@ -83,9 +63,11 @@ export class AdminController {
 
     users.push({
       id: Date.now(),
+      name: body.name,
       username: body.username,
       password: body.password,
       role: 'admin',
+      tenantId: body.tenantId,
     });
 
     this.adminService.saveUsers(users);

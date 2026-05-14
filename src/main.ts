@@ -21,7 +21,7 @@ async function bootstrap() {
 
   // static files
   app.useStaticAssets(path.join(process.cwd(), 'public'));
-
+  
   // views
   app.setBaseViewsDir(path.join(process.cwd(), 'src/views'));
   app.setViewEngine('ejs');

@@ -1,6 +1,5 @@
 //  user/user.controller.ts
 
-
 import {
   Body,
   Controller,
@@ -11,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { AdminService } from '../admin/admin.service';
+import { AdminService } from '../admn/admin.service';
 import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('users')

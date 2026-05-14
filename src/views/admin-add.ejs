@@ -1,51 +1,247 @@
 <!-- views/admin-add.ejs -->
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>Add Admin</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(135deg,#0f172a,#1e293b);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:30px;
+      color:white;
+    }
+
+    .container{
+      width:100%;
+      max-width:550px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.1);
+      backdrop-filter:blur(10px);
+      border-radius:20px;
+      padding:40px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .title{
+      text-align:center;
+      margin-bottom:35px;
+    }
+
+    .title h1{
+      font-size:34px;
+      margin-bottom:10px;
+    }
+
+    .title p{
+      color:#cbd5e1;
+      font-size:15px;
+    }
+
+    .form-group{
+      margin-bottom:22px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:10px;
+      font-size:15px;
+      font-weight:bold;
+      color:#e2e8f0;
+    }
+
+    input,
+    select{
+      width:100%;
+      padding:15px;
+      border:none;
+      outline:none;
+      border-radius:12px;
+      background:rgba(255,255,255,0.1);
+      color:white;
+      font-size:15px;
+      transition:0.3s;
+    }
+
+    input:focus,
+    select:focus{
+      background:rgba(255,255,255,0.15);
+      border:1px solid #38bdf8;
+    }
+
+    input::placeholder{
+      color:#cbd5e1;
+    }
+
+    select option{
+      color:black;
+    }
+
+    .btn{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:12px;
+      background:#2563eb;
+      color:white;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+      margin-top:10px;
+    }
+
+    .btn:hover{
+      background:#1d4ed8;
+      transform:translateY(-2px);
+    }
+
+    .footer{
+      margin-top:25px;
+      text-align:center;
+    }
+
+    .footer a{
+      text-decoration:none;
+      color:#38bdf8;
+      font-size:14px;
+      font-weight:bold;
+    }
+
+    .footer a:hover{
+      text-decoration:underline;
+    }
+
+    @media(max-width:600px){
+
+      .card{
+        padding:25px;
+      }
+
+      .title h1{
+        font-size:28px;
+      }
+
+    }
+
+  </style>
+
 </head>
 
 <body>
 
-<h2>Add Admin</h2>
+<div class="container">
 
-<form method="post" action="/admins/add">
+  <div class="card">
 
-<input
-  type="text"
-  name="username"
-  placeholder="Username"
-/>
+    <div class="title">
+      <h1>Add Admin</h1>
 
-<br /><br />
+      <p>Create new admin account</p>
+    </div>
 
-<input
-  type="password"
-  name="password"
-  placeholder="Password"
-/>
+    <form method="post" action="/admins/add">
 
-<br /><br />
+      <div class="form-group">
 
-<select name="tenantId">
+        <label>
+          Name
+        </label>
 
-<% tenants.forEach(x => { %>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter name"
+          required
+        />
 
-<option value="<%= x.tenantId %>">
-  <%= x.name %>
-</option>
+      </div>
+      <div class="form-group">
 
-<% }) %>
+        <label>
+          Username
+        </label>
 
-</select>
+        <input
+          type="text"
+          name="username"
+          placeholder="Enter username"
+          required
+        />
 
-<br /><br />
+      </div>
 
-<button type="submit">
-  Save
-</button>
+      <div class="form-group">
 
-</form>
+        <label>
+          Password
+        </label>
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter password"
+          required
+        />
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Select Tenant
+        </label>
+
+        <select name="tenantId" required>
+
+          <% tenants.forEach(x => { %>
+
+            <option value="<%= x.tenantId %>">
+              <%= x.name %>
+            </option>
+
+          <% }) %>
+
+        </select>
+
+      </div>
+
+      <button type="submit" class="btn">
+        Save Admin
+      </button>
+
+    </form>
+
+    <div class="footer">
+
+      <a href="/admins">
+        ← Back to Admin List
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
 
 </body>
 </html>

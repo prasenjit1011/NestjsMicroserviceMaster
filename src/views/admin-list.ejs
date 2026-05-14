@@ -291,21 +291,22 @@
         <tbody>
 
 
-          <% users.forEach(admin => { %>
+          <% admins.forEach(admin => { %>
 
             <tr>
 
               <td>
-                <%= admin.id %>
+                <%= admin.id.toString().slice(-3) %>
               </td>
 
+              <td>
+                <%= admin.name %>
+              </td>
               <td>
                 <%= admin.username %>
               </td>
 
-              <td>
-                <%= admin.password %>
-              </td>
+              
 
               <td>
                 <span class="badge">
@@ -314,7 +315,7 @@
               </td>
 
               <td>
-                <%= admin.username %>
+                <%= admin.tenantId %>
               </td>
 
               <td>
