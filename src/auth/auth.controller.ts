@@ -8,11 +8,13 @@ import {
   Render,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 
 import * as fs from 'fs';
 import * as path from 'path';
 import * as bcrypt from 'bcrypt';
+import { AuthGuard } from './auth.guard';
 
 @Controller()
 export class AuthController {
@@ -24,7 +26,11 @@ export class AuthController {
 
   @Get('/')
   @Render('login')
-  loginPage() {
+  loginPage(@Req() req, @Res() res) {
+    if (req.session?.user) {
+      return res.redirect('/dashboard');
+    }
+
     return {
       error: null,
     };
@@ -54,6 +60,7 @@ export class AuthController {
   }
 
   @Get('/dashboard')
+  @UseGuards(AuthGuard)
   @Render('dashboard')
   dashboard(@Req() req) {
     return {

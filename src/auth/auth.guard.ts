@@ -12,7 +12,15 @@ export class AuthGuard implements CanActivate {
     const request = context
       .switchToHttp()
       .getRequest();
+    const response = context
+      .switchToHttp()
+      .getResponse();
 
-    return !!request.session.user;
+    if (!request.session?.user) {
+      response.redirect('http://localhost:3000');
+      return false;
+    }
+
+    return true;
   }
 }
