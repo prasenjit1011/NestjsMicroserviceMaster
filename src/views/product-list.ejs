@@ -56,6 +56,7 @@
 
 
 <tr>
+  <th>Image</th>
   <th>Name</th>
   <th>Price</th>
   <th>Tenant</th>
@@ -67,6 +68,14 @@
 <% products.forEach(x => { %>
 
 <tr>
+
+<td>
+  <% if (x.image) { %>
+    <img src="<%= x.image %>" alt="<%= x.name %>" width="80" />
+  <% } else { %>
+    &mdash;
+  <% } %>
+</td>
 
 <td><%= x.name %></td>
 
