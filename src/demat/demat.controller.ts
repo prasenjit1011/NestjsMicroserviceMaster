@@ -394,6 +394,7 @@ export class DematController {
       console.error('Error fetching from API:', error);
     }
 
+    
     // Read the HTML template
     const templatePath = getTemplatePath('home.html');
     let html = fs.readFileSync(templatePath, 'utf8');
