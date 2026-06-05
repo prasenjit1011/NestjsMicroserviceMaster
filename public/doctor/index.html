@@ -2052,16 +2052,16 @@ function App() {
   
     <h2>🔎 Explanation:</h2>
     <ul>
-      <li><code>console.log("Start")</code> and <code>console.log("End")</code> are synchronous.</li>
-      <li><code>.then()</code> is a micro-task, so it runs <strong>immediately after sync code finishes</strong>.</li>
-      <li><code>setTimeout</code> is a macro-task, so it runs <strong>after all micro-tasks are done</strong>.</li>
+      <li>console.log("Start") and console.log("End") are synchronous.</li>
+      <li>.then() is a micro-task, so it runs <strong>immediately after sync code finishes</strong>.</li>
+      <li>setTimeout is a macro-task, so it runs <strong>after all micro-tasks are done</strong>.</li>
     </ul>
   
     <h2>📌 Summary</h2>
     <ul>
-      <li><strong>Promises have higher priority</strong> than callbacks like <code>setTimeout</code>.</li>
+      <li><strong>Promises have higher priority</strong> than callbacks like setTimeout.</li>
       <li>Promises are <strong>scheduled earlier</strong> in the event loop via the <strong>micro-task queue</strong>.</li>
-      <li>Use <strong>Promises and <code>async/await</code></strong> for better readability and control in modern code.</li>
+      <li>Use <strong>Promises and async/await</strong> for better readability and control in modern code.</li>
     </ul>
   
   
@@ -64071,6 +64071,184 @@ Benefits:
 <li data-id="q3" class="yellow"><span class="faq-question">
   ---------------- GCP END ---------------------------- 
 </span></li>
+
+
+<li data-id="q1" class="zyellow">
+  <span class="faq-question">Amazon Web Services</span>
+  <div class="answer">
+    <div class="box">
+    <pre>
+Here are some major services from Amazon Web Services grouped by category.
+
+# Compute Services
+
+| Service                               | Purpose                 |
+| ------------------------------------- | ----------------------- |
+| Amazon Web Services EC2               | Virtual servers         |
+| Amazon Web Services Lambda            | Serverless functions    |
+| Amazon Web Services ECS               | Container orchestration |
+| Amazon Web Services EKS               | Managed Kubernetes      |
+| Amazon Web Services Elastic Beanstalk | Easy app deployment     |
+| Amazon Web Services Batch             | Batch job processing    |
+| Amazon Web Services Lightsail         | Simple VPS hosting      |
+
+---
+
+# Storage Services
+
+| Service                             | Purpose             |
+| ----------------------------------- | ------------------- |
+| Amazon Web Services S3              | Object/file storage |
+| Amazon Web Services EBS             | EC2 disk storage    |
+| Amazon Web Services EFS             | Shared file system  |
+| Amazon Web Services Glacier         | Archive storage     |
+| Amazon Web Services Storage Gateway | Hybrid storage      |
+
+---
+
+# Database Services
+
+| Service                         | Purpose                         |
+| ------------------------------- | ------------------------------- |
+| Amazon Web Services RDS         | Managed SQL DB                  |
+| Amazon Web Services DynamoDB    | NoSQL DB                        |
+| Amazon Web Services Aurora      | High-performance MySQL/Postgres |
+| Amazon Web Services ElastiCache | Redis/Memcached                 |
+| Amazon Web Services Redshift    | Data warehouse                  |
+
+---
+
+# Networking Services
+
+| Service                         | Purpose               |
+| ------------------------------- | --------------------- |
+| Amazon Web Services VPC         | Private cloud network |
+| Amazon Web Services Route 53    | DNS/domain management |
+| Amazon Web Services CloudFront  | CDN                   |
+| Amazon Web Services ELB / ALB   | Load balancing        |
+| Amazon Web Services API Gateway | API management        |
+
+---
+
+# Security Services
+
+| Service                             | Purpose          |
+| ----------------------------------- | ---------------- |
+| Amazon Web Services IAM             | User permissions |
+| Amazon Web Services Cognito         | Authentication   |
+| Amazon Web Services WAF             | Web firewall     |
+| Amazon Web Services Shield          | DDoS protection  |
+| Amazon Web Services Secrets Manager | Store secrets    |
+
+---
+
+# DevOps & Monitoring
+
+| Service                             | Purpose            |
+| ----------------------------------- | ------------------ |
+| Amazon Web Services CloudWatch      | Monitoring/logging |
+| Amazon Web Services CloudTrail      | Audit logs         |
+| Amazon Web Services CodeBuild       | Build service      |
+| Amazon Web Services CodePipeline    | CI/CD              |
+| Amazon Web Services Systems Manager | Server management  |
+
+---
+
+# Messaging Services
+
+| Service                         | Purpose                |
+| ------------------------------- | ---------------------- |
+| Amazon Web Services SQS         | Queue service          |
+| Amazon Web Services SNS         | Notifications          |
+| Amazon Web Services EventBridge | Event routing          |
+| Amazon Web Services MQ          | Managed message broker |
+
+---
+
+# AI / ML Services
+
+| Service                         | Purpose        |
+| ------------------------------- | -------------- |
+| Amazon Web Services SageMaker   | ML platform    |
+| Amazon Web Services Rekognition | Image/video AI |
+| Amazon Web Services Comprehend  | NLP            |
+| Amazon Web Services Polly       | Text-to-speech |
+| Amazon Web Services Bedrock     | Generative AI  |
+
+---
+
+# Analytics & Big Data
+
+| Service                     | Purpose        |
+| --------------------------- | -------------- |
+| Amazon Web Services Athena  | Query S3 data  |
+| Amazon Web Services EMR     | Hadoop/Spark   |
+| Amazon Web Services Glue    | ETL            |
+| Amazon Web Services Kinesis | Streaming data |
+
+---
+
+# Common AWS Stack for Node.js Developers
+
+## Beginner Stack
+
+```text id="0b6n5n"
+EC2
+S3
+IAM
+CloudWatch
+Route53
+```
+
+---
+
+## DevOps Stack
+
+```text id="f9myh7"
+EC2
+Terraform
+GitHub Actions
+CloudWatch
+ALB
+Route53
+```
+
+---
+
+## Kubernetes Stack
+
+```text id="wmbg6d"
+EKS
+ECR
+ALB
+IAM
+CloudWatch
+Route53
+```
+
+---
+
+# Most important AWS services to learn first
+
+For your current path:
+
+1. Amazon Web Services EC2
+2. Amazon Web Services IAM
+3. Amazon Web Services VPC
+4. Amazon Web Services S3
+5. Amazon Web Services Route 53
+6. Amazon Web Services CloudWatch
+7. Amazon Web Services ALB
+8. Amazon Web Services ECR
+9. Amazon Web Services EKS
+10. Amazon Web Services Lambda
+
+    </pre>
+    </div>
+  </div>
+</li>
+
+
 
 <li data-id="q_call_api_without_useeffect" id="awslambda_qlist"><span class="faq-question green">
   Lambda : Question?
