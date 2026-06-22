@@ -3,7 +3,7 @@ name: Deploy to AWS Lambda using Serverless
 on:
   push:
     branches:
-      - doctor
+      - doctor_test
       - multi_tenant_app
 
 jobs:

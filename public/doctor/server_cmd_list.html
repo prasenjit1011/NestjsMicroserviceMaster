@@ -1,0 +1,89 @@
+
+treee -I "node_modules|dist|build|__pycache__"
+uvicorn app.main:app
+uvicorn app.main:app --reload
+
+cd "C:\Program Files\FlyEnv-Data\app\mongodb-8.2.7\bin"
+mongod --dbpath C:\data\db
+
+cd C:\Program Files\FlyEnv-Data\app\mariadb-11.8.6\bin
+mariadb -h 127.0.0.1 -P 3306 -u company -pLnsel@345 company
+mariadb -h 127.0.0.1 -P 3306 -u root -p
+
+sudo netstat -tulpn | grep 3000
+printenv | grep MONGO
+cat /etc/environment | grep MONGO_URI
+node dist/server.js
+
+pm2 logs nodeapp
+pm2 status
+pm2 logs
+
+
+mongodb+srv://myuser:<db_password>@cluster0.hlicuim.mongodb.net/?appName=Cluster0
+
+
+Final :
+
+for /f "delims=" %f in ('dir /s /b ^| findstr /v /i "\\public\\ \\venv\\  \\__pycache__\\    \\.git\\ \\alembic\\  \\.next\\ \\.gitignore README.md CLAUDE.md AGENTS.md package-lock.json"') do @echo Processing: %f & (echo ===== %f ===== & type "%f" & echo.)>>"all_code.txt"
+
+
+Get Project Source Code:
+for /f "delims=" %f in ('dir /s /b ^| findstr /v /i "\\utils\\ \\services\\ \\public\\ \\lib\\ \\features\\ \\components\\ \\__pycache__\\ \\versions\\ \\node_modules\\ \\views\\ \\dist\\ \\.git\\ \\alembic\\  \\.next\\ \\.gitignore README.md CLAUDE.md AGENTS.md package-lock.json"') do @echo Processing: %f & (echo ===== %f ===== & type "%f" & echo.)>>"..\..\trash\all_code.txt"
+(for /f "delims=" %f in ('dir /s /b ^| findstr /v /i "\\utils\\ \\services\\ \\public\\  \\lib\\ \\features\\ \\components\\ \\__pycache__\\ \\versions\\ \\node_modules\\ \\views\\ \\dist\\ \\.git\\ \\.gitignore\\ \\package-lock.json\\"') do @echo ===== %f ===== & @type "%f" & @echo.) > ../../trash/all_code.txt
+
+System information:
+systeminfo | findstr /C:"Total Physical Memory" /C:"Available Physical Memory"
+
+Connect to AWS EC2 Instance:
+ssh -i "C:\myproject\github\AWSGCP\node-key.pem" ubuntu@13.201.85.217
+
+
+
+
+
+
+
+
+
+
+-: Azure :-
+az account set --subscription 78225165-1c0c-4e14-ac98-4520c6500120
+
+az acr list --output table
+az resource list --query "[?type=='Microsoft.ContainerRegistry/registries']" -o table
+
+az resource list --output table
+az resource list --query "[].type" -o tsv | sort | uniq
+az staticwebapp list --output table
+az containerapp list --output table
+az storage account list --output table
+
+az sql server list --output table
+az postgres flexible-server list --output table
+az network public-ip list --output table
+az resource list --query "[].{Name:name,Type:type}" --output table
+az staticwebapp show   --name ReactStaticWebApp2026   --resource-group ReactStaticWebApp2026_group   --query "sku"
+
+az group list --output table
+az deployment sub list --output table
+az consumption usage list --top 20 --output table
+
+az group list --query "[].name" -o tsv
+
+az resource show --name workspace-eacttaticebpp2026groupOc9Y --resource-group eacttaticebpp2026groupOc9Y --resource-type Microsoft.OperationalInsights/workspaces
+az containerapp env show --name portfolio-env --resource-group ReactStaticWebApp2026_group --query "properties.appLogsConfiguration"
+az containerapp env show --name portfolio-env --resource-group ReactStaticWebApp2026_group
+
+az consumption usage list   --top 50   --query "[].{Service:ConsumedService,Product:Product,PretaxCost:PretaxCost}"   --output table
+az monitor log-analytics workspace list --output table
+
+
+
+
+az acr delete --name reactacr2026   --resource-group Azure_React_Action --yes
+az group delete   --name ReactStaticWebApp2026_group   --yes   --no-wait
+
+az containerapp delete --name portfolio-app --resource-group ReactStaticWebApp2026_group --yes
+az containerapp env delete --name portfolio-env --resource-group ReactStaticWebApp2026_group --yes
+az monitor log-analytics workspace delete --workspace-name workspace-eacttaticebpp2026groupOc9Y --resource-group ReactStaticWebApp2026_group --yes
