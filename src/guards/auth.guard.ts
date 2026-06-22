@@ -5,17 +5,35 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
+import { Reflector } from '@nestjs/core';
+// import { IS_PUBLIC_KEY } from './public.decorator';
+import { IS_PUBLIC_KEY } from 'src/decorators/public.decorator';
+
 @Injectable()
 export class AuthGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
+
   canActivate(context: ExecutionContext): boolean {
+
+    // Check if route is public
+    const isPublic = this.reflector.getAllAndOverride<boolean>(
+      IS_PUBLIC_KEY,
+      [
+        context.getHandler(),
+        context.getClass(),
+      ],
+    );
+
+    if (isPublic) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest();
 
     const token = request.headers.authorization;
 
     if (token !== 'Bearer secret123') {
-      throw new UnauthorizedException(
-        'Invalid Token',
-      );
+      throw new UnauthorizedException('Invalid Token');
     }
 
     return true;

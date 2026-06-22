@@ -16,21 +16,25 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { LoggingInterceptor } from '../interceptors/logging.interceptor';
+import { Public } from '../decorators/public.decorator';
 
 @Controller('products')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard) // Protect all routes by default
 @UseInterceptors(LoggingInterceptor)
 export class ProductsController {
-
+  
   constructor(
     private readonly productsService: ProductsService,
   ) {}
 
+  // Public Route
+  @Public()
   @Get()
   findAll() {
     return this.productsService.findAll();
   }
 
+  // Protected Route
   @Get(':id')
   findOne(
     @Param('id', ParseIntPipe) id: number,
@@ -38,6 +42,7 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
+  // Protected Route
   @Post()
   create(
     @Body() body: CreateProductDto,
@@ -45,6 +50,7 @@ export class ProductsController {
     return this.productsService.create(body);
   }
 
+  // Protected Route
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -53,6 +59,7 @@ export class ProductsController {
     return this.productsService.update(id, body);
   }
 
+  // Protected Route
   @Delete(':id')
   remove(
     @Param('id', ParseIntPipe) id: number,
