@@ -1,4 +1,6 @@
 
+rmdir /s /q node_modules
+
 treee -I "node_modules|dist|build|__pycache__"
 uvicorn app.main:app
 uvicorn app.main:app --reload
