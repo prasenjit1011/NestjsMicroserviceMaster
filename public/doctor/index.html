@@ -49440,7 +49440,7 @@ model Post {
   parentId  <span class="type">Int?</span>
   parent    Category?  <span class="keyword">@relation(</span>  "CategoryToCategory",  fields: [parentId],  references: [id]  )
 
-  children  Category[] <span class="keyword">@relation("CategoryToCategory")</code>
+  children  Category[] <span class="keyword">@relation("CategoryToCategory")</span>
   posts     PostCategory[]
 }
 

@@ -5,6 +5,12 @@ treee -I "node_modules|dist|build|__pycache__"
 uvicorn app.main:app
 uvicorn app.main:app --reload
 
+
+cd C:\Program Files\FlyEnv-Data\app\mongosh\2.5.2\bin
+mongosh
+rs.initiate()
+rs.status()
+
 cd "C:\Program Files\FlyEnv-Data\app\mongodb-8.2.7\bin"
 mongod --dbpath C:\data\db
 
