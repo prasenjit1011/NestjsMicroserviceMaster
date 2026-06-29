@@ -18,9 +18,11 @@ import { AuthGuard } from '../guards/auth.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { LoggingInterceptor } from '../interceptors/logging.interceptor';
 import { Public } from '../decorators/public.decorator';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('products')
-@UseGuards(JwtAuthGuard) // Protect all routes by default
+@UseGuards(JwtAuthGuard, RolesGuard) // Protect all routes by default
 @UseInterceptors(LoggingInterceptor)
 export class ProductsController {
   
@@ -44,6 +46,7 @@ export class ProductsController {
   }
 
   // Protected Route
+  @Roles('ADMIN')
   @Post()
   create(
     @Body() body: CreateProductDto,
@@ -61,6 +64,7 @@ export class ProductsController {
   }
 
   // Protected Route
+  @Roles('ADMIN')
   @Delete(':id')
   remove(
     @Param('id', ParseIntPipe) id: number,

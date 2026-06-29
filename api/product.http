@@ -1,9 +1,9 @@
 @baseUrl = http://localhost:3001
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODI3MTU3NDcsImV4cCI6MTc4MjcxOTM0N30.7IB2FtGFKGvFvxJ9_ezpaqKryl1JL_nEhKHICbUsi04
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODI3MjEyMzksImV4cCI6MTc4MjcyNDgzOX0.4pFAlD0NOZZeD9fod1zbjDd_FObikmLtNAOragSO9oA
+# @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoidXNlckB0ZXN0LmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzgyNzIxMzQ3LCJleHAiOjE3ODI3MjQ5NDd9.3_x0-cVwWL3eIS5N5hgwhQNR-1uN7YZkqHqXw4QPyWQ
 
 ### =====================================
-### CREATE TOKEN
+### CREATE TOKEN (Admin)
 ### =====================================
 
 POST {{baseUrl}}/auth/login
@@ -14,6 +14,18 @@ Content-Type: application/json
   "password": "admin123"
 }
 
+
+### =====================================
+### CREATE TOKEN (User)
+### =====================================
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@test.com",
+  "password": "user123"
+}
 
 ### =====================================
 ### PRODUCTS API
@@ -36,7 +48,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Dummy Laptop",
+  "name": "Dummy Three Laptop",
   "price": 55000
 }
 
@@ -48,7 +60,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Gaming Laptop",
+  "name": "Gaming NewTwo Laptop",
   "price": 75000
 }
 
