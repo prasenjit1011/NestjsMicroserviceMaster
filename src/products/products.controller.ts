@@ -18,8 +18,9 @@ import { AuthGuard } from '../guards/auth.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { LoggingInterceptor } from '../interceptors/logging.interceptor';
 import { Public } from '../decorators/public.decorator';
-import { RolesGuard } from 'src/guards/roles.guard';
-import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from '../guards/roles.guard';
+import { Roles } from '../decorators/roles.decorator';
+
 
 @Controller('products')
 @UseGuards(JwtAuthGuard, RolesGuard) // Protect all routes by default
