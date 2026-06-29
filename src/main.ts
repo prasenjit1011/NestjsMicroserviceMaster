@@ -3,18 +3,25 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 
-async function bootstrap() {
-  dotenv.config(); // Load .env before anything else
+export async function bootstrap() {
+  dotenv.config();
+
   console.clear();
-  console.log('PORT : ', process.env.PORT)
+
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT);
 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
     }),
   );
-  console.log('PORT : ', process.env.PORT)
+
+  await app.listen(process.env.PORT);
+
+  console.log('PORT : ', process.env.PORT);
 }
-bootstrap();
+
+// Run only when executed directly
+if (require.main === module) {
+  bootstrap();
+}
