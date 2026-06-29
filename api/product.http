@@ -1,0 +1,59 @@
+@baseUrl = http://localhost:3001
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODI3MTU3NDcsImV4cCI6MTc4MjcxOTM0N30.7IB2FtGFKGvFvxJ9_ezpaqKryl1JL_nEhKHICbUsi04
+
+
+### =====================================
+### CREATE TOKEN
+### =====================================
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@test.com",
+  "password": "admin123"
+}
+
+
+### =====================================
+### PRODUCTS API
+### =====================================
+
+### Get All Products (Public)
+GET {{baseUrl}}/products
+
+###
+
+### Get Product By ID (Protected)
+GET {{baseUrl}}/products/1
+Authorization: Bearer {{token}}
+
+###
+
+### Create Product (Protected)
+POST {{baseUrl}}/products
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Dummy Laptop",
+  "price": 55000
+}
+
+###
+
+### Update Product (Protected)
+PUT {{baseUrl}}/products/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Gaming Laptop",
+  "price": 75000
+}
+
+###
+
+### Delete Product (Protected)
+DELETE {{baseUrl}}/products/1
+Authorization: Bearer {{token}}

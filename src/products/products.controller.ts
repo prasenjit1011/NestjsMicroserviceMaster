@@ -15,11 +15,12 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from '../guards/auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { LoggingInterceptor } from '../interceptors/logging.interceptor';
 import { Public } from '../decorators/public.decorator';
 
 @Controller('products')
-@UseGuards(AuthGuard) // Protect all routes by default
+@UseGuards(JwtAuthGuard) // Protect all routes by default
 @UseInterceptors(LoggingInterceptor)
 export class ProductsController {
   
