@@ -26,6 +26,9 @@ export async function bootstrap() {
     .setTitle('NestJS MongoDB API')
     .setDescription('API documentation for NestJS MongoDB project')
     .setVersion('1.0')
+    .addTag('Home')
+    .addTag('Auth')
+    .addTag('Product CRUD')
     .addBearerAuth(
       {
         type: 'http',
