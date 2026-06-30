@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3001
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODI3MjEyMzksImV4cCI6MTc4MjcyNDgzOX0.4pFAlD0NOZZeD9fod1zbjDd_FObikmLtNAOragSO9oA
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODI4MDEwNzAsImV4cCI6MTc4MjgwNDY3MH0.9S4DeIWynKNKaogjyOAI_mWLxSVrt3dWySNKotcq748
 # @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoidXNlckB0ZXN0LmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzgyNzIxMzQ3LCJleHAiOjE3ODI3MjQ5NDd9.3_x0-cVwWL3eIS5N5hgwhQNR-1uN7YZkqHqXw4QPyWQ
 
 ### =====================================

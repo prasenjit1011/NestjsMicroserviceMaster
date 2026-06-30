@@ -20,10 +20,11 @@ import { LoggingInterceptor } from '../interceptors/logging.interceptor';
 import { Public } from '../decorators/public.decorator';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 
 @ApiTags('Product CRUD')
+@ApiBearerAuth('JWT-auth')
 @Controller('products')
 @UseGuards(JwtAuthGuard, RolesGuard) // Protect all routes by default
 @UseInterceptors(LoggingInterceptor)
