@@ -26,12 +26,14 @@ export class AuthController {
     }
 
     const token = this.authService.login(user);
+    return {...token};
 
     return {
       status:true,
       message: 'Login successful',
       ...token
     };
+
   }
 
 }
