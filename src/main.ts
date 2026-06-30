@@ -23,7 +23,7 @@ export async function bootstrap() {
 
   // Swagger Configuration
   const config = new DocumentBuilder()
-    .setTitle('NestJS MongoDB API')
+    .setTitle('NestJS API')
     .setDescription('API documentation for NestJS MongoDB project')
     .setVersion('1.0')
     .addTag('Home')
