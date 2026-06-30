@@ -7,11 +7,21 @@ import { UpdateBrandDto } from './dto/update-brand.dto';
 export class BrandService {
   constructor(private prisma: PrismaService) {}
 
-  create(createBrandDto: CreateBrandDto) {
+  zcreate(createBrandDto: CreateBrandDto) {
     return this.prisma.brand.create({
       data: createBrandDto,
     });
   }
+
+
+  create(createBrandDto: CreateBrandDto) {
+      console.log('DTO =', createBrandDto);
+
+    return this.prisma.brand.create({
+      data: createBrandDto,
+    });
+  }
+
 
   findAll() {
     return this.prisma.brand.findMany();
