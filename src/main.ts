@@ -10,6 +10,8 @@ async function bootstrap() {
     .setTitle('NestJS MongoDB API')
     .setDescription('API documentation')
     .setVersion('1.0')
+    .addTag('Home')
+    .addTag('Brand CRUD')
     .addBearerAuth()
     .build();
 
