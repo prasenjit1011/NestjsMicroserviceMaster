@@ -1,14 +1,26 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
+
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  dotenv.config(); // Load .env before anything else
-  console.log('PORT : ', process.env.PORT)
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT);
 
-  console.clear();
-  console.log('PORT : ', process.env.PORT)
+  const config = new DocumentBuilder()
+    .setTitle('NestJS MongoDB API')
+    .setDescription('API documentation')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('api-docs', app, document);
+
+  await app.listen(3000);
+
+  console.log(`Application: http://localhost:3000`);
+  console.log(`Swagger: http://localhost:3000/api-docs`);
 }
+
 bootstrap();
