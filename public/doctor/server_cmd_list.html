@@ -1,12 +1,36 @@
 
 rmdir /s /q node_modules
+rmdir /s /q generated
+rmdir /s /q prisma\migrations
+rmdir /s /q dist
 
-treee -I "node_modules|dist|build|__pycache__"
+npx prisma generate
+npx prisma db push
+npm run start:dev
+
+npx prisma generate
+npx prisma db push
+
+
+
+
+treee -I "node_modules|coverage|generated|dist|build|__pycache__"
 uvicorn app.main:app
 uvicorn app.main:app --reload
 
+MongoDBStep01:
 cd "C:\Program Files\FlyEnv-Data\app\mongodb-8.2.7\bin"
 mongod --dbpath C:\data\db
+
+MongoDBStep02:
+cd "C:\Users\prase\Downloads\mongosh-2.9.1-win32-x64\bin"
+mongosh --version
+mongosh
+rs.status()
+rs.initiate()
+rs.status()
+
+
 
 cd C:\Program Files\FlyEnv-Data\app\mariadb-11.8.6\bin
 mariadb -h 127.0.0.1 -P 3306 -u company -pLnsel@345 company
@@ -35,6 +59,11 @@ for /f "delims=" %f in ('dir /s /b ^| findstr /v /i "\\public\\ \\venv\\  \\__py
 Get Project Source Code:
 for /f "delims=" %f in ('dir /s /b ^| findstr /v /i "\\utils\\ \\services\\ \\public\\ \\lib\\ \\features\\ \\components\\ \\__pycache__\\ \\versions\\ \\node_modules\\ \\views\\ \\dist\\ \\.git\\ \\alembic\\  \\.next\\ \\.gitignore README.md CLAUDE.md AGENTS.md package-lock.json"') do @echo Processing: %f & (echo ===== %f ===== & type "%f" & echo.)>>"..\..\trash\all_code.txt"
 (for /f "delims=" %f in ('dir /s /b ^| findstr /v /i "\\utils\\ \\services\\ \\public\\  \\lib\\ \\features\\ \\components\\ \\__pycache__\\ \\versions\\ \\node_modules\\ \\views\\ \\dist\\ \\.git\\ \\.gitignore\\ \\package-lock.json\\"') do @echo ===== %f ===== & @type "%f" & @echo.) > ../../trash/all_code.txt
+
+
+(for %f in (*) do @if not exist "%f\" (    echo ===== %f =====    type "%f"    echo.)) > ..\..\trash\all_code.txt
+(for %f in (*) do @if not exist "%f\" (    if /I not "%f"==".env" ^    if /I not "%f"==".gitignore" ^    if /I not "%f"=="package-lock.json" (        echo ===== %f =====        type "%f"        echo.     ))) > ..\trash\all_code.txt
+
 
 System information:
 systeminfo | findstr /C:"Total Physical Memory" /C:"Available Physical Memory"
