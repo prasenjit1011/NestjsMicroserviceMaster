@@ -3,107 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Brand {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-
-model Employee {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  role      Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  password  String   @default("abcd")
-}
-
-model flyway_schema_history {
-  installed_rank Int      @id(map: "flyway_schema_history_pk")
-  version        String?  @db.VarChar(50)
-  description    String   @db.VarChar(200)
-  type           String   @db.VarChar(20)
-  script         String   @db.VarChar(1000)
-  checksum       Int?
-  installed_by   String   @db.VarChar(100)
-  installed_on   DateTime @default(now()) @db.Timestamp(6)
-  execution_time Int
-  success        Boolean
-
-  @@index([success], map: "flyway_schema_history_s_idx")
-}
-
-model foods {
-  id    BigInt @id @default(autoincrement())
-  name  String @db.VarChar(255)
-  price Float?
-}
-
-model mobile {
-  id    Int    @id(map: "PK_bb0c474caa039fdbb19dcca4049") @default(autoincrement())
-  title String @db.VarChar
-  price Int
-}
-
-model player {
-  id        Int      @id(map: "PK_65edadc946a7faf4b638d5e8885") @default(autoincrement())
-  username  String   @db.VarChar
-  password  String   @db.VarChar
-  timestamp DateTime @default(dbgenerated("('now'::text)::date")) @db.Date
-}
-
-model product_images {
-  id         BigInt   @id @default(autoincrement())
-  file_name  String?  @db.VarChar(255)
-  image_url  String?  @db.VarChar(255)
-  product_id BigInt
-  products   products @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_image_product")
-}
-
-model products {
-  id             BigInt           @id @default(autoincrement())
-  name           String           @db.VarChar(255)
-  price          Float?
-  user_id        BigInt?
-  product_images product_images[]
-  users          users?           @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_user")
-}
-
-model student {
-  id        Int    @id(map: "PK_3d8016e1cb58429474a3c041904") @default(autoincrement())
-  type      String @db.VarChar
-  fullname  Int
-  password  String @db.VarChar
-  timestamp Int
-}
-
-model trade {
-  id        Int    @id(map: "PK_d4097908741dc408f8274ebdc53") @default(autoincrement())
-  type      String @db.VarChar
-  user_id   Int
-  symbol    String @db.VarChar
-  shares    Int
-  price     Int
-  timestamp Int
-}
-
-model users {
-  id       BigInt     @id @default(autoincrement())
-  name     String     @db.VarChar(255)
-  email    String     @unique @db.VarChar(255)
-  password String?    @db.VarChar(255)
-  products products[]
-}
-
-enum Role {
-  INTERN
-  ENGINEER
-  ADMIN
 }

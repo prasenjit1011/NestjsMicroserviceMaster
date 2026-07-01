@@ -39,7 +39,7 @@ export class BrandController {
   // Public
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.brandService.findOne(+id);
+    return this.brandService.findOne(id);
   }
 
   // CUSTOMER only
@@ -49,13 +49,13 @@ export class BrandController {
     @Param('id') id: string,
     @Body() dto: UpdateBrandDto,
   ) {
-    return this.brandService.update(+id, dto);
+    return this.brandService.update(id, dto);
   }
 
   // ADMIN only
   @Delete(':id')
   @Roles(Role.ADMIN)
   remove(@Param('id') id: string) {
-    return this.brandService.remove(+id);
+    return this.brandService.remove(id);
   }
 }

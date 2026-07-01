@@ -1,0 +1,147 @@
+@baseUrl = http://localhost:3000
+
+### ============================================
+### HOME
+### ============================================
+
+GET {{baseUrl}}
+
+### ============================================
+### LOGIN - ADMIN
+### ============================================
+
+# @name adminLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+###
+
+@adminToken = {{adminLogin.response.body.access_token}}
+
+### ============================================
+### LOGIN - CUSTOMER
+### ============================================
+
+# @name customerLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "customer",
+  "password": "customer"
+}
+
+###
+
+@customerToken = {{customerLogin.response.body.access_token}}
+
+### ============================================
+### INVALID LOGIN
+### ============================================
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "wrong"
+}
+
+### ============================================
+### BRAND CRUD
+### ============================================
+
+### Create Brand (ADMIN ONLY)
+
+POST {{baseUrl}}/brands
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "title": "Apple"
+}
+
+###
+
+POST {{baseUrl}}/brands
+Authorization: Bearer {{customerToken}}
+Content-Type: application/json
+
+{
+  "title": "Samsung"
+}
+
+###
+
+POST {{baseUrl}}/brands
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "title": "Sony"
+}
+
+### ============================================
+### Get All Brands (PUBLIC)
+### ============================================
+
+GET {{baseUrl}}/brands
+
+### ============================================
+### Get Brand By Id (PUBLIC)
+### Replace with actual Mongo ObjectId
+### ============================================
+
+GET {{baseUrl}}/brands/PUT_BRAND_ID_HERE
+
+### ============================================
+### Update Brand (CUSTOMER ONLY)
+### ============================================
+
+PUT {{baseUrl}}/brands/6a446bd45322baf3f3e5f725
+Authorization: Bearer {{customerToken}}
+Content-Type: application/json
+
+{
+  "title": "Apple Updated"
+}
+
+### ============================================
+### Delete Brand (ADMIN ONLY)
+### ============================================
+
+DELETE {{baseUrl}}/brands/PUT_BRAND_ID_HERE
+Authorization: Bearer {{adminToken}}
+
+### ============================================
+### Authorization Tests
+### ============================================
+
+### ADMIN trying UPDATE (Should Fail)
+
+PUT {{baseUrl}}/brands/PUT_BRAND_ID_HERE
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "title": "Should Fail"
+}
+
+### CUSTOMER trying DELETE (Should Fail)
+
+DELETE {{baseUrl}}/brands/PUT_BRAND_ID_HERE
+Authorization: Bearer {{customerToken}}
+
+### No Token (Should Fail)
+
+POST {{baseUrl}}/brands
+Content-Type: application/json
+
+{
+  "title": "No Token"
+}
