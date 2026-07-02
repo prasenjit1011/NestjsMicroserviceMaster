@@ -138,9 +138,8 @@ jobs:
             ls -lah /app/dist;
             echo '===== Files =====';
             find /app/dist -type f;
-            test -f /app/dist/main.js
+            test -f /app/dist/src/main.js
           "
-
       # ----------------------------------
       # Push Image
       # ----------------------------------
