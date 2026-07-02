@@ -71,7 +71,7 @@ resource "google_cloud_run_v2_service" "app" {
       }
 
       env {
-        name  = "DATABASE_URL"
+        name  = "NEON_POSTGRE_DATABASE_URL"
         value = "postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require"
       }
 
