@@ -40,7 +40,7 @@ RUN echo "Searching for main.js"
 RUN find . -name "main.js"
 
 # Fail build if main.js doesn't exist
-RUN test -f dist/main.js
+RUN test -f dist/src/main.js
 
 # Remove dev dependencies
 RUN npm prune --omit=dev
