@@ -7,7 +7,6 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Validation
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -21,17 +20,19 @@ async function bootstrap() {
     .addTag('Home')
     .addTag('Auth')
     .addTag('Brand CRUD')
-    .addBearerAuth()    
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup('api-docs', app, document);
 
-  await app.listen(3000);
+  const port = Number(process.env.PORT) || 3000;
 
-  console.log(`Application: http://localhost:3000`);
-  console.log(`Swagger: http://localhost:3000/api-docs`);
+  await app.listen(port);
+
+  console.log(`Application: http://localhost:${port}`);
+  console.log(`Swagger: http://localhost:${port}/api-docs`);
 }
 
 bootstrap();

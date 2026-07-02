@@ -72,6 +72,25 @@ jobs:
       - name: Build Project
         run: npm run build
 
+
+      - name: Show Build Output
+        run: |
+          pwd
+          ls -la
+          ls -la dist || true
+          find . -name main.js
+
+      - name: Verify Build Output
+        run: |
+          echo "===== Root ====="
+          ls -la
+
+          echo "===== dist ====="
+          ls -la dist
+
+          echo "===== dist files ====="
+          find dist -type f
+
       # ----------------------------
       # Optional Tests
       # ----------------------------
@@ -114,7 +133,7 @@ jobs:
             --allow-unauthenticated \
             --port 8080 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
-            --set-env-vars DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
             --set-env-vars NODE_ENV=production
 
