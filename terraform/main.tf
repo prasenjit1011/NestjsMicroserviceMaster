@@ -15,7 +15,7 @@ provider "google" {
 }
 
 # ------------------------------------
-# Enable Required APIs
+# Enable APIs
 # ------------------------------------
 resource "google_project_service" "services" {
   for_each = toset([
@@ -38,21 +38,22 @@ resource "google_artifact_registry_repository" "repo" {
   depends_on = [google_project_service.services]
 
   location      = "asia-south1"
-  repository_id = "springboot-repo"
-  description   = "Spring Boot Docker Repository"
+  repository_id = "nestjs-repo"
+  description   = "NestJS Docker Repository"
   format        = "DOCKER"
 }
 
 # ------------------------------------
-# Cloud Run Service
+# Cloud Run
 # ------------------------------------
 resource "google_cloud_run_v2_service" "app" {
+
   depends_on = [
     google_project_service.services,
     google_artifact_registry_repository.repo
   ]
 
-  name     = "springboot-cloudrun"
+  name     = "nestjs-cloudrun"
   location = "asia-south1"
 
   ingress = "INGRESS_TRAFFIC_ALL"
@@ -63,27 +64,25 @@ resource "google_cloud_run_v2_service" "app" {
 
     containers {
 
-      # Replace with your actual image
       image = "gcr.io/cloudrun/hello"
 
       ports {
         container_port = 8080
       }
 
-      # Environment Variables
       env {
         name  = "DATABASE_URL"
-        value = "jdbc:postgresql://YOUR_HOST/YOUR_DB?sslmode=require"
+        value = "postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require"
       }
 
       env {
-        name  = "DATABASE_USERNAME"
-        value = "YOUR_USERNAME"
+        name  = "JWT_SECRET"
+        value = "YOUR_JWT_SECRET"
       }
 
       env {
-        name  = "DATABASE_PASSWORD"
-        value = "YOUR_PASSWORD"
+        name  = "NODE_ENV"
+        value = "production"
       }
 
       resources {
@@ -114,7 +113,7 @@ resource "google_cloud_run_v2_service_iam_member" "public" {
 }
 
 # ------------------------------------
-# Output URL
+# Output
 # ------------------------------------
 output "cloud_run_url" {
   value = google_cloud_run_v2_service.app.uri
