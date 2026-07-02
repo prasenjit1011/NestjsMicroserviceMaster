@@ -3,7 +3,7 @@ name: Deploy NestJS to Cloud Run
 on:
   push:
     branches:
-      - productCrudAuthPrismaPostgresql_terraform_gcp
+      - terraform_gcp_postgresql
 
 jobs:
   deploy:
