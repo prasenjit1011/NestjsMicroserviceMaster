@@ -65,4 +65,4 @@ RUN find /app/dist -type f
 
 EXPOSE 8080
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]

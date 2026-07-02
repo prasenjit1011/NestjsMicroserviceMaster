@@ -110,8 +110,8 @@ jobs:
           echo "===== Searching main.js ====="
           find . -name main.js
 
-          if [ ! -f dist/main.js ]; then
-            echo "ERROR: dist/main.js not found!"
+          if [ ! -f dist/src/main.js ]; then
+            echo "ERROR: dist/src/main.js not found!"
             exit 1
           fi
 
