@@ -64,12 +64,28 @@ jobs:
       # ----------------------------------
       - name: Generate Prisma Client
         run: npx prisma generate
-
       # ----------------------------------
       # Build NestJS
       # ----------------------------------
+
+
       - name: Build Project
-        run: npm run build
+        run: |
+          npm run build
+
+          echo "===== Exit Code ====="
+          echo $?
+
+          echo "===== Root ====="
+          ls -la
+
+          echo "===== dist ====="
+          ls -la dist || true
+
+          echo "===== Nest CLI ====="
+          npx nest info
+
+
 
       # ----------------------------------
       # Verify Build Output
