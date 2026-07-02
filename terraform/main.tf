@@ -15,7 +15,7 @@ provider "google" {
 }
 
 # ------------------------------------
-# Enable APIs
+# Enable Required APIs
 # ------------------------------------
 resource "google_project_service" "services" {
   for_each = toset([
@@ -39,7 +39,7 @@ resource "google_artifact_registry_repository" "repo" {
 
   location      = "asia-south1"
   repository_id = "nestjs-repo"
-  description   = "NestJS Docker Repository"
+  description   = "Docker repository for NestJS"
   format        = "DOCKER"
 }
 
@@ -62,22 +62,21 @@ resource "google_cloud_run_v2_service" "app" {
 
     service_account = "cloudrun@terraform-497011.iam.gserviceaccount.com"
 
+    timeout = "300s"
+
+    scaling {
+      min_instance_count = 0
+      max_instance_count = 2
+    }
+
     containers {
 
+      # Placeholder image
+      # GitHub Actions replaces this during deployment
       image = "gcr.io/cloudrun/hello"
 
       ports {
-        container_port = 3000
-      }
-
-      env {
-        name  = "NEON_POSTGRE_DATABASE_URL"
-        value = "postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require"
-      }
-
-      env {
-        name  = "JWT_SECRET"
-        value = "YOUR_JWT_SECRET"
+        container_port = 8080
       }
 
       env {
@@ -91,14 +90,17 @@ resource "google_cloud_run_v2_service" "app" {
           memory = "1024Mi"
         }
       }
-    }
 
-    scaling {
-      min_instance_count = 0
-      max_instance_count = 2
-    }
+      startup_probe {
+        timeout_seconds   = 240
+        period_seconds    = 10
+        failure_threshold = 24
 
-    timeout = "300s"
+        tcp_socket {
+          port = 8080
+        }
+      }
+    }
   }
 }
 

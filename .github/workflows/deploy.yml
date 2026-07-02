@@ -17,89 +17,91 @@ jobs:
       IMAGE: asia-south1-docker.pkg.dev/terraform-497011/nestjs-repo/nestjs
 
     steps:
-
-      # ----------------------------
+      # ----------------------------------
       # Checkout
-      # ----------------------------
+      # ----------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # ----------------------------
-      # Authenticate
-      # ----------------------------
+      # ----------------------------------
+      # Authenticate Google Cloud
+      # ----------------------------------
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # ----------------------------
+      # ----------------------------------
       # Setup gcloud
-      # ----------------------------
+      # ----------------------------------
       - name: Setup gcloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      # ----------------------------
+      # ----------------------------------
       # Configure Docker
-      # ----------------------------
+      # ----------------------------------
       - name: Configure Docker
         run: |
           gcloud auth configure-docker asia-south1-docker.pkg.dev --quiet
 
-      # ----------------------------
+      # ----------------------------------
       # Setup Node.js
-      # ----------------------------
+      # ----------------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      # ----------------------------
+      # ----------------------------------
       # Install Dependencies
-      # ----------------------------
+      # ----------------------------------
       - name: Install Dependencies
         run: npm ci
 
-      # ----------------------------
+      # ----------------------------------
       # Generate Prisma Client
-      # ----------------------------
+      # ----------------------------------
       - name: Generate Prisma Client
         run: npx prisma generate
 
-      # ----------------------------
+      # ----------------------------------
       # Build NestJS
-      # ----------------------------
+      # ----------------------------------
       - name: Build Project
         run: npm run build
 
-
-      - name: Show Build Output
-        run: |
-          pwd
-          ls -la
-          ls -la dist || true
-          find . -name main.js
-
+      # ----------------------------------
+      # Verify Build Output
+      # ----------------------------------
       - name: Verify Build Output
         run: |
-          echo "===== Root ====="
-          ls -la
+          echo "===== Current Directory ====="
+          pwd
+
+          echo "===== Project Root ====="
+          ls -lah
+
+          echo "===== src ====="
+          ls -lah src || true
 
           echo "===== dist ====="
-          ls -la dist
+          ls -lah dist || true
 
-          echo "===== dist files ====="
-          find dist -type f
+          echo "===== Files inside dist ====="
+          find dist -type f || true
 
-      # ----------------------------
-      # Optional Tests
-      # ----------------------------
-      # - name: Run Tests
-      #   run: npm test
+          echo "===== Searching main.js ====="
+          find . -name main.js
 
-      # ----------------------------
+          if [ ! -f dist/main.js ]; then
+            echo "ERROR: dist/main.js not found!"
+            exit 1
+          fi
+
+      # ----------------------------------
       # Build Docker Image
-      # ----------------------------
+      # ----------------------------------
       - name: Build Docker Image
         run: |
           docker build \
@@ -107,29 +109,45 @@ jobs:
             --no-cache \
             -t $IMAGE:${{ github.sha }} .
 
-      # ----------------------------
+      # ----------------------------------
+      # Verify Docker Image
+      # ----------------------------------
+      - name: Verify Docker Image
+        run: |
+          docker run --rm $IMAGE:${{ github.sha }} sh -c "
+            echo '===== Runtime =====';
+            pwd;
+            ls -lah;
+            echo '===== dist =====';
+            ls -lah /app/dist;
+            echo '===== Files =====';
+            find /app/dist -type f;
+            test -f /app/dist/main.js
+          "
+
+      # ----------------------------------
       # Push Image
-      # ----------------------------
+      # ----------------------------------
       - name: Push Docker Image
         run: |
           docker push $IMAGE:${{ github.sha }}
 
-      # ----------------------------
-      # Verify Image
-      # ----------------------------
-      - name: Verify Docker Image
+      # ----------------------------------
+      # Verify Artifact Registry Image
+      # ----------------------------------
+      - name: Verify Artifact Image
         run: |
           gcloud artifacts docker images describe $IMAGE:${{ github.sha }}
 
-      # ----------------------------
+      # ----------------------------------
       # Deploy Cloud Run
-      # ----------------------------
+      # ----------------------------------
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE \
             --image $IMAGE:${{ github.sha }} \
-            --platform managed \
             --region $REGION \
+            --platform managed \
             --allow-unauthenticated \
             --port 8080 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
@@ -137,9 +155,9 @@ jobs:
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
             --set-env-vars NODE_ENV=production
 
-      # ----------------------------
-      # Output URL
-      # ----------------------------
+      # ----------------------------------
+      # Service URL
+      # ----------------------------------
       - name: Get Service URL
         run: |
           gcloud run services describe $SERVICE \

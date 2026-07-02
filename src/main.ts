@@ -1,21 +1,25 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Global Validation
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: false,
     }),
   );
 
+  // Swagger
   const config = new DocumentBuilder()
-    .setTitle('NestJS MongoDB API')
-    .setDescription('API documentation')
+    .setTitle('NestJS PostgreSQL API')
+    .setDescription('NestJS + Prisma + PostgreSQL API')
     .setVersion('1.0')
     .addTag('Home')
     .addTag('Auth')
@@ -27,12 +31,19 @@ async function bootstrap() {
 
   SwaggerModule.setup('api-docs', app, document);
 
-  const port = Number(process.env.PORT) || 3000;
+  // Cloud Run provides PORT=8080
+  const port = parseInt(process.env.PORT || '8080', 10);
 
-  await app.listen(port);
+  // Required for Cloud Run
+  await app.listen(port, '0.0.0.0');
 
-  console.log(`Application: http://localhost:${port}`);
-  console.log(`Swagger: http://localhost:${port}/api-docs`);
+  console.log(`🚀 Server running on port ${port}`);
+  console.log(`🌐 http://localhost:${port}`);
+  console.log(`📘 Swagger: http://localhost:${port}/api-docs`);
 }
 
-bootstrap();
+bootstrap().catch((err) => {
+  console.error('Application failed to start');
+  console.error(err);
+  process.exit(1);
+});
