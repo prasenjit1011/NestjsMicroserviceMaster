@@ -22,6 +22,8 @@ import {
 
 import { ItemService } from './item.service';
 import { CreateItemDto, UpdateItemDto } from './dto';
+import { Role } from 'src/auth/role.enum';
+import { Roles } from 'src/auth/roles.decorator';
 
 @ApiTags('Item CRUD')
 @ApiBearerAuth()
@@ -32,6 +34,7 @@ export class ItemController {
   ) {}
 
   @Post()
+  @Roles(Role.ADMIN)
   @ApiOperation({
     summary: 'Create Item',
     description: 'Creates a new item.',
@@ -117,6 +120,7 @@ export class ItemController {
   }
 
   @Put(':id')
+  @Roles(Role.ADMIN)
   @ApiOperation({
     summary: 'Update Item',
   })
@@ -146,6 +150,7 @@ export class ItemController {
   }
 
   @Delete(':id')
+  @Roles(Role.ADMIN)
   @ApiOperation({
     summary: 'Delete Item',
   })

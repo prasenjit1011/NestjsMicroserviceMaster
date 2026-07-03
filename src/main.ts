@@ -25,7 +25,9 @@ async function bootstrap() {
     .setTitle('NestJS Microservice API')
     .setDescription('REST API Gateway for gRPC Item Service')
     .setVersion('1.0')
+    .addTag('Auth')
     .addTag('Item CRUD')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -1,67 +1,27 @@
 import { Module } from '@nestjs/common';
-
+import { APP_GUARD } from '@nestjs/core';
+import { JwtModule } from '@nestjs/jwt';
+import { RolesGuard } from './auth/roles.guard';
+import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ItemModule } from './item/item.module';
 
 @Module({
-  imports: [ItemModule],
+  imports: [
+    ItemModule,
+    AuthModule,
+    JwtModule.register({
+      secret: 'mySecretKey',
+    }),
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}
-
-
-
-
-
-
-
-// import { Module } from '@nestjs/common';
-// import { ClientsModule, Transport } from '@nestjs/microservices';
-// import { join } from 'path';
-
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
-
-// import { ItemController } from './item/item.controller';
-// import { ItemService } from './item/item.service';
-
-// @Module({
-//   imports: [
-//     ClientsModule.register([
-//       {
-//         name: 'ITEM_PACKAGE',
-//         transport: Transport.GRPC,
-//         options: {
-//           url: 'localhost:50051',
-//           package: 'item',
-//           protoPath: join(__dirname, 'grpc/item.proto'),
-//         },
-//       },
-//     ]),
-//   ],
-//   controllers: [
-//     AppController,
-//     ItemController,
-//   ],
-//   providers: [
-//     AppService,
-//     ItemService,
-//   ],
-// })
-// export class AppModule {}
-
-
-// import { Module } from '@nestjs/common';
-
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
-// import { ItemModule } from './item/item.module';
-
-// @Module({
-//   imports: [ItemModule],
-//   controllers: [AppController],
-//   providers: [AppService],
-// })
-// export class AppModule {}
