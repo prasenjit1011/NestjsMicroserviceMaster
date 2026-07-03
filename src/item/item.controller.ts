@@ -14,10 +14,24 @@ export class ItemController {
     return this.itemService.create(data);
   }
 
+  // @GrpcMethod('ItemService', 'GetItems')
+  // async getAllItems() {
+  //   return this.itemService.findAll();
+  // }
+
   @GrpcMethod('ItemService', 'GetItems')
-  async getAllItems() {
-    return this.itemService.findAll();
+  async getAllItems(data: {
+    page: number;
+    limit: number;
+    search: string;
+  }) {
+    return this.itemService.findAll(
+      data.page,
+      data.limit,
+      data.search,
+    );
   }
+
 
   @GrpcMethod('ItemService', 'GetItemById')
   async getItem(data: { id: number }) {

@@ -1,18 +1,15 @@
 import {
   Injectable,
-  ConflictException,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+
 import { Prisma } from '../../generated/prisma/client';
+import { RpcException } from '@nestjs/microservices';
+import { status } from '@grpc/grpc-js';
 
 import { ItemRepository } from './item.repository';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
-
-import { RpcException } from '@nestjs/microservices';
-import { status } from '@grpc/grpc-js';
-
 
 @Injectable()
 export class ItemService {
@@ -43,16 +40,27 @@ export class ItemService {
   }
 
   // ------------------------
-  // GET ALL
+  // GET ALL (PAGINATION FIXED)
   // ------------------------
-  async findAll() {
-    const items = await this.itemRepository.findAll();
+  async findAll(page = 1, limit = 10, search = '') {
+    const skip = (page - 1) * limit;
+
+    const result = await this.itemRepository.findAll(
+      skip,
+      limit,
+      search,
+    );
 
     return {
       success: true,
-      message: 'Items fetched successfully',
-      data: items,
-      total: items.length,
+      message: 'Items fetched successfully.',
+      data: result.data,
+      meta: {
+        total: result.total,
+        page,
+        limit,
+        lastPage: Math.ceil(result.total / limit),
+      },
     };
   }
 
@@ -90,7 +98,6 @@ export class ItemService {
   // ------------------------
   // DELETE
   // ------------------------
-  // DELETE
   async delete(id: number) {
     await this.findOne(id);
 
@@ -107,9 +114,8 @@ export class ItemService {
   }
 
   // ------------------------
-  // Common Prisma Error Handler
+  // ERROR HANDLER
   // ------------------------
-
   private handlePrismaError(error: unknown): never {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       switch (error.code) {
@@ -138,12 +144,4 @@ export class ItemService {
       message: 'Internal server error.',
     });
   }
-
-
-
-
-
-
-
-
 }
