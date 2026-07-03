@@ -7,63 +7,30 @@ WORKDIR /app
 
 # Install OpenSSL (required by Prisma)
 RUN apt-get update && \
-    apt-get install -y openssl && \
+    apt-get install -y openssl ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy package files
+# Copy dependency files first (better caching)
 COPY package*.json ./
 
 # Install dependencies
 RUN npm ci
 
-# Copy project files
+# Copy full source
 COPY . .
 
 # Generate Prisma Client
 RUN npx prisma generate
 
-# Verify Prisma Client & Query Engine
-RUN echo "================================="
-RUN echo "Prisma Client"
-RUN find node_modules/.prisma -type f || true
-
-RUN echo "================================="
-RUN echo "@prisma"
-RUN find node_modules/@prisma -type f || true
-
-# Build NestJS
+# Build NestJS application
 RUN npm run build
 
-# --------------------------
-# Verify build output
-# --------------------------
-RUN echo "================================="
-RUN echo "Contents of /app"
-RUN ls -la
-
-RUN echo "================================="
-RUN echo "Contents of dist"
-RUN ls -la dist || true
-
-RUN echo "================================="
-RUN echo "All files under dist"
-RUN find dist -type f || true
-
-RUN echo "================================="
-RUN echo "Searching for main.js"
-RUN find . -name "main.js"
-
-# Fail build if main.js doesn't exist
+# Ensure build output exists
 RUN test -f dist/src/main.js
 
-# Remove dev dependencies
+# Remove dev dependencies for production
 RUN npm prune --omit=dev
 
-# Verify Prisma still exists after pruning
-RUN echo "================================="
-RUN echo "Prisma after npm prune"
-RUN find node_modules/.prisma -type f || true
-RUN find node_modules/@prisma -type f || true
 
 # ==========================
 # Runtime Stage
@@ -73,24 +40,24 @@ FROM node:22-bookworm-slim
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV PORT=8080
 
-# Install OpenSSL (required by Prisma)
+# Install runtime dependencies (Prisma needs OpenSSL)
 RUN apt-get update && \
-    apt-get install -y openssl && \
+    apt-get install -y openssl ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy application
+# Copy only necessary artifacts
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 
-# Verify Prisma engine exists
-RUN echo "================================="
-RUN echo "Runtime Prisma"
-RUN find /app/node_modules/.prisma -type f || true
-RUN find /app/node_modules/@prisma -type f || true
+# Prisma runtime safety check (optional but useful)
+RUN ls -la node_modules/.prisma || true
 
+# Expose Cloud Run port
 EXPOSE 8080
 
+# Start app
 CMD ["node", "dist/src/main.js"]

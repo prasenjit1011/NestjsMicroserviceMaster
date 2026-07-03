@@ -1,11 +1,25 @@
+# Dependencies
 node_modules
+
+# Build output
 dist
 coverage
+
+# Git
 .git
 .github
+
+# Editors / IDEs
 .vscode
 .idea
+
+# Logs
 npm-debug.log
+*.log
+
+# Docker-related (avoid copying Dockerfile itself if needed)
 Dockerfile
+
+# Infra / misc
 terraform
 trash
