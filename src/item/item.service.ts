@@ -9,18 +9,34 @@ export class ItemService {
 
   // CREATE
   async create(createItemDto: CreateItemDto) {
-    return this.itemRepository.create({
+    const item = await this.itemRepository.create({
       name: createItemDto.name,
       description: createItemDto.description,
       sku: createItemDto.sku,
       price: createItemDto.price,
     });
+
+    return {
+      success: true,
+      message: 'Item created successfully',
+      data: item,
+    };
   }
+
 
   // GET ALL
   async findAll() {
-    return this.itemRepository.findAll();
+    const items = await this.itemRepository.findAll();
+
+    return {
+      success: true,
+      message: 'Items fetched successfully',
+      data: items,
+      total: items.length,
+    };
   }
+
+
 
   // GET ONE
   async findOne(id: number) {
@@ -48,6 +64,13 @@ export class ItemService {
   async delete(id: number) {
     await this.findOne(id);
 
-    return this.itemRepository.delete(id);
+    await this.itemRepository.delete(id);
+
+    return {
+      success: true,
+      message: 'Item deleted successfully',
+    };
   }
+
+
 }

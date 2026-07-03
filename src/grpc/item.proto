@@ -2,63 +2,95 @@ syntax = "proto3";
 
 package item;
 
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
 service ItemService {
+  rpc CreateItem(CreateItemRequest) returns (ItemResponse);
 
-    rpc CreateItem(CreateItemRequest)
-        returns (ItemResponse);
+  rpc GetItems(GetItemsRequest) returns (ItemListResponse);
 
-    rpc FindAll(Empty)
-        returns (ItemList);
+  rpc GetItemById(ItemByIdRequest) returns (ItemResponse);
 
-    rpc FindOne(ItemId)
-        returns (ItemResponse);
+  rpc UpdateItem(UpdateItemRequest) returns (ItemResponse);
 
-    rpc UpdateItem(UpdateItemRequest)
-        returns (ItemResponse);
-
-    rpc DeleteItem(ItemId)
-        returns (Empty);
-
-    rpc UpdateStock(UpdateStockRequest)
-        returns (StockResponse);
+  rpc DeleteItem(ItemByIdRequest) returns (DeleteResponse);
 }
 
-message Empty {}
+message Item {
+  int32 id = 1;
 
-message ItemId{
-    int32 id=1;
+  string name = 2;
+
+  string description = 3;
+
+  string sku = 4;
+
+  double price = 5;
+
+  bool is_active = 6;
+
+  google.protobuf.Timestamp created_at = 7;
+
+  google.protobuf.Timestamp updated_at = 8;
 }
 
-message CreateItemRequest{
-    string name=1;
-    string sku=2;
-    double price=3;
+message ItemResponse {
+  bool success = 1;
+
+  string message = 2;
+
+  Item data = 3;
 }
 
-message UpdateItemRequest{
-    int32 id=1;
-    string name=2;
-    string sku=3;
-    double price=4;
+message ItemListResponse {
+  bool success = 1;
+
+  string message = 2;
+
+  repeated Item data = 3;
+
+  int64 total = 4;
 }
 
-message UpdateStockRequest{
-    int32 itemId=1;
-    int32 stock=2;
+message GetItemsRequest {
+  int32 page = 1;
+
+  int32 limit = 2;
+
+  string search = 3;
 }
 
-message ItemResponse{
-    int32 id=1;
-    string name=2;
-    string sku=3;
-    double price=4;
+message ItemByIdRequest {
+  int32 id = 1;
 }
 
-message StockResponse{
-    int32 itemId=1;
-    int32 stock=2;
+message CreateItemRequest {
+  string name = 1;
+
+  string description = 2;
+
+  string sku = 3;
+
+  double price = 4;
 }
 
-message ItemList{
-    repeated ItemResponse items=1;
+message UpdateItemRequest {
+  int32 id = 1;
+
+  string name = 2;
+
+  string description = 3;
+
+  string sku = 4;
+
+  double price = 5;
+
+  bool is_active = 6;
+}
+
+message DeleteResponse {
+  bool success = 1;
+
+  string message = 2;
 }

@@ -14,12 +14,12 @@ export class ItemController {
     return this.itemService.create(data);
   }
 
-  @GrpcMethod('ItemService', 'GetAllItems')
+  @GrpcMethod('ItemService', 'GetItems')
   async getAllItems() {
     return this.itemService.findAll();
   }
 
-  @GrpcMethod('ItemService', 'GetItem')
+  @GrpcMethod('ItemService', 'GetItemById')
   async getItem(data: { id: number }) {
     return this.itemService.findOne(data.id);
   }

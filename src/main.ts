@@ -2,20 +2,29 @@ import 'dotenv/config';
 import { join } from 'path';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.GRPC,
-      options: {
-        package: 'item',
-        protoPath: join(process.cwd(), 'src/grpc/item.proto'),
+  const app =
+    await NestFactory.createMicroservice<MicroserviceOptions>(
+      AppModule,
+      {
+        transport: Transport.GRPC,
+        options: {
+          url: process.env.ITEM_GRPC_URL || '127.0.0.1:50051',
+          package: 'item',
+          protoPath: join(process.cwd(), 'src/grpc/item.proto'),
+        },
       },
-    },
-  );
+    );
 
   await app.listen();
+
+  console.log(
+    `Item gRPC Service running at ${
+      process.env.ITEM_GRPC_URL || '127.0.0.1:50051'
+    }`,
+  );
 }
+
 bootstrap();
