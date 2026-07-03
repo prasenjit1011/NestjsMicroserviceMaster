@@ -32,9 +32,9 @@ POST {{baseUrl}}/items
 Content-Type: application/json
 
 {
-  "name": "iPhone 17",
-  "description": "Apple flagship phone",
-  "sku": "IPH-17-001",
+  "name": "iPhone 17717",
+  "description": "ABBAApple flagship phone",
+  "sku": "IPHAARR-17-001",
   "price": 99999
 }
 
@@ -51,7 +51,7 @@ Accept: application/json
 # Get All Items (Pagination)
 ####################################################
 
-GET {{baseUrl}}/items?page=1&limit=10
+GET {{baseUrl}}/items?page=1&limit=2
 Accept: application/json
 
 
