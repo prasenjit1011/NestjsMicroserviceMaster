@@ -1,53 +1,89 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ItemRepository } from './item.repository';
-import { CreateItemDto } from './dto/create-item.dto';
-import { UpdateItemDto } from './dto/update-item.dto';
+import {
+  Injectable,
+  Inject,
+  OnModuleInit,
+} from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+
+import { GRPC } from '../common/constants';
+import { CreateItemDto, UpdateItemDto } from './dto';
+
+interface ItemGrpcService {
+  CreateItem(data: CreateItemDto): Observable<any>;
+
+  GetItems(data: {
+    page: number;
+    limit: number;
+    search: string;
+  }): Observable<any>;
+
+  GetItemById(data: {
+    id: number;
+  }): Observable<any>;
+
+  UpdateItem(
+    data: UpdateItemDto & {
+      id: number;
+    },
+  ): Observable<any>;
+
+  DeleteItem(data: {
+    id: number;
+  }): Observable<any>;
+}
 
 @Injectable()
-export class ItemService {
-  constructor(private readonly itemRepository: ItemRepository) {}
+export class ItemService implements OnModuleInit {
+  private itemGrpcService: ItemGrpcService;
 
-  // CREATE
-  async create(createItemDto: CreateItemDto) {
-    return this.itemRepository.create({
-      name: createItemDto.name,
-      description: createItemDto.description,
-      sku: createItemDto.sku,
-      price: createItemDto.price,
+  constructor(
+    @Inject(GRPC.ITEM_CLIENT)
+    private readonly client: ClientGrpc,
+  ) {}
+
+  onModuleInit() {
+    this.itemGrpcService =
+      this.client.getService<ItemGrpcService>(
+        GRPC.ITEM_SERVICE,
+      );
+  }
+
+  create(dto: CreateItemDto) {
+    return this.itemGrpcService.CreateItem(dto);
+  }
+
+  findAll(
+    page = 1,
+    limit = 10,
+    search = '',
+  ) {
+    return this.itemGrpcService.GetItems({
+      page,
+      limit,
+      search,
     });
   }
 
-  // GET ALL
-  async findAll() {
-    return this.itemRepository.findAll();
-  }
-
-  // GET ONE
-  async findOne(id: number) {
-    const item = await this.itemRepository.findOne(id);
-
-    if (!item) {
-      throw new NotFoundException(`Item with id ${id} not found`);
-    }
-
-    return item;
-  }
-
-  // UPDATE
-  async update(id: number, updateItemDto: UpdateItemDto) {
-    await this.findOne(id);
-
-    return this.itemRepository.update(id, {
-      name: updateItemDto.name,
-      description: updateItemDto.description,
-      sku: updateItemDto.sku,
+  findOne(id: number) {
+    return this.itemGrpcService.GetItemById({
+      id,
     });
   }
 
-  // DELETE
-  async delete(id: number) {
-    await this.findOne(id);
+  update(
+    id: number,
+    dto: UpdateItemDto,
+  ) {
+    return this.itemGrpcService.UpdateItem({
+      id,
+      ...dto,
+    });
+  }
 
-    return this.itemRepository.delete(id);
+  remove(id: number) {
+    return this.itemGrpcService.DeleteItem({
+      id,
+    });
   }
 }

@@ -1,9 +1,4 @@
-export class UpdateItemDto {
-  id: number;
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateItemDto } from './create-item.dto';
 
-  name?: string;
-
-  description?: string;
-
-  sku?: string;
-}
+export class UpdateItemDto extends PartialType(CreateItemDto) {}

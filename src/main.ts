@@ -1,21 +1,27 @@
 import 'dotenv/config';
-import { join } from 'path';
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+
 import { AppModule } from './app.module';
-import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.GRPC,
-      options: {
-        package: 'item',
-        protoPath: join(process.cwd(), 'src/grpc/item.proto'),
-      },
-    },
+  const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+    }),
   );
 
-  await app.listen();
+  app.setGlobalPrefix('api');
+
+  await app.listen(process.env.PORT || 3001);
+
+  console.log(
+    `API Gateway running at http://localhost:${process.env.PORT || 3001}`,
+  );
 }
+
 bootstrap();

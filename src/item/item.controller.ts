@@ -1,36 +1,68 @@
-import { Controller } from '@nestjs/common';
-import { GrpcMethod } from '@nestjs/microservices';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 
 import { ItemService } from './item.service';
-import { CreateItemDto } from './dto/create-item.dto';
-import { UpdateItemDto } from './dto/update-item.dto';
+import { CreateItemDto, UpdateItemDto } from './dto';
 
-@Controller()
+@Controller('items')
 export class ItemController {
-  constructor(private readonly itemService: ItemService) {}
+  constructor(
+    private readonly itemService: ItemService,
+  ) {}
 
-  @GrpcMethod('ItemService', 'CreateItem')
-  async createItem(data: CreateItemDto) {
-    return this.itemService.create(data);
+  @Post()
+  create(
+    @Body() dto: CreateItemDto,
+  ) {
+    return this.itemService.create(dto);
   }
 
-  @GrpcMethod('ItemService', 'GetAllItems')
-  async getAllItems() {
-    return this.itemService.findAll();
+  @Get()
+  findAll(
+    @Query('page') page = '1',
+    @Query('limit') limit = '10',
+    @Query('search') search = '',
+  ) {
+    return this.itemService.findAll(
+      Number(page),
+      Number(limit),
+      search,
+    );
   }
 
-  @GrpcMethod('ItemService', 'GetItem')
-  async getItem(data: { id: number }) {
-    return this.itemService.findOne(data.id);
+  @Get(':id')
+  findOne(
+    @Param('id', ParseIntPipe)
+    id: number,
+  ) {
+    return this.itemService.findOne(id);
   }
 
-  @GrpcMethod('ItemService', 'UpdateItem')
-  async updateItem(data: UpdateItemDto) {
-    return this.itemService.update(data.id, data);
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe)
+    id: number,
+
+    @Body()
+    dto: UpdateItemDto,
+  ) {
+    return this.itemService.update(id, dto);
   }
 
-  @GrpcMethod('ItemService', 'DeleteItem')
-  async deleteItem(data: { id: number }) {
-    return this.itemService.delete(data.id);
+  @Delete(':id')
+  remove(
+    @Param('id', ParseIntPipe)
+    id: number,
+  ) {
+    return this.itemService.remove(id);
   }
 }
