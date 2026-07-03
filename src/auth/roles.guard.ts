@@ -3,7 +3,6 @@ import {
   ExecutionContext,
   Injectable,
 } from '@nestjs/common';
-
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 
@@ -21,20 +20,26 @@ export class RolesGuard implements CanActivate {
     );
 
     // Public route
-    if (!requiredRoles) return true;
+    if (!requiredRoles) {
+      return true;
+    }
 
     const request = context.switchToHttp().getRequest();
 
-    const authHeader = request.headers.authorization;
+    // Read token from HttpOnly cookie
+    const token = request.cookies?.token;
 
-    if (!authHeader) return false;
-
-    const token = authHeader.split(' ')[1];
+    if (!token) {
+      return false;
+    }
 
     try {
       const payload = this.jwtService.verify(token, {
         secret: 'mySecretKey',
       });
+
+      // Optional: attach user to request
+      request.user = payload;
 
       return requiredRoles.includes(payload.role);
     } catch (error) {
