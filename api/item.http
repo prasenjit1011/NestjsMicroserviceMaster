@@ -17,9 +17,9 @@ POST {{baseUrl}}/items
 Content-Type: application/json
 
 {
-  "name": "Samsung Galaxy S25",
+  "name": "Samsung Galaxy S02",
   "description": "Latest Samsung Mobile",
-  "sku": "SAM-S25-001",
+  "sku": "A-013",
   "price": 79999
 }
 
@@ -33,8 +33,8 @@ Content-Type: application/json
 
 {
   "name": "iPhone 17717",
-  "description": "ABBAApple flagship phone",
-  "sku": "IPHAARR-17-001",
+  "description": "ACCBBAApple flagship phone",
+  "sku": "M-17-001",
   "price": 99999
 }
 
@@ -51,7 +51,7 @@ Accept: application/json
 # Get All Items (Pagination)
 ####################################################
 
-GET {{baseUrl}}/items?page=1&limit=2
+GET {{baseUrl}}/items?page=1&limit=3
 Accept: application/json
 
 
@@ -79,7 +79,7 @@ PUT {{baseUrl}}/items/1
 Content-Type: application/json
 
 {
-  "name": "Samsung Galaxy S25 Ultra",
+  "name": "Samsung Galaxy S25 Ultraaaaaa",
   "description": "Updated Description",
   "sku": "SAM-S25-001",
   "price": 89999
@@ -102,5 +102,5 @@ Content-Type: application/json
 # Delete Item
 ####################################################
 
-DELETE {{baseUrl}}/items/1
+DELETE {{baseUrl}}/items/10
 Accept: application/json
