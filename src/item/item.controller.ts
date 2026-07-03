@@ -9,10 +9,12 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { ItemService } from './item.service';
 import { CreateItemDto, UpdateItemDto } from './dto';
 
+@ApiTags('Item CRUD')
 @Controller('items')
 export class ItemController {
   constructor(
