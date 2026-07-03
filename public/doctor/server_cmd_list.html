@@ -76,8 +76,10 @@ ssh -i "C:\myproject\github\AWSGCP\node-key.pem" ubuntu@13.201.85.217
 
 
 
-
-
+-: GCP :-
+gcloud config set project terraform-497011
+gcloud artifacts repositories list --location=asia-south1 --project=terraform-497011
+gcloud artifacts repositories create nestjs-repo --repository-format=docker --location=asia-south1 --description="Docker repository for NestJS"
 
 
 -: Azure :-
