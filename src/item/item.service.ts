@@ -74,7 +74,11 @@ export class ItemService {
       throw new NotFoundException(`Item with id ${id} not found.`);
     }
 
-    return item;
+    return {
+      success: true,
+      data: item,
+    };
+
   }
 
   // ------------------------
