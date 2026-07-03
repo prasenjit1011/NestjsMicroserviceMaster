@@ -1,0 +1,106 @@
+@host = http://localhost:3001
+@baseUrl = {{host}}/api
+
+####################################################
+# Home
+####################################################
+
+GET {{baseUrl}}/
+Accept: application/json
+
+
+####################################################
+# Create Item
+####################################################
+
+POST {{baseUrl}}/items
+Content-Type: application/json
+
+{
+  "name": "Samsung Galaxy S25",
+  "description": "Latest Samsung Mobile",
+  "sku": "SAM-S25-001",
+  "price": 79999
+}
+
+
+####################################################
+# Create Item 2
+####################################################
+
+POST {{baseUrl}}/items
+Content-Type: application/json
+
+{
+  "name": "iPhone 17",
+  "description": "Apple flagship phone",
+  "sku": "IPH-17-001",
+  "price": 99999
+}
+
+
+####################################################
+# Get All Items
+####################################################
+
+GET {{baseUrl}}/items
+Accept: application/json
+
+
+####################################################
+# Get All Items (Pagination)
+####################################################
+
+GET {{baseUrl}}/items?page=1&limit=10
+Accept: application/json
+
+
+####################################################
+# Search Items
+####################################################
+
+GET {{baseUrl}}/items?page=1&limit=10&search=samsung
+Accept: application/json
+
+
+####################################################
+# Get Item By Id
+####################################################
+
+GET {{baseUrl}}/items/1
+Accept: application/json
+
+
+####################################################
+# Update Item
+####################################################
+
+PUT {{baseUrl}}/items/1
+Content-Type: application/json
+
+{
+  "name": "Samsung Galaxy S25 Ultra",
+  "description": "Updated Description",
+  "sku": "SAM-S25-001",
+  "price": 89999
+}
+
+
+####################################################
+# Partial Update
+####################################################
+
+PUT {{baseUrl}}/items/1
+Content-Type: application/json
+
+{
+  "price": 84999
+}
+
+
+####################################################
+# Delete Item
+####################################################
+
+DELETE {{baseUrl}}/items/1
+Accept: application/json
