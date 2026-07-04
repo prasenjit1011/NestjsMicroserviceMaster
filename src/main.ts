@@ -40,6 +40,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('Auth')
     .addTag('Item CRUD')
+    .addTag('Order CRUD')
     .addBearerAuth()
     .build();
 

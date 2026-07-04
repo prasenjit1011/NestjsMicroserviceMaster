@@ -12,9 +12,9 @@ import { ItemService } from './item.service';
         name: GRPC.ITEM_CLIENT,
         transport: Transport.GRPC,
         options: {
-          url: GRPC.URL,
+          url: GRPC.ITEM_URL,
           package: GRPC.ITEM_PACKAGE,
-          protoPath: GRPC.PROTO_PATH,
+          protoPath: GRPC.ITEM_PROTO_PATH,
         },
       },
     ]),
