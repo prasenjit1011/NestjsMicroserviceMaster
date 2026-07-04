@@ -11,7 +11,7 @@ async function bootstrap() {
       {
         transport: Transport.GRPC,
         options: {
-          url: process.env.ITEM_GRPC_URL || '127.0.0.1:50051',
+          url: `0.0.0.0:${process.env.PORT || 8080}`,
           package: 'item',
           protoPath: join(process.cwd(), 'src/grpc/item.proto'),
         },
