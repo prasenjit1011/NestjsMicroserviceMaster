@@ -2,112 +2,60 @@ syntax = "proto3";
 
 package order;
 
-import "google/protobuf/timestamp.proto";
-
 service OrderService {
   rpc CreateOrder(CreateOrderRequest) returns (OrderResponse);
-
-  rpc GetOrders(GetOrdersRequest) returns (OrderListResponse);
-
   rpc GetOrderById(OrderByIdRequest) returns (OrderResponse);
-
+  rpc GetOrders(GetOrdersRequest) returns (OrderListResponse);
   rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (OrderResponse);
-
   rpc DeleteOrder(OrderByIdRequest) returns (DeleteResponse);
 }
 
-// ===========================
-// ORDER
-// ===========================
-
-message Order {
-  int32 id = 1;
-
-  int32 userId = 2;
-
-  string status = 3;
-
-  double total = 4;
-
-  repeated OrderItem items = 5;
-
-  google.protobuf.Timestamp createdAt = 6;
-
-  google.protobuf.Timestamp updatedAt = 7;
-}
-
-// ===========================
-// ORDER ITEM
-// ===========================
-
 message OrderItem {
-  int32 id = 1;
-
-  int32 productId = 2;
-
-  int32 qty = 3;
-
-  double price = 4;
-}
-
-// ===========================
-// REQUESTS
-// ===========================
-
-message CreateOrderItem {
   int32 productId = 1;
-
   int32 qty = 2;
-
   double price = 3;
 }
 
 message CreateOrderRequest {
   int32 userId = 1;
-
-  repeated CreateOrderItem items = 2;
-}
-
-message GetOrdersRequest {
-  int32 page = 1;
-
-  int32 limit = 2;
+  repeated OrderItem items = 2;
 }
 
 message OrderByIdRequest {
   int32 id = 1;
 }
 
+message GetOrdersRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
 message UpdateOrderStatusRequest {
   int32 id = 1;
-
   string status = 2;
 }
 
-// ===========================
-// RESPONSES
-// ===========================
-
 message OrderResponse {
   bool success = 1;
-
   string message = 2;
-
   Order data = 3;
 }
 
 message OrderListResponse {
   bool success = 1;
-
   string message = 2;
-
   repeated Order data = 3;
-
   int64 total = 4;
+}
+
+message Order {
+  int32 id = 1;
+  int32 userId = 2;
+  string status = 3;
+  double total = 4;
 }
 
 message DeleteResponse {
   bool success = 1;
-
   string message = 2;
 }

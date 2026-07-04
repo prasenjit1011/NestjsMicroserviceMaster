@@ -9,7 +9,6 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-
 import {
   ApiBearerAuth,
   ApiBody,
@@ -22,8 +21,9 @@ import {
 
 import { OrderService } from './order.service';
 import { CreateOrderDto, UpdateOrderDto } from './dto';
-import { Role } from 'src/auth/role.enum';
-import { Roles } from 'src/auth/roles.decorator';
+
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../auth/role.enum';
 
 @ApiTags('Order CRUD')
 @ApiBearerAuth()
@@ -34,10 +34,11 @@ export class OrderController {
   ) {}
 
   @Post()
-  @Roles(Role.ADMIN)
+  // Remove this if normal users should create orders
+  // @Roles(Role.USER, Role.ADMIN)
   @ApiOperation({
     summary: 'Create Order',
-    description: 'Creates a new order.',
+    description: 'Create a new order.',
   })
   @ApiBody({
     type: CreateOrderDto,
@@ -46,10 +47,6 @@ export class OrderController {
     status: 201,
     description: 'Order created successfully.',
   })
-  @ApiResponse({
-    status: 400,
-    description: 'Validation failed.',
-  })
   create(
     @Body() dto: CreateOrderDto,
   ) {
@@ -57,27 +54,24 @@ export class OrderController {
   }
 
   @Get()
+  // @Roles(Role.ADMIN)
   @ApiOperation({
-    summary: 'Get All Orders',
-    description: 'Returns paginated list of orders.',
+    summary: 'Get Orders',
   })
   @ApiQuery({
     name: 'page',
     required: false,
     example: 1,
-    description: 'Page number',
   })
   @ApiQuery({
     name: 'limit',
     required: false,
     example: 10,
-    description: 'Records per page',
   })
   @ApiQuery({
     name: 'search',
     required: false,
-    example: 'Samsung',
-    description: 'Search by order name',
+    example: '',
   })
   @ApiResponse({
     status: 200,
@@ -88,6 +82,7 @@ export class OrderController {
     @Query('limit') limit = '10',
     @Query('search') search = '',
   ) {
+    console.log('page:', page, 'limit:', limit, 'search:', search);
     return this.orderService.findAll(
       Number(page),
       Number(limit),
@@ -102,20 +97,16 @@ export class OrderController {
   @ApiParam({
     name: 'id',
     example: 1,
-    description: 'Order ID',
   })
   @ApiResponse({
     status: 200,
     description: 'Order retrieved successfully.',
   })
-  @ApiResponse({
-    status: 404,
-    description: 'Order not found.',
-  })
   findOne(
     @Param('id', ParseIntPipe)
     id: number,
   ) {
+    console.log('Retrieving order with ID:', id);
     return this.orderService.findOne(id);
   }
 
@@ -134,10 +125,6 @@ export class OrderController {
   @ApiResponse({
     status: 200,
     description: 'Order updated successfully.',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Order not found.',
   })
   update(
     @Param('id', ParseIntPipe)
@@ -161,10 +148,6 @@ export class OrderController {
   @ApiResponse({
     status: 200,
     description: 'Order deleted successfully.',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Order not found.',
   })
   remove(
     @Param('id', ParseIntPipe)
