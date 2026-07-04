@@ -21,6 +21,18 @@ export class OrderService {
     private readonly orderRepository: OrderRepository,
   ) {}
 
+  /**
+   * Map Prisma Order -> Proto Order
+   */
+  private mapOrder(order: any) {
+    return {
+      id: order.id,
+      userId: order.userId,
+      status: order.status,
+      total: Number(order.total),
+    };
+  }
+
   async create(dto: CreateOrderDto) {
     try {
       const total = dto.items.reduce(
@@ -39,7 +51,7 @@ export class OrderService {
       return {
         success: true,
         message: 'Order created successfully',
-        data: order,
+        data: this.mapOrder(order),
       };
     } catch (error) {
       this.handlePrismaError(error);
@@ -47,57 +59,105 @@ export class OrderService {
   }
 
   async findAll(page = 1, limit = 10) {
-    const skip = (page - 1) * limit;
+    try {
+      const skip = (page - 1) * limit;
 
-    const result = await this.orderRepository.findAll(
-      skip,
-      limit,
-    );
+      const result = await this.orderRepository.findAll(
+        skip,
+        limit,
+      );
 
-    return {
-      success: true,
-      message: 'Orders fetched successfully',
-      data: result.data,
-      total: result.total,
-    };
+      return {
+        success: true,
+        message: 'Orders fetched successfully',
+        data: result.data.map((order) =>
+          this.mapOrder(order),
+        ),
+        total: result.total,
+      };
+    } catch (error) {
+      this.handlePrismaError(error);
+    }
   }
 
   async findOne(id: number) {
-    const order = await this.orderRepository.findOne(id);
+    try {
+      const order =
+        await this.orderRepository.findOne(id);
 
-    if (!order) {
-      throw new NotFoundException(
-        `Order ${id} not found`,
-      );
+      if (!order) {
+        throw new NotFoundException(
+          `Order ${id} not found`,
+        );
+      }
+
+      return {
+        success: true,
+        message: 'Order fetched successfully',
+        data: this.mapOrder(order),
+      };
+    } catch (error) {
+      this.handlePrismaError(error);
     }
-
-    return {
-      success: true,
-      data: order,
-    };
   }
 
   async updateStatus(dto: UpdateOrderDto) {
-    await this.findOne(dto.id);
+    try {
+      const exists =
+        await this.orderRepository.findOne(dto.id);
 
-    return this.orderRepository.updateStatus(
-      dto.id,
-      dto.status as OrderStatus,
-    );
+      if (!exists) {
+        throw new NotFoundException(
+          `Order ${dto.id} not found`,
+        );
+      }
+
+      const order =
+        await this.orderRepository.updateStatus(
+          dto.id,
+          dto.status as OrderStatus,
+        );
+
+      return {
+        success: true,
+        message: 'Order updated successfully',
+        data: this.mapOrder(order),
+      };
+    } catch (error) {
+      this.handlePrismaError(error);
+    }
   }
 
   async delete(id: number) {
-    await this.findOne(id);
+    try {
+      const exists =
+        await this.orderRepository.findOne(id);
 
-    await this.orderRepository.delete(id);
+      if (!exists) {
+        throw new NotFoundException(
+          `Order ${id} not found`,
+        );
+      }
 
-    return {
-      success: true,
-      message: 'Order deleted successfully',
-    };
+      await this.orderRepository.delete(id);
+
+      return {
+        success: true,
+        message: 'Order deleted successfully',
+      };
+    } catch (error) {
+      this.handlePrismaError(error);
+    }
   }
 
   private handlePrismaError(error: unknown): never {
+    if (error instanceof NotFoundException) {
+      throw new RpcException({
+        code: status.NOT_FOUND,
+        message: error.message,
+      });
+    }
+
     if (
       error instanceof Prisma.PrismaClientKnownRequestError
     ) {

@@ -27,7 +27,11 @@ async function bootstrap() {
   const port = process.env.PORT || 8080;
   await app.listen(port, '0.0.0.0');
 
-  console.log(`Order service running on ${port}`);
+  console.log(
+    `\n\nOrder service running at ${
+      process.env.ORDER_GRPC_URL || '0.0.0.0:50052'
+    }`,
+  );
 }
 
 bootstrap();

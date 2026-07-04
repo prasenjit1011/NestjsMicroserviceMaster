@@ -43,8 +43,9 @@ message OrderResponse {
 
 message OrderListResponse {
   bool success = 1;
-  repeated Order data = 2;
-  int64 total = 3;
+  string message = 2;
+  repeated Order data = 3;
+  int64 total = 4;
 }
 
 message Order {
