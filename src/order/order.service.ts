@@ -30,8 +30,18 @@ export class OrderService {
       userId: order.userId,
       status: order.status,
       total: Number(order.total),
+
+      items:
+        order.items?.map((item: any) => ({
+          id: item.id,
+          productId: item.productId,
+          qty: item.qty,
+          price: Number(item.price),
+        })) ?? [],
     };
   }
+
+
 
   async create(dto: CreateOrderDto) {
     try {

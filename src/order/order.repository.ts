@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma, OrderStatus } from '../../generated/prisma/client';
+import { OrderStatus, Prisma } from '../../generated/prisma/client';
 
 @Injectable()
 export class OrderRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(data: Prisma.OrderCreateInput) {
+  async create(data: Prisma.OrderCreateInput) {
     return this.prisma.order.create({
       data,
       include: {
@@ -27,7 +27,6 @@ export class OrderRepository {
           items: true,
         },
       }),
-
       this.prisma.order.count(),
     ]);
 
@@ -37,7 +36,7 @@ export class OrderRepository {
     };
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prisma.order.findUnique({
       where: {
         id,
@@ -48,7 +47,7 @@ export class OrderRepository {
     });
   }
 
-  updateStatus(id: number, status: OrderStatus) {
+  async updateStatus(id: number, status: OrderStatus) {
     return this.prisma.order.update({
       where: {
         id,
@@ -62,7 +61,7 @@ export class OrderRepository {
     });
   }
 
-  delete(id: number) {
+  async delete(id: number) {
     return this.prisma.order.delete({
       where: {
         id,
