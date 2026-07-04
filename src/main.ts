@@ -13,7 +13,7 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
-      url: process.env.ORDER_GRPC_URL || '0.0.0.0:50051',
+      url: process.env.ORDER_GRPC_URL || '0.0.0.0:50052',
       package: 'order',
       protoPath: join(process.cwd(), 'src/grpc/order.proto'),
     },
