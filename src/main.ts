@@ -5,26 +5,23 @@ import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
+  const port = Number(process.env.PORT) || 8080;
   const app =
     await NestFactory.createMicroservice<MicroserviceOptions>(
       AppModule,
       {
         transport: Transport.GRPC,
         options: {
-          url: `0.0.0.0:${process.env.PORT || 8080}`,
+          url: `0.0.0.0:${port}`,
           package: 'item',
-          protoPath: join(process.cwd(), 'src/grpc/item.proto'),
+          protoPath: join(__dirname, 'grpc/item.proto'),
         },
       },
     );
 
   await app.listen();
 
-  console.log(
-    `Item gRPC Service running at ${
-      process.env.ITEM_GRPC_URL || '127.0.0.1:50051'
-    }`,
-  );
+  console.log(`🚀 gRPC Item Service listening on ${port}`);
 }
 
 bootstrap();
