@@ -7,6 +7,8 @@ export class OrderRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: Prisma.OrderCreateInput) {
+    // console.log('OrderRepository.create', data);
+    
     const orderdata = await this.prisma.order.create({
       data,
       include: {
@@ -14,6 +16,7 @@ export class OrderRepository {
       },
     });
 
+    // console.log('OrderRepository.create', orderdata);
     return orderdata;
   }
 
