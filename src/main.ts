@@ -1,14 +1,32 @@
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
+import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import { join } from 'path';
+
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
 
 async function bootstrap() {
-  dotenv.config(); // Load .env before anything else
-  console.log('PORT : ', process.env.PORT)
-  const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT);
+  const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50051';
 
-  console.clear();
-  console.log('PORT : ', process.env.PORT)
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.GRPC,
+      options: {
+        package: 'app',
+        protoPath: join(__dirname, 'proto/app.proto'),
+        url: grpcUrl,
+      },
+    },
+  );
+
+  await app.listen();
+
+  console.log(`🚀 gRPC Microservice is running on ${grpcUrl}`);
 }
-bootstrap();
+
+bootstrap().catch((error) => {
+  console.error('❌ Failed to start gRPC Microservice');
+  console.error(error);
+  process.exit(1);
+});
