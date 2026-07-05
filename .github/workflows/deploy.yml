@@ -3,7 +3,7 @@ name: Deploy NestJS to Cloud Run
 on:
   push:
     branches:
-      - terraform_gcp_postgresql
+      - grpc_item
 
 jobs:
   deploy:
@@ -163,6 +163,7 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --port 50051 \
+            --use-http2 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
