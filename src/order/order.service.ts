@@ -54,7 +54,7 @@ export class OrderService {
         userId: dto.userId,
         total,
         items: {
-          create: dto.items,
+          create: dto.items.map(({ id, ...item }) => item),
         },
       });
 

@@ -7,12 +7,14 @@ export class OrderRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: Prisma.OrderCreateInput) {
-    return this.prisma.order.create({
+    const orderdata = await this.prisma.order.create({
       data,
       include: {
         items: true,
       },
     });
+
+    return orderdata;
   }
 
   async findAll(skip: number, take: number) {
