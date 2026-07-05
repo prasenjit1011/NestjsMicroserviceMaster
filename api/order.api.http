@@ -1,0 +1,155 @@
+@host = http://localhost:3001
+@baseUrl = {{host}}/api
+
+####################################################
+# Home
+####################################################
+
+GET {{baseUrl}}/
+Accept: application/json
+
+
+####################################################
+# Create Order
+####################################################
+
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "userId": 101,
+  "items": [
+    {
+      "productId": 1,
+      "qty": 2,
+      "price": 499.99
+    },
+    {
+      "productId": 2,
+      "qty": 1,
+      "price": 999.99
+    }
+  ]
+}
+
+
+####################################################
+# Create Order - Single Item
+####################################################
+
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "userId": 102,
+  "items": [
+    {
+      "productId": 3,
+      "qty": 1,
+      "price": 79999
+    }
+  ]
+}
+
+
+####################################################
+# Create Order - Invalid Request
+####################################################
+
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "userId": 101,
+  "items": []
+}
+
+
+####################################################
+# Get All Orders
+####################################################
+
+GET {{baseUrl}}/orders
+Accept: application/json
+
+
+####################################################
+# Get Orders (Pagination)
+####################################################
+
+GET {{baseUrl}}/orders?page=1&limit=5
+Accept: application/json
+
+
+####################################################
+# Search Orders
+####################################################
+
+GET {{baseUrl}}/orders?page=1&limit=10&search=101
+Accept: application/json
+
+
+####################################################
+# Get Order By Id
+####################################################
+
+GET {{baseUrl}}/orders/1
+Accept: application/json
+
+
+####################################################
+# Update Order
+####################################################
+
+PUT {{baseUrl}}/orders/1
+Content-Type: application/json
+
+{
+  "userId": 101,
+  "items": [
+    {
+      "productId": 1,
+      "qty": 3,
+      "price": 499.99
+    },
+    {
+      "productId": 2,
+      "qty": 2,
+      "price": 999.99
+    }
+  ]
+}
+
+
+####################################################
+# Partial Update Order
+####################################################
+
+PUT {{baseUrl}}/orders/1
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productId": 1,
+      "qty": 5,
+      "price": 499.99
+    }
+  ]
+}
+
+
+####################################################
+# Delete Order
+####################################################
+
+DELETE {{baseUrl}}/orders/1
+Accept: application/json
+
+
+####################################################
+# Delete Non-Existing Order
+####################################################
+
+DELETE {{baseUrl}}/orders/999
+Accept: application/json

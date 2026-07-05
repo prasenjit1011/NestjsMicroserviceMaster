@@ -1,0 +1,95 @@
+@host = http://localhost:3001
+@baseUrl = {{host}}/api
+
+####################################################
+# Home
+####################################################
+
+GET {{baseUrl}}/
+Accept: application/json
+
+
+####################################################
+# Login
+####################################################
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+
+####################################################
+# Login - Invalid Username
+####################################################
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "wronguser",
+  "password": "admin"
+}
+
+
+####################################################
+# Login - Invalid Password
+####################################################
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "wrongpassword"
+}
+
+
+####################################################
+# Login - Missing Username
+####################################################
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "password": "admin"
+}
+
+
+####################################################
+# Login - Missing Password
+####################################################
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin"
+}
+
+
+####################################################
+# Login - Empty Body
+####################################################
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{}
+
+
+####################################################
+# Login - Invalid JSON Format
+####################################################
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "",
+  "password": ""
+}
