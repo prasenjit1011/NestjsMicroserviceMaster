@@ -18,7 +18,7 @@ COPY . .
 
 # Generate Prisma Client
 # RUN npx prisma generate
-RUN npm run prisma:generate
+# RUN npm run prisma:generate
 
 # Build NestJS
 RUN npm run build
