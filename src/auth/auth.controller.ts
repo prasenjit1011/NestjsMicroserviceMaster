@@ -30,7 +30,8 @@ export class AuthController {
 
     return {
       status:true,
-      message: 'Login successful...123',
+      message: 'Login successful',
+      ...user,
       ...token
     };
 

@@ -9,11 +9,18 @@ export class AuthService {
   constructor(private jwtService: JwtService) {}
 
   validateUser(username: string, password: string) {
-    return users.find(
+    const user = users.find(
       (u) =>
         u.username === username &&
         u.password === password,
     );
+
+    if (!user) {
+      return null;
+    }
+
+    const { password: _, ...result } = user;
+    return result;
   }
 
   login(user: any) {
