@@ -20,8 +20,9 @@ async function bootstrap() {
 
   await app.listen();
 
+  console.log('\n\n========================');
   console.log(
-    `\n\nItem gRPC Service running at ${
+    `Item gRPC Service running at ${
       process.env.ITEM_GRPC_URL || '127.0.0.1:50051'
     }`,
   );
