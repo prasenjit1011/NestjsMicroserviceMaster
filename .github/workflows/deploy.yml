@@ -119,17 +119,33 @@ jobs:
       # ----------------------------------
       # Verify Docker Image
       # ----------------------------------
+      # - name: Verify Docker Image
+      #   run: |
+      #     docker run --rm $IMAGE:${{ github.sha }} sh -c "
+      #       echo '===== Runtime =====';
+      #       pwd;
+      #       ls -lah;
+      #       echo '===== dist =====';
+      #       ls -lah /app/dist;
+      #       echo '===== Files =====';
+      #       find /app/dist -type f;
+      #       test -f /app/dist/main.js
+      #     "
+
       - name: Verify Docker Image
         run: |
           docker run --rm $IMAGE:${{ github.sha }} sh -c "
-            echo '===== Runtime =====';
-            pwd;
-            ls -lah;
-            echo '===== dist =====';
-            ls -lah /app/dist;
-            echo '===== Files =====';
+            echo '===== DIST =====';
             find /app/dist -type f;
-            test -f /app/dist/main.js
+
+            echo '===== PROTO =====';
+            ls -lah /app/dist/proto || true;
+
+            echo '===== APP PROTO =====';
+            test -f /app/dist/proto/app.proto;
+
+            echo '===== ITEM PROTO =====';
+            test -f /app/dist/proto/item.proto;
           "
 
       # ----------------------------------

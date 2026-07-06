@@ -6,15 +6,13 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package.json ./
-COPY package-lock.json ./
+COPY package*.json ./
 
-# Install all dependencies
+# Install dependencies
 RUN npm ci
 
-# Copy project
+# Copy project source
 COPY . .
-
 
 # Build NestJS
 RUN npm run build
@@ -22,23 +20,11 @@ RUN npm run build
 # --------------------------
 # Verify build output
 # --------------------------
-RUN echo "================================="
-RUN echo "Contents of /app"
-RUN ls -lah
-
-RUN echo "================================="
-RUN echo "Contents of dist"
-RUN ls -lah dist || true
-
-RUN echo "================================="
-RUN echo "Contents of dist/src"
-RUN ls -lah dist/src || true
-
-RUN echo "================================="
-RUN echo "All compiled files"
-RUN find dist -type f
-
-RUN test -f dist/main.js
+RUN echo "===== Build Output =====" && \
+    ls -lah && \
+    ls -lah dist && \
+    find dist -type f && \
+    test -f dist/main.js
 
 # Remove development dependencies
 RUN npm prune --omit=dev
@@ -51,37 +37,30 @@ FROM node:22-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV GRPC_URL=0.0.0.0:50051
 
-# Copy runtime files
+# Copy application
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
-
-
-
-# Copy proto files required by gRPC
-COPY --from=builder /app/src/proto ./dist/src/proto
+# Copy all proto files required by gRPC
+COPY --from=builder /app/src/proto ./dist/proto
 
 # --------------------------
 # Verify runtime image
 # --------------------------
-RUN echo "===== Runtime ====="
-RUN pwd
+RUN echo "===== Runtime Files =====" && \
+    pwd && \
+    ls -lah && \
+    echo "===== dist =====" && \
+    find dist -type f && \
+    echo "===== proto =====" && \
+    ls -lah dist/proto && \
+    test -f dist/main.js && \
+    test -f dist/proto/app.proto && \
+    test -f dist/proto/item.proto
 
-RUN echo "===== dist ====="
-RUN ls -lah dist
-
-RUN echo "===== dist/src ====="
-RUN ls -lah dist/src
-
-RUN echo "===== Compiled Files ====="
-RUN find dist -type f
-
-RUN test -f dist/main.js
-
-# gRPC Port
+# Cloud Run listens on 3000
 EXPOSE 3000
 
 CMD ["node", "dist/main.js"]
