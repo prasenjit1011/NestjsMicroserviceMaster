@@ -90,9 +90,7 @@ The system is designed using a **microservices-first approach**, where each serv
 
 ---
 
-## ▶️ How to Run Locally
-
-
+### ▶️ How to Run Locally
 ### 📦 Clone All Repositories
 
 ```bash
@@ -107,19 +105,14 @@ git clone -b item-service --single-branch https://github.com/prasenjit1011/reves
 git clone -b order-service --single-branch https://github.com/prasenjit1011/revest_ecom_backend.git revest_ecom_order_service
 ````
 
-
-
 ### 1️⃣ Start Dynamic Form System
-
-## ⚙️ 
 ```bash
 cd revest_dynamic_form
 npm install
 npm run dev
 ```
 
-👉 Open:
-
+### 👉 Open to overview Dynamic Form 
 ```
 http://localhost:3000
 ```
@@ -136,7 +129,6 @@ npm run start:dev
 ```
 
 ---
-
 ### 3️⃣ Start Order Service
 
 ```bash
