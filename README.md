@@ -47,7 +47,7 @@ The system is designed using a **microservices-first approach**, where each serv
                 │   Data Layer (Neon PostgreSQL DB)     │
                 │   Prisma ORM (Type-safe DB access)    │
                 └────────────────────────────────────────┘
----
+```
 
 ## 🚀 Tech Stack
 
@@ -60,9 +60,6 @@ The system is designed using a **microservices-first approach**, where each serv
 - **API Documentation:** Swagger (OpenAPI)
 - **Code Quality:** ESLint, Prettier
 - **Testing:** Jest
-
----
-
 
 
 ### 🔷 Core Services
