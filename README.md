@@ -1,73 +1,271 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+Here is a **more professional, clean, and GitHub-ready upgraded README.md** (improved structure, better wording, better flow, and more engineering tone):
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+```md
+# 🚀 Revest E-Commerce Microservices Platform
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A production-style **scalable e-commerce backend system** built using **NestJS, gRPC, Prisma ORM, PostgreSQL (Neon), and API Gateway architecture**, along with a **Next.js frontend** and a **dynamic form system**.
 
-## Description
+This project demonstrates a real-world **microservices architecture with gRPC-based service-to-service communication**.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Installation
+## 🧩 System Architecture Overview
 
-```bash
-$ npm install
+The system is designed using a **microservices-first approach**, where each service is independently deployable and communicates via **gRPC (HTTP/2 + Protobuf)**.
+
+### 🔷 Core Services
+
+- **API Gateway (NestJS)**
+  - Single entry point for all client applications
+  - Handles authentication, request routing, and aggregation
+  - Communicates with microservices using gRPC
+
+- **Item Service (NestJS + gRPC Server)**
+  - Manages product/item lifecycle (CRUD operations)
+  - Uses Prisma ORM with PostgreSQL (Neon)
+
+- **Order Service (NestJS + gRPC Server)**
+  - Handles order creation and order management
+  - Performs validation via Item Service using gRPC
+
+- **PostgreSQL (Neon Cloud Database)**
+  - Serverless PostgreSQL database
+  - Shared via Prisma ORM across services
+
+- **Frontend (Next.js)**
+  - E-commerce UI for users
+  - Consumes API Gateway REST endpoints
+
+- **Dynamic Form System**
+  - JSON-driven dynamic form builder application
+
+---
+
+## 🏗️ Final Architecture Flow
+
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+                    Frontend (Next.js)
+                             │
+                             ▼
+                 API Gateway (NestJS REST)
+                             │
+                             ▼
+                gRPC Communication Layer (HTTP/2)
+                             │
+      ┌──────────────────────┬──────────────────────┐
+      │                      │                      │
+      ▼                      ▼                      ▼
 ```
 
-## Test
+Item Service          Order Service           Auth Module
+(NestJS + gRPC)       (NestJS + gRPC)        (JWT-based auth)
+│                      │
+└──────────────┬───────┘
+▼
+PostgreSQL (Neon) + Prisma ORM
+
+````
+
+---
+
+## ⚙️ Tech Stack
+
+- **Backend Framework:** NestJS 10
+- **Microservices Communication:** gRPC (HTTP/2 + Protocol Buffers)
+- **ORM:** Prisma
+- **Database:** PostgreSQL (Neon.tech)
+- **Frontend:** Next.js (React)
+- **Authentication:** JWT (Token-based auth)
+- **API Documentation:** Swagger (OpenAPI)
+- **Code Quality:** ESLint, Prettier
+- **Testing:** Jest
+
+---
+
+## 📦 Clone All Repositories
 
 ```bash
-# unit tests
-$ npm run test
+git clone https://github.com/prasenjit1011/revest_dynamic_form.git revest_dynamic_form
 
-# e2e tests
-$ npm run test:e2e
+git clone https://github.com/prasenjit1011/revest_ecom_frontend.git revest_ecom_frontend
 
-# test coverage
-$ npm run test:cov
+git clone -b api-gateway --single-branch https://github.com/prasenjit1011/revest_ecom_backend.git revest_ecom_api_gateway
+
+git clone -b item-service --single-branch https://github.com/prasenjit1011/revest_ecom_backend.git revest_ecom_item_service
+
+git clone -b order-service --single-branch https://github.com/prasenjit1011/revest_ecom_backend.git revest_ecom_order_service
+````
+
+---
+
+## ▶️ How to Run Locally
+
+### 1️⃣ Start Dynamic Form System
+
+```bash
+cd revest_dynamic_form
+npm install
+npm run dev
 ```
 
-## Support
+👉 Open:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+http://localhost:3000
+```
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 2️⃣ Start Item Service
 
-## License
+```bash
+cd revest_ecom_item_service
+npm install
+npx prisma generate
+npm run start:dev
+```
 
-Nest is [MIT licensed](LICENSE).
+---
+
+### 3️⃣ Start Order Service
+
+```bash
+cd revest_ecom_order_service
+npm install
+npx prisma generate
+npm run start:dev
+```
+
+---
+
+### 4️⃣ Start API Gateway
+
+```bash
+cd revest_ecom_api_gateway
+npm install
+npm run start:dev
+```
+
+---
+
+### 5️⃣ Start Frontend (Next.js)
+
+```bash
+cd revest_ecom_frontend
+npm install
+npm run dev
+```
+
+---
+
+## 🌐 Application URLs
+
+| Service                     | URL                                                      |
+| --------------------------- | -------------------------------------------------------- |
+| API Documentation (Swagger) | [http://localhost:3001/docs](http://localhost:3001/docs) |
+| Frontend (E-Commerce UI)    | [http://localhost:5173/](http://localhost:5173/)         |
+| Dynamic Form System         | [http://localhost:3000/](http://localhost:3000/)         |
+
+---
+
+## 📡 gRPC Communication Flow
+
+The services communicate using **gRPC over HTTP/2**:
+
+* API Gateway → Item Service (CRUD operations)
+* API Gateway → Order Service (Order handling)
+* Order Service → Item Service (validation / stock checks)
+
+---
+
+## 🗄️ Database Layer (Neon + Prisma)
+
+Each service uses **Prisma ORM** connected to a **Neon PostgreSQL serverless database**.
+
+### Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+### Run Migrations
+
+```bash
+npx prisma migrate dev
+```
+
+---
+
+## 📚 API Documentation
+
+Swagger UI:
+
+```
+http://localhost:3001/docs
+```
+
+API Testing Files:
+
+```
+revest_ecom_api_gateway/api/
+```
+
+Includes:
+
+* item.api.http
+* order.api.http
+* auth.api.http
+
+---
+
+## 🔐 Key Features
+
+* Secure JWT Authentication
+* Item CRUD Management
+* Order Processing System
+* Microservices architecture using gRPC
+* Central API Gateway design
+* Prisma ORM integration
+* Neon PostgreSQL cloud database
+* Swagger API documentation
+* Modular and scalable NestJS architecture
+
+---
+
+## 📌 Key Highlights
+
+* ⚡ High-performance gRPC-based communication
+* 🧩 Fully decoupled microservices design
+* ☁️ Cloud-ready architecture using Neon DB
+* 🔐 Secure authentication system (JWT)
+* 📦 Clean, maintainable NestJS codebase
+
+---
+
+## 🧑‍💻 Author
+
+**Prasenjit**
+Full Stack / Backend Engineer
+Specialized in NestJS, Microservices, gRPC, and Cloud Architecture
+
+---
+
+## 📄 License
+
+This project is intended for educational and development purposes only.
+
+```
+
+---
+
+If you want next upgrade, I can make it even more powerful:
+
+- 🔥 :contentReference[oaicite:0]{index=0}
+- 🧠 :contentReference[oaicite:1]{index=1}
+- 🐳 :contentReference[oaicite:2]{index=2}
+- ☁️ :contentReference[oaicite:3]{index=3}
+
+Just tell me 👍
+```
