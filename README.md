@@ -57,14 +57,12 @@ The system is designed using a **microservices-first approach**, where each serv
       ┌──────────────────────┬──────────────────────┐
       │                      │                      │
       ▼                      ▼                      ▼
-```
-
-Item Service          Order Service           Auth Module
-(NestJS + gRPC)       (NestJS + gRPC)        (JWT-based auth)
-│                      │
-└──────────────┬───────┘
-▼
-PostgreSQL (Neon) + Prisma ORM
+     Item Service          Order Service           Auth Module
+     (NestJS + gRPC)       (NestJS + gRPC)        (JWT-based auth)
+      │                      │                      │
+      └────────────── ──────┬┘──────────────┬───────┘
+                            ▼
+                PostgreSQL (Neon) + Prisma ORM
 
 ````
 
