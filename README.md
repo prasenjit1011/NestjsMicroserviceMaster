@@ -1,17 +1,66 @@
-Here is a **more professional, clean, and GitHub-ready upgraded README.md** (improved structure, better wording, better flow, and more engineering tone):
 
-```md
-# 🚀 Revest E-Commerce Microservices Platform
+## 🧩 System Architecture Overview – Item–Order CRUD Microservices System
 
-A production-style **scalable e-commerce backend system** built using **NestJS, gRPC, Prisma ORM, PostgreSQL (Neon), and API Gateway architecture**, along with a **Next.js frontend** and a **dynamic form system**.
+A scalable **microservices-based backend system** built using **NestJS, gRPC, Prisma ORM, PostgreSQL (Neon), and API Gateway architecture**, along with a **Next.js frontend**
 
-This project demonstrates a real-world **microservices architecture with gRPC-based service-to-service communication**.
+The system is designed using a **microservices-first approach**, where each service is independently deployable and communicates via **gRPC (HTTP/2 + Protobuf)**. This project demonstrates a real-world **microservices architecture with gRPC-based service-to-service communication**.
 
----
 
-## 🧩 System Architecture Overview
+## 🏗️ System Architecture Flow
 
-The system is designed using a **microservices-first approach**, where each service is independently deployable and communicates via **gRPC (HTTP/2 + Protobuf)**.
+```
+                       ┌──────────────────────────────┐
+                       │       Client Layer           │
+                       │   (Next.js Frontend UI)     │
+                       └──────────────┬───────────────┘
+                                      │
+                                      ▼
+            ┌────────────────────────────────────────────┐
+            │        API Gateway (NestJS REST)          │
+            │────────────────────────────────────────────│
+            │ • JWT Authentication Guard                 │
+            │ • Request Validation                      │
+            │ • Routing & Aggregation                   │
+            │ • gRPC Client Layer                       │
+            └──────────────┬─────────────────┬──────────┘
+                           │                 │
+                           │                 │
+           ┌───────────────▼───────┐ ┌──────▼────────────────┐
+           │   Item Service        │ │   Order Service       │
+           │ (NestJS + gRPC)       │ │ (NestJS + gRPC)       │
+           │───────────────────────│ │───────────────────────│
+           │ • Item CRUD           │ │ • Order CRUD          │
+           │ • Inventory Control   │ │ • Order Workflow      │
+           │ • Business Logic      │ │ • Stock Validation    │
+           └───────────────┬───────┘ └───────────┬──────────┘
+                           │                     │
+                           └──────────┬──────────┘
+                                      │
+                                      ▼
+                ┌────────────────────────────────────────┐
+                │        Shared Auth Module              │
+                │        (JWT Strategy Service)         │
+                └────────────────────┬───────────────────┘
+                                     │
+                                     ▼
+                ┌────────────────────────────────────────┐
+                │   Data Layer (Neon PostgreSQL DB)     │
+                │   Prisma ORM (Type-safe DB access)    │
+                └────────────────────────────────────────┘
+```
+
+## 🚀 Tech Stack
+
+- **Backend Framework:** NestJS 10
+- **Microservices Communication:** gRPC (HTTP/2 + Protocol Buffers)
+- **ORM:** Prisma
+- **Database:** PostgreSQL (https://neon.com)
+- **Frontend:** Next.js (React)
+- **Authentication:** JWT (Token-based auth)
+- **API Documentation:** Swagger (OpenAPI)
+- **Code Quality:** ESLint, Prettier
+- **Testing:** Jest
+
 
 ### 🔷 Core Services
 
@@ -41,50 +90,8 @@ The system is designed using a **microservices-first approach**, where each serv
 
 ---
 
-## 🏗️ Final Architecture Flow
-
-```
-
-```
-                    Frontend (Next.js)
-                             │
-                             ▼
-                 API Gateway (NestJS REST)
-                             │
-                             ▼
-                gRPC Communication Layer (HTTP/2)
-                             │
-      ┌──────────────────────┬──────────────────────┐
-      │                      │                      │
-      ▼                      ▼                      ▼
-```
-
-Item Service          Order Service           Auth Module
-(NestJS + gRPC)       (NestJS + gRPC)        (JWT-based auth)
-│                      │
-└──────────────┬───────┘
-▼
-PostgreSQL (Neon) + Prisma ORM
-
-````
-
----
-
-## ⚙️ Tech Stack
-
-- **Backend Framework:** NestJS 10
-- **Microservices Communication:** gRPC (HTTP/2 + Protocol Buffers)
-- **ORM:** Prisma
-- **Database:** PostgreSQL (Neon.tech)
-- **Frontend:** Next.js (React)
-- **Authentication:** JWT (Token-based auth)
-- **API Documentation:** Swagger (OpenAPI)
-- **Code Quality:** ESLint, Prettier
-- **Testing:** Jest
-
----
-
-## 📦 Clone All Repositories
+### ▶️ How to Run Locally
+### 📦 Clone All Repositories
 
 ```bash
 git clone https://github.com/prasenjit1011/revest_dynamic_form.git revest_dynamic_form
@@ -98,20 +105,14 @@ git clone -b item-service --single-branch https://github.com/prasenjit1011/reves
 git clone -b order-service --single-branch https://github.com/prasenjit1011/revest_ecom_backend.git revest_ecom_order_service
 ````
 
----
-
-## ▶️ How to Run Locally
-
 ### 1️⃣ Start Dynamic Form System
-
 ```bash
 cd revest_dynamic_form
 npm install
 npm run dev
 ```
 
-👉 Open:
-
+### 👉 Open to overview Dynamic Form 
 ```
 http://localhost:3000
 ```
@@ -128,7 +129,6 @@ npm run start:dev
 ```
 
 ---
-
 ### 3️⃣ Start Order Service
 
 ```bash
@@ -251,21 +251,4 @@ Full Stack / Backend Engineer
 Specialized in NestJS, Microservices, gRPC, and Cloud Architecture
 
 ---
-
-## 📄 License
-
-This project is intended for educational and development purposes only.
-
-```
-
----
-
-If you want next upgrade, I can make it even more powerful:
-
-- 🔥 :contentReference[oaicite:0]{index=0}
-- 🧠 :contentReference[oaicite:1]{index=1}
-- 🐳 :contentReference[oaicite:2]{index=2}
-- ☁️ :contentReference[oaicite:3]{index=3}
-
-Just tell me 👍
 ```
