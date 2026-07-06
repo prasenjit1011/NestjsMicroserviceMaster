@@ -1,45 +1,12 @@
-Here is a **more professional, clean, and GitHub-ready upgraded README.md** (improved structure, better wording, better flow, and more engineering tone):
-
-```md
-# 🚀 Revest E-Commerce Microservices Platform
-
-A production-style **scalable e-commerce backend system** built using **NestJS, gRPC, Prisma ORM, PostgreSQL (Neon), and API Gateway architecture**, along with a **Next.js frontend** and a **dynamic form system**.
+# 🚀 Item–Order CRUD Microservices System
+A scalable **microservices-based backend system** built using **NestJS, gRPC, Prisma ORM, PostgreSQL (Neon), and API Gateway architecture**, along with a **Next.js frontend**
 
 This project demonstrates a real-world **microservices architecture with gRPC-based service-to-service communication**.
-
----
 
 ## 🧩 System Architecture Overview
 
 The system is designed using a **microservices-first approach**, where each service is independently deployable and communicates via **gRPC (HTTP/2 + Protobuf)**.
 
-### 🔷 Core Services
-
-- **API Gateway (NestJS)**
-  - Single entry point for all client applications
-  - Handles authentication, request routing, and aggregation
-  - Communicates with microservices using gRPC
-
-- **Item Service (NestJS + gRPC Server)**
-  - Manages product/item lifecycle (CRUD operations)
-  - Uses Prisma ORM with PostgreSQL (Neon)
-
-- **Order Service (NestJS + gRPC Server)**
-  - Handles order creation and order management
-  - Performs validation via Item Service using gRPC
-
-- **PostgreSQL (Neon Cloud Database)**
-  - Serverless PostgreSQL database
-  - Shared via Prisma ORM across services
-
-- **Frontend (Next.js)**
-  - E-commerce UI for users
-  - Consumes API Gateway REST endpoints
-
-- **Dynamic Form System**
-  - JSON-driven dynamic form builder application
-
----
 
 ## 🏗️ System Architecture Flow
 
@@ -95,6 +62,36 @@ The system is designed using a **microservices-first approach**, where each serv
 - **API Documentation:** Swagger (OpenAPI)
 - **Code Quality:** ESLint, Prettier
 - **Testing:** Jest
+
+---
+
+
+
+### 🔷 Core Services
+
+- **API Gateway (NestJS)**
+  - Single entry point for all client applications
+  - Handles authentication, request routing, and aggregation
+  - Communicates with microservices using gRPC
+
+- **Item Service (NestJS + gRPC Server)**
+  - Manages product/item lifecycle (CRUD operations)
+  - Uses Prisma ORM with PostgreSQL (Neon)
+
+- **Order Service (NestJS + gRPC Server)**
+  - Handles order creation and order management
+  - Performs validation via Item Service using gRPC
+
+- **PostgreSQL (Neon Cloud Database)**
+  - Serverless PostgreSQL database
+  - Shared via Prisma ORM across services
+
+- **Frontend (Next.js)**
+  - E-commerce UI for users
+  - Consumes API Gateway REST endpoints
+
+- **Dynamic Form System**
+  - JSON-driven dynamic form builder application
 
 ---
 
