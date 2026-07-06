@@ -1,32 +1,36 @@
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
-import { Transport, MicroserviceOptions } from '@nestjs/microservices';
-import { join } from 'path';
+
+import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50051';
+  const app = await NestFactory.create(AppModule);
 
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.GRPC,
-      options: {
-        package: 'app',
-        protoPath: join(__dirname, 'proto/app.proto'),
-        url: grpcUrl,
-      },
-    },
+  app.enableCors();
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
   );
 
-  await app.listen();
+  const config = new DocumentBuilder()
+    .setTitle('API Gateway')
+    .setDescription('Gateway')
+    .setVersion('1.0')
+    .build();
 
-  console.log(`🚀 gRPC Microservice is running on ${grpcUrl}`);
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('swagger', app, document);
+
+  await app.listen(3000);
+
+  console.log('Gateway running on http://localhost:3000');
 }
 
-bootstrap().catch((error) => {
-  console.error('❌ Failed to start gRPC Microservice');
-  console.error(error);
-  process.exit(1);
-});
+bootstrap();

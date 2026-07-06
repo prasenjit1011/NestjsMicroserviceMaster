@@ -86,6 +86,6 @@ RUN find dist -type f
 RUN test -f dist/src/main.js
 
 # gRPC Port
-EXPOSE 50051
+EXPOSE 3000
 
 CMD ["node", "dist/src/main.js"]

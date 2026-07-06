@@ -1,9 +1,27 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { join } from 'path';
+import { ChannelCredentials } from '@grpc/grpc-js';
+
+import { ItemController } from './item/item.controller';
+import { ItemService } from './item/item.service';
 
 @Module({
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'ITEM_PACKAGE',
+        transport: Transport.GRPC,
+        options: {
+          package: 'item',
+          protoPath: join(__dirname, 'proto/item.proto'),
+          url: 'dns:///item-service-334684044157.asia-south1.run.app:443',
+          credentials: ChannelCredentials.createSsl(),
+        },
+      },
+    ]),
+  ],
+  controllers: [ItemController],
+  providers: [ItemService],
 })
 export class AppModule {}

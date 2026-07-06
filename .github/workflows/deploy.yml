@@ -62,8 +62,6 @@ jobs:
       # ----------------------------------
       # Generate Prisma Client
       # ----------------------------------
-      - name: Generate Prisma Client
-        run: npx prisma generate
 
       # ----------------------------------
       # Build NestJS
@@ -162,8 +160,7 @@ jobs:
             --region $REGION \
             --platform managed \
             --allow-unauthenticated \
-            --port 50051 \
-            --use-http2 \
+            --port 3000 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
