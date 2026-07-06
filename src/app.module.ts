@@ -14,8 +14,8 @@ import { AppController } from './app.controller';
         name: 'ITEM_PACKAGE',
         transport: Transport.GRPC,
         options: {
-          package: 'app',
-          protoPath: join(__dirname, 'proto/app.proto'),
+          package: 'item',
+          protoPath: join(__dirname, 'proto/item.proto'),
           url: 'dns:///item-service-334684044157.asia-south1.run.app:443',
           credentials: ChannelCredentials.createSsl(),
         },

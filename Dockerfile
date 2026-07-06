@@ -57,7 +57,6 @@ RUN echo "===== Runtime Files =====" && \
     echo "===== proto =====" && \
     ls -lah dist/proto && \
     test -f dist/main.js && \
-    test -f dist/proto/app.proto && \
     test -f dist/proto/item.proto
 
 # Cloud Run listens on 3000

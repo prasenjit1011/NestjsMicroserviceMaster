@@ -141,9 +141,6 @@ jobs:
             echo '===== PROTO =====';
             ls -lah /app/dist/proto || true;
 
-            echo '===== APP PROTO =====';
-            test -f /app/dist/proto/app.proto;
-
             echo '===== ITEM PROTO =====';
             test -f /app/dist/proto/item.proto;
           "
