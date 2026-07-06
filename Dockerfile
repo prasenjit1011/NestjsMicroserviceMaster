@@ -6,9 +6,8 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
-
-COPY prisma ./prisma
+COPY package.json ./
+COPY package-lock.json ./
 
 # Install all dependencies
 RUN npm ci
@@ -16,9 +15,6 @@ RUN npm ci
 # Copy project
 COPY . .
 
-# Generate Prisma Client
-# RUN npx prisma generate
-# RUN npm run prisma:generate
 
 # Build NestJS
 RUN npm run build
@@ -62,8 +58,8 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
-# Copy Prisma (if your application uses it at runtime)
-COPY --from=builder /app/prisma ./prisma
+
+
 
 # Copy proto files required by gRPC
 COPY --from=builder /app/src/proto ./dist/src/proto

@@ -5,6 +5,7 @@ import { ChannelCredentials } from '@grpc/grpc-js';
 
 import { ItemController } from './item/item.controller';
 import { ItemService } from './item/item.service';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -21,7 +22,10 @@ import { ItemService } from './item/item.service';
       },
     ]),
   ],
-  controllers: [ItemController],
+  controllers: [
+    AppController,
+    ItemController
+  ],
   providers: [ItemService],
 })
 export class AppModule {}

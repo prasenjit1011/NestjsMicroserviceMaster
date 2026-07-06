@@ -83,10 +83,10 @@ resource "google_cloud_run_v2_service" "app" {
         name  = "NODE_ENV"
         value = "production"
       }
-
+      
       env {
-        name  = "GRPC_URL"
-        value = "0.0.0.0:50051"
+        name = "ITEM_GRPC_URL"
+        value = "dns:///item-service-334684044157.asia-south1.run.app:443"
       }
 
       resources {
