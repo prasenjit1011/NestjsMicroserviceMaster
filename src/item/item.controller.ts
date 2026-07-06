@@ -21,7 +21,7 @@ export class ItemController {
     return this.service.getItems();
   }
 
-  @Get(':id')
+  /*@Get(':id')
   getOne(@Param('id') id: number) {
     return this.service.getItem(+id);
   }
@@ -45,5 +45,5 @@ export class ItemController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.service.deleteItem(+id);
-  }
+  }*/
 }
