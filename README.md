@@ -41,31 +41,47 @@ The system is designed using a **microservices-first approach**, where each serv
 
 ---
 
-## 🏗️ Final Architecture Flow
+## 🏗️ System Architecture Flow
 
 ```
-
-```
-                    Frontend (Next.js)
-                             │
-                             ▼
-                 API Gateway (NestJS REST)
-                             │
-                             ▼
-                gRPC Communication Layer (HTTP/2)
-                             │
-      ┌──────────────────────┬──────────────────────┐
-      │                      │                      │
-      ▼                      ▼                      ▼
-     Item Service          Order Service           Auth Module
-     (NestJS + gRPC)       (NestJS + gRPC)        (JWT-based auth)
-      │                      │                      │
-      └────────────── ──────┬┘──────────────┬───────┘
-                            ▼
-                PostgreSQL (Neon) + Prisma ORM
-
-````
-
+                       ┌──────────────────────────────┐
+                       │       Client Layer           │
+                       │   (Next.js Frontend UI)     │
+                       └──────────────┬───────────────┘
+                                      │
+                                      ▼
+            ┌────────────────────────────────────────────┐
+            │        API Gateway (NestJS REST)          │
+            │────────────────────────────────────────────│
+            │ • JWT Authentication Guard                 │
+            │ • Request Validation                      │
+            │ • Routing & Aggregation                   │
+            │ • gRPC Client Layer                       │
+            └──────────────┬─────────────────┬──────────┘
+                           │                 │
+                           │                 │
+           ┌───────────────▼───────┐ ┌──────▼────────────────┐
+           │   Item Service        │ │   Order Service       │
+           │ (NestJS + gRPC)       │ │ (NestJS + gRPC)       │
+           │───────────────────────│ │───────────────────────│
+           │ • Item CRUD           │ │ • Order CRUD          │
+           │ • Inventory Control   │ │ • Order Workflow      │
+           │ • Business Logic      │ │ • Stock Validation    │
+           └───────────────┬───────┘ └───────────┬──────────┘
+                           │                     │
+                           └──────────┬──────────┘
+                                      │
+                                      ▼
+                ┌────────────────────────────────────────┐
+                │        Shared Auth Module              │
+                │        (JWT Strategy Service)         │
+                └────────────────────┬───────────────────┘
+                                     │
+                                     ▼
+                ┌────────────────────────────────────────┐
+                │   Data Layer (Neon PostgreSQL DB)     │
+                │   Prisma ORM (Type-safe DB access)    │
+                └────────────────────────────────────────┘
 ---
 
 ## ⚙️ Tech Stack
