@@ -3,9 +3,7 @@
 
 A scalable **microservices-based backend system** built using **NestJS, gRPC, Prisma ORM, PostgreSQL (Neon), and API Gateway architecture**, along with a **Next.js frontend**
 
-This project demonstrates a real-world **microservices architecture with gRPC-based service-to-service communication**.
-
-The system is designed using a **microservices-first approach**, where each service is independently deployable and communicates via **gRPC (HTTP/2 + Protobuf)**.
+The system is designed using a **microservices-first approach**, where each service is independently deployable and communicates via **gRPC (HTTP/2 + Protobuf)**. This project demonstrates a real-world **microservices architecture with gRPC-based service-to-service communication**.
 
 
 ## 🏗️ System Architecture Flow
