@@ -54,7 +54,7 @@ The system is designed using a **microservices-first approach**, where each serv
 - **Backend Framework:** NestJS 10
 - **Microservices Communication:** gRPC (HTTP/2 + Protocol Buffers)
 - **ORM:** Prisma
-- **Database:** PostgreSQL (Neon.tech)
+- **Database:** PostgreSQL (https://neon.com)
 - **Frontend:** Next.js (React)
 - **Authentication:** JWT (Token-based auth)
 - **API Documentation:** Swagger (OpenAPI)
@@ -90,7 +90,10 @@ The system is designed using a **microservices-first approach**, where each serv
 
 ---
 
-## 📦 Clone All Repositories
+## ▶️ How to Run Locally
+
+
+### 📦 Clone All Repositories
 
 ```bash
 git clone https://github.com/prasenjit1011/revest_dynamic_form.git revest_dynamic_form
@@ -104,10 +107,7 @@ git clone -b item-service --single-branch https://github.com/prasenjit1011/reves
 git clone -b order-service --single-branch https://github.com/prasenjit1011/revest_ecom_backend.git revest_ecom_order_service
 ````
 
----
 
-
-## ▶️ How to Run Locally
 
 ### 1️⃣ Start Dynamic Form System
 
