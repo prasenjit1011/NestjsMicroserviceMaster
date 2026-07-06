@@ -179,6 +179,22 @@ jobs:
             --set-env-vars NODE_ENV=production
 
       # ----------------------------------
+      # Print Cloud Run Logs on Failure
+      # ----------------------------------
+      - name: Print Cloud Run Logs
+        if: failure()
+        run: |
+          echo "===== Cloud Run Logs ====="
+
+          gcloud logging read \
+            'resource.type="cloud_run_revision"
+            resource.labels.service_name="nestjs-cloudrun"' \
+            --limit=100 \
+            --order=desc \
+            --format="table(timestamp,severity,textPayload)"
+
+
+      # ----------------------------------
       # Service URL
       # ----------------------------------
       - name: Get Service URL
