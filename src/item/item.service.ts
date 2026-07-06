@@ -5,14 +5,11 @@ import {
 } from '@nestjs/common';
 
 import { ClientGrpc } from '@nestjs/microservices';
-
 import { Observable } from 'rxjs';
+
 interface ItemGrpcService {
   getHello(data: {}): Observable<any>;
-}
-
-/*
-interface ItemGrpcService {
+  /*
   getItems(data: {}): Observable<any>;
 
   getItem(data: { id: number }): Observable<any>;
@@ -22,8 +19,9 @@ interface ItemGrpcService {
   updateItem(data: any): Observable<any>;
 
   deleteItem(data: { id: number }): Observable<any>;
+  */
 }
-*/
+
 
 @Injectable()
 export class ItemService implements OnModuleInit {
@@ -41,13 +39,10 @@ export class ItemService implements OnModuleInit {
 
   getItems() {
     return this.service.getHello({});
+    // return this.service.getItems({});
   }
 
   /*
-  getItems() {
-    return this.service.getItems({});
-  }
-
   getItem(id: number) {
     return this.service.getItem({ id });
   }

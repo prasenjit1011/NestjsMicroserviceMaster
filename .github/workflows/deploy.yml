@@ -162,6 +162,19 @@ jobs:
       # ----------------------------------
       # Deploy Cloud Run
       # ----------------------------------
+
+          # gcloud run deploy $SERVICE \
+          #   --image $IMAGE:${{ github.sha }} \
+          #   --region $REGION \
+          #   --platform managed \
+          #   --allow-unauthenticated \
+          #   --port 3000 \
+          #   --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
+          #   --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
+          #   --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+          #   --set-env-vars NODE_ENV=production
+
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE \
@@ -171,9 +184,13 @@ jobs:
             --allow-unauthenticated \
             --port 3000 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
-            --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
-            --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
-            --set-env-vars NODE_ENV=production
+            --set-env-vars NODE_ENV=production \
+            --set-env-vars ITEM_GRPC_URL=item-service-334684044157.asia-south1.run.app:443 \
+            --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}"
+
+
+
+
 
       # ----------------------------------
       # Print Cloud Run Logs on Failure
