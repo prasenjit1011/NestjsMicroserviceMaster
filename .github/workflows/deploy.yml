@@ -163,7 +163,6 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --port 8080 \
-            --use-http2 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
