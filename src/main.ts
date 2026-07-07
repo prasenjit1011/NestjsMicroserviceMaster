@@ -6,11 +6,15 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  // HTTP Server
   const app = await NestFactory.create(AppModule);
+
+  app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+
   const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50051';
 
-  // gRPC Microservice
   app.connectMicroservice({
     transport: Transport.GRPC,
     options: {
@@ -21,15 +25,16 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  await app.listen(8080);
 
-  console.log('\n\n===========', new Date().toLocaleTimeString(),'===========\n')
-  console.log('🌐 HTTP Server: http://localhost:3000');
-  console.log('🚀 gRPC Server : 0.0.0.0:50051');
+  await app.listen(8080, '0.0.0.0');
+
+  console.log('\n===========', new Date().toLocaleTimeString(), '===========\n');
+  console.log('🌐 HTTP Server: http://0.0.0.0:8080');
+  console.log(`🚀 gRPC Server : ${grpcUrl}`);
 }
 
 bootstrap().catch((error) => {
-  console.error('❌ Failed to start gRPC Microservice');
+  console.error('❌ Failed to start application');
   console.error(error);
   process.exit(1);
-});;
+});
