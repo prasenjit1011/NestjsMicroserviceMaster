@@ -24,12 +24,26 @@ async function bootstrap() {
 
   await app.listen(port, '0.0.0.0');
 
+
+  const server = app.getHttpServer();
+  console.log(server.address());
   console.log(`HTTP : ${port}`);
   console.log(`gRPC : ${grpcUrl}`);
 }
 
-bootstrap().catch((error) => {
-  console.error('❌ Failed to start application');
-  console.error(error);
-  process.exit(1);
+
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT');
+  console.error(err);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED');
+  console.error(err);
+});
+
+bootstrap().catch((err) => {
+  console.error('BOOTSTRAP ERROR');
+  console.error(err);
+  process.exit(1234);
 });

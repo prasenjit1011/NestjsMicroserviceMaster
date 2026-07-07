@@ -138,6 +138,37 @@ jobs:
             test -f /app/dist/src/main.js
           "
 
+
+
+
+      # ----------------------------------
+      # Test Docker Image
+      # ----------------------------------
+      - name: Run Docker Container
+        run: |
+          docker run -d \
+            --name nest-test \
+            -p 8080:8080 \
+            -e NODE_ENV=production \
+            -e GRPC_URL=0.0.0.0:50051 \
+            $IMAGE:${{ github.sha }}
+
+          echo "Waiting..."
+          sleep 15
+
+          docker ps
+
+          echo "===== Container Logs ====="
+          docker logs nest-test
+
+          echo "===== HTTP Test ====="
+          curl -v http://localhost:8080/getdata
+
+          docker stop nest-test
+
+
+
+
       # ----------------------------------
       # Push Image
       # ----------------------------------
@@ -176,3 +207,7 @@ jobs:
           gcloud run services describe $SERVICE \
             --region $REGION \
             --format="value(status.url)"
+
+      - name: Test Inside Container
+        run: |
+          docker exec nest-test wget -qO- http://localhost:8080/getdata
