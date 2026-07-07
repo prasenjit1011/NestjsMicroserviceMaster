@@ -2,16 +2,10 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import { join } from 'path';
-
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next();
-  });
 
   const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50051';
 
@@ -26,11 +20,12 @@ async function bootstrap() {
 
   await app.startAllMicroservices();
 
-  await app.listen(8080, '0.0.0.0');
+  const port = Number(process.env.PORT || 8080);
 
-  console.log('\n===========', new Date().toLocaleTimeString(), '===========\n');
-  console.log('🌐 HTTP Server: http://0.0.0.0:8080');
-  console.log(`🚀 gRPC Server : ${grpcUrl}`);
+  await app.listen(port, '0.0.0.0');
+
+  console.log(`HTTP : ${port}`);
+  console.log(`gRPC : ${grpcUrl}`);
 }
 
 bootstrap().catch((error) => {
