@@ -18,7 +18,7 @@ jobs:
 
     steps:
       # ----------------------------------
-      # Checkout
+      # Checkout Repository
       # ----------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -72,16 +72,16 @@ jobs:
         run: |
           npm run build
 
-          echo "===== Exit Code ====="
+          echo "===== Build Exit Code ====="
           echo $?
 
-          echo "===== Root ====="
-          ls -la
+          echo "===== Project Root ====="
+          ls -lah
 
           echo "===== dist ====="
-          ls -la dist || true
+          ls -lah dist || true
 
-          echo "===== Nest CLI ====="
+          echo "===== Nest Info ====="
           npx nest info
 
       # ----------------------------------
@@ -92,25 +92,13 @@ jobs:
           echo "===== Current Directory ====="
           pwd
 
-          echo "===== Project Root ====="
-          ls -lah
-
-          echo "===== src ====="
-          ls -lah src || true
-
-          echo "===== dist ====="
-          ls -lah dist || true
-
-          echo "===== Files inside dist ====="
-          find dist -type f || true
-
-          echo "===== Searching main.js ====="
+          echo "===== Files ====="
           find . -name main.js
 
-          if [ ! -f dist/src/main.js ]; then
-            echo "ERROR: dist/src/main.js not found!"
-            exit 1
-          fi
+          echo "===== dist ====="
+          find dist -type f
+
+          test -f dist/src/main.js
 
       # ----------------------------------
       # Build Docker Image
@@ -127,22 +115,26 @@ jobs:
       # ----------------------------------
       - name: Verify Docker Image
         run: |
-          docker run --rm $IMAGE:${{ github.sha }} sh -c "
-            echo '===== Runtime =====';
-            pwd;
-            ls -lah;
-            echo '===== dist =====';
-            ls -lah /app/dist;
-            echo '===== Files =====';
-            find /app/dist -type f;
-            test -f /app/dist/src/main.js
-          "
+          docker run --rm \
+            $IMAGE:${{ github.sha }} \
+            sh -c "
+              echo '===== Runtime ====='
+              pwd
 
+              echo '===== /app ====='
+              ls -lah
 
+              echo '===== /app/dist ====='
+              ls -lah /app/dist
 
+              echo '===== Compiled Files ====='
+              find /app/dist -type f
+
+              test -f /app/dist/src/main.js
+            "
 
       # ----------------------------------
-      # Test Docker Image
+      # Start Docker Container
       # ----------------------------------
       - name: Run Docker Container
         run: |
@@ -150,27 +142,36 @@ jobs:
             --name nest-test \
             -p 8080:8080 \
             -e NODE_ENV=production \
+            -e PORT=8080 \
             -e GRPC_URL=0.0.0.0:50051 \
+            -e DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
+            -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
             $IMAGE:${{ github.sha }}
 
-          echo "Waiting..."
-          sleep 15
+          echo "Waiting for application..."
+          sleep 20
 
+          echo "===== Running Containers ====="
           docker ps
 
           echo "===== Container Logs ====="
           docker logs nest-test
 
-          echo "===== HTTP Test ====="
-          curl -v http://localhost:8080/getdata
+          echo "===== HTTP Test From Host ====="
+          curl --fail --show-error --silent http://localhost:8080/getdata
+
+          echo
+          echo "===== HTTP Test Inside Container ====="
+          docker exec nest-test wget -qO- http://localhost:8080/getdata
+
+          echo
+          echo "===== Final Container Logs ====="
+          docker logs nest-test
 
           docker stop nest-test
 
-
-
-
       # ----------------------------------
-      # Push Image
+      # Push Docker Image
       # ----------------------------------
       - name: Push Docker Image
         run: |
@@ -181,7 +182,8 @@ jobs:
       # ----------------------------------
       - name: Verify Artifact Image
         run: |
-          gcloud artifacts docker images describe $IMAGE:${{ github.sha }}
+          gcloud artifacts docker images describe \
+            $IMAGE:${{ github.sha }}
 
       # ----------------------------------
       # Deploy Cloud Run
@@ -197,17 +199,54 @@ jobs:
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
-            --set-env-vars NODE_ENV=production
+            --set-env-vars NODE_ENV=production \
+            --set-env-vars PORT=8080 \
+            --set-env-vars GRPC_URL=0.0.0.0:50051
 
       # ----------------------------------
-      # Service URL
+      # Print Service URL
       # ----------------------------------
       - name: Get Service URL
         run: |
+          echo "===== Cloud Run URL ====="
+
           gcloud run services describe $SERVICE \
             --region $REGION \
             --format="value(status.url)"
 
-      - name: Test Inside Container
+      # ----------------------------------
+      # Print Cloud Run Configuration
+      # ----------------------------------
+      - name: Verify Cloud Run Configuration
         run: |
-          docker exec nest-test wget -qO- http://localhost:8080/getdata
+          echo "===== Cloud Run Service ====="
+
+          gcloud run services describe $SERVICE \
+            --region $REGION \
+            --format="yaml(spec.template.spec.containers)"
+
+
+      # ----------------------------------
+      # Test Cloud Run Endpoint
+      # ----------------------------------
+      - name: Test Cloud Run Endpoint
+        run: |
+          SERVICE_URL=$(gcloud run services describe $SERVICE \
+            --region $REGION \
+            --format="value(status.url)")
+
+          echo "===== Service URL ====="
+          echo "$SERVICE_URL"
+
+          echo "===== Waiting for Cloud Run ====="
+          sleep 15
+
+          echo "===== GET /getdata ====="
+          curl --fail \
+              --show-error \
+              --silent \
+              --location \
+              "$SERVICE_URL/getdata"
+
+          echo
+          echo "✅ Cloud Run endpoint is working."

@@ -5,10 +5,34 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  console.log('========================================');
+  console.log('Starting NestJS Application...');
+  console.log('========================================');
+
   const app = await NestFactory.create(AppModule);
 
-  const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50051';
+  // ----------------------------------
+  // Log every HTTP request
+  // ----------------------------------
+  app.use((req, res, next) => {
+    const start = Date.now();
 
+    console.log(`➡️  ${req.method} ${req.originalUrl}`);
+
+    res.on('finish', () => {
+      const ms = Date.now() - start;
+      console.log(`⬅️  ${req.method} ${req.originalUrl} -> ${res.statusCode} (${ms}ms)`);
+    });
+
+    next();
+  });
+
+  const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50051';
+  const port = Number(process.env.PORT || 8080);
+
+  // ----------------------------------
+  // Start gRPC Microservice
+  // ----------------------------------
   app.connectMicroservice({
     transport: Transport.GRPC,
     options: {
@@ -20,30 +44,45 @@ async function bootstrap() {
 
   await app.startAllMicroservices();
 
-  const port = Number(process.env.PORT || 8080);
-
+  // ----------------------------------
+  // Start HTTP Server
+  // ----------------------------------
   await app.listen(port, '0.0.0.0');
 
-
   const server = app.getHttpServer();
-  console.log(server.address());
-  console.log(`HTTP : ${port}`);
-  console.log(`gRPC : ${grpcUrl}`);
+
+  console.log('');
+  console.log('========================================');
+  console.log('NestJS Started Successfully');
+  console.log('========================================');
+  console.log('Server Address :', server.address());
+  console.log(`HTTP Server    : http://0.0.0.0:${port}`);
+  console.log(`gRPC Server    : ${grpcUrl}`);
+  console.log(`NODE_ENV       : ${process.env.NODE_ENV}`);
+  console.log('========================================');
 }
 
-
+// ----------------------------------
+// Global Error Handlers
+// ----------------------------------
 process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT');
+  console.error('========================================');
+  console.error('UNCAUGHT EXCEPTION');
   console.error(err);
+  console.error('========================================');
 });
 
-process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED');
-  console.error(err);
+process.on('unhandledRejection', (reason) => {
+  console.error('========================================');
+  console.error('UNHANDLED PROMISE REJECTION');
+  console.error(reason);
+  console.error('========================================');
 });
 
 bootstrap().catch((err) => {
+  console.error('========================================');
   console.error('BOOTSTRAP ERROR');
   console.error(err);
-  process.exit(1234);
+  console.error('========================================');
+  process.exit(1);
 });
