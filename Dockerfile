@@ -42,7 +42,7 @@ RUN echo "================================="
 RUN echo "All compiled files"
 RUN find dist -type f
 
-RUN test -f dist/src/main.js
+RUN test -f dist/main.js
 
 # Remove development dependencies
 RUN npm prune --omit=dev
@@ -83,9 +83,9 @@ RUN ls -lah dist/src
 RUN echo "===== Compiled Files ====="
 RUN find dist -type f
 
-RUN test -f dist/src/main.js
+RUN test -f dist/main.js
 
 # gRPC Port
 EXPOSE 50051
 
-CMD ["node", "dist/src/main.js"]
+CMD ["node", "dist/main.js"]
