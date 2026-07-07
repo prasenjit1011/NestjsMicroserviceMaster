@@ -250,3 +250,45 @@ jobs:
 
           echo
           echo "✅ Cloud Run endpoint is working."
+
+      # ----------------------------------
+      # Test Cloud Run Endpoint
+      # ----------------------------------
+      - name: Test Cloud Run
+        run: |
+          URL=$(gcloud run services describe $SERVICE \
+            --region $REGION \
+            --format="value(status.url)")
+
+          echo "========================================"
+          echo "Cloud Run URL:"
+          echo "$URL"
+          echo "========================================"
+
+          echo "Waiting for deployment..."
+          sleep 20
+
+          echo "========================================"
+          echo "GET /getdata"
+          echo "========================================"
+
+          curl -v \
+            --fail \
+            --show-error \
+            --location \
+            "$URL/getdata"
+
+
+
+      - name: Test Cloud Run
+        run: |
+          URL=$(gcloud run services describe $SERVICE \
+            --region $REGION \
+            --format="value(status.url)")
+
+          echo "URL=$URL"
+
+          sleep 20
+
+          echo "===== Response ====="
+          curl -v "$URL/getdata"
