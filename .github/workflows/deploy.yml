@@ -3,7 +3,7 @@ name: Deploy NestJS to Cloud Run
 on:
   push:
     branches:
-      - grpc_item
+      - grpc_order
 
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
     env:
       PROJECT_ID: terraform-497011
       REGION: asia-south1
-      SERVICE: item-service
+      SERVICE: order-service
       REPOSITORY: nestjs-repo
       IMAGE: asia-south1-docker.pkg.dev/terraform-497011/nestjs-repo/nestjs
 

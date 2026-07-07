@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { AppService } from './app.service';
 
@@ -9,5 +9,10 @@ export class AppController {
   @GrpcMethod('ItemService', 'GetHello')
   getHello() {
     return this.appService.getHello();
+  }
+
+  @Get('/getdata')
+  getData(){
+    return this.appService.getData();
   }
 }
