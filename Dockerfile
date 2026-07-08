@@ -87,5 +87,6 @@ RUN test -f dist/src/main.js
 
 # gRPC Port
 EXPOSE 8080
+EXPOSE 50051
 
 CMD ["node", "dist/src/main.js"]
