@@ -9,7 +9,7 @@ export class AppService {
   }
 
   async getData(){
-    return {res:"order Data", data:[{id:1, title:"demo"},{id:2,title:"dummy"}]};
+    return {res:"my order Data 1035", data:[{id:1, title:"demo"},{id:2,title:"dummy"}]};
 
     // return await this.prisma.order.findMany({
     //   orderBy: {
