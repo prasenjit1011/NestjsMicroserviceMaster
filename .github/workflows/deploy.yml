@@ -230,6 +230,25 @@ jobs:
             --set-env-vars NODE_ENV=production \
             --set-env-vars GRPC_URL=0.0.0.0:50051
 
+
+      - name: Describe Revision
+        run: |
+          gcloud run revisions list \
+            --service=$SERVICE \
+            --region=$REGION
+
+          REVISION=$(gcloud run revisions list \
+            --service=$SERVICE \
+            --region=$REGION \
+            --format="value(metadata.name)" \
+            --limit=1)
+
+          echo "Revision=$REVISION"
+
+          gcloud run revisions describe $REVISION \
+            --region=$REGION
+
+
       - name: Show Cloud Run Logs
         run: |
           gcloud logging read \
@@ -292,6 +311,31 @@ jobs:
           gcloud run services describe $SERVICE \
             --region $REGION \
             --format="yaml(spec.template.spec.containers)"
+
+
+
+      - name: Test Cloud Run
+        run: |
+          URL=$(gcloud run services describe $SERVICE \
+            --region=$REGION \
+            --format="value(status.url)")
+
+          echo "===== URL ====="
+          echo "$URL"
+
+          sleep 30
+
+          echo "===== Root ====="
+          curl -v "$URL"
+
+          echo
+          echo "===== GET /getdata ====="
+          curl -v "$URL/getdata"
+
+
+
+
+
 
 
       # ----------------------------------

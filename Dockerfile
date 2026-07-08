@@ -7,18 +7,13 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-
 COPY prisma ./prisma
 
-# Install all dependencies
+# Install dependencies
 RUN npm ci
 
-# Copy project
+# Copy source code
 COPY . .
-
-# Generate Prisma Client
-# RUN npx prisma generate
-# RUN npm run prisma:generate
 
 # Build NestJS
 RUN npm run build
@@ -56,37 +51,42 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV GRPC_URL=0.0.0.0:50051
+ENV NODE_OPTIONS="--trace-uncaught --trace-warnings"
 
 # Copy runtime files
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
-
-# Copy Prisma (if your application uses it at runtime)
 COPY --from=builder /app/prisma ./prisma
-
-# Copy proto files required by gRPC
-COPY --from=builder /app/src/proto ./dist/src/proto
 
 # --------------------------
 # Verify runtime image
 # --------------------------
-RUN echo "===== Runtime ====="
+RUN echo "================================="
+RUN echo "Runtime Directory"
 RUN pwd
 
-RUN echo "===== dist ====="
+RUN echo "================================="
+RUN echo "dist"
 RUN ls -lah dist
 
-RUN echo "===== dist/src ====="
-RUN ls -lah dist/src
+RUN echo "================================="
+RUN echo "dist/src"
+RUN ls -lah dist/src || true
 
-RUN echo "===== Compiled Files ====="
+RUN echo "================================="
+RUN echo "Compiled Files"
 RUN find dist -type f
+
+RUN echo "================================="
+RUN echo "Proto Files"
+RUN find /app -name "*.proto"
 
 RUN test -f dist/src/main.js
 
-# gRPC Port
+# Expose ports
 EXPOSE 8080
 EXPOSE 50051
 
+# Start application
 CMD ["node", "dist/src/main.js"]
