@@ -4,14 +4,14 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello() {
     return {
-      message: 'Hello World From Item Service!',
+      message: 'Hello World From Order Service!',
     };
   }
 
   async getData(){
-    return {res:"item Data", data:[{id:1, title:"demo"},{id:2,title:"dummy"}]};
+    return {res:"order Data", data:[{id:1, title:"demo"},{id:2,title:"dummy"}]};
 
-    // return await this.prisma.item.findMany({
+    // return await this.prisma.order.findMany({
     //   orderBy: {
     //     id: 'asc',
     //   },

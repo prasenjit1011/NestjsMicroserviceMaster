@@ -7,12 +7,12 @@ datasource db {
   url      = env("NEON_POSTGRE_DATABASE_URL_NEW")
 }
 
-model Item {
+model Order {
   id        Int      @id @default(autoincrement())
   title     String
   status    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("items")
+  @@map("orders")
 }

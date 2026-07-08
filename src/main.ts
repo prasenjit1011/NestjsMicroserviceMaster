@@ -33,7 +33,7 @@ async function bootstrap() {
 
  
 
-  const protoPath = join(__dirname, '../proto/item.proto');
+  const protoPath = join(__dirname, '../proto/order.proto');
 
   console.log(protoPath);
   console.log(existsSync(protoPath));
@@ -45,8 +45,8 @@ async function bootstrap() {
   app.connectMicroservice({
     transport: Transport.GRPC,
     options: {
-      package: 'item',
-      protoPath: join(__dirname, '../proto/item.proto'),
+      package: 'order',
+      protoPath: join(__dirname, '../proto/order.proto'),
       url: grpcUrl,
     },
   });
