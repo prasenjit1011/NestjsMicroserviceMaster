@@ -162,8 +162,9 @@ jobs:
 
           echo
           echo "===== HTTP Test Inside Container ====="
-          docker exec nest-test wget -qO- http://localhost:8080/getdata
-
+          # docker exec nest-test wget -qO- http://localhost:8080/getdata
+          docker exec nest-test sh -c "wget -S -O- http://127.0.0.1:8080/getdata"
+          
           echo
           echo "===== Final Container Logs ====="
           docker logs nest-test
