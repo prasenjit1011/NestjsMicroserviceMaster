@@ -142,7 +142,6 @@ jobs:
             --name nest-test \
             -p 8080:8080 \
             -e NODE_ENV=production \
-            -e PORT=8080 \
             -e GRPC_URL=0.0.0.0:50051 \
             -e DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
             -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
@@ -164,7 +163,7 @@ jobs:
           echo "===== HTTP Test Inside Container ====="
           # docker exec nest-test wget -qO- http://localhost:8080/getdata
           docker exec nest-test sh -c "wget -S -O- http://127.0.0.1:8080/getdata"
-          
+
           echo
           echo "===== Final Container Logs ====="
           docker logs nest-test
@@ -201,7 +200,6 @@ jobs:
             --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
             --set-env-vars NODE_ENV=production \
-            --set-env-vars PORT=8080 \
             --set-env-vars GRPC_URL=0.0.0.0:50051
 
       # ----------------------------------
