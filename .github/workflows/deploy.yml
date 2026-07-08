@@ -38,6 +38,13 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       # ----------------------------------
+      # Install gcloud beta
+      # ----------------------------------
+      - name: Install gcloud beta
+        run: |
+          gcloud components install beta --quiet
+
+      # ----------------------------------
       # Configure Docker
       # ----------------------------------
       - name: Configure Docker
