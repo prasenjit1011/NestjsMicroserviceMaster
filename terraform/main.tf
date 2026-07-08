@@ -97,17 +97,19 @@ resource "google_cloud_run_v2_service" "app" {
       }
 
       startup_probe {
+        http_get {
+          path = "/getdata"
+          port = 8080
+        }
+
         timeout_seconds   = 240
         period_seconds    = 10
         failure_threshold = 24
-
-        tcp_socket {
-          port = 8080
-        }
       }
 
-      liveness_probe {
-        tcp_socket {
+      liveness_probe {      
+        http_get {
+          path = "/getdata"
           port = 8080
         }
 
