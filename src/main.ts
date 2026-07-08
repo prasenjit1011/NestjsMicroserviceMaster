@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { existsSync } from 'fs';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -30,19 +31,27 @@ async function bootstrap() {
   const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50051';
   const port = Number(process.env.PORT || 8080);
 
+ 
+
+  const protoPath = join(__dirname, '../proto/item.proto');
+
+  console.log(protoPath);
+  console.log(existsSync(protoPath));
+
+
   // ----------------------------------
   // Start gRPC Microservice
   // ----------------------------------
-  // app.connectMicroservice({
-  //   transport: Transport.GRPC,
-  //   options: {
-  //     package: 'item',
-  //     protoPath: join(__dirname, 'proto/item.proto'),
-  //     url: grpcUrl,
-  //   },
-  // });
+  app.connectMicroservice({
+    transport: Transport.GRPC,
+    options: {
+      package: 'item',
+      protoPath: join(__dirname, '../proto/item.proto'),
+      url: grpcUrl,
+    },
+  });
 
-  // await app.startAllMicroservices();
+  await app.startAllMicroservices();
 
   // ----------------------------------
   // Start HTTP Server
