@@ -8,4 +8,11 @@ export class AppController {
       status: 'Dummy World-Health Check '+ new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
     };
   }
+
+  @Get('/dummy')
+  getDummy(){
+    return {
+      status: 'Dummy New World-Health Check '+ new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+    };
+  }
 }
