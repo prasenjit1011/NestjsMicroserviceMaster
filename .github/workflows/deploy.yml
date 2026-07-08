@@ -134,6 +134,27 @@ jobs:
             "
 
       # ----------------------------------
+      # Verify Runtime Files
+      # ----------------------------------
+      - name: Verify Runtime Files
+        run: |
+          docker run --rm \
+            $IMAGE:${{ github.sha }} \
+            sh -c "
+              echo '========================================'
+              echo 'Current Directory'
+              pwd
+
+              echo '========================================'
+              echo '/app/dist'
+              find /app/dist -type f
+
+              echo '========================================'
+              echo '/app/dist/src'
+              find /app/dist/src -type f
+            "
+
+      # ----------------------------------
       # Start Docker Container
       # ----------------------------------
       - name: Run Docker Container
@@ -202,6 +223,47 @@ jobs:
             --set-env-vars NODE_ENV=production \
             --set-env-vars GRPC_URL=0.0.0.0:50051
 
+      - name: Show Cloud Run Logs
+        run: |
+          gcloud logging read \
+            'resource.type="cloud_run_revision" AND resource.labels.service_name="'$SERVICE'"' \
+            --limit=100 \
+            --freshness=30m \
+            --format="value(textPayload)"
+
+      - name: Show Cloud Run Logs
+        if: failure()
+        run: |
+          echo "===== Cloud Run Logs ====="
+
+          gcloud logging read \
+            "resource.type=cloud_run_revision AND resource.labels.service_name=$SERVICE" \
+            --limit=200 \
+            --freshness=30m \
+            --format="table(timestamp,severity,textPayload)"
+
+
+      - name: Show Project Logs
+        if: always()
+        run: |
+          gcloud logging read \
+            --project=$PROJECT_ID \
+            --limit=100 \
+            --freshness=30m
+
+
+      - name: Show Cloud Run Errors
+        if: always()
+        run: |
+          gcloud logging read \
+            'resource.type="cloud_run_revision"
+            AND resource.labels.service_name="'$SERVICE'"
+            AND severity>=ERROR' \
+            --project=$PROJECT_ID \
+            --limit=100 \
+            --freshness=30m
+
+
       # ----------------------------------
       # Print Service URL
       # ----------------------------------
@@ -249,6 +311,21 @@ jobs:
 
           echo
           echo "✅ Cloud Run endpoint is working."
+
+      # ----------------------------------
+      # Cloud Run Logs
+      # ----------------------------------
+      - name: Show Cloud Run Logs
+        if: always()
+        run: |
+          echo "========================================"
+          echo "Cloud Run Logs"
+          echo "========================================"
+
+          gcloud beta run services logs read $SERVICE \
+            --region $REGION \
+            --limit=100
+
 
       # ----------------------------------
       # Test Cloud Run Endpoint
