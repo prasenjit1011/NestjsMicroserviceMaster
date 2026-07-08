@@ -4,6 +4,7 @@ public/data/profit.json
 /dist
 /node_modules
 /build
+/generated
 /.serverless
 
 
