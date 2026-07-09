@@ -165,10 +165,9 @@ jobs:
             --port 50052 \
             --use-http2 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
-            --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
-            --set-env-vars NEON_POSTGRE_DATABASE_URL_NEW=${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}
-            --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
-            --set-env-vars NODE_ENV=production
+            --set-env-vars="NEON_POSTGRE_DATABASE_URL_NEW=${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
+            --set-env-vars="JWT_SECRET=${{ secrets.JWT_SECRET }}" \
+            --set-env-vars="NODE_ENV=production"
 
       # ----------------------------------
       # Service URL
