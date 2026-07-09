@@ -3,7 +3,7 @@ name: Deploy NestJS to Cloud Run
 on:
   push:
     branches:
-      - grpc_item_order_new
+      - ecom_order
 
 jobs:
   deploy:
