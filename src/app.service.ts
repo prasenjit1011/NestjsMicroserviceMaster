@@ -12,9 +12,10 @@ export class AppService {
       },
     });
 
+    const encoded = Buffer.from(JSON.stringify(data)).toString('base64');
 
     return {
-      message: 'Hello World From Order 175 Service!',
+      message: encoded
     };
   }
 }
