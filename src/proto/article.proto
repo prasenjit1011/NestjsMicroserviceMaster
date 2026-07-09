@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package article;
+
+service ArticleService {
+  rpc GetHello (Empty) returns (HelloResponse);
+  rpc GetArticleList (GetArticleListRequest) returns (GetArticleListResponse);
+}
+
+message Empty {}
+message GetArticleListRequest {}
+
+message HelloResponse {
+  string message = 1;
+}
+
+message Article {
+  int32 id = 1;
+  string content = 2;
+  bool status = 3;
+}
+
+message GetArticleListResponse {
+  repeated Article articles = 1;
+}

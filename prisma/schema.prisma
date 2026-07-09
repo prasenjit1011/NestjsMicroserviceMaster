@@ -7,6 +7,14 @@ datasource db {
   url      = env("NEON_POSTGRE_DATABASE_URL_NEW")
 }
 
+model Article {
+  id          Int         @id @default(autoincrement())
+  content     String
+  status      Boolean     @default(true)
+
+  @@map("articles")
+}
+
 model Order {
   id          Int           @id @default(autoincrement())
   customer_id Int?

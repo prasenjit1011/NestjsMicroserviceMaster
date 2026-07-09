@@ -6,8 +6,14 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @GrpcMethod('OrderService', 'GetHello')
+  @GrpcMethod('ArticleService', 'GetHello')
   getHello() {
     return this.appService.getHello();
   }
+
+  @GrpcMethod('ArticleService', 'GetAricle')
+  getAricle() {
+    return this.appService.getAricle();
+  }
+
 }
