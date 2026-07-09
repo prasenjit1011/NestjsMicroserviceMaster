@@ -162,7 +162,7 @@ jobs:
             --region $REGION \
             --platform managed \
             --allow-unauthenticated \
-            --port 50051 \
+            --port 50052 \
             --use-http2 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
