@@ -106,6 +106,40 @@ jobs:
             exit 1
           fi
 
+
+          RUN echo "========================================" && \
+              echo "DIST FILES" && \
+              echo "========================================" && \
+              find dist -type f && \
+              echo && \
+              echo "===== Check main.js =====" && \
+              if [ -f dist/src/main.js ]; then \
+                echo "✓ dist/src/main.js found"; \
+              else \
+                echo "✗ dist/src/main.js NOT FOUND"; \
+              fi && \
+              echo && \
+              echo "===== Check item.proto =====" && \
+              if [ -f dist/src/proto/item.proto ]; then \
+                echo "✓ item.proto found"; \
+              else \
+                echo "✗ item.proto NOT FOUND"; \
+              fi && \
+              echo && \
+              echo "===== Check order.proto =====" && \
+              if [ -f dist/src/proto/order.proto ]; then \
+                echo "✓ order.proto found"; \
+              else \
+                echo "✗ order.proto NOT FOUND"; \
+              fi && \
+              echo && \
+              ls -R dist
+
+
+
+
+
+
       # ----------------------------------
       # Build Docker Image
       # ----------------------------------
