@@ -41,7 +41,12 @@ RUN echo "===== DIST =====" && \
     test -f dist/src/main.js && \
     test -f dist/src/proto/item.proto && \
     test -f dist/src/proto/order.proto && \
-    echo "All files exist."
+    echo "1. All files exist."
+
+RUN test -f dist/main.js && \
+    test -f dist/src/proto/item.proto && \
+    test -f dist/src/proto/order.proto
+    echo "2. All files exist."
 
 # --------------------------
 # Remove dev dependencies
@@ -79,4 +84,7 @@ RUN echo "===== Runtime =====" && \
 
 EXPOSE 3000
 
-CMD ["node", "dist/src/main.js"]
+
+
+
+CMD ["node", "dist/main.js"]
