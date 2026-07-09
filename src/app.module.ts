@@ -28,7 +28,7 @@ import { OrderService } from './order/order.service';
         options: {
           package: 'order',
           protoPath: join(__dirname, 'proto/order.proto'),
-          url: 'dns:///order-service-334684044157.asia-south1.run.app:443',
+          url: 'dns:///item-order-service-334684044157.asia-south1.run.app:443',
           credentials: ChannelCredentials.createSsl(),
         },
       },
