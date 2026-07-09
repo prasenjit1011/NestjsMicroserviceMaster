@@ -175,6 +175,63 @@ jobs:
           #   --set-env-vars NODE_ENV=production
 
 
+      - name: Verify Order Service
+        run: |
+          echo "========================================"
+          echo "ORDER SERVICE"
+          echo "========================================"
+
+          gcloud run services describe order-service \
+            --region=$REGION \
+            --format="yaml(status.url,status.conditions)"
+
+          echo
+          echo "========================================"
+          echo "LATEST REVISION"
+          echo "========================================"
+
+          gcloud run revisions list \
+            --service=order-service \
+            --region=$REGION \
+            --limit=5
+
+          echo
+          echo "========================================"
+          echo "RECENT LOGS"
+          echo "========================================"
+
+          gcloud logging read \
+            'resource.type="cloud_run_revision" AND resource.labels.service_name="order-service"' \
+            --limit=20 \
+            --freshness=30m \
+            --format="table(timestamp,severity,textPayload)"
+
+
+      - name: Verify Order Service
+        run: |
+          echo "========================================"
+          echo "ORDER SERVICE DETAILS"
+          echo "========================================"
+
+          gcloud run services describe order-service \
+            --region=$REGION \
+            --format="yaml(
+              metadata.name,
+              status.url,
+              status.conditions,
+              spec.template.spec.containers
+            )"
+
+          echo
+          echo "========================================"
+          echo "ORDER SERVICE TRAFFIC"
+          echo "========================================"
+
+          gcloud run services describe order-service \
+            --region=$REGION \
+            --format="value(status.traffic)"
+
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE \
