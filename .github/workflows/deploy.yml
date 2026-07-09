@@ -224,6 +224,7 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --port 8080 \
+            --use-http2 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
@@ -312,7 +313,42 @@ jobs:
             --region $REGION \
             --format="yaml(spec.template.spec.containers)"
 
+      # ----------------------------------
+      # Verify Cloud Run Configuration
+      # ----------------------------------
+      - name: Verify Cloud Run Configuration
+        run: |
+          echo "========================================"
+          echo "SERVICE CONFIGURATION"
+          echo "========================================"
 
+          gcloud run services describe $SERVICE \
+            --region=$REGION \
+            --format="yaml(
+              metadata.name,
+              status.url,
+              spec.template.metadata.annotations,
+              spec.template.spec.containers
+            )"
+
+          echo
+          echo "========================================"
+          echo "LATEST REVISION"
+          echo "========================================"
+
+          gcloud run revisions list \
+            --service=$SERVICE \
+            --region=$REGION \
+            --limit=5
+
+          echo
+          echo "========================================"
+          echo "TRAFFIC"
+          echo "========================================"
+
+          gcloud run services describe $SERVICE \
+            --region=$REGION \
+            --format="yaml(status.traffic)"
 
       - name: Test Cloud Run
         run: |
