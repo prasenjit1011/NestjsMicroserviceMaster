@@ -232,6 +232,38 @@ jobs:
             --set-env-vars GRPC_URL=0.0.0.0:50051
 
 
+      - name: Wait for Service
+        run: |
+          sleep 30
+
+      - name: Test HTTP Endpoint
+        run: |
+          SERVICE_URL=$(gcloud run services describe $SERVICE \
+            --region=$REGION \
+            --format="value(status.url)")
+
+          echo "===== Service URL ====="
+          echo "$SERVICE_URL"
+
+          echo "===== GET / ====="
+          curl -i "$SERVICE_URL/" || true
+
+          echo
+          echo "===== GET /getdata ====="
+          curl -i "$SERVICE_URL/getdata" || true
+
+      - name: Show Order Service Logs
+        if: always()
+        run: |
+          gcloud logging read \
+            'resource.type="cloud_run_revision" AND resource.labels.service_name="order-service"' \
+            --limit=100 \
+            --freshness=10m \
+            --order=desc \
+            --format="table(timestamp,severity,textPayload)"
+
+
+
       - name: Describe Revision
         run: |
           gcloud run revisions list \
