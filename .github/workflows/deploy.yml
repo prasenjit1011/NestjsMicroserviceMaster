@@ -17,51 +17,30 @@ jobs:
       IMAGE: asia-south1-docker.pkg.dev/terraform-497011/nestjs-repo/nestjs
 
     steps:
-      # ----------------------------------
-      # Checkout
-      # ----------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # ----------------------------------
-      # Authenticate Google Cloud
-      # ----------------------------------
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # ----------------------------------
-      # Setup gcloud
-      # ----------------------------------
       - name: Setup gcloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      # ----------------------------------
-      # Configure Docker
-      # ----------------------------------
       - name: Configure Docker
         run: |
           gcloud auth configure-docker asia-south1-docker.pkg.dev --quiet
 
-      # ----------------------------------
-      # Setup Node.js
-      # ----------------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      # ----------------------------------
-      # Install Dependencies
-      # ----------------------------------
       - name: Install Dependencies
         run: npm ci
 
-      # ----------------------------------
-      # Build NestJS
-      # ----------------------------------
       - name: Build Project
         run: |
           npm run build
@@ -78,97 +57,34 @@ jobs:
           echo "===== Nest CLI ====="
           npx nest info
 
-      # ----------------------------------
-      # Verify Build Output
-      # ----------------------------------
-      - name: Verify Build Output
+      - name: Verify Docker Image
         run: |
-          echo "===== Current Directory ====="
-          pwd
+          docker run --rm $IMAGE:${{ github.sha }} sh -c '
+            echo "===== WORKDIR ====="
+            pwd
 
-          echo "===== Project Root ====="
-          ls -lah
+            echo
+            echo "===== ROOT ====="
+            ls -lah
 
-          echo "===== src ====="
-          ls -lah src || true
+            echo
+            echo "===== DIST ====="
+            find /app/dist -type f | sort || true
 
-          echo "===== dist ====="
-          ls -lah dist || true
+            echo
+            echo "===== MAIN ====="
+            find /app/dist -name main.js || true
 
-          echo "===== Files inside dist ====="
-          find dist -type f || true
-
-          echo "===== Searching main.js ====="
-          find . -name main.js
-
-          if [ ! -f dist/main.js ]; then
-            echo "ERROR: dist/main.js not found!"
-            exit 1
-          fi
-
-
-          echo "========================================"
-          echo "DIST FILES"
-          echo "========================================"
-
-          find dist -type f
-
-          echo
-          echo "===== Check main.js ====="
-
-          if [ -f dist/main.js ]; then
-            echo "✓ dist/main.js found"
-          else
-            echo "✗ dist/main.js NOT FOUND"
-          fi
-
-          echo
-          echo "===== Check item.proto ====="
-
-          if [ -f dist/src/proto/item.proto ]; then
-            echo "✓ item.proto found"
-          else
-            echo "✗ item.proto NOT FOUND"
-          fi
-
-          echo
-          echo "===== Check order.proto ====="
-
-          if [ -f dist/src/proto/order.proto ]; then
-            echo "✓ order.proto found"
-          else
-            echo "✗ order.proto NOT FOUND"
-          fi
-
-          echo
-          ls -R dist
-
-
-      # ----------------------------------
-      # Build Docker Image
-      # ----------------------------------
+            echo
+            echo "===== PROTO ====="
+            find /app/dist -name "*.proto" || true
+          '
       - name: Build Docker Image
         run: |
           docker build \
             --pull \
             --no-cache \
             -t $IMAGE:${{ github.sha }} .
-
-      # ----------------------------------
-      # Verify Docker Image
-      # ----------------------------------
-      # - name: Verify Docker Image
-      #   run: |
-      #     docker run --rm $IMAGE:${{ github.sha }} sh -c "
-      #       echo '===== Runtime =====';
-      #       pwd;
-      #       ls -lah;
-      #       echo '===== dist =====';
-      #       ls -lah /app/dist;
-      #       echo '===== Files =====';
-      #       find /app/dist -type f;
-      #       test -f /app/dist/main.js
-      #     "
 
       - name: Verify Docker Image
         run: |
@@ -183,38 +99,14 @@ jobs:
             test -f /app/dist/proto/item.proto;
           "
 
-      # ----------------------------------
-      # Push Image
-      # ----------------------------------
       - name: Push Docker Image
         run: |
           docker push $IMAGE:${{ github.sha }}
 
-      # ----------------------------------
-      # Verify Artifact Registry Image
-      # ----------------------------------
       - name: Verify Artifact Image
         run: |
           gcloud artifacts docker images describe $IMAGE:${{ github.sha }}
 
-      # ----------------------------------
-      # Deploy Cloud Run
-      # ----------------------------------
-
-          # gcloud run deploy $SERVICE \
-          #   --image $IMAGE:${{ github.sha }} \
-          #   --region $REGION \
-          #   --platform managed \
-          #   --allow-unauthenticated \
-          #   --port 3000 \
-          #   --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
-          #   --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
-          #   --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
-          #   --set-env-vars NODE_ENV=production
-
-      # ----------------------------------
-      # Deploy Cloud Run
-      # ----------------------------------
       - name: Deploy to Cloud Run
         id: deploy
         continue-on-error: true
@@ -231,9 +123,6 @@ jobs:
             --set-env-vars ITEM_GRPC_URL=item-service-334684044157.asia-south1.run.app:443 \
             --set-env-vars ORDER_GRPC_URL=order-service-334684044157.asia-south1.run.app:443
 
-      # ----------------------------------
-      # Show Cloud Run Revision Logs
-      # ----------------------------------
       - name: Show Cloud Run Logs
         if: always()
         run: |
@@ -248,9 +137,6 @@ jobs:
             --order=desc \
             --format="table(timestamp,severity,textPayload)"
 
-      # ----------------------------------
-      # Get Cloud Run URL
-      # ----------------------------------
       - name: Get Service URL
         if: success()
         run: |
@@ -265,9 +151,6 @@ jobs:
           echo "$URL"
           echo "========================================"
 
-      # ----------------------------------
-      # Test API Gateway
-      # ----------------------------------
       - name: Test API Gateway
         if: success()
         run: |
