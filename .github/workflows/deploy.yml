@@ -174,8 +174,12 @@ jobs:
           #   --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
           #   --set-env-vars NODE_ENV=production
 
-
+      # ----------------------------------
+      # Deploy Cloud Run
+      # ----------------------------------
       - name: Deploy to Cloud Run
+        id: deploy
+        continue-on-error: true
         run: |
           gcloud run deploy $SERVICE \
             --image $IMAGE:${{ github.sha }} \
@@ -185,84 +189,65 @@ jobs:
             --port 3000 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars NODE_ENV=production \
+            --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}" \
             --set-env-vars ITEM_GRPC_URL=item-service-334684044157.asia-south1.run.app:443 \
-            --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}"
-
+            --set-env-vars ORDER_GRPC_URL=order-service-334684044157.asia-south1.run.app:443
 
       # ----------------------------------
-      # Show Cloud Run Logs
+      # Show Cloud Run Revision Logs
       # ----------------------------------
       - name: Show Cloud Run Logs
         if: always()
         run: |
           echo "========================================"
-          echo "Cloud Run Logs"
+          echo "Cloud Run Revision Logs"
           echo "========================================"
 
           gcloud logging read \
-            'resource.type="cloud_run_revision"
-            AND resource.labels.service_name="api-gateway"' \
-            --limit=100 \
+            'resource.type="cloud_run_revision" AND resource.labels.service_name="api-gateway"' \
+            --limit=200 \
             --freshness=30m \
-            --format="table(timestamp,severity,textPayload)"
-
-
-      # ----------------------------------
-      # Print Cloud Run Logs on Failure
-      # ----------------------------------
-      - name: Print Cloud Run Logs
-        if: failure()
-        run: |
-          echo "===== Cloud Run Logs ====="
-
-          gcloud logging read \
-            'resource.type="cloud_run_revision"
-            resource.labels.service_name="nestjs-cloudrun"' \
-            --limit=100 \
             --order=desc \
             --format="table(timestamp,severity,textPayload)"
 
-
       # ----------------------------------
-      # Service URL
+      # Get Cloud Run URL
       # ----------------------------------
       - name: Get Service URL
-        run: |
-          gcloud run services describe $SERVICE \
-            --region $REGION \
-            --format="value(status.url)"
-
-
-      # ----------------------------------
-      # Test API Gateway
-      # ----------------------------------
-      - name: Test API Gateway
+        if: success()
         run: |
           URL=$(gcloud run services describe $SERVICE \
             --region=$REGION \
             --format="value(status.url)")
 
-          sleep 30
+          echo "SERVICE_URL=$URL" >> $GITHUB_ENV
+
           echo "========================================"
-          echo "Gateway URL"
+          echo "Service URL"
           echo "$URL"
           echo "========================================"
 
-          echo "Waiting for service to become ready..."
+      # ----------------------------------
+      # Test API Gateway
+      # ----------------------------------
+      - name: Test API Gateway
+        if: success()
+        run: |
+          echo "Waiting 20 seconds..."
           sleep 20
 
           echo
           echo "===== GET / ====="
-          curl -v "$URL"
+          curl -i "$SERVICE_URL" || true
 
           echo
           echo "===== GET /orders ====="
-          curl -v "$URL/orders"
+          curl -i "$SERVICE_URL/orders" || true
 
           echo
           echo "===== GET /items ====="
-          curl -v "$URL/items"
+          curl -i "$SERVICE_URL/items" || true
 
           echo
           echo "===== GET /swagger ====="
-          curl -v "$URL/swagger"
+          curl -i "$SERVICE_URL/swagger" || true

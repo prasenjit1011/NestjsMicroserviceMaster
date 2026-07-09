@@ -5,28 +5,47 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
+# --------------------------
 # Copy package files
+# --------------------------
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+RUN echo "===== Install Dependencies =====" && \
+    npm ci && \
+    echo "Exit Code: $?"
 
-# Copy project source
+# --------------------------
+# Copy source
+# --------------------------
 COPY . .
 
-# Build NestJS
-RUN npm run build
-
-# --------------------------
-# Verify build output
-# --------------------------
-RUN echo "===== Build Output =====" && \
+RUN echo "===== Source Files =====" && \
+    pwd && \
     ls -lah && \
-    ls -lah dist && \
-    find dist -type f && \
-    test -f dist/main.js
+    echo "Exit Code: $?"
 
-# Remove development dependencies
+# --------------------------
+# Build
+# --------------------------
+RUN echo "===== Build =====" && \
+    npm run build && \
+    echo "Exit Code: $?"
+
+# --------------------------
+# Verify Build
+# --------------------------
+RUN echo "===== DIST =====" && \
+    find dist -type f && \
+    echo && \
+    echo "===== Verify =====" && \
+    test -f dist/src/main.js && \
+    test -f dist/src/proto/item.proto && \
+    test -f dist/src/proto/order.proto && \
+    echo "All files exist."
+
+# --------------------------
+# Remove dev dependencies
+# --------------------------
 RUN npm prune --omit=dev
 
 # ==========================
@@ -38,28 +57,26 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy application
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
-# Copy all proto files required by gRPC
-COPY --from=builder /app/src/proto ./dist/proto
-
 # --------------------------
-# Verify runtime image
+# Verify Runtime
 # --------------------------
-RUN echo "===== Runtime Files =====" && \
+RUN echo "===== Runtime =====" && \
     pwd && \
     ls -lah && \
-    echo "===== dist =====" && \
+    echo && \
+    echo "===== DIST =====" && \
     find dist -type f && \
-    echo "===== proto =====" && \
-    ls -lah dist/proto && \
-    test -f dist/main.js && \
-    test -f dist/proto/item.proto
+    echo && \
+    echo "===== Verify =====" && \
+    test -f dist/src/main.js && \
+    test -f dist/src/proto/item.proto && \
+    test -f dist/src/proto/order.proto && \
+    echo "Runtime verification successful."
 
-# Cloud Run listens on 3000
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]
