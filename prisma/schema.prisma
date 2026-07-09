@@ -8,11 +8,60 @@ datasource db {
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  title     String
-  status    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int           @id @default(autoincrement())
+  customer_id Int?
+  order_items order_items[]
+  customers   customers?    @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("orders")
+}
+
+model alembic_version {
+  version_num String @id(map: "alembic_version_pkc") @db.VarChar(32)
+}
+
+model customers {
+  id       Int     @id @default(autoincrement())
+  name     String? @db.VarChar(100)
+  email    String? @unique(map: "ix_customers_email") @db.VarChar(100)
+  password String  @db.VarChar(255)
+  orders   Order[]
+
+  @@index([id], map: "ix_customers_id")
+}
+
+model department {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique @db.VarChar(255)
+  employee employee[]
+
+  @@index([id], map: "ix_department_id")
+}
+
+model employee {
+  id            Int         @id @default(autoincrement())
+  name          String      @db.VarChar(255)
+  email         String      @unique @db.VarChar(255)
+  salary        Int?
+  imageUrl      String?     @db.VarChar(255)
+  department_id Int?
+  department    department? @relation(fields: [department_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([id], map: "ix_employee_id")
+}
+
+model items {
+  id          Int           @id @default(autoincrement())
+  name        String?       @db.VarChar(100)
+  price       Float?
+  order_items order_items[]
+}
+
+model order_items {
+  id       Int    @id @default(autoincrement())
+  order_id Int?
+  item_id  Int?
+  quantity Int?
+  items    items? @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orders   Order? @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
