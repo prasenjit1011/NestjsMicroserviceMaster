@@ -3,7 +3,7 @@ name: Deploy NestJS to Cloud Run
 on:
   push:
     branches:
-      - grpc_order
+      - grpc_order_new
 
 jobs:
   deploy:
@@ -223,7 +223,6 @@ jobs:
             --region $REGION \
             --platform managed \
             --allow-unauthenticated \
-            --port 8080 \
             --use-http2 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
