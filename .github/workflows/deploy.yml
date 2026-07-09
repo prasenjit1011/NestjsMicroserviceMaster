@@ -3,7 +3,7 @@ name: Deploy NestJS to Cloud Run
 on:
   push:
     branches:
-      - ecom_apigateway
+      - ecom_apigateway_01
 
 jobs:
   deploy:
