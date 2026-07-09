@@ -1,23 +1,15 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-} from '@nestjs/common';
-
+import {Controller, Get, Logger, Post, Put, Delete, Body, Param, } from '@nestjs/common';
 import { OrderService } from './order.service';
+
 
 @Controller('orders')
 export class OrderController {
-  constructor(
-    private readonly service: OrderService,
-  ) {}
+  private readonly logger = new Logger(OrderController.name);
+  constructor(private readonly service: OrderService) {}
 
   @Get()
   getAll() {
+    this.logger.log('GET /orders received');
     return this.service.getOrders();
   }
 
