@@ -34,14 +34,14 @@ RUN echo "===== Build =====" && \
 # --------------------------
 # Verify Build
 # --------------------------
-RUN echo "===== DIST =====" && \
-    find dist -type f && \
-    echo && \
-    echo "===== Verify =====" && \
-    test -f dist/src/main.js && \
-    test -f dist/src/proto/item.proto && \
-    test -f dist/src/proto/order.proto && \
-    echo "1. All files exist."
+# RUN echo "===== DIST =====" && \
+#     find dist -type f && \
+#     echo && \
+#     echo "===== Verify =====" && \
+#     test -f dist/src/main.js && \
+#     test -f dist/src/proto/item.proto && \
+#     test -f dist/src/proto/order.proto && \
+#     echo "1. All files exist."
 
 RUN test -f dist/main.js && \
     test -f dist/src/proto/item.proto && \
