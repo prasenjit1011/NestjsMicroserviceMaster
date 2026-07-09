@@ -189,7 +189,22 @@ jobs:
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}"
 
 
+      # ----------------------------------
+      # Show Cloud Run Logs
+      # ----------------------------------
+      - name: Show Cloud Run Logs
+        if: always()
+        run: |
+          echo "========================================"
+          echo "Cloud Run Logs"
+          echo "========================================"
 
+          gcloud logging read \
+            'resource.type="cloud_run_revision"
+            AND resource.labels.service_name="api-gateway"' \
+            --limit=100 \
+            --freshness=30m \
+            --format="table(timestamp,severity,textPayload)"
 
 
       # ----------------------------------
@@ -216,3 +231,38 @@ jobs:
           gcloud run services describe $SERVICE \
             --region $REGION \
             --format="value(status.url)"
+
+
+      # ----------------------------------
+      # Test API Gateway
+      # ----------------------------------
+      - name: Test API Gateway
+        run: |
+          URL=$(gcloud run services describe $SERVICE \
+            --region=$REGION \
+            --format="value(status.url)")
+
+          sleep 30
+          echo "========================================"
+          echo "Gateway URL"
+          echo "$URL"
+          echo "========================================"
+
+          echo "Waiting for service to become ready..."
+          sleep 20
+
+          echo
+          echo "===== GET / ====="
+          curl -v "$URL"
+
+          echo
+          echo "===== GET /orders ====="
+          curl -v "$URL/orders"
+
+          echo
+          echo "===== GET /items ====="
+          curl -v "$URL/items"
+
+          echo
+          echo "===== GET /swagger ====="
+          curl -v "$URL/swagger"
