@@ -12,7 +12,7 @@ jobs:
     env:
       PROJECT_ID: terraform-497011
       REGION: asia-south1
-      SERVICE: item-order-service
+      SERVICE: ecom-item-service
       REPOSITORY: nestjs-repo
       IMAGE: asia-south1-docker.pkg.dev/terraform-497011/nestjs-repo/nestjs
 
