@@ -17,7 +17,7 @@ import { OrderService } from './order/order.service';
         transport: Transport.GRPC,
         options: {
           package: 'item',
-          protoPath: join(__dirname, 'proto/item.proto'),
+          protoPath: join(__dirname, '../proto/item.proto'),
           url: 'dns:///item-service-334684044157.asia-south1.run.app:443',
           credentials: ChannelCredentials.createSsl(),
         },
@@ -27,7 +27,7 @@ import { OrderService } from './order/order.service';
         transport: Transport.GRPC,
         options: {
           package: 'order',
-          protoPath: join(__dirname, 'proto/order.proto'),
+          protoPath: join(__dirname, '../proto/order.proto'),
           url: 'dns:///order-service-334684044157.asia-south1.run.app:443',
           credentials: ChannelCredentials.createSsl(),
         },
