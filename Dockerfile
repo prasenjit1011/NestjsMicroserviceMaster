@@ -45,14 +45,13 @@ RUN echo "===== DIST =====" && \
 
 RUN test -f dist/main.js && \
     test -f dist/src/proto/item.proto && \
-    test -f dist/src/proto/order.proto
+    test -f dist/src/proto/order.proto && \
     echo "2. All files exist."
 
 # --------------------------
 # Remove dev dependencies
 # --------------------------
 RUN npm prune --omit=dev
-
 # ==========================
 # Runtime Stage
 # ==========================
