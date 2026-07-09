@@ -232,6 +232,21 @@ jobs:
             --format="value(status.traffic)"
 
 
+      - name: Test Order Service URL
+        run: |
+          echo "Checking DNS..."
+          nslookup order-service-334684044157.asia-south1.run.app || true
+          echo
+          curl -I https://order-service-tefwbu3cwa-el.a.run.app || true
+
+      - name: Describe Order Service
+        run: |
+          gcloud run services describe order-service \
+            --region=$REGION \
+            --format="value(status.address.url)"
+
+
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE \
@@ -244,9 +259,6 @@ jobs:
             --set-env-vars NODE_ENV=production \
             --set-env-vars ITEM_GRPC_URL=item-service-334684044157.asia-south1.run.app:443 \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}"
-
-
-
 
 
       # ----------------------------------
@@ -273,3 +285,20 @@ jobs:
           gcloud run services describe $SERVICE \
             --region $REGION \
             --format="value(status.url)"
+
+
+      - name: Test Orders Endpoint
+        run: |
+          echo "===== GET /orders ====="
+
+          curl -v \
+            https://api-gateway-tefwbu3cwa-el.a.run.app/orders
+
+      - name: API Gateway Logs
+        if: always()
+        run: |
+          gcloud logging read \
+            'resource.type="cloud_run_revision" AND resource.labels.service_name="api-gateway"' \
+            --limit=50 \
+            --freshness=10m \
+            --format="table(timestamp,severity,textPayload)"
