@@ -5,7 +5,7 @@ export class AppController {
   @Get()
   health() {
     return {
-      status: 'Dummy World-Health Check '+ new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+      status: 'Dummy World- Restart Health Check '+ new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
     };
   }
 
