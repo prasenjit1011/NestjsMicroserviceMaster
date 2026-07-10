@@ -11,7 +11,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @GrpcMethod('ArticleService', 'GetAricle')
+  @GrpcMethod('ArticleService', 'GetArticleList')
   getAricle() {
     return this.appService.getAricle();
   }
