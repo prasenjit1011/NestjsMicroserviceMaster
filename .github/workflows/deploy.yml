@@ -65,6 +65,14 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
+
+      - name: Verify proto files
+        run: |
+          pwd
+          ls -R
+          ls -lah src || true
+          ls -lah src/proto || true
+
       # ----------------------------------
       # Build NestJS
       # ----------------------------------
