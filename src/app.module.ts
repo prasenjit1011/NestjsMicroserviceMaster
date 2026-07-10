@@ -9,6 +9,7 @@ import { ItemService } from './item/item.service';
 import { OrderController } from './order/order.controller';
 import { OrderService } from './order/order.service';
 import { ArticleController } from './article/article.controller';
+import { ArticleService } from './article/article.service';
 
 @Module({
   imports: [
@@ -51,6 +52,6 @@ import { ArticleController } from './article/article.controller';
     ItemController,
     OrderController
   ],
-  providers: [ItemService, OrderService],
+  providers: [ArticleService, ItemService, OrderService],
 })
 export class AppModule {}
