@@ -24,7 +24,7 @@ RUN echo "===== Build Output =====" && \
     ls -lah && \
     ls -lah dist && \
     find dist -type f && \
-    test -f dist/main.js
+    test -f dist/src/main.js
 
 # Remove development dependencies
 RUN npm prune --omit=dev
@@ -56,10 +56,10 @@ RUN echo "===== Runtime Files =====" && \
     find dist -type f && \
     echo "===== proto =====" && \
     ls -lah dist/proto && \
-    test -f dist/main.js && \
+    test -f dist/src/main.js && \
     test -f dist/proto/item.proto
 
 # Cloud Run listens on 3000
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]
