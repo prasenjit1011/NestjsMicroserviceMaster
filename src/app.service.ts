@@ -32,7 +32,10 @@ export class AppService {
       },
     });
 
-    return data;
+
+    return {
+      articles: data,
+    };
   }
 
 }
