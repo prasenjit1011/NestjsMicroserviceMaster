@@ -15,6 +15,7 @@ RUN npm ci
 COPY . .
 
 # Build NestJS
+RUN npx prisma generate
 RUN npm run build
 
 # --------------------------
@@ -44,7 +45,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
 # Copy all proto files required by gRPC
-COPY --from=builder /app/src/proto ./dist/proto
+COPY --from=builder /app/src/proto ./dist/src/proto
 
 # --------------------------
 # Verify runtime image
@@ -55,11 +56,11 @@ RUN echo "===== Runtime Files =====" && \
     echo "===== dist =====" && \
     find dist -type f && \
     echo "===== proto =====" && \
-    ls -lah dist/proto && \
+    ls -lah dist/src/proto && \    
     test -f dist/src/main.js && \
-    test -f dist/proto/item.proto
+    test -f dist/src/proto/item.proto
 
-# Cloud Run listens on 3000
-EXPOSE 3000
+# Cloud Run listens on 3001
+EXPOSE 3001
 
 CMD ["node", "dist/src/main.js"]

@@ -76,7 +76,7 @@ resource "google_cloud_run_v2_service" "app" {
       image = "gcr.io/cloudrun/hello"
 
       ports {
-        container_port = 3000
+        container_port = 3001
       }
 
       env {
@@ -104,7 +104,7 @@ resource "google_cloud_run_v2_service" "app" {
       startup_probe {
         http_get {
           path = "/"
-          port = 3000
+          port = 3001
         }
 
         timeout_seconds   = 5
@@ -115,7 +115,7 @@ resource "google_cloud_run_v2_service" "app" {
       liveness_probe {
         http_get {
           path = "/"
-          port = 3000
+          port = 3001
         }
 
         initial_delay_seconds = 20
