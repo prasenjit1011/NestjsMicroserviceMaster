@@ -8,6 +8,7 @@ import { ItemController } from './item/item.controller';
 import { ItemService } from './item/item.service';
 import { OrderController } from './order/order.controller';
 import { OrderService } from './order/order.service';
+import { ArticleController } from './article/article.controller';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { OrderService } from './order/order.service';
   ],
   controllers: [
     AppController,
+    ArticleController,
     ItemController,
     OrderController
   ],
