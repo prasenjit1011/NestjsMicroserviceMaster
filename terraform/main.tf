@@ -53,7 +53,7 @@ resource "google_cloud_run_v2_service" "app" {
     google_artifact_registry_repository.repo
   ]
 
-  name     = "api-gateway"
+  name     = "revest-api-gateway"
   location = "asia-south1"
 
   ingress = "INGRESS_TRAFFIC_ALL"
