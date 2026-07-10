@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ChannelCredentials } from '@grpc/grpc-js';
 
 import { GRPC } from '../common/constants';
 import { ItemController } from './item.controller';
