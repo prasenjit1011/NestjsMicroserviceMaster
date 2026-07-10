@@ -5,7 +5,7 @@ export const GRPC = {
   ITEM_SERVICE: 'ItemService',
   ITEM_CLIENT: 'ITEM_PACKAGE',
   ITEM_URL: process.env.ITEM_GRPC_URL || '127.0.0.1:50051',
-  ITEM_PROTO_PATH: join(process.cwd(), 'src/grpc/item.proto'),
+  ITEM_PROTO_PATH: join(__dirname, 'proto/item.proto'),
 
   ORDER_PACKAGE: 'order',
   ORDER_SERVICE: 'OrderService',
