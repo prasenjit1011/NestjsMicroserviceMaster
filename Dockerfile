@@ -55,7 +55,7 @@ FROM node:22-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV GRPC_URL=0.0.0.0:50052
+ENV GRPC_URL=0.0.0.0:50053
 
 # Copy runtime files
 COPY --from=builder /app/package*.json ./
@@ -86,6 +86,6 @@ RUN find dist -type f
 RUN test -f dist/src/main.js
 
 # gRPC Port
-EXPOSE 50052
+EXPOSE 50053
 
 CMD ["node", "dist/src/main.js"]

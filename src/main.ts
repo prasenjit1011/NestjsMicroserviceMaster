@@ -6,7 +6,7 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50052';
+  const grpcUrl = process.env.GRPC_URL || '0.0.0.0:50053';
 
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,

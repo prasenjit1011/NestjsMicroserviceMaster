@@ -76,7 +76,7 @@ resource "google_cloud_run_v2_service" "app" {
       image = "gcr.io/cloudrun/hello"
 
       ports {
-        container_port = 50052
+        container_port = 50053
       }
 
       env {
@@ -86,7 +86,7 @@ resource "google_cloud_run_v2_service" "app" {
 
       env {
         name  = "GRPC_URL"
-        value = "0.0.0.0:50052"
+        value = "0.0.0.0:50053"
       }
 
       resources {
@@ -102,13 +102,13 @@ resource "google_cloud_run_v2_service" "app" {
         failure_threshold = 24
 
         tcp_socket {
-          port = 50052
+          port = 50053
         }
       }
 
       liveness_probe {
         tcp_socket {
-          port = 50052
+          port = 50053
         }
 
         initial_delay_seconds = 20
