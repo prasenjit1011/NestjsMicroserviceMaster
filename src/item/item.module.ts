@@ -17,16 +17,6 @@ import { ItemService } from './item.service';
           protoPath: GRPC.ITEM_PROTO_PATH,
           credentials: ChannelCredentials.createSsl(),
         },
-      },
-      {
-        name: 'ARTICLE_PACKAGE',
-        transport: Transport.GRPC,
-        options: {
-          package: 'article',
-          protoPath: join(__dirname, 'proto/article.proto'),
-          url: 'dns:///ecom-article-service-334684044157.asia-south1.run.app:443',
-          credentials: ChannelCredentials.createSsl(),
-        },
       }
     ]),
   ],
