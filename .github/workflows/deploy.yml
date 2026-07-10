@@ -173,7 +173,7 @@ jobs:
             --port 50041 \
             --use-http2 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
-            --set-env-vars="NEON_POSTGRE_DATABASE_URL_NEW=${{ secrets.NEON_POSTGRE_DATABASE_URL_NEW }}" \
+            --set-env-vars="NEON_POSTGRE_DATABASE_URL=${{ secrets.NEON_POSTGRE_DATABASE_URL }}" \
             --set-env-vars="JWT_SECRET=${{ secrets.JWT_SECRET }}" \
             --set-env-vars="NODE_ENV=production,ITEM_GRPC_URL=0.0.0.0:50041"
 
