@@ -13,7 +13,7 @@ async function bootstrap() {
     options: {
       url: process.env.ORDER_GRPC_URL || '0.0.0.0:50052',
       package: 'order',
-      protoPath: join(process.cwd(), 'src/grpc/order.proto'),
+      protoPath: join(__dirname, 'proto/order.proto'),
       loader: {
         keepCase: true,
         longs: String,
