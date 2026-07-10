@@ -21,6 +21,7 @@ COPY . .
 # RUN npm run prisma:generate
 
 # Build NestJS
+RUN npx prisma generate
 RUN npm run build
 
 # --------------------------
@@ -55,7 +56,7 @@ FROM node:22-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV GRPC_URL=0.0.0.0:50053
+ENV ITEM_GRPC_URL=0.0.0.0:50041
 
 # Copy runtime files
 COPY --from=builder /app/package*.json ./
@@ -86,6 +87,6 @@ RUN find dist -type f
 RUN test -f dist/src/main.js
 
 # gRPC Port
-EXPOSE 50053
+EXPOSE 50041
 
 CMD ["node", "dist/src/main.js"]

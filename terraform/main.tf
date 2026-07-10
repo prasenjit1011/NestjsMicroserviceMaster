@@ -53,7 +53,7 @@ resource "google_cloud_run_v2_service" "app" {
     google_artifact_registry_repository.repo
   ]
 
-  name     = "revest-article-service"
+  name     = "revest-item-service"
   location = "asia-south1"
 
   ingress = "INGRESS_TRAFFIC_ALL"
@@ -76,7 +76,7 @@ resource "google_cloud_run_v2_service" "app" {
       image = "gcr.io/cloudrun/hello"
 
       ports {
-        container_port = 50053
+        container_port = 50041
       }
 
       env {
@@ -85,8 +85,8 @@ resource "google_cloud_run_v2_service" "app" {
       }
 
       env {
-        name  = "GRPC_URL"
-        value = "0.0.0.0:50053"
+        name  = "ITEM_GRPC_URL"
+        value = "0.0.0.0:50041"
       }
 
       resources {
@@ -102,13 +102,13 @@ resource "google_cloud_run_v2_service" "app" {
         failure_threshold = 24
 
         tcp_socket {
-          port = 50053
+          port = 50041
         }
       }
 
       liveness_probe {
         tcp_socket {
-          port = 50053
+          port = 50041
         }
 
         initial_delay_seconds = 20
