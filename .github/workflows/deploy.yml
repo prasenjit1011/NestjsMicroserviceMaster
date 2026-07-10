@@ -235,9 +235,9 @@ jobs:
       - name: Test Order Service URL
         run: |
           echo "Checking DNS..."
-          nslookup order-service-334684044157.asia-south1.run.app || true
+          nslookup revest-order-service-334684044157.asia-south1.run.app || true
           echo
-          curl -I https://order-service-tefwbu3cwa-el.a.run.app || true
+          curl -I https://revest-order-service-tefwbu3cwa-el.a.run.app || true
 
       - name: Describe Order Service
         run: |
@@ -257,7 +257,8 @@ jobs:
             --port 3000 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars NODE_ENV=production \
-            --set-env-vars ITEM_GRPC_URL=item-service-334684044157.asia-south1.run.app:443 \
+            --set-env-vars ITEM_GRPC_URL=revest-order-service-334684044157.asia-south1.run.app:443 \
+            --set-env-vars ORDER_GRPC_URL=revest-item-service-334684044157.asia-south1.run.app:443 \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}"
 
 

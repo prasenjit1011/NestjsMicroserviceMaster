@@ -86,7 +86,12 @@ resource "google_cloud_run_v2_service" "app" {
       
       env {
         name = "ITEM_GRPC_URL"
-        value = "dns:///item-service-334684044157.asia-south1.run.app:443"
+        value = "dns:///revest-item-service-334684044157.asia-south1.run.app:443"
+      }
+
+      env {
+        name = "ORDER_GRPC_URL"
+        value = "dns:///revest-order-service-334684044157.asia-south1.run.app:443"
       }
 
       resources {
