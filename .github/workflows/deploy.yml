@@ -3,7 +3,7 @@ name: Deploy NestJS to Cloud Run
 on:
   push:
     branches:
-      - revest-order-service-01
+      - revest-order-service
 
 jobs:
   deploy:
