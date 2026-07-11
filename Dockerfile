@@ -15,7 +15,7 @@ RUN npm ci
 COPY . .
 
 # Build NestJS
-RUN npx prisma generate
+# RUN npx prisma generate
 RUN npm run build
 
 # --------------------------
