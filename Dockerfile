@@ -21,6 +21,11 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 
+RUN echo "===== Prisma Client =====" && \
+    ls -R node_modules/.prisma || true && \
+    ls -R node_modules/@prisma/client || true
+
+
 # --------------------------
 # Verify build output
 # --------------------------
@@ -58,6 +63,8 @@ ENV ORDER_GRPC_URL=0.0.0.0:50042
 # Copy runtime files
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/dist ./dist
 
 # Copy Prisma (if your application uses it at runtime)
@@ -80,6 +87,11 @@ RUN ls -lah dist/src
 
 RUN echo "===== Compiled Files ====="
 RUN find dist -type f
+
+RUN echo "===== Prisma Runtime =====" && \
+    ls -R node_modules/.prisma && \
+    ls -R node_modules/@prisma/client
+
 
 RUN test -f dist/src/main.js
 
