@@ -1,40 +1,29 @@
 import 'dotenv/config';
+import { join } from 'path';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { join } from 'path';
-import * as googleProtoFiles from 'google-proto-files';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = 
+          await NestFactory.createMicroservice<MicroserviceOptions>(
+            AppModule,
+            {
+              transport: Transport.GRPC,
+              options: {
+                url: process.env.ITEM_GRPC_URL || '127.0.0.1:50041',
+                package: 'item',
+                protoPath: join(__dirname, 'proto/item.proto'),
+              },
+            },
+          );
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.GRPC,
-    options: {
-      url: process.env.ORDER_GRPC_URL || '0.0.0.0:50052',
-      package: 'order',
-      protoPath: join(__dirname, 'proto/order.proto'),
-      loader: {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true,
-        includeDirs: [
-          googleProtoFiles.getProtoPath(),
-        ],
-      },
-    },
-  });
+  await app.listen();
 
-  await app.startAllMicroservices();
-
-  const port = process.env.PORT || 8080;
-  await app.listen(port, '0.0.0.0');
-
+  console.log('\n\n========================');
   console.log(
-    `Order service running at ${
-      process.env.ORDER_GRPC_URL || '0.0.0.0:50052'
+    `Item gRPC Service running at ${
+      process.env.ITEM_GRPC_URL || '127.0.0.1:50041'
     }`,
   );
 }
