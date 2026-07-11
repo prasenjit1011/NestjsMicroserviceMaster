@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ChannelCredentials } from '@grpc/grpc-js';
 import * as googleProtoFiles from 'google-proto-files';
 
 import { GRPC } from '../common/constants';
@@ -16,7 +17,7 @@ import { OrderService } from './order.service';
           url: GRPC.ORDER_URL,
           package: GRPC.ORDER_PACKAGE,
           protoPath: GRPC.ORDER_PROTO_PATH,
-
+          credentials: ChannelCredentials.createSsl(),
           loader: {
             keepCase: true,
             longs: String,
