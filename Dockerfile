@@ -56,7 +56,7 @@ RUN echo "===== Runtime Files =====" && \
     echo "===== dist =====" && \
     find dist -type f && \
     echo "===== proto =====" && \
-    ls -lah dist/src/proto && \    
+    ls -lah dist/src/proto && \
     test -f dist/src/main.js && \
     test -f dist/src/proto/item.proto
 

@@ -126,10 +126,10 @@ jobs:
             find /app/dist -type f;
 
             echo '===== PROTO =====';
-            ls -lah /app/dist/proto || true;
+            ls -lah /app/dist/src/proto || true;
 
             echo '===== ITEM PROTO =====';
-            test -f /app/dist/proto/item.proto;
+            test -f /app/dist/src/proto/item.proto            
           "
 
       # ----------------------------------
@@ -155,7 +155,7 @@ jobs:
           echo "ORDER SERVICE"
           echo "========================================"
 
-          gcloud run services describe order-service \
+          gcloud run services describe revest-order-service \
             --region=$REGION \
             --format="yaml(status.url,status.conditions)"
 
@@ -165,7 +165,7 @@ jobs:
           echo "========================================"
 
           gcloud run revisions list \
-            --service=order-service \
+            --service=revest-order-service \
             --region=$REGION \
             --limit=5
 
@@ -175,7 +175,7 @@ jobs:
           echo "========================================"
 
           gcloud logging read \
-            'resource.type="cloud_run_revision" AND resource.labels.service_name="order-service"' \
+            'resource.type="cloud_run_revision" AND resource.labels.service_name="revest-order-service"' \
             --limit=20 \
             --freshness=30m \
             --format="table(timestamp,severity,textPayload)"
@@ -187,7 +187,7 @@ jobs:
           echo "ORDER SERVICE DETAILS"
           echo "========================================"
 
-          gcloud run services describe order-service \
+          gcloud run services describe revest-order-service \
             --region=$REGION \
             --format="yaml(
               metadata.name,
@@ -201,7 +201,7 @@ jobs:
           echo "ORDER SERVICE TRAFFIC"
           echo "========================================"
 
-          gcloud run services describe order-service \
+          gcloud run services describe revest-order-service \
             --region=$REGION \
             --format="value(status.traffic)"
 
@@ -215,7 +215,7 @@ jobs:
 
       - name: Describe Order Service
         run: |
-          gcloud run services describe order-service \
+          gcloud run services describe revest-order-service \
             --region=$REGION \
             --format="value(status.address.url)"
 
@@ -231,8 +231,8 @@ jobs:
             --port 3001 \
             --service-account cloudrun@terraform-497011.iam.gserviceaccount.com \
             --set-env-vars NODE_ENV=production \
-            --set-env-vars ITEM_GRPC_URL=revest-order-service-334684044157.asia-south1.run.app:443 \
-            --set-env-vars ORDER_GRPC_URL=revest-item-service-334684044157.asia-south1.run.app:443 \
+            --set-env-vars ITEM_GRPC_URL=dns:///revest-item-service-334684044157.asia-south1.run.app:443 \
+            --set-env-vars ORDER_GRPC_URL=dns:///revest-order-service-334684044157.asia-south1.run.app:443 \
             --set-env-vars JWT_SECRET="${{ secrets.JWT_SECRET }}"
 
 
@@ -246,7 +246,7 @@ jobs:
 
           gcloud logging read \
             'resource.type="cloud_run_revision"
-            resource.labels.service_name="nestjs-cloudrun"' \
+            resource.labels.service_name="revest-api-gateway"' \
             --limit=100 \
             --order=desc \
             --format="table(timestamp,severity,textPayload)"
@@ -267,13 +267,13 @@ jobs:
           echo "===== GET /orders ====="
 
           curl -v \
-            https://api-gateway-tefwbu3cwa-el.a.run.app/orders
+            https://revest-api-gateway-tefwbu3cwa-el.a.run.app/api/orders
 
       - name: API Gateway Logs
         if: always()
         run: |
           gcloud logging read \
-            'resource.type="cloud_run_revision" AND resource.labels.service_name="api-gateway"' \
+            'resource.type="cloud_run_revision" AND resource.labels.service_name="revest-api-gateway"' \
             --limit=50 \
             --freshness=10m \
             --format="table(timestamp,severity,textPayload)"
