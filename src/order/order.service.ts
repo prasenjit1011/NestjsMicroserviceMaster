@@ -3,11 +3,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import {
-  OrderStatus,
-  Prisma,
-} from '../../generated/prisma/client';
-
+import { Prisma } from '@prisma/client';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 

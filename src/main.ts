@@ -11,9 +11,9 @@ async function bootstrap() {
             {
               transport: Transport.GRPC,
               options: {
-                url: process.env.ITEM_GRPC_URL || '127.0.0.1:50041',
-                package: 'item',
-                protoPath: join(__dirname, 'proto/item.proto'),
+                url: process.env.ORDER_GRPC_URL || '127.0.0.1:50042',
+                package: 'order',
+                protoPath: join(__dirname, 'proto/order.proto'),
               },
             },
           );
@@ -22,8 +22,8 @@ async function bootstrap() {
 
   console.log('\n\n========================');
   console.log(
-    `Item gRPC Service running at ${
-      process.env.ITEM_GRPC_URL || '127.0.0.1:50041'
+    `Order gRPC Service running at ${
+      process.env.ORDER_GRPC_URL || '127.0.0.1:50042'
     }`,
   );
 }
