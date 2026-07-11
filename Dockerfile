@@ -8,6 +8,7 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
+# Copy Prisma schema
 COPY prisma ./prisma
 
 # Install all dependencies
@@ -16,36 +17,32 @@ RUN npm ci
 # Copy project
 COPY . .
 
+# Generate Prisma Client
+RUN npx prisma generate
 
 # Build NestJS
-RUN npx prisma generate
 RUN npm run build
 
+# --------------------------
+# Verify Prisma Client
+# --------------------------
 RUN echo "===== Prisma Client =====" && \
-    ls -R node_modules/.prisma || true && \
-    ls -R node_modules/@prisma/client || true
-
+    ls -R node_modules/.prisma && \
+    ls -R node_modules/@prisma/client
 
 # --------------------------
 # Verify build output
 # --------------------------
-RUN echo "================================="
-RUN echo "Contents of /app"
-RUN ls -lah
-
-RUN echo "================================="
-RUN echo "Contents of dist"
-RUN ls -lah dist || true
-
-RUN echo "================================="
-RUN echo "Contents of dist/src"
-RUN ls -lah dist/src || true
-
-RUN echo "================================="
-RUN echo "All compiled files"
-RUN find dist -type f
-
-RUN test -f dist/src/main.js
+RUN echo "===== Build Output =====" && \
+    pwd && \
+    ls -lah && \
+    echo "===== dist =====" && \
+    ls -lah dist && \
+    echo "===== dist/src =====" && \
+    ls -lah dist/src && \
+    echo "===== Compiled Files =====" && \
+    find dist -type f && \
+    test -f dist/src/main.js
 
 # Remove development dependencies
 RUN npm prune --omit=dev
@@ -60,40 +57,29 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV ORDER_GRPC_URL=0.0.0.0:50042
 
-# Copy runtime files
+# Copy application
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/dist ./dist
-
-# Copy Prisma (if your application uses it at runtime)
 COPY --from=builder /app/prisma ./prisma
 
-# Copy proto files required by gRPC
+# Copy proto files
 COPY --from=builder /app/src/proto ./dist/src/proto
 
 # --------------------------
 # Verify runtime image
 # --------------------------
-RUN echo "===== Runtime ====="
-RUN pwd
-
-RUN echo "===== dist ====="
-RUN ls -lah dist
-
-RUN echo "===== dist/src ====="
-RUN ls -lah dist/src
-
-RUN echo "===== Compiled Files ====="
-RUN find dist -type f
-
-RUN echo "===== Prisma Runtime =====" && \
+RUN echo "===== Runtime =====" && \
+    pwd && \
+    ls -lah && \
+    echo "===== dist =====" && \
+    find dist -type f && \
+    echo "===== Prisma Runtime =====" && \
     ls -R node_modules/.prisma && \
-    ls -R node_modules/@prisma/client
-
-
-RUN test -f dist/src/main.js
+    ls -R node_modules/@prisma/client && \
+    echo "===== Proto =====" && \
+    ls -lah dist/src/proto && \
+    test -f dist/src/main.js
 
 # gRPC Port
 EXPOSE 50042
