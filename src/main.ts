@@ -15,6 +15,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
+      'https://dubaimart.netlify.app',
       'https://newmetromarket.netlify.app',
       'http://localhost:5173',
       'http://localhost:3000'
