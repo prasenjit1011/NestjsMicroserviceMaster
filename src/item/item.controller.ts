@@ -53,6 +53,7 @@ export class ItemController {
   create(
     @Body() dto: CreateItemDto,
   ) {
+    return JSON.stringify({id:123,mg:"created successfully!"});
     return this.itemService.create(dto);
   }
 
