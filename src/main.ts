@@ -13,7 +13,8 @@ async function bootstrap() {
               options: {
                 url: process.env.ORDER_GRPC_URL || '127.0.0.1:50042',
                 package: 'order',
-                protoPath: join(process.cwd(), 'common-proto/proto/order.proto'),
+                // protoPath: join(process.cwd(), 'common-proto/proto/order.proto'),
+                protoPath: join(__dirname, 'proto/item.proto'),
               },
             },
           );
