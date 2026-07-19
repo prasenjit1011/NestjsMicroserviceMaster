@@ -6,6 +6,12 @@ import { GRPC } from '../common/constants';
 import { ItemController } from './item.controller';
 import { ItemService } from './item.service';
 
+
+const grpcCredentials =
+        process.env.PROJECT_ENV === 'localhost'
+          ? ChannelCredentials.createInsecure()
+          : ChannelCredentials.createSsl();
+
 @Module({
   imports: [
     ClientsModule.register([
@@ -16,7 +22,7 @@ import { ItemService } from './item.service';
           url: GRPC.ITEM_URL,
           package: GRPC.ITEM_PACKAGE,
           protoPath: GRPC.ITEM_PROTO_PATH,
-          credentials: ChannelCredentials.createSsl(),
+          credentials: grpcCredentials
         },
       }
     ]),
