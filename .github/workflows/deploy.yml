@@ -22,6 +22,8 @@ jobs:
       # ----------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       # ----------------------------------
       # Authenticate Google Cloud
@@ -72,7 +74,11 @@ jobs:
           ls -R
           ls -lah src || true
           ls -lah src/proto || true
+          echo "===== common-proto ====="
+          ls -lah common-proto || true
 
+          echo "===== proto ====="
+          ls -lah common-proto/proto || true
       # ----------------------------------
       # Build NestJS
       # ----------------------------------
