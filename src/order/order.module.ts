@@ -7,6 +7,11 @@ import { GRPC } from '../common/constants';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 
+const grpcCredentials =
+        process.env.PROJECT_ENV === 'localhost'
+          ? ChannelCredentials.createInsecure()
+          : ChannelCredentials.createSsl();
+
 @Module({
   imports: [
     ClientsModule.register([
@@ -17,7 +22,7 @@ import { OrderService } from './order.service';
           url: GRPC.ORDER_URL,
           package: GRPC.ORDER_PACKAGE,
           protoPath: GRPC.ORDER_PROTO_PATH,
-          credentials: ChannelCredentials.createSsl(),
+          credentials: grpcCredentials,
           loader: {
             keepCase: true,
             longs: String,
