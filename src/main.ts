@@ -13,7 +13,7 @@ async function bootstrap() {
         options: {
           url: process.env.ITEM_GRPC_URL || '127.0.0.1:50041',
           package: 'item',
-          protoPath: join(__dirname, 'proto/item.proto'),
+          protoPath: join(process.cwd(), 'common-proto/proto/item.proto'),
         },
       },
     );
