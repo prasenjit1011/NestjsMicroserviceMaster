@@ -1,0 +1,3 @@
+[submodule "common-proto"]
+	path = common-proto
+	url = https://github.com/prasenjit1011/common-proto.git
